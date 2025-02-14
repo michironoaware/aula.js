@@ -1,6 +1,6 @@
 ﻿export class AulaRoute
 {
-	static get CurrentUser()
+	static CurrentUser()
 	{
 		return "users/@me";
 	}
