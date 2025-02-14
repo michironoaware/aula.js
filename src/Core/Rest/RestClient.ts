@@ -11,7 +11,6 @@ import {AulaBadRequestError} from "./AulaBadRequestError.js";
 export class RestClient
 {
 	readonly #httpClient: HttpClient;
-	#token: string | null = null;
 
 	public constructor(
 		baseUri: URL | null = null,
@@ -59,11 +58,5 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(value, "string");
 		this.#httpClient.defaultRequestHeaders.delete("Authorization");
 		this.#httpClient.defaultRequestHeaders.append("Authorization", `Bearer ${value}`);
-		this.#token = value;
-	}
-
-	#throwIfNullToken()
-	{
-		ThrowHelper.TypeError.throwIfNotType(this.#token, "string");
 	}
 }
