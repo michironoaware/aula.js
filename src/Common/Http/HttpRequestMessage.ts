@@ -12,7 +12,7 @@ export class HttpRequestMessage
 
 	public constructor(method: HttpMethod, requestUri: URL | string)
 	{
-		ThrowHelper.TypeError.throwIfNotType(method, "number");
+		ThrowHelper.TypeError.throwIfNotType(method, HttpMethod);
 		ThrowHelper.TypeError.throwIfNotAnyType(requestUri, URL, "string");
 
 		this.#method = method;
