@@ -8,7 +8,7 @@ export namespace ThrowHelper
 	{
 		export function throwIfNull<T>(object: T): asserts object is NonNullable<T>
 		{
-			if (object == null)
+			if (object === null || object === undefined)
 			{
 				throw new TypeErrorConstructor(`Object is null.`);
 			}
