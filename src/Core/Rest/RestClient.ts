@@ -7,6 +7,12 @@ import {HttpStatusCode} from "../../Common/Http/HttpStatusCode.js";
 import {AulaUnauthorizedError} from "./AulaUnauthorizedError.js";
 import {AulaForbiddenError} from "./AulaForbiddenError.js";
 import {AulaBadRequestError} from "./AulaBadRequestError.js";
+import {HttpMethod} from "../../Common/Http/HttpMethod.js";
+import {HttpRequestMessage} from "../../Common/Http/HttpRequestMessage.js";
+import {AulaRoute} from "../AulaRoute.js";
+import {User} from "../Entities/User.js";
+import {RestClientGetUsersOptions} from "./RestClientGetUsersOptions.js";
+import {UserData} from "../Entities/Models/UserData.js";
 
 export class RestClient
 {
@@ -59,4 +65,57 @@ export class RestClient
 		this.#httpClient.defaultRequestHeaders.delete("Authorization");
 		this.#httpClient.defaultRequestHeaders.append("Authorization", `Bearer ${value}`);
 	}
+
+	public async getCurrentUser(): Promise<User>
+	{
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.CurrentUser());
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		const userData = new UserData(JSON.parse(await response.content.readAsString()));
+		return new User(this, userData);
+	}
+
+	public async getUsers(options: RestClientGetUsersOptions = RestClientGetUsersOptions.default): Promise<User[]>
+	{
+		ThrowHelper.TypeError.throwIfNotType(options, RestClientGetUsersOptions);
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.Users(
+			{
+				query:
+					{
+						type: options.type,
+						count: options.count,
+						after: options.after,
+					}
+			}
+		));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse(await response.content.readAsString())
+			.map((d: any) => new UserData(d))
+			.map((d: UserData) => new User(this, d));
+	}
+
+	public async getUser(userId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.User({ route: { userId } }));
+
+		const response = await this.#httpClient.Send(request);
+		if (response.statusCode == HttpStatusCode.NotFound)
+		{
+			return null;
+		}
+
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		const userData = new UserData(JSON.parse(await response.content.readAsString()));
+		return new User(this, userData);
+	}
 }
+
