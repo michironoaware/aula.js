@@ -13,7 +13,7 @@ export class HttpRequestMessage
 	public constructor(method: HttpMethod, requestUri: URL | string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(method, "number");
-		ThrowHelper.TypeError.throwIfNotAnyType(requestUri, [URL, "string"]);
+		ThrowHelper.TypeError.throwIfNotAnyType(requestUri, URL, "string");
 
 		this.#method = method;
 		this.#requestUri = requestUri;
@@ -43,7 +43,7 @@ export class HttpRequestMessage
 
 	public set content(value: HttpContent | null)
 	{
-		ThrowHelper.TypeError.throwIfNotNullAndType(value, HttpContent);
+		ThrowHelper.TypeError.throwIfNotAnyType(value, HttpContent, "null");
 		this.#content = value;
 	}
 }

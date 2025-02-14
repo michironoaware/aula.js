@@ -5,7 +5,7 @@ export class AulaUnauthorizedError extends AulaError
 {
 	public constructor(content: string | null)
 	{
-		ThrowHelper.TypeError.throwIfNotNullAndType(content, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
 		super(`The 'Authorization' header was missing or invalid.`, content);
 	}
 }

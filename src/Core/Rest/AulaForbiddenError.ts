@@ -5,7 +5,7 @@ export class AulaForbiddenError extends AulaError
 {
 	public constructor(content: string | null)
 	{
-		ThrowHelper.TypeError.throwIfNotNullAndType(content, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
 		super(`You did not have permission to the resource.`, content);
 	}
 }

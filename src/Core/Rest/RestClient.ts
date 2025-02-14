@@ -17,7 +17,7 @@ export class RestClient
 		baseUri: URL | null = null,
 		httpClient: HttpClient = new FetchHttpClient())
 	{
-		ThrowHelper.TypeError.throwIfNotNullAndType(baseUri, URL);
+		ThrowHelper.TypeError.throwIfNotAnyType(baseUri, URL, "null");
 		ThrowHelper.TypeError.throwIfNotType(httpClient, HttpClient);
 
 		httpClient.baseUri = baseUri;
