@@ -4,7 +4,7 @@ export class EmptyContent extends HttpContent
 {
 	static readonly #instance = new EmptyContent();
 
-	get Instance()
+	get instance()
 	{
 		return EmptyContent.#instance;
 	}
