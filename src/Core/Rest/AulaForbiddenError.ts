@@ -1,0 +1,11 @@
+﻿import AulaError from "../AulaError.js";
+import {ThrowHelper} from "../../Common/ThrowHelper.js";
+
+export class AulaForbiddenError extends AulaError
+{
+	public constructor(content: string | null)
+	{
+		ThrowHelper.TypeError.throwIfNotNullAndType(content, "string");
+		super(`You did not have permission to the resource.`, content);
+	}
+}
