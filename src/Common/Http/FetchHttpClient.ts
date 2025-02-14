@@ -37,7 +37,7 @@ export class FetchHttpClient extends HttpClient
 			});
 
 		const status = received.status as HttpStatusCode;
-		const content = received.body ? new StreamContent(received.body) : EmptyContent.Instance;
+		const content = received.body ? new StreamContent(received.body) : EmptyContent.instance;
 		const headers = new Map<string, string>(received.headers);
 		return new HttpResponseMessage(status, content, headers);
 	}
