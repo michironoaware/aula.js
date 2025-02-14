@@ -68,6 +68,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(value, "string");
 		this.#httpClient.defaultRequestHeaders.delete("Authorization");
 		this.#httpClient.defaultRequestHeaders.append("Authorization", `Bearer ${value}`);
+		return this;
 	}
 
 	public async getCurrentUser(): Promise<User>
