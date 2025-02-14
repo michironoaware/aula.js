@@ -7,7 +7,7 @@ export class HttpRequestError extends Error
 
 	public constructor(statusCode: HttpStatusCode)
 	{
-		ThrowHelper.TypeError.throwIfNotType(statusCode, Number);
+		ThrowHelper.TypeError.throwIfNotType(statusCode, "number");
 
 		super(`Http request error failed with status code '${statusCode}'.`);
 		this.#statusCode = statusCode;
