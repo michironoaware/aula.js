@@ -18,16 +18,13 @@ export class RestClient
 {
 	readonly #httpClient: HttpClient;
 
-	public constructor(
-		baseUri: URL | null = null,
-		httpClient: HttpClient = new FetchHttpClient())
+	public constructor(httpClient: HttpClient = new FetchHttpClient())
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(baseUri, URL, "null");
 		ThrowHelper.TypeError.throwIfNotType(httpClient, HttpClient);
 
-		httpClient.baseUri = baseUri;
 		this.#httpClient = httpClient;
 	}
+
 
 	static async #ensureSuccessStatusCode(response: HttpResponseMessage): Promise<void>
 	{
@@ -57,6 +54,13 @@ export class RestClient
 					throw error;
 			}
 		}
+	}
+
+	public setBaseUri(uri: URL | string)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(uri, URL, "string");
+		this.#httpClient.baseUri = uri;
+		return this;
 	}
 
 	public setToken(value: string)
