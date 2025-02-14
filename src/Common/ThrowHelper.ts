@@ -6,7 +6,7 @@ export namespace ThrowHelper
 {
 	export namespace TypeError
 	{
-		export function throwIfNull<T>(object: T): asserts object is T
+		export function throwIfNull<T>(object: T): asserts object is NonNullable<T>
 		{
 			if (object == null)
 			{
@@ -14,7 +14,7 @@ export namespace ThrowHelper
 			}
 		}
 
-		export function throwIfNotType<T>(object: T, type: any): asserts object is T
+		export function throwIfNotType<T>(object: T, type: any)
 		{
 			if (!CheckHelper.isType(object, type))
 			{
@@ -22,7 +22,7 @@ export namespace ThrowHelper
 			}
 		}
 
-		export function throwIfNotAnyType<T>(object: T, ...type: any[]): asserts object is T
+		export function throwIfNotAnyType<T>(object: T, ...type: any[])
 		{
 			const isAnyType = type.find(t => CheckHelper.isType(object, t)) != null;
 			if (!isAnyType)
