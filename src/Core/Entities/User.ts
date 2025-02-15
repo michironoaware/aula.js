@@ -19,37 +19,37 @@ export class User
 		this.#data = data;
 	}
 
-	public get id(): string
+	public get id()
 	{
 		return this.#data.id;
 	}
 
-	public get displayName(): string
+	public get displayName()
 	{
 		return this.#data.displayName;
 	}
 
-	public get description(): string | null
+	public get description()
 	{
 		return this.#data.description;
 	}
 
-	public get type(): UserType
+	public get type()
 	{
 		return this.#data.type;
 	}
 
-	public get presence(): Presence
+	public get presence()
 	{
 		return this.#data.presence;
 	}
 
-	public get permissions(): Permissions
+	public get permissions()
 	{
 		return this.#data.permissions;
 	}
 
-	public get currentRoomId(): string | null
+	public get currentRoomId()
 	{
 		return this.#data.currentRoomId;
 	}
