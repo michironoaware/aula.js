@@ -32,6 +32,8 @@ export class FetchHttpClient extends HttpClient
 		const received = await fetch(new URL(message.requestUri, this.#baseUri ?? undefined),
 			{
 				method: HttpMethod[message.method],
+				// TODO: (FIX) Concatenation without preprocessing and combining existing headers may result in duplicates.
+				//       This is just for internal implementation of the library, but consumers may want to use it anyway.
 				headers: Array.from(this.#defaultRequestHeaders).concat(Array.from(message.headers)),
 				body: message.content?.stream
 			});
