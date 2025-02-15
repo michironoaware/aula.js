@@ -8,7 +8,7 @@ export class StreamContent extends HttpContent
 	public constructor(stream: ReadableStream<Uint8Array>)
 	{
 		super();
-		ThrowHelper.TypeError.throwIfNull(stream);
+		ThrowHelper.TypeError.throwIfNotType(stream, ReadableStream<Uint8Array>);
 
 		this.#stream = stream;
 	}
