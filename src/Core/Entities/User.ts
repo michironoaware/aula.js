@@ -13,7 +13,7 @@ export class User
 	public constructor(client: RestClient, data: UserData)
 	{
 		ThrowHelper.TypeError.throwIfNotType(client, RestClient);
-		ThrowHelper.TypeError.throwIfNull(data);
+		ThrowHelper.TypeError.throwIfNotType(data, UserData);
 
 		this.#client = client;
 		this.#data = data;
