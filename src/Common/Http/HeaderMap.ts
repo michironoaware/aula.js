@@ -11,7 +11,7 @@ export class HeaderMap implements ReadonlyMap<string, string>
 
 	public forEach(callbackfn: (value: string, key: string, map: ReadonlyMap<string, string>) => void, thisArg?: any): void
 	{
-		this.#underlyingMap.forEach(callbackfn);
+		this.#underlyingMap.forEach((value, key) => callbackfn(value, key, this), thisArg);
 	}
 
 	public get(key: string)
