@@ -14,7 +14,7 @@ export class ReadonlyMapWrapper<K, V> implements ReadonlyMap<K, V>
 
 	public forEach(callbackfn: (value: V, key: K, map: ReadonlyMap<K, V>) => void, thisArg?: any): void
 	{
-		this.#underlyingMap.forEach(callbackfn);
+		this.#underlyingMap.forEach((value, key) => callbackfn(value, key, this), thisArg);
 	}
 
 	public get(key: K)
