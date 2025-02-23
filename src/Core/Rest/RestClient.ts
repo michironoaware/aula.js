@@ -1,5 +1,4 @@
 import {HttpClient} from "../../Common/Http/HttpClient.js";
-import {FetchHttpClient} from "../../Common/Http/FetchHttpClient.js";
 import {ThrowHelper} from "../../Common/ThrowHelper.js";
 import {HttpResponseMessage} from "../../Common/Http/HttpResponseMessage.js";
 import {HttpRequestError} from "../../Common/Http/HttpRequestError.js";
@@ -18,7 +17,7 @@ export class RestClient
 {
 	readonly #httpClient: HttpClient;
 
-	public constructor(httpClient: HttpClient = new FetchHttpClient())
+	public constructor(httpClient: HttpClient = new HttpClient())
 	{
 		ThrowHelper.TypeError.throwIfNotType(httpClient, HttpClient);
 
