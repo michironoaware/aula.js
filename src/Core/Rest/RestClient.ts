@@ -122,4 +122,3 @@ export class RestClient
 		return new User(this, userData);
 	}
 }
-
