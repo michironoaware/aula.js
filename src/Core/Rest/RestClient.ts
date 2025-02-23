@@ -10,10 +10,11 @@ import {HttpMethod} from "../../Common/Http/HttpMethod.js";
 import {HttpRequestMessage} from "../../Common/Http/HttpRequestMessage.js";
 import {AulaRoute} from "../AulaRoute.js";
 import {User} from "../Entities/User.js";
-import {GetUsersOptions} from "./GetUsersOptions.js";
+import {IGetUserQuery} from "./IGetUserQuery.js";
 import {UserData} from "../Entities/Models/UserData.js";
 import {IModifyCurrentUserRequestBody} from "./IModifyCurrentUserRequestBody.js";
 import {StringContent} from "../../Common/Http/StringContent.js";
+import {UserType} from "../Entities/UserType.js";
 
 export class RestClient
 {
@@ -83,16 +84,20 @@ export class RestClient
 		return new User(this, userData);
 	}
 
+	public async getUsers(query: IGetUserQuery = {}): Promise<User[]>
 	{
-		ThrowHelper.TypeError.throwIfNotType(options, GetUsersOptions);
+		ThrowHelper.TypeError.throwIfNull(query);
+		ThrowHelper.TypeError.throwIfNotAnyType(query.type, UserType, "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.Users(
 			{
 				query:
 					{
-						type: options.type,
-						count: options.count,
-						after: options.after,
+						type: query.type,
+						count: query.count,
+						after: query.after,
 					}
 			}
 		));
