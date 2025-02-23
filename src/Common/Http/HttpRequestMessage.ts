@@ -6,8 +6,8 @@ import {HeaderMap} from "./HeaderMap.js";
 export class HttpRequestMessage
 {
 	readonly #method: HttpMethod;
-	readonly #requestUri: URL | string;
 	readonly #headers: HeaderMap;
+	#requestUri: URL | string;
 	#content: HttpContent | null;
 
 	public constructor(method: HttpMethod, requestUri: URL | string)
@@ -29,6 +29,11 @@ export class HttpRequestMessage
 	public get requestUri()
 	{
 		return this.#requestUri;
+	}
+
+	public set requestUri(value: URL | string)
+	{
+		this.#requestUri = value;
 	}
 
 	public get headers()
