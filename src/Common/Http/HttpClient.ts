@@ -4,18 +4,22 @@ import {HeaderMap} from "./HeaderMap.js";
 import { HttpMessageHandler } from "./HttpMessageHandler.js";
 import { HttpFetchHandler } from "./HttpFetchHandler.js";
 import { ThrowHelper } from "../ThrowHelper.js";
-import { TypeHelper } from "../TypeHelper.js";
 import { InvalidOperationError } from "../InvalidOperationError.js";
 
 export class HttpClient
 {
 	#baseUri: URL | null = null;
 	#defaultRequestHeaders: HeaderMap = new HeaderMap();
-	#handler: HttpMessageHandler = new HttpFetchHandler();
-	
-	constructor()
+	#handler: HttpMessageHandler;
+
+	constructor(options: { handler?: HttpMessageHandler; } = {})
 	{
+		ThrowHelper.TypeError.throwIfNull(options);
+		ThrowHelper.TypeError.throwIfNotType(options.handler, HttpMessageHandler);
+
+		this.#handler = options?.handler ?? new HttpFetchHandler();
 	}
+
 	public get baseUri()
 	{
 		return this.#baseUri;
