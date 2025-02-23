@@ -12,6 +12,8 @@ import {AulaRoute} from "../AulaRoute.js";
 import {User} from "../Entities/User.js";
 import {GetUsersOptions} from "./GetUsersOptions.js";
 import {UserData} from "../Entities/Models/UserData.js";
+import {IModifyCurrentUserRequestBody} from "./IModifyCurrentUserRequestBody.js";
+import {StringContent} from "../../Common/Http/StringContent.js";
 
 export class RestClient
 {
@@ -115,6 +117,21 @@ export class RestClient
 			return null;
 		}
 
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		const userData = new UserData(JSON.parse(await response.content.readAsString()));
+		return new User(this, userData);
+	}
+
+	public async modifyCurrentUser(userId: string, body: IModifyCurrentUserRequestBody)
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+		ThrowHelper.TypeError.throwIfNull(body);
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.User({ route: { userId } }));
+		request.content = new StringContent(JSON.stringify(body));
+
+		const response = await this.#httpClient.Send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const userData = new UserData(JSON.parse(await response.content.readAsString()));
