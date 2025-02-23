@@ -56,9 +56,9 @@ export class RestClient
 		}
 	}
 
-	public setBaseUri(uri: URL | string)
+	public setBaseUri(uri: URL)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(uri, URL, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(uri, URL);
 		this.#httpClient.baseUri = uri;
 		return this;
 	}
