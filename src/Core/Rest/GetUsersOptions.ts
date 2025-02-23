@@ -1,12 +1,12 @@
 ﻿import {UserType} from "../Entities/UserType.js";
 
-export class RestClientGetUsersOptions
+export class GetUsersOptions
 {
-	static readonly #default = new RestClientGetUsersOptions();
+	static readonly #default = new GetUsersOptions();
 
 	static get default()
 	{
-		return RestClientGetUsersOptions.#default;
+		return GetUsersOptions.#default;
 	}
 
 	public type?: UserType;

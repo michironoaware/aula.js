@@ -10,7 +10,7 @@ import {HttpMethod} from "../../Common/Http/HttpMethod.js";
 import {HttpRequestMessage} from "../../Common/Http/HttpRequestMessage.js";
 import {AulaRoute} from "../AulaRoute.js";
 import {User} from "../Entities/User.js";
-import {RestClientGetUsersOptions} from "./RestClientGetUsersOptions.js";
+import {GetUsersOptions} from "./GetUsersOptions.js";
 import {UserData} from "../Entities/Models/UserData.js";
 
 export class RestClient
@@ -81,9 +81,8 @@ export class RestClient
 		return new User(this, userData);
 	}
 
-	public async getUsers(options: RestClientGetUsersOptions = RestClientGetUsersOptions.default): Promise<User[]>
 	{
-		ThrowHelper.TypeError.throwIfNotType(options, RestClientGetUsersOptions);
+		ThrowHelper.TypeError.throwIfNotType(options, GetUsersOptions);
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.Users(
 			{
