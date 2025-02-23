@@ -1,4 +1,4 @@
-﻿export namespace CheckHelper
+﻿export namespace TypeHelper
 {
 	export function isType(object: unknown, type: any): boolean
 	{
