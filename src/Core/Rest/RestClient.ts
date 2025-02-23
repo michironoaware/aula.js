@@ -111,7 +111,7 @@ export class RestClient
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.User({ route: { userId } }));
 
 		const response = await this.#httpClient.Send(request);
-		if (response.statusCode == HttpStatusCode.NotFound)
+		if (response.statusCode === HttpStatusCode.NotFound)
 		{
 			return null;
 		}
