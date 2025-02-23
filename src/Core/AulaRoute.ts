@@ -8,7 +8,8 @@
 	public static Users(args?: { query?: { type?: number, count?: number, after?: string } })
 	{
 		return "users" +
-			(args?.query?.type ? `?type=${args.query.type}` : "") +
+			(typeof args?.query !== "undefined" ? "?" : "") +
+			(args?.query?.type ? `type=${args.query.type}` : "") +
 			(args?.query?.count ? `&count=${args.query.count}` : "") +
 			(args?.query?.after ? `&after=${args.query.after}` : "");
 	}
@@ -36,7 +37,8 @@
 	public static Rooms(args?: { query?: { count?: number, after?: string } })
 	{
 		return "rooms" +
-			(args?.query?.count ? `?count=${args.query.count}` : "") +
+			(typeof args?.query !== "undefined" ? "?" : "") +
+			(args?.query?.count ? `count=${args.query.count}` : "") +
 			(args?.query?.after ? `&after=${args.query.after}` : "");
 	}
 
@@ -73,7 +75,8 @@
 	public static RoomMessages(args: { route: { roomId: string }, query?: { count?: number, before?: string, after?: string } })
 	{
 		return `rooms/${args.route.roomId}/messages` +
-			(args.query?.count ? `?count=${args.query.count}` : "") +
+			(typeof args?.query !== "undefined" ? "?" : "") +
+			(args.query?.count ? `count=${args.query.count}` : "") +
 			(args.query?.before ? `&before=${args.query.before}` : "") +
 			(args.query?.after ? `&after=${args.query.after}` : "");
 	}
