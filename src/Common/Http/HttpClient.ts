@@ -8,9 +8,9 @@ import { InvalidOperationError } from "../InvalidOperationError.js";
 
 export class HttpClient
 {
+	readonly #handler: HttpMessageHandler;
 	#baseUri: URL | null = null;
 	#defaultRequestHeaders: HeaderMap = new HeaderMap();
-	#handler: HttpMessageHandler;
 
 	constructor(options: { handler?: HttpMessageHandler; } = {})
 	{
