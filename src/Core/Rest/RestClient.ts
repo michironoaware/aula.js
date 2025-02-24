@@ -249,4 +249,22 @@ export class RestClient
 			.map((d: any) => new RoomData(d))
 			.map((d: RoomData) => new Room(this, d)) as Room[];
 	}
+
+	public async getRoom(roomId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.room({ route: { roomId }}));
+
+		const response = await this.#httpClient.Send(request);
+		if (response.statusCode === HttpStatusCode.NotFound)
+		{
+			return null;
+		}
+
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
+		return new Room(this, roomData);
+	}
 }
