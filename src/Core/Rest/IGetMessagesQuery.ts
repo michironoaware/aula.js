@@ -1,6 +1,6 @@
 ﻿export interface IGetMessagesQuery
 {
-	before?: string;
-	after?: string;
-	count?: number;
+	readonly before?: string;
+	readonly after?: string;
+	readonly count?: number;
 }
