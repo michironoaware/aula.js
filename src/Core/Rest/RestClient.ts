@@ -581,4 +581,23 @@ export class RestClient
 
 		return;
 	}
+
+	public async resetToken(body: ILogInRequestBody)
+	{
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
+		ThrowHelper.TypeError.throwIfNotType(body.userName, "string");
+		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetToken());
+		request.content = new StringContent(JSON.stringify(
+			{
+				userName: body.userName,
+				password: body.password,
+			} as ILogInRequestBody));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
+	}
 }
