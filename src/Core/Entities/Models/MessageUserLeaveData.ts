@@ -15,12 +15,12 @@ export class MessageUserLeaveData
 		this.#roomId = data.roomId;
 	}
 
-	get userId()
+	public get userId()
 	{
 		return this.#userId;
 	}
 
-	get roomId()
+	public get roomId()
 	{
 		return this.#roomId;
 	}

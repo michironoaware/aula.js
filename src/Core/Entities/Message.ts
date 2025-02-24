@@ -22,52 +22,52 @@ export class Message
 		return this.#restClient;
 	}
 
-	get id()
+	public get id()
 	{
 		return this.#data.id;
 	}
 
-	get type()
+	public get type()
 	{
 		return this.#data.type;
 	}
 
-	get flags()
+	public get flags()
 	{
 		return this.#data.flags;
 	}
 
-	get authorType()
+	public get authorType()
 	{
 		return this.#data.authorType;
 	}
 
-	get authorId()
+	public get authorId()
 	{
 		return this.#data.authorId;
 	}
 
-	get roomId()
+	public get roomId()
 	{
 		return this.#data.roomId;
 	}
 
-	get content()
+	public get content()
 	{
 		return this.#data.content;
 	}
 
-	get joinData()
+	public get joinData()
 	{
 		return this.#data.joinData;
 	}
 
-	get leaveData()
+	public get leaveData()
 	{
 		return this.#data.leaveData;
 	}
 
-	get creationTime()
+	public get creationTime()
 	{
 		return Temporal.PlainDateTime.from(this.#data.creationTime);
 	}

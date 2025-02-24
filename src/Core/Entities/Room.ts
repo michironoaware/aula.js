@@ -21,32 +21,32 @@ export class Room
 		return this.#restClient;
 	}
 
-	get id()
+	public get id()
 	{
 		return this.#data.id;
 	}
 
-	get name()
+	public get name()
 	{
 		return this.#data.name;
 	}
 
-	get description()
+	public get description()
 	{
 		return this.#data.description;
 	}
 
-	get isEntrance()
+	public get isEntrance()
 	{
 		return this.#data.isEntrance;
 	}
 
-	get connectedRoomIds()
+	public get connectedRoomIds()
 	{
 		return this.#data.connectedRoomIds;
 	}
 
-	get creationTime()
+	public get creationTime()
 	{
 		return Temporal.PlainDateTime.from(this.#data.creationTime);
 	}

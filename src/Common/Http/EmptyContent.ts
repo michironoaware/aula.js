@@ -4,7 +4,7 @@ export class EmptyContent extends HttpContent
 {
 	static readonly #instance = new EmptyContent();
 
-	static get instance()
+	public static get instance()
 	{
 		return EmptyContent.#instance;
 	}
@@ -23,12 +23,12 @@ export class EmptyContent extends HttpContent
 		super();
 	}
 
-	get stream(): ReadableStream<Uint8Array<ArrayBufferLike>>
+	public get stream(): ReadableStream<Uint8Array<ArrayBufferLike>>
 	{
 		return EmptyContent.#emptyStream;
 	}
 
-	readAsString(): Promise<string>
+	public readAsString(): Promise<string>
 	{
 		return Promise.resolve("");
 	}

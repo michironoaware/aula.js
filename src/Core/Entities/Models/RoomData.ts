@@ -31,32 +31,32 @@ export class RoomData
 		this.#creationTime = data.creationTime;
 	}
 
-	get id()
+	public get id()
 	{
 		return this.#id;
 	}
 
-	get name()
+	public get name()
 	{
 		return this.#name;
 	}
 
-	get description()
+	public get description()
 	{
 		return this.#description;
 	}
 
-	get isEntrance()
+	public get isEntrance()
 	{
 		return this.#isEntrance;
 	}
 
-	get connectedRoomIds()
+	public get connectedRoomIds()
 	{
 		return this.#connectedRoomIds;
 	}
 
-	get creationTime()
+	public get creationTime()
 	{
 		return this.#creationTime;
 	}

@@ -3,5 +3,5 @@ import { HttpResponseMessage } from "./HttpResponseMessage.js";
 
 export abstract class HttpMessageHandler
 {
-	abstract Send(message: HttpRequestMessage): Promise<HttpResponseMessage>;
+	public abstract Send(message: HttpRequestMessage): Promise<HttpResponseMessage>;
 }

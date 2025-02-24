@@ -1,6 +1,6 @@
 export abstract class HttpContent
 {
-	abstract get stream(): ReadableStream<Uint8Array>;
+	public abstract get stream(): ReadableStream<Uint8Array>;
 
-	abstract readAsString(): Promise<string>;
+	public abstract readAsString(): Promise<string>;
 }

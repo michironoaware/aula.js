@@ -6,7 +6,7 @@ export abstract class DelegatingHandler extends HttpMessageHandler
 {
 	readonly #innerHandler: HttpMessageHandler;
 
-	public constructor(innerHandler: HttpMessageHandler)
+	protected constructor(innerHandler: HttpMessageHandler)
 	{
 		ThrowHelper.TypeError.throwIfNotType(innerHandler, HttpMessageHandler);
 		super();
@@ -14,12 +14,12 @@ export abstract class DelegatingHandler extends HttpMessageHandler
 		this.#innerHandler = innerHandler;
 	}
 
-	get innerHandler()
+	public get innerHandler()
 	{
 		return this.#innerHandler;
 	}
 
-	async Send(message: HttpRequestMessage)
+	public async Send(message: HttpRequestMessage)
 	{
 		return await this.#innerHandler.Send(message);
 	}

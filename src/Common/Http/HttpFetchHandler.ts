@@ -8,7 +8,7 @@ import { StreamContent } from "./StreamContent.js";
 
 export class HttpFetchHandler extends HttpMessageHandler
 {
-	async Send(message: HttpRequestMessage): Promise<HttpResponseMessage>
+	public async Send(message: HttpRequestMessage): Promise<HttpResponseMessage>
 	{
 		const received = await fetch(message.requestUri,
 			{

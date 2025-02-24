@@ -43,52 +43,52 @@ export class MessageData
 		this.#creationTime = data.creationTime;
 	}
 
-	get id()
+	public get id()
 	{
 		return this.#id;
 	}
 
-	get type()
+	public get type()
 	{
 		return this.#type;
 	}
 
-	get flags()
+	public get flags()
 	{
 		return this.#flags;
 	}
 
-	get authorType()
+	public get authorType()
 	{
 		return this.#authorType;
 	}
 
-	get authorId()
+	public get authorId()
 	{
 		return this.#authorId;
 	}
 
-	get roomId()
+	public get roomId()
 	{
 		return this.#roomId;
 	}
 
-	get content()
+	public get content()
 	{
 		return this.#content;
 	}
 
-	get joinData()
+	public get joinData()
 	{
 		return this.#joinData;
 	}
 
-	get leaveData()
+	public get leaveData()
 	{
 		return this.#leaveData;
 	}
 
-	get creationTime()
+	public get creationTime()
 	{
 		return this.#creationTime;
 	}

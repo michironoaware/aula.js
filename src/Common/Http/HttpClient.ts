@@ -12,7 +12,7 @@ export class HttpClient
 	#baseUri: URL | null = null;
 	#defaultRequestHeaders: HeaderMap = new HeaderMap();
 
-	constructor(options: { handler?: HttpMessageHandler; } = {})
+	public constructor(options: { handler?: HttpMessageHandler; } = {})
 	{
 		ThrowHelper.TypeError.throwIfNull(options);
 		ThrowHelper.TypeError.throwIfNotType(options.handler, HttpMessageHandler);

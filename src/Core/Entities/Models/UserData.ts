@@ -31,38 +31,38 @@ export class UserData
 		this.#currentRoomId = data.currentRoomId;
 	}
 
-	get id()
+	public get id()
 	{
 		return this.#id;
 	}
 
-	get displayName()
+	public get displayName()
 	{
 		return this.#displayName;
 	}
 
 
-	get description()
+	public get description()
 	{
 		return this.#description;
 	}
 
-	get type()
+	public get type()
 	{
 		return this.#type;
 	}
 
-	get presence()
+	public get presence()
 	{
 		return this.#presence;
 	}
 
-	get permissions()
+	public get permissions()
 	{
 		return this.#permissions;
 	}
 
-	get currentRoomId()
+	public get currentRoomId()
 	{
 		return this.#currentRoomId;
 	}

@@ -12,7 +12,7 @@ export class MessageUserJoinData
 		this.#userId = data.userId;
 	}
 
-	get userId()
+	public get userId()
 	{
 		return this.#userId;
 	}

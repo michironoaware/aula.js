@@ -13,12 +13,12 @@ export class StringContent extends HttpContent
 		this.#string = stringValue;
 	}
 
-	get stream(): ReadableStream<Uint8Array>
+	public get stream(): ReadableStream<Uint8Array>
 	{
 		return new Blob([this.#string]).stream();
 	}
 
-	readAsString(): Promise<string>
+	public readAsString(): Promise<string>
 	{
 		return Promise.resolve(this.#string);
 	}

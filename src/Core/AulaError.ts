@@ -2,7 +2,7 @@
 {
 	readonly #content: string | null;
 
-	constructor(
+	public constructor(
 		message: string | undefined = undefined,
 		content: string | null)
 	{
@@ -10,7 +10,7 @@
 		this.#content = content;
 	}
 
-	get content()
+	public get content()
 	{
 		return this.#content;
 	}

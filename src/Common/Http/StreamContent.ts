@@ -13,12 +13,12 @@ export class StreamContent extends HttpContent
 		this.#stream = stream;
 	}
 
-	get stream(): ReadableStream<Uint8Array>
+	public get stream(): ReadableStream<Uint8Array>
 	{
 		return this.#stream;
 	}
 
-	async readAsString(): Promise<string>
+	public async readAsString(): Promise<string>
 	{
 		const reader = this.#stream.getReader();
 		const decoder = new TextDecoder();
