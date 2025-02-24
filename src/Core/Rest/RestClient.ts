@@ -315,4 +315,18 @@ export class RestClient
 
 		return;
 	}
+
+	public async getRoomConnections(roomId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomConnections({ route: { roomId }}));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse((await response.content.readAsString()))
+			.map((d: any)=> new RoomData(d))
+			.map((d: RoomData) => new Room(this, d)) as Room[];
+	}
 }
