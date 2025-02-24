@@ -30,6 +30,7 @@ import {MessageType} from "../Entities/MessageType.js";
 import {ISendMessageRequestBody} from "./ISendMessageRequestBody.js";
 import {ISendUnknownMessageRequestBody} from "./ISendUnknownMessageRequestBody.js";
 import {IConfirmEmailQuery} from "./IConfirmEmailQuery.js";
+import {IForgotPasswordQuery} from "./IForgotPasswordQuery.js";
 
 export class RestClient
 {
@@ -496,6 +497,19 @@ export class RestClient
 						token: query.token,
 					}
 			}));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
+	}
+
+	public async forgotPassword(query: IForgotPasswordQuery)
+	{
+		ThrowHelper.TypeError.throwIfNull(query);
+		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword({ query: { email: query.email } }));
 
 		const response = await this.#httpClient.Send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
