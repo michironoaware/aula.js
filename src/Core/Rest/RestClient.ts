@@ -138,7 +138,10 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.user({ route: { userId } }));
-		request.content = new StringContent(JSON.stringify(body));
+		request.content = new StringContent(JSON.stringify({
+			displayName: body.displayName,
+			description: body.description,
+		} as IModifyCurrentUserRequestBody));
 
 		const response = await this.#httpClient.Send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -153,7 +156,9 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(body.roomId, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.currentUserRoom());
-		request.content = new StringContent(JSON.stringify(body));
+		request.content = new StringContent(JSON.stringify({
+			roomId: body.roomId,
+		} as ISetUserRoomRequestBody));
 
 		const response = await this.#httpClient.Send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -168,7 +173,10 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(body.roomId, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userRoom({ route: { userId } }));
-		request.content = new StringContent(JSON.stringify(body));
+		request.content = new StringContent(JSON.stringify(
+		{
+			roomId: body.roomId,
+		} as ISetUserRoomRequestBody));
 
 		const response = await this.#httpClient.Send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -183,7 +191,9 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(body.permissions, "number");
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userPermissions({ route: { userId } }));
-		request.content = new StringContent(JSON.stringify(body));
+		request.content = new StringContent(JSON.stringify({
+			permissions: body.permissions,
+		} as ISetUserPermissionsRequestBody));
 
 		const response = await this.#httpClient.Send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
