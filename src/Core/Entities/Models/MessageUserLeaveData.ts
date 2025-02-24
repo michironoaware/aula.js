@@ -7,7 +7,7 @@ export class MessageUserLeaveData
 
 	public constructor(data: any)
 	{
-		ThrowHelper.TypeError.throwIfNull(data);
+		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.roomId, "string", "null", "undefined");
 

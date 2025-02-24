@@ -106,7 +106,7 @@ export class RestClient
 
 	public async getUsers(query: IGetUsersQuery = {})
 	{
-		ThrowHelper.TypeError.throwIfNull(query);
+		ThrowHelper.TypeError.throwIfNotType(query, "object");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.type, UserType, "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
@@ -151,7 +151,7 @@ export class RestClient
 	public async modifyCurrentUser(userId: string, body: IModifyCurrentUserRequestBody)
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
-		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.displayName, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
 
@@ -171,7 +171,7 @@ export class RestClient
 
 	public async setCurrentUserRoom(body: ISetUserRoomRequestBody)
 	{
-		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
 		ThrowHelper.TypeError.throwIfNotType(body.roomId, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.currentUserRoom());
@@ -189,7 +189,7 @@ export class RestClient
 	public async setUserRoom(userId: string, body: ISetUserRoomRequestBody)
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
-		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
 		ThrowHelper.TypeError.throwIfNotType(body.roomId, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userRoom({ route: { userId } }));
@@ -207,7 +207,7 @@ export class RestClient
 	public async setUserPermissions(userId: string, body: ISetUserPermissionsRequestBody)
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
-		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
 		ThrowHelper.TypeError.throwIfNotType(body.permissions, "number");
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userPermissions({ route: { userId } }));
@@ -224,7 +224,7 @@ export class RestClient
 
 	public async createRoom(body: ICreateRoomRequestBody)
 	{
-		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.name, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "undefined");
@@ -246,7 +246,7 @@ export class RestClient
 
 	public async getRooms(query: IGetRoomsQuery = {})
 	{
-		ThrowHelper.TypeError.throwIfNull(query);
+		ThrowHelper.TypeError.throwIfNotType(query, "object");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
 
@@ -289,7 +289,7 @@ export class RestClient
 	public async modifyRoom(roomId: string, body: IModifyRoomRequestBody)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.name, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "undefined");
@@ -351,7 +351,7 @@ export class RestClient
 	public async setRoomConnections(roomId: string, body: ISetRoomConnectionsRequestBody)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
 		ThrowHelper.TypeError.throwIfNotType(body.roomIds, Array<string>);
 		for (const id of body.roomIds)
 		{
@@ -406,7 +406,7 @@ export class RestClient
 	public async sendMessage(roomId: string, body: ISendMessageRequestBody)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
 		ThrowHelper.TypeError.throwIfNotType(body.type, MessageType);
 		ThrowHelper.TypeError.throwIfNotAnyType(body.flags, "number", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType((body as ISendUnknownMessageRequestBody).content, "string", "undefined");
@@ -449,7 +449,7 @@ export class RestClient
 	public async getMessages(roomId: string, query: IGetMessagesQuery = {})
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNull(query);
+		ThrowHelper.TypeError.throwIfNotType(query, "object");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.before, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
@@ -489,7 +489,7 @@ export class RestClient
 
 	public async register(body: IRegisterRequestBody)
 	{
-		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
 		ThrowHelper.TypeError.throwIfNotType(body.userName, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.displayName, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(body.email, "string");
@@ -512,7 +512,7 @@ export class RestClient
 
 	public async logIn(body: ILogInRequestBody)
 	{
-		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
 		ThrowHelper.TypeError.throwIfNotType(body.userName, "string");
 		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
 
@@ -531,7 +531,7 @@ export class RestClient
 
 	public async confirmEmail(query: IConfirmEmailQuery)
 	{
-		ThrowHelper.TypeError.throwIfNull(query);
+		ThrowHelper.TypeError.throwIfNotType(query, "object");
 		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.token, "string", "undefined");
 
@@ -552,7 +552,7 @@ export class RestClient
 
 	public async forgotPassword(query: IForgotPasswordQuery)
 	{
-		ThrowHelper.TypeError.throwIfNull(query);
+		ThrowHelper.TypeError.throwIfNotType(query, "object");
 		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword({ query: { email: query.email } }));
@@ -565,7 +565,7 @@ export class RestClient
 
 	public async resetPassword(body: IResetPasswordRequestBody)
 	{
-		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
 		ThrowHelper.TypeError.throwIfNotType(body.code, "string");
 		ThrowHelper.TypeError.throwIfNotType(body.newPassword, "string");
 

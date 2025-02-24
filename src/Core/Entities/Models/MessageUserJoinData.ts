@@ -6,7 +6,7 @@ export class MessageUserJoinData
 
 	public constructor(data: any)
 	{
-		ThrowHelper.TypeError.throwIfNull(data);
+		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
 
 		this.#userId = data.userId;

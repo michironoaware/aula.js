@@ -6,7 +6,7 @@ export class LogInResponse
 
 	public constructor(data: any)
 	{
-		ThrowHelper.TypeError.throwIfNull(data);
+		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
 
 		this.#token = data.token;

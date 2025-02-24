@@ -21,7 +21,7 @@ export class MessageData
 
 	public constructor(data: any)
 	{
-		ThrowHelper.TypeError.throwIfNull(data);
+		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.type, MessageType);
 		ThrowHelper.TypeError.throwIfNotType(data.flags, "number");

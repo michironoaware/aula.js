@@ -14,7 +14,7 @@ export class HttpClient
 
 	public constructor(options: { handler?: HttpMessageHandler; } = {})
 	{
-		ThrowHelper.TypeError.throwIfNull(options);
+		ThrowHelper.TypeError.throwIfNotType(options, "object");
 		ThrowHelper.TypeError.throwIfNotType(options.handler, HttpMessageHandler);
 
 		this.#handler = options?.handler ?? new HttpFetchHandler();

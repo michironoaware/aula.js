@@ -11,7 +11,7 @@ export class RoomData
 
 	public constructor(data: any)
 	{
-		ThrowHelper.TypeError.throwIfNull(data);
+		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.name, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.description, "string");
