@@ -19,6 +19,11 @@ export class User
 		this.#data = data;
 	}
 
+	public get restClient()
+	{
+		return this.#restClient;
+	}
+
 	public get id()
 	{
 		return this.#data.id;

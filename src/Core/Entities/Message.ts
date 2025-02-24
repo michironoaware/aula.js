@@ -17,6 +17,11 @@ export class Message
 		this.#data = data;
 	}
 
+	public get restClient()
+	{
+		return this.#restClient;
+	}
+
 	get id()
 	{
 		return this.#data.id;
