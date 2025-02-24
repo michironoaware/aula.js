@@ -1,6 +1,6 @@
 ﻿import {UserType} from "../Entities/UserType.js";
 
-export interface IGetUserQuery
+export interface IGetUsersQuery
 {
 	readonly type?: UserType;
 	readonly count?: number;

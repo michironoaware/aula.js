@@ -10,7 +10,7 @@ import {HttpMethod} from "../../Common/Http/HttpMethod.js";
 import {HttpRequestMessage} from "../../Common/Http/HttpRequestMessage.js";
 import {AulaRoute} from "../AulaRoute.js";
 import {User} from "../Entities/User.js";
-import {IGetUserQuery} from "./IGetUserQuery.js";
+import {IGetUsersQuery} from "./IGetUsersQuery.js";
 import {UserData} from "../Entities/Models/UserData.js";
 import {IModifyCurrentUserRequestBody} from "./IModifyCurrentUserRequestBody.js";
 import {StringContent} from "../../Common/Http/StringContent.js";
@@ -89,7 +89,7 @@ export class RestClient
 		return new User(this, userData);
 	}
 
-	public async getUsers(query: IGetUserQuery = {}): Promise<User[]>
+	public async getUsers(query: IGetUsersQuery = {}): Promise<User[]>
 	{
 		ThrowHelper.TypeError.throwIfNull(query);
 		ThrowHelper.TypeError.throwIfNotAnyType(query.type, UserType, "undefined");
