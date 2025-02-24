@@ -361,4 +361,16 @@ export class RestClient
 
 		return;
 	}
+
+	public async startTyping(roomId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.startTyping({ route: { roomId }}));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
+	}
 }
