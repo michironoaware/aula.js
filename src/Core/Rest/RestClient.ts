@@ -619,4 +619,16 @@ export class RestClient
 
 		return new CreateBotResponse(JSON.parse(await response.content.readAsString()), this);
 	}
+
+	public async removeBot(userId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.bot({ route: { userId } }));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
+	}
 }
