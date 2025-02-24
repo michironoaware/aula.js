@@ -35,6 +35,8 @@ import {IResetPasswordRequestBody} from "./IResetPasswordRequestBody.js";
 import {IRegisterRequestBody} from "./IRegisterRequestBody.js";
 import {ILogInRequestBody} from "./ILogInRequestBody.js";
 import {LogInResponse} from "../Entities/Models/LogInResponse.js";
+import {ICreateBotRequestBody} from "./ICreateBotRequestBody.js";
+import {CreateBotResponse} from "../Entities/Models/CreateBotResponse.js";
 
 export class RestClient
 {
@@ -599,5 +601,22 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
+	}
+
+	public async createBot(body: ICreateBotRequestBody)
+	{
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
+		ThrowHelper.TypeError.throwIfNotType(body.displayName, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.bots());
+		request.content = new StringContent(JSON.stringify(
+			{
+				displayName: body.displayName,
+			} as ICreateBotRequestBody));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return new CreateBotResponse(JSON.parse(await response.content.readAsString()), this);
 	}
 }
