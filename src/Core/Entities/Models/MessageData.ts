@@ -23,9 +23,9 @@ export class MessageData
 	{
 		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
-		ThrowHelper.TypeError.throwIfNotType(data.type, MessageType);
+		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.flags, "number");
-		ThrowHelper.TypeError.throwIfNotType(data.authorType, MessageAuthorType);
+		ThrowHelper.TypeError.throwIfNotType(data.authorType, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.authorId, "string", "null", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(data.roomId, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.content, "string", "null", "undefined");

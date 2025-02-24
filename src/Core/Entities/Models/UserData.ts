@@ -18,8 +18,8 @@ export class UserData
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.displayName, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.description, "string", "null", "undefined");
-		ThrowHelper.TypeError.throwIfNotType(data.type, UserType);
-		ThrowHelper.TypeError.throwIfNotType(data.presence, Presence);
+		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
+		ThrowHelper.TypeError.throwIfNotType(data.presence, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.currentRoomId, "string", "null", "undefined");
 
 		this.#id = data.id;
