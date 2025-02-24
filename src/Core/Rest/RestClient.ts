@@ -25,6 +25,7 @@ import {IModifyRoomRequestBody} from "./IModifyRoomRequestBody.js";
 import {ISetRoomConnectionsRequestBody} from "./ISetRoomConnectionsRequestBody.js";
 import {MessageData} from "../Entities/Models/MessageData.js";
 import {Message} from "../Entities/Message.js";
+import {IGetMessagesQuery} from "./IGetMessagesQuery.js";
 
 export class RestClient
 {
@@ -410,5 +411,33 @@ export class RestClient
 
 		const messageData = new MessageData(JSON.parse((await response.content.readAsString())));
 		return new Message(this, messageData);
+	}
+
+	public async getMessages(roomId: string, query: IGetMessagesQuery = {})
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNull(query);
+		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(query.before, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessages(
+			{
+				route: { roomId },
+				query:
+					{
+						after: query.after,
+						before: query.before,
+						count: query.count,
+					}
+			}
+		));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse((await response.content.readAsString()))
+			.map((d: any) => new MessageData(d))
+			.map((d: MessageData) => new Message(this, d)) as Message[];
 	}
 }
