@@ -161,6 +161,21 @@ export class RestClient
 		return;
 	}
 
+	public async setUserRoom(userId: string, body: ISetCurrentUserRoomRequestBody)
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userRoom({ route: { userId } }));
+		request.content = new StringContent(JSON.stringify(body));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
+	}
+
 	public async setUserPermissions(userId: string, body: ISetUserPermissionsRequestBody)
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
