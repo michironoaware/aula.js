@@ -41,7 +41,7 @@ export class Room
 		return this.#data.connectedRoomIds;
 	}
 
-	get creationTime(): Temporal.PlainDateTime
+	get creationTime()
 	{
 		return Temporal.PlainDateTime.from(this.#data.creationTime);
 	}
