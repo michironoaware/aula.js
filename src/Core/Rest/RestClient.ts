@@ -467,4 +467,17 @@ export class RestClient
 			.map((d: any) => new MessageData(d))
 			.map((d: MessageData) => new Message(this, d)) as Message[];
 	}
+
+	public async removeMessage(roomId: string, messageId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(messageId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomMessage({ route: { roomId, messageId }}));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
+	}
 }
