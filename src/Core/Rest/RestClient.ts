@@ -29,6 +29,7 @@ import {IGetMessagesQuery} from "./IGetMessagesQuery.js";
 import {MessageType} from "../Entities/MessageType.js";
 import {ISendMessageRequestBody} from "./ISendMessageRequestBody.js";
 import {ISendUnknownMessageRequestBody} from "./ISendUnknownMessageRequestBody.js";
+import {IConfirmEmailQuery} from "./IConfirmEmailQuery.js";
 
 export class RestClient
 {
@@ -474,6 +475,27 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(messageId, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomMessage({ route: { roomId, messageId }}));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
+	}
+
+	public async confirmEmail(query: IConfirmEmailQuery)
+	{
+		ThrowHelper.TypeError.throwIfNull(query);
+		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(query.token, "string", "undefined");
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.confirmEmail(
+			{
+				query:
+					{
+						email: query.email,
+						token: query.token,
+					}
+			}));
 
 		const response = await this.#httpClient.Send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
