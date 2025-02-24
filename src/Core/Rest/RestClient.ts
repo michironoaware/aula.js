@@ -38,6 +38,9 @@ import {LogInResponse} from "./LogInResponse.js";
 import {ICreateBotRequestBody} from "./ICreateBotRequestBody.js";
 import {CreateBotResponse} from "./CreateBotResponse.js";
 import {ResetBotTokenResponse} from "./ResetBotTokenResponse.js";
+import {IBanUserRequestBody} from "./IBanUserRequestBody.js";
+import {BanData} from "../Entities/Models/BanData.js";
+import {Ban} from "../Entities/Ban.js";
 
 export class RestClient
 {
@@ -643,5 +646,29 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return new ResetBotTokenResponse(JSON.parse(await response.content.readAsString()));
+	}
+
+	public async banUser(userId: string, body: IBanUserRequestBody = {})
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+		ThrowHelper.TypeError.throwIfNotType(body, "object");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.reason, "string", "undefined");
+
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userBan({ route: { userId } }));
+		request.content = new StringContent(JSON.stringify(
+			{
+				reason: body.reason,
+			} as IBanUserRequestBody));
+
+		const response = await this.#httpClient.Send(request);
+		if (response.statusCode === HttpStatusCode.Conflict)
+		{
+			// Instead of throwing, return null if the ban already exists.
+			return null;
+		}
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		const banData = new BanData(JSON.parse(await response.content.readAsString()));
+		return new Ban(this, banData);
 	}
 }
