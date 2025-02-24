@@ -26,6 +26,9 @@ import {ISetRoomConnectionsRequestBody} from "./ISetRoomConnectionsRequestBody.j
 import {MessageData} from "../Entities/Models/MessageData.js";
 import {Message} from "../Entities/Message.js";
 import {IGetMessagesQuery} from "./IGetMessagesQuery.js";
+import {MessageType} from "../Entities/MessageType.js";
+import {ISendMessageRequestBody} from "./ISendMessageRequestBody.js";
+import {ISendUnknownMessageRequestBody} from "./ISendUnknownMessageRequestBody.js";
 
 export class RestClient
 {
@@ -392,6 +395,30 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
+	}
+
+	public async sendMessage(roomId: string, body: ISendMessageRequestBody)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body.type, MessageType);
+		ThrowHelper.TypeError.throwIfNotAnyType(body.flags, "number", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType((body as ISendUnknownMessageRequestBody).content, "string", "undefined");
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomMessages({ route: { roomId }}));
+		request.content = new StringContent(JSON.stringify(
+			{
+				type: body.type,
+				flags: body.flags,
+				content: body.content,
+			} as ISendUnknownMessageRequestBody,
+		));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		const messageData = new MessageData(JSON.parse(await response.content.readAsString()));
+		return new Message(this, messageData);
 	}
 
 	public async getMessage(roomId: string, messageId: string)
