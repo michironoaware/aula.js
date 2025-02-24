@@ -22,6 +22,7 @@ import {RoomData} from "../Entities/Models/RoomData.js";
 import {Room} from "../Entities/Room.js";
 import {IGetRoomsQuery} from "./IGetRoomsQuery.js";
 import {IModifyRoomRequestBody} from "./IModifyRoomRequestBody.js";
+import {ISetRoomConnectionsRequestBody} from "./ISetRoomConnectionsRequestBody.js";
 
 export class RestClient
 {
@@ -328,5 +329,23 @@ export class RestClient
 		return JSON.parse((await response.content.readAsString()))
 			.map((d: any)=> new RoomData(d))
 			.map((d: RoomData) => new Room(this, d)) as Room[];
+	}
+
+	public async setRoomConnections(roomId: string, body: ISetRoomConnectionsRequestBody)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body.roomIds, Array<string>);
+		for (const id of body.roomIds)
+		{
+			ThrowHelper.TypeError.throwIfNotAnyType(id, "string");
+		}
+
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnections({ route: { roomId }}));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
 	}
 }
