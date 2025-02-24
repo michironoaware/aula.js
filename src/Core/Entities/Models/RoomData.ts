@@ -17,6 +17,10 @@ export class RoomData
 		ThrowHelper.TypeError.throwIfNotType(data.description, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.isEntrance, "boolean");
 		ThrowHelper.TypeError.throwIfNotType(data.connectedRoomIds, Array<string>);
+		for (const id of data.roomIds)
+		{
+			ThrowHelper.TypeError.throwIfNotType(id, "string")
+		}
 		ThrowHelper.TypeError.throwIfNotType(data.creationTime, "string");
 
 		this.#id = data.id;
