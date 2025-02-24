@@ -41,7 +41,7 @@ export class HttpClient
 		return this.#handler;
 	}
 	
-	public async Send(message: HttpRequestMessage): Promise<HttpResponseMessage>
+	public async send(message: HttpRequestMessage): Promise<HttpResponseMessage>
 	{
 		if (!(message.requestUri instanceof URL))
 		{

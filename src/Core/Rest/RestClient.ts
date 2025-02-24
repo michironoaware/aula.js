@@ -104,7 +104,7 @@ export class RestClient
 	{
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUser());
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const userData = new UserData(JSON.parse(await response.content.readAsString()));
@@ -129,7 +129,7 @@ export class RestClient
 			}
 		));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse(await response.content.readAsString())
@@ -143,7 +143,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.user({ route: { userId } }));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		if (response.statusCode === HttpStatusCode.NotFound)
 		{
 			return null;
@@ -169,7 +169,7 @@ export class RestClient
 				description: body.description,
 			} as IModifyCurrentUserRequestBody));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const userData = new UserData(JSON.parse(await response.content.readAsString()));
@@ -187,7 +187,7 @@ export class RestClient
 				roomId: body.roomId,
 			} as ISetUserRoomRequestBody));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -205,7 +205,7 @@ export class RestClient
 				roomId: body.roomId,
 			} as ISetUserRoomRequestBody));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -223,7 +223,7 @@ export class RestClient
 				permissions: body.permissions,
 			} as ISetUserPermissionsRequestBody));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -244,7 +244,7 @@ export class RestClient
 				isEntrance: body.isEntrance,
 			} as ICreateRoomRequestBody));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
@@ -267,7 +267,7 @@ export class RestClient
 			}
 		));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse(await response.content.readAsString())
@@ -281,7 +281,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.room({ route: { roomId }}));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		if (response.statusCode === HttpStatusCode.NotFound)
 		{
 			return null;
@@ -309,7 +309,7 @@ export class RestClient
 				isEntrance: body.isEntrance,
 			} as IModifyRoomRequestBody));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
@@ -322,7 +322,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.room({ route: { roomId } }));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -335,7 +335,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomConnection({ route: { roomId, targetId }}));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -347,7 +347,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomConnections({ route: { roomId }}));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse((await response.content.readAsString()))
@@ -367,7 +367,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnections({ route: { roomId }}));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -380,7 +380,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomConnection({ route: { roomId, targetId }}));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -392,7 +392,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.startTyping({ route: { roomId }}));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -404,7 +404,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.stopTyping({ route: { roomId }}));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -427,7 +427,7 @@ export class RestClient
 			} as ISendUnknownMessageRequestBody,
 		));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const messageData = new MessageData(JSON.parse(await response.content.readAsString()));
@@ -441,7 +441,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessage({ route: { roomId, messageId }}));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		if (response.statusCode === HttpStatusCode.NotFound)
 		{
 			return null;
@@ -473,7 +473,7 @@ export class RestClient
 			}
 		));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse((await response.content.readAsString()))
@@ -488,7 +488,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomMessage({ route: { roomId, messageId }}));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -511,7 +511,7 @@ export class RestClient
 				password: body.password,
 			} as IRegisterRequestBody));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -530,7 +530,7 @@ export class RestClient
 				password: body.password,
 			} as ILogInRequestBody));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return new LogInResponse(JSON.parse(await response.content.readAsString()));
@@ -551,7 +551,7 @@ export class RestClient
 					}
 			}));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -564,7 +564,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword({ query: { email: query.email } }));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -583,7 +583,7 @@ export class RestClient
 				newPassword: body.newPassword,
 			} as IResetPasswordRequestBody));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -602,7 +602,7 @@ export class RestClient
 				password: body.password,
 			} as ILogInRequestBody));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -619,7 +619,7 @@ export class RestClient
 				displayName: body.displayName,
 			} as ICreateBotRequestBody));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return new CreateBotResponse(JSON.parse(await response.content.readAsString()), this);
@@ -631,7 +631,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.bot({ route: { userId } }));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -643,7 +643,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetBotToken({ route: { userId } }));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return new ResetBotTokenResponse(JSON.parse(await response.content.readAsString()));
@@ -661,7 +661,7 @@ export class RestClient
 				reason: body.reason,
 			} as IBanUserRequestBody));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		if (response.statusCode === HttpStatusCode.Conflict)
 		{
 			// Instead of throwing, return null if the ban already exists.
@@ -679,7 +679,7 @@ export class RestClient
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.userBan({ route: { userId } }));
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
@@ -689,7 +689,7 @@ export class RestClient
 	{
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUserBanStatus());
 
-		const response = await this.#httpClient.Send(request);
+		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return new GetCurrentUserBanStatusResponse(JSON.parse(await response.content.readAsString()));
