@@ -1,4 +1,4 @@
-﻿import AulaError from "../AulaError.js";
+﻿import {AulaError} from "../AulaError.js";
 import {ThrowHelper} from "../../Common/ThrowHelper.js";
 
 export class AulaBadRequestError extends AulaError

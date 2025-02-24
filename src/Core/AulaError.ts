@@ -1,4 +1,4 @@
-﻿export default class AulaError extends Error
+﻿export class AulaError extends Error
 {
 	readonly #content: string | null;
 
