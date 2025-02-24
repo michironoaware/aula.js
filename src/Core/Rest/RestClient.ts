@@ -75,7 +75,7 @@ export class RestClient
 
 	public async getCurrentUser(): Promise<User>
 	{
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.CurrentUser());
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUser());
 
 		const response = await this.#httpClient.Send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -91,7 +91,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.Users(
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.users(
 			{
 				query:
 					{
@@ -114,7 +114,7 @@ export class RestClient
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.User({ route: { userId } }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.user({ route: { userId } }));
 
 		const response = await this.#httpClient.Send(request);
 		if (response.statusCode === HttpStatusCode.NotFound)
@@ -135,7 +135,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(body.displayName, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
 
-		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.User({ route: { userId } }));
+		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.user({ route: { userId } }));
 		request.content = new StringContent(JSON.stringify(body));
 
 		const response = await this.#httpClient.Send(request);

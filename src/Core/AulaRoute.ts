@@ -1,11 +1,11 @@
 ﻿export class AulaRoute
 {
-	public static CurrentUser()
+	public static currentUser()
 	{
 		return "users/@me";
 	}
 
-	public static Users(args?: { query?: { type?: number, count?: number, after?: string } })
+	public static users(args?: { query?: { type?: number, count?: number, after?: string } })
 	{
 		return "users" +
 			(typeof args?.query !== "undefined" ? "?" : "") +
@@ -14,27 +14,27 @@
 			(args?.query?.after ? `&after=${args.query.after}` : "");
 	}
 
-	public static User(args: { route: {userId: string} })
+	public static user(args: { route: {userId: string} })
 	{
 		return `users/${args.route.userId}`;
 	}
 
-	public static CurrentUserRoom()
+	public static currentUserRoom()
 	{
 		return "users/@me/current-room";
 	}
 
-	public static UserRoom(args: { route: { userId: string } })
+	public static userRoom(args: { route: { userId: string } })
 	{
 		return `users/${args.route.userId}/current-room`;
 	}
 
-	public static UserPermissions(args: { route: { userId: string } })
+	public static userPermissions(args: { route: { userId: string } })
 	{
 		return `users/${args.route.userId}/permissions`;
 	}
 
-	public static Rooms(args?: { query?: { count?: number, after?: string } })
+	public static rooms(args?: { query?: { count?: number, after?: string } })
 	{
 		return "rooms" +
 			(typeof args?.query !== "undefined" ? "?" : "") +
@@ -42,37 +42,37 @@
 			(args?.query?.after ? `&after=${args.query.after}` : "");
 	}
 
-	public static Room(args: { route: { roomId: string } })
+	public static room(args: { route: { roomId: string } })
 	{
 		return `rooms${args.route.roomId}`;
 	}
 
-	public static RoomConnections(args: { route: { roomId: string } })
+	public static roomConnections(args: { route: { roomId: string } })
 	{
 		return `rooms${args.route.roomId}/connections`;
 	}
 
-	public static RoomConnection(args: { route: { roomId: string, targetId: string } })
+	public static roomConnection(args: { route: { roomId: string, targetId: string } })
 	{
 		return `rooms${args.route.roomId}/connections/${args.route.targetId}`;
 	}
 
-	public static RoomUsers(args: { route: { roomId: string } })
+	public static roomUsers(args: { route: { roomId: string } })
 	{
 		return `rooms${args.route.roomId}/users`;
 	}
 
-	public static StartTyping(args: { route: { roomId: string } })
+	public static startTyping(args: { route: { roomId: string } })
 	{
 		return `rooms/${args.route.roomId}/start-typing`;
 	}
 
-	public static StopTyping(args: { route: { roomId: string } })
+	public static stopTyping(args: { route: { roomId: string } })
 	{
 		return `rooms/${args.route.roomId}/stop-typing`;
 	}
 
-	public static RoomMessages(args: { route: { roomId: string }, query?: { count?: number, before?: string, after?: string } })
+	public static roomMessages(args: { route: { roomId: string }, query?: { count?: number, before?: string, after?: string } })
 	{
 		return `rooms/${args.route.roomId}/messages` +
 			(typeof args?.query !== "undefined" ? "?" : "") +
@@ -81,68 +81,68 @@
 			(args.query?.after ? `&after=${args.query.after}` : "");
 	}
 
-	public static RoomMessage(args: { route: { roomId: string, messageId: string } })
+	public static roomMessage(args: { route: { roomId: string, messageId: string } })
 	{
 		return `rooms/${args.route.roomId}/messages/${args.route.messageId}`;
 	}
 
-	public static UserBans()
+	public static userBans()
 	{
 		return "bans/users";
 	}
 
-	public static UserBan(args: { route: { userId: string } })
+	public static userBan(args: { route: { userId: string } })
 	{
 		return `bans/users/${args.route.userId}`;
 	}
 
-	public static CurrentUserBanStatus()
+	public static currentUserBanStatus()
 	{
 		return `bans/users/@me`;
 	}
 
-	public static Register()
+	public static register()
 	{
 		return "identity/register";
 	}
 
-	public static LogIn()
+	public static logIn()
 	{
 		return "identity/log-in";
 	}
 
-	public static ConfirmEmail(args: { query: { email: string, token?: string } })
+	public static confirmEmail(args: { query: { email: string, token?: string } })
 	{
 		return `identity/confirm-email?email=${args.query.email}` +
 			(args.query?.token ? `&token=${args.query.token}` : "");
 	}
 
-	public static ForgotPassword(args: { query: { email: string } })
+	public static forgotPassword(args: { query: { email: string } })
 	{
 		return `identity/forgot-password?email=${args.query.email}`;
 	}
 
-	public static ResetPassword()
+	public static resetPassword()
 	{
 		return "identity/reset-password";
 	}
 
-	public static ResetToken()
+	public static resetToken()
 	{
 		return "identity/reset-token"
 	}
 
-	public static Bots()
+	public static bots()
 	{
 		return "bots";
 	}
 
-	public static Bot(args: { route: { userId: string } })
+	public static bot(args: { route: { userId: string } })
 	{
 		return `bots/${args.route.userId}`;
 	}
 
-	public static ResetBotToken(args: { route: { userId: string } })
+	public static resetBotToken(args: { route: { userId: string } })
 	{
 		return `bots/${args.route.userId}/reset-token`;
 	}
