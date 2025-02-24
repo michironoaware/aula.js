@@ -20,6 +20,7 @@ import {ISetUserPermissionsRequestBody} from "./ISetUserPermissionsRequestBody.j
 import {ICreateRoomRequestBody} from "./ICreateRoomRequestBody.js";
 import {RoomData} from "../Entities/Models/RoomData.js";
 import {Room} from "../Entities/Room.js";
+import {IGetRoomsQuery} from "./IGetRoomsQuery.js";
 
 export class RestClient
 {
@@ -223,5 +224,29 @@ export class RestClient
 
 		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
 		return new Room(this, roomData);
+	}
+
+	public async getRooms(query: IGetRoomsQuery = {})
+	{
+		ThrowHelper.TypeError.throwIfNull(query);
+		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.rooms(
+			{
+				query:
+					{
+						count: query.count,
+						after: query.after,
+					}
+			}
+		));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse(await response.content.readAsString())
+			.map((d: any) => new RoomData(d))
+			.map((d: RoomData) => new Room(this, d)) as Room[];
 	}
 }
