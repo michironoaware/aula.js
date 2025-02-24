@@ -23,6 +23,8 @@ import {Room} from "../Entities/Room.js";
 import {IGetRoomsQuery} from "./IGetRoomsQuery.js";
 import {IModifyRoomRequestBody} from "./IModifyRoomRequestBody.js";
 import {ISetRoomConnectionsRequestBody} from "./ISetRoomConnectionsRequestBody.js";
+import {MessageData} from "../Entities/Models/MessageData.js";
+import {Message} from "../Entities/Message.js";
 
 export class RestClient
 {
@@ -384,5 +386,24 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
+	}
+
+	public async getMessage(roomId: string, messageId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(messageId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessage({ route: { roomId, messageId }}));
+
+		const response = await this.#httpClient.Send(request);
+		if (response.statusCode === HttpStatusCode.NotFound)
+		{
+			return null;
+		}
+
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		const messageData = new MessageData(JSON.parse((await response.content.readAsString())));
+		return new Message(this, messageData);
 	}
 }
