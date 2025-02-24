@@ -33,6 +33,8 @@ import {IConfirmEmailQuery} from "./IConfirmEmailQuery.js";
 import {IForgotPasswordQuery} from "./IForgotPasswordQuery.js";
 import {IResetPasswordRequestBody} from "./IResetPasswordRequestBody.js";
 import {IRegisterRequestBody} from "./IRegisterRequestBody.js";
+import {ILogInRequestBody} from "./ILogInRequestBody.js";
+import {LogInResponse} from "../Entities/Models/LogInResponse.js";
 
 export class RestClient
 {
@@ -506,6 +508,25 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
+	}
+
+	public async logIn(body: ILogInRequestBody)
+	{
+		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body.userName, "string");
+		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.logIn());
+		request.content = new StringContent(JSON.stringify(
+			{
+				userName: body.userName,
+				password: body.password,
+			} as ILogInRequestBody));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return new LogInResponse(JSON.parse(await response.content.readAsString()));
 	}
 
 	public async confirmEmail(query: IConfirmEmailQuery)
