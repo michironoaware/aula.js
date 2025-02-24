@@ -55,7 +55,7 @@ export class HttpClient
 			{
 				if (!(error instanceof TypeError))
 				{
-					// Rethrow unhandled error type.
+					// Rethrow unwanted error type.
 					throw error;
 				}
 
