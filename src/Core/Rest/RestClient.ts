@@ -671,4 +671,16 @@ export class RestClient
 		const banData = new BanData(JSON.parse(await response.content.readAsString()));
 		return new Ban(this, banData);
 	}
+
+	public async unbanUser(userId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.userBan({ route: { userId } }));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
+	}
 }
