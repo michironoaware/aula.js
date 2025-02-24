@@ -78,6 +78,9 @@ export class HttpClient
             }
 		});
 		
-		return await this.#handler.send(message);
+		const response = await this.#handler.send(message);
+
+		message.dispose();
+		return response;
 	}
 }
