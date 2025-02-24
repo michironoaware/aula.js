@@ -41,6 +41,7 @@ import {ResetBotTokenResponse} from "./ResetBotTokenResponse.js";
 import {IBanUserRequestBody} from "./IBanUserRequestBody.js";
 import {BanData} from "../Entities/Models/BanData.js";
 import {Ban} from "../Entities/Ban.js";
+import {GetCurrentUserBanStatusResponse} from "./GetCurrentUserBanStatusResponse.js";
 
 export class RestClient
 {
@@ -682,5 +683,15 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
+	}
+
+	public async getCurrentUserBanStatus()
+	{
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUserBanStatus());
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return new GetCurrentUserBanStatusResponse(JSON.parse(await response.content.readAsString()));
 	}
 }
