@@ -15,6 +15,7 @@ import {UserData} from "../Entities/Models/UserData.js";
 import {IModifyCurrentUserRequestBody} from "./IModifyCurrentUserRequestBody.js";
 import {StringContent} from "../../Common/Http/StringContent.js";
 import {UserType} from "../Entities/UserType.js";
+import {ISetCurrentUserRoomRequestBody} from "./ISetCurrentUserRoomRequestBody.js";
 
 export class RestClient
 {
@@ -143,5 +144,19 @@ export class RestClient
 
 		const userData = new UserData(JSON.parse(await response.content.readAsString()));
 		return new User(this, userData);
+	}
+
+	public async setCurrentUserRoom(body: ISetCurrentUserRoomRequestBody)
+	{
+		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.currentUserRoom());
+		request.content = new StringContent(JSON.stringify(body));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
 	}
 }
