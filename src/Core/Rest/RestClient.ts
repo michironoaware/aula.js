@@ -21,6 +21,7 @@ import {ICreateRoomRequestBody} from "./ICreateRoomRequestBody.js";
 import {RoomData} from "../Entities/Models/RoomData.js";
 import {Room} from "../Entities/Room.js";
 import {IGetRoomsQuery} from "./IGetRoomsQuery.js";
+import {IModifyRoomRequestBody} from "./IModifyRoomRequestBody.js";
 
 export class RestClient
 {
@@ -262,6 +263,28 @@ export class RestClient
 			return null;
 		}
 
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
+		return new Room(this, roomData);
+	}
+
+	public async modifyRoom(roomId: string, body: IModifyRoomRequestBody)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotAnyType(body.name, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "undefined");
+
+		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.room({ route: { roomId }}));
+		request.content = new StringContent(JSON.stringify({
+			name: body.name,
+			description: body.description,
+			isEntrance: body.isEntrance,
+		} as IModifyRoomRequestBody));
+
+		const response = await this.#httpClient.Send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
