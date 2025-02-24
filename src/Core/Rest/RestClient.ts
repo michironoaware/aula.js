@@ -34,9 +34,9 @@ import {IForgotPasswordQuery} from "./IForgotPasswordQuery.js";
 import {IResetPasswordRequestBody} from "./IResetPasswordRequestBody.js";
 import {IRegisterRequestBody} from "./IRegisterRequestBody.js";
 import {ILogInRequestBody} from "./ILogInRequestBody.js";
-import {LogInResponse} from "../Entities/Models/LogInResponse.js";
+import {LogInResponse} from "./LogInResponse.js";
 import {ICreateBotRequestBody} from "./ICreateBotRequestBody.js";
-import {CreateBotResponse} from "../Entities/Models/CreateBotResponse.js";
+import {CreateBotResponse} from "./CreateBotResponse.js";
 
 export class RestClient
 {

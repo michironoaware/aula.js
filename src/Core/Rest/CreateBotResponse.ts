@@ -1,7 +1,7 @@
-﻿import {User} from "../User.js";
-import {ThrowHelper} from "../../../Common/ThrowHelper.js";
-import {RestClient} from "../../Rest/RestClient.js";
-import {UserData} from "./UserData.js";
+﻿import {User} from "../Entities/User.js";
+import {ThrowHelper} from "../../Common/ThrowHelper.js";
+import {RestClient} from "./RestClient.js";
+import {UserData} from "../Entities/Models/UserData.js";
 
 export class CreateBotResponse
 {
