@@ -32,6 +32,7 @@ import {ISendUnknownMessageRequestBody} from "./ISendUnknownMessageRequestBody.j
 import {IConfirmEmailQuery} from "./IConfirmEmailQuery.js";
 import {IForgotPasswordQuery} from "./IForgotPasswordQuery.js";
 import {IResetPasswordRequestBody} from "./IResetPasswordRequestBody.js";
+import {IRegisterRequestBody} from "./IRegisterRequestBody.js";
 
 export class RestClient
 {
@@ -477,6 +478,29 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(messageId, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomMessage({ route: { roomId, messageId }}));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
+	}
+
+	public async register(body: IRegisterRequestBody)
+	{
+		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body.userName, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.displayName, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotType(body.email, "string");
+		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.register());
+		request.content = new StringContent(JSON.stringify(
+			{
+				userName: body.userName,
+				displayName: body.displayName,
+				email: body.email,
+				password: body.password,
+			} as IRegisterRequestBody));
 
 		const response = await this.#httpClient.Send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
