@@ -302,4 +302,17 @@ export class RestClient
 
 		return;
 	}
+
+	public async addRoomConnection(roomId: string, targetId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(targetId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomConnection({ route: { roomId, targetId }}));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
+	}
 }
