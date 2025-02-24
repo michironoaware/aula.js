@@ -19,8 +19,8 @@ export abstract class DelegatingHandler extends HttpMessageHandler
 		return this.#innerHandler;
 	}
 
-	public async Send(message: HttpRequestMessage)
+	public async send(message: HttpRequestMessage)
 	{
-		return await this.#innerHandler.Send(message);
+		return await this.#innerHandler.send(message);
 	}
 }

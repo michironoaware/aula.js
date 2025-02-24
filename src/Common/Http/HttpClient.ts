@@ -78,6 +78,6 @@ export class HttpClient
             }
 		});
 		
-		return await this.#handler.Send(message);
+		return await this.#handler.send(message);
 	}
 }
