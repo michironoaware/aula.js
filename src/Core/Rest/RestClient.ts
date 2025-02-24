@@ -150,7 +150,7 @@ export class RestClient
 	public async setCurrentUserRoom(body: ISetUserRoomRequestBody)
 	{
 		ThrowHelper.TypeError.throwIfNull(body);
-		ThrowHelper.TypeError.throwIfNotType(body, "string");
+		ThrowHelper.TypeError.throwIfNotType(body.roomId, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.currentUserRoom());
 		request.content = new StringContent(JSON.stringify(body));
@@ -165,7 +165,7 @@ export class RestClient
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNull(body);
-		ThrowHelper.TypeError.throwIfNotType(body, "string");
+		ThrowHelper.TypeError.throwIfNotType(body.roomId, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userRoom({ route: { userId } }));
 		request.content = new StringContent(JSON.stringify(body));
