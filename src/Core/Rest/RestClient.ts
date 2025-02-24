@@ -15,7 +15,7 @@ import {UserData} from "../Entities/Models/UserData.js";
 import {IModifyCurrentUserRequestBody} from "./IModifyCurrentUserRequestBody.js";
 import {StringContent} from "../../Common/Http/StringContent.js";
 import {UserType} from "../Entities/UserType.js";
-import {ISetCurrentUserRoomRequestBody} from "./ISetCurrentUserRoomRequestBody.js";
+import {ISetUserRoomRequestBody} from "./ISetUserRoomRequestBody.js";
 import {ISetUserPermissionsRequestBody} from "./ISetUserPermissionsRequestBody.js";
 
 export class RestClient
@@ -147,7 +147,7 @@ export class RestClient
 		return new User(this, userData);
 	}
 
-	public async setCurrentUserRoom(body: ISetCurrentUserRoomRequestBody)
+	public async setCurrentUserRoom(body: ISetUserRoomRequestBody)
 	{
 		ThrowHelper.TypeError.throwIfNull(body);
 		ThrowHelper.TypeError.throwIfNotType(body, "string");
@@ -161,7 +161,7 @@ export class RestClient
 		return;
 	}
 
-	public async setUserRoom(userId: string, body: ISetCurrentUserRoomRequestBody)
+	public async setUserRoom(userId: string, body: ISetUserRoomRequestBody)
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNull(body);
