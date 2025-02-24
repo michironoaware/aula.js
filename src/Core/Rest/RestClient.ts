@@ -135,7 +135,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(body.displayName, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.User({ route: { userId } }));
+		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.User({ route: { userId } }));
 		request.content = new StringContent(JSON.stringify(body));
 
 		const response = await this.#httpClient.Send(request);
