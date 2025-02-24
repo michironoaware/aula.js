@@ -31,6 +31,7 @@ import {ISendMessageRequestBody} from "./ISendMessageRequestBody.js";
 import {ISendUnknownMessageRequestBody} from "./ISendUnknownMessageRequestBody.js";
 import {IConfirmEmailQuery} from "./IConfirmEmailQuery.js";
 import {IForgotPasswordQuery} from "./IForgotPasswordQuery.js";
+import {IResetPasswordRequestBody} from "./IResetPasswordRequestBody.js";
 
 export class RestClient
 {
@@ -510,6 +511,25 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword({ query: { email: query.email } }));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
+	}
+
+	public async resetPassword(body: IResetPasswordRequestBody)
+	{
+		ThrowHelper.TypeError.throwIfNull(body);
+		ThrowHelper.TypeError.throwIfNotType(body.code, "string");
+		ThrowHelper.TypeError.throwIfNotType(body.newPassword, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetPassword());
+		request.content = new StringContent(JSON.stringify(
+			{
+				code: body.code,
+				newPassword: body.newPassword,
+			} as IResetPasswordRequestBody));
 
 		const response = await this.#httpClient.Send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
