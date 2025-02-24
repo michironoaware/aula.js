@@ -89,7 +89,7 @@ export class RestClient
 		return new User(this, userData);
 	}
 
-	public async getUsers(query: IGetUsersQuery = {}): Promise<User[]>
+	public async getUsers(query: IGetUsersQuery = {})
 	{
 		ThrowHelper.TypeError.throwIfNull(query);
 		ThrowHelper.TypeError.throwIfNotAnyType(query.type, UserType, "undefined");
@@ -112,7 +112,7 @@ export class RestClient
 
 		return JSON.parse(await response.content.readAsString())
 			.map((d: any) => new UserData(d))
-			.map((d: UserData) => new User(this, d));
+			.map((d: UserData) => new User(this, d)) as User[];
 	}
 
 	public async getUser(userId: string)
