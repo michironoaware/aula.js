@@ -290,4 +290,16 @@ export class RestClient
 		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
 		return new Room(this, roomData);
 	}
+
+	public async removeRoom(roomId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.room({ route: { roomId }}));
+
+		const response = await this.#httpClient.Send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return;
+	}
 }
