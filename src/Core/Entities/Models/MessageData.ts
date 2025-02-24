@@ -1,6 +1,6 @@
 ﻿import {MessageType} from "../MessageType.js";
 import {MessageFlags} from "../MessageFlags.js";
-import {MessageAuthorType} from "./MessageAuthorType.js";
+import {MessageAuthorType} from "../MessageAuthorType.js";
 import {MessageUserLeaveData} from "./MessageUserLeaveData.js";
 import {MessageUserJoinData} from "./MessageUserJoinData.js";
 import {ThrowHelper} from "../../../Common/ThrowHelper.js";
