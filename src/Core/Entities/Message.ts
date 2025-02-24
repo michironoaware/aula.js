@@ -5,15 +5,15 @@ import {Temporal} from "@js-temporal/polyfill";
 
 export class Message
 {
-	readonly #client: RestClient;
+	readonly #restClient: RestClient;
 	readonly #data: MessageData;
 
-	public constructor(client: RestClient, data: MessageData)
+	public constructor(restClient: RestClient, data: MessageData)
 	{
-		ThrowHelper.TypeError.throwIfNotType(client, RestClient);
+		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, MessageData);
 
-		this.#client = client;
+		this.#restClient = restClient;
 		this.#data = data;
 	}
 

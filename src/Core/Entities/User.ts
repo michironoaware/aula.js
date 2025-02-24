@@ -7,15 +7,15 @@ import {Presence} from "./Presence.js";
 
 export class User
 {
-	readonly #client: RestClient;
+	readonly #restClient: RestClient;
 	readonly #data: UserData;
 
-	public constructor(client: RestClient, data: UserData)
+	public constructor(restClient: RestClient, data: UserData)
 	{
-		ThrowHelper.TypeError.throwIfNotType(client, RestClient);
+		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, UserData);
 
-		this.#client = client;
+		this.#restClient = restClient;
 		this.#data = data;
 	}
 

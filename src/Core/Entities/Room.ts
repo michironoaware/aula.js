@@ -5,14 +5,14 @@ import {Temporal} from "@js-temporal/polyfill";
 
 export class Room
 {
-	readonly #client: RestClient;
+	readonly #restClient: RestClient;
 	readonly #data: RoomData;
-	public constructor(client: RestClient, data: RoomData)
+	public constructor(restClient: RestClient, data: RoomData)
 	{
-		ThrowHelper.TypeError.throwIfNotType(client, RestClient);
+		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, RoomData);
 
-		this.#client = client;
+		this.#restClient = restClient;
 		this.#data = data;
 	}
 
