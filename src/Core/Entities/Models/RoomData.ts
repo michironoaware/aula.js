@@ -27,7 +27,7 @@ export class RoomData
 		this.#name = data.name;
 		this.#description = data.description;
 		this.#isEntrance = data.isEntrance;
-		this.#connectedRoomIds = [...data.connectedRoomIds];
+		this.#connectedRoomIds = Object.freeze([...data.connectedRoomIds]);
 		this.#creationTime = data.creationTime;
 	}
 
