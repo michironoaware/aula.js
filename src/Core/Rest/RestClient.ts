@@ -13,7 +13,7 @@ import {User} from "../Entities/User.js";
 import {IGetUsersQuery} from "./IGetUsersQuery.js";
 import {UserData} from "../Entities/Models/UserData.js";
 import {IModifyCurrentUserRequestBody} from "./IModifyCurrentUserRequestBody.js";
-import {StringContent} from "../../Common/Http/StringContent.js";
+import {JsonContent} from "../../Common/Http/JsonContent.js";
 import {UserType} from "../Entities/UserType.js";
 import {ISetUserRoomRequestBody} from "./ISetUserRoomRequestBody.js";
 import {ISetUserPermissionsRequestBody} from "./ISetUserPermissionsRequestBody.js";
@@ -163,11 +163,11 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.user({ route: { userId } }));
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				displayName: body.displayName,
 				description: body.description,
-			} as IModifyCurrentUserRequestBody));
+			} as IModifyCurrentUserRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -182,10 +182,10 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(body.roomId, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.currentUserRoom());
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				roomId: body.roomId,
-			} as ISetUserRoomRequestBody));
+			} as ISetUserRoomRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -200,10 +200,10 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(body.roomId, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userRoom({ route: { userId } }));
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				roomId: body.roomId,
-			} as ISetUserRoomRequestBody));
+			} as ISetUserRoomRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -218,10 +218,10 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(body.permissions, "number");
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userPermissions({ route: { userId } }));
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				permissions: body.permissions,
-			} as ISetUserPermissionsRequestBody));
+			} as ISetUserPermissionsRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -237,12 +237,12 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.rooms());
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				name: body.name,
 				description: body.description,
 				isEntrance: body.isEntrance,
-			} as ICreateRoomRequestBody));
+			} as ICreateRoomRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -302,12 +302,12 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.room({ route: { roomId }}));
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				name: body.name,
 				description: body.description,
 				isEntrance: body.isEntrance,
-			} as IModifyRoomRequestBody));
+			} as IModifyRoomRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -419,13 +419,12 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType((body as ISendUnknownMessageRequestBody).content, "string", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomMessages({ route: { roomId }}));
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				type: body.type,
 				flags: body.flags,
 				content: body.content,
-			} as ISendUnknownMessageRequestBody,
-		));
+			} as ISendUnknownMessageRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -503,13 +502,13 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.register());
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				userName: body.userName,
 				displayName: body.displayName,
 				email: body.email,
 				password: body.password,
-			} as IRegisterRequestBody));
+			} as IRegisterRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -524,11 +523,11 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.logIn());
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				userName: body.userName,
 				password: body.password,
-			} as ILogInRequestBody));
+			} as ILogInRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -577,11 +576,11 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(body.newPassword, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetPassword());
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				code: body.code,
 				newPassword: body.newPassword,
-			} as IResetPasswordRequestBody));
+			} as IResetPasswordRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -596,11 +595,11 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetToken());
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				userName: body.userName,
 				password: body.password,
-			} as ILogInRequestBody));
+			} as ILogInRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -614,10 +613,10 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(body.displayName, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.bots());
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				displayName: body.displayName,
-			} as ICreateBotRequestBody));
+			} as ICreateBotRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -656,10 +655,10 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(body.reason, "string", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userBan({ route: { userId } }));
-		request.content = new StringContent(JSON.stringify(
+		request.content = new JsonContent(
 			{
 				reason: body.reason,
-			} as IBanUserRequestBody));
+			} as IBanUserRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		if (response.statusCode === HttpStatusCode.Conflict)
