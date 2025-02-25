@@ -41,6 +41,7 @@
 	RequestedRangeNotSatisfiable = 416,
 	ExpectationFailed = 417,
 	UpgradeRequired = 426,
+	TooManyRequests = 429,
 	InternalServerError = 500,
 	NotImplemented = 501,
 	BadGateway = 502,
