@@ -12,7 +12,7 @@ export class MessageUserLeaveData
 		ThrowHelper.TypeError.throwIfNotAnyType(data.roomId, "string", "null", "undefined");
 
 		this.#userId = data.userId;
-		this.#roomId = data.roomId;
+		this.#roomId = data.roomId ?? null;
 	}
 
 	public get userId()

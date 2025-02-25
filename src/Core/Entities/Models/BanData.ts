@@ -19,9 +19,9 @@ export class BanData
 		ThrowHelper.TypeError.throwIfNotType(data.creationTime, "string");
 
 		this.#type = data.type;
-		this.#executorId = data.executorId;
-		this.#reason = data.reason;
-		this.#targetId = data.targetId;
+		this.#executorId = data.executorId ?? null;
+		this.#reason = data.reason ?? null;
+		this.#targetId = data.targetId ?? null;
 		this.#creationTime = data.creationTime;
 	}
 

@@ -24,11 +24,11 @@ export class UserData
 
 		this.#id = data.id;
 		this.#displayName = data.displayName;
-		this.#description = data.description;
+		this.#description = data.description ?? null;
 		this.#type = data.type;
 		this.#presence = data.presence;
 		this.#permissions = data.permissions;
-		this.#currentRoomId = data.currentRoomId;
+		this.#currentRoomId = data.currentRoomId ?? null;
 	}
 
 	public get id()

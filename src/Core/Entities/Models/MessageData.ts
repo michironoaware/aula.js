@@ -36,9 +36,9 @@ export class MessageData
 		this.#type = data.type;
 		this.#flags = data.flags;
 		this.#authorType = data.authorType;
-		this.#authorId = data.authorId;
+		this.#authorId = data.authorId ?? null;
 		this.#roomId = data.roomId;
-		this.#content = data.content;
+		this.#content = data.content ?? null;
 		this.#joinData = TypeHelper.isType(data.joinData, "object") ? new MessageUserJoinData(data.joinData) : null;
 		this.#leaveData = TypeHelper.isType(data.leaveData, "object") ? new MessageUserLeaveData(data.leaveData) : null;
 		this.#creationTime = data.creationTime;
