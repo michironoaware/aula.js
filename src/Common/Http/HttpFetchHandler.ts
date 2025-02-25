@@ -19,7 +19,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 			} as RequestInit);
 
 		const status = received.status as HttpStatusCode;
-		const content = received.body ? new StreamContent(received.body) : EmptyContent.instance;
+		const content = received.body ? new StreamContent(received.body) : new EmptyContent();
 		const headers = new Map<string, string>(received.headers);
 		return new HttpResponseMessage(status, content, headers);
 	}

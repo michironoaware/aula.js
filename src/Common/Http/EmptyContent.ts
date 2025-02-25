@@ -2,7 +2,6 @@
 
 export class EmptyContent extends HttpContent
 {
-	static readonly #instance = new EmptyContent();
 	static #emptyStream: ReadableStream<Uint8Array> = new ReadableStream(
 		{
 			start(controller)
@@ -12,12 +11,8 @@ export class EmptyContent extends HttpContent
 			}
 		});
 
-	public static get instance()
-	{
-		return EmptyContent.#instance;
-	}
 
-	private constructor()
+	public constructor()
 	{
 		super();
 	}
