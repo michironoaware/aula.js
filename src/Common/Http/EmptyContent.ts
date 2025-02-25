@@ -1,4 +1,5 @@
 ﻿import {HttpContent} from "./HttpContent.js";
+import {HeaderMap} from "./HeaderMap.js";
 
 export class EmptyContent extends HttpContent
 {
@@ -10,11 +11,16 @@ export class EmptyContent extends HttpContent
 				controller.close();
 			}
 		});
-
+	readonly #headers: HeaderMap = new HeaderMap();
 
 	public constructor()
 	{
 		super();
+	}
+
+	public get headers()
+	{
+		return this.#headers;
 	}
 
 	public get stream(): ReadableStream<Uint8Array<ArrayBufferLike>>
