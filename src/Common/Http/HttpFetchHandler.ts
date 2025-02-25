@@ -14,8 +14,9 @@ export class HttpFetchHandler extends HttpMessageHandler
 			{
 				method: HttpMethod[message.method],
 				headers: Array.from(message.headers),
-				body: message.content?.stream
-			});
+				body: message.content?.stream,
+				duplex: "half"
+			} as RequestInit);
 
 		const status = received.status as HttpStatusCode;
 		const content = received.body ? new StreamContent(received.body) : EmptyContent.instance;
