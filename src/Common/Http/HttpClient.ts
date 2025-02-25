@@ -70,6 +70,16 @@ export class HttpClient
 			message.requestUri = requestUri;
 		}
 
+		message.content?.headers.forEach((value, name) =>
+		{
+			if (message.headers.has(name))
+			{
+				message.headers.delete(name);
+			}
+
+			message.headers.append(name, value);
+		});
+
 		this.#defaultRequestHeaders.forEach((value, name) =>
 		{
 			if (!message.headers.has(name))
