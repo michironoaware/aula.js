@@ -32,5 +32,4 @@ export class StringContent extends HttpContent
 	{
 		return Promise.resolve(this.#string);
 	}
-
 }
