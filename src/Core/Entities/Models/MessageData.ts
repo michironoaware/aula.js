@@ -5,6 +5,7 @@ import {MessageUserLeaveData} from "./MessageUserLeaveData.js";
 import {MessageUserJoinData} from "./MessageUserJoinData.js";
 import {ThrowHelper} from "../../../Common/ThrowHelper.js";
 import {Temporal} from "@js-temporal/polyfill";
+import {TypeHelper} from "../../../Common/TypeHelper.js";
 
 export class MessageData
 {
@@ -38,8 +39,8 @@ export class MessageData
 		this.#authorId = data.authorId;
 		this.#roomId = data.roomId;
 		this.#content = data.content;
-		this.#joinData = new MessageUserJoinData(data.joinData);
-		this.#leaveData = new MessageUserLeaveData(data.leaveData);
+		this.#joinData = TypeHelper.isType(data.joinData, "object") ? new MessageUserJoinData(data.joinData) : null;
+		this.#leaveData = TypeHelper.isType(data.leaveData, "object") ? new MessageUserLeaveData(data.leaveData) : null;
 		this.#creationTime = data.creationTime;
 	}
 
