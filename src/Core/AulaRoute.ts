@@ -44,22 +44,22 @@
 
 	export function room(args: { route: { roomId: string } })
 	{
-		return `rooms${args.route.roomId}`;
+		return `rooms/${args.route.roomId}`;
 	}
 
 	export function roomConnections(args: { route: { roomId: string } })
 	{
-		return `rooms${args.route.roomId}/connections`;
+		return `rooms/${args.route.roomId}/connections`;
 	}
 
 	export function roomConnection(args: { route: { roomId: string, targetId: string } })
 	{
-		return `rooms${args.route.roomId}/connections/${args.route.targetId}`;
+		return `rooms/${args.route.roomId}/connections/${args.route.targetId}`;
 	}
 
 	export function roomUsers(args: { route: { roomId: string } })
 	{
-		return `rooms${args.route.roomId}/users`;
+		return `rooms/${args.route.roomId}/users`;
 	}
 
 	export function startTyping(args: { route: { roomId: string } })
