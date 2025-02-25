@@ -87,7 +87,7 @@ export class HttpClient
                 message.headers.append(name, value);
             }
 		});
-		
+
 		const response = await this.#handler.send(message);
 
 		message.dispose();
