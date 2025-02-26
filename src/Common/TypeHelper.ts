@@ -10,7 +10,7 @@
 		const isPropertyOf = typeof type === "object" && type[object as any];
 
 		// Check if the object is an instance of the specified class
-		const isInstanceOf = typeof type !== "string" && typeof type !== "object" && object instanceof type;
+		const isInstanceOf = typeof type === "function" && object instanceof type;
 
 		return isTypeOf || isInstanceOf || isPropertyOf;
 	}
