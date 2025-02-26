@@ -9,9 +9,9 @@ export class StringContent extends HttpContent
 
 	public constructor(stringValue: string, contentType: string = "text/plain")
 	{
+		super();
 		ThrowHelper.TypeError.throwIfNotType(stringValue, "string");
 		ThrowHelper.TypeError.throwIfNotType(contentType, "string");
-		super();
 
 		this.#string = stringValue;
 		this.#headers = new HeaderMap();

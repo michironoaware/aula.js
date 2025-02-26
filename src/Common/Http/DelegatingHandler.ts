@@ -8,9 +8,9 @@ export abstract class DelegatingHandler extends HttpMessageHandler
 
 	protected constructor(innerHandler: HttpMessageHandler)
 	{
-		ThrowHelper.TypeError.throwIfNotType(innerHandler, HttpMessageHandler);
 		super();
-		
+		ThrowHelper.TypeError.throwIfNotType(innerHandler, HttpMessageHandler);
+
 		this.#innerHandler = innerHandler;
 	}
 
