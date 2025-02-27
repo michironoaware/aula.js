@@ -60,6 +60,8 @@ export class HttpRequestMessage implements IDisposable
 	public set requestUri(value: URL | string)
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
+		ThrowHelper.TypeError.throwIfNotAnyType(value, URL, "string");
+
 		this.#requestUri = value;
 	}
 
