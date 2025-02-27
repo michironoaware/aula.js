@@ -2,11 +2,13 @@
 import {ThrowHelper} from "../ThrowHelper.js";
 import {HeaderMap} from "./HeaderMap.js";
 import {SealedClassError} from "../SealedClassError.js";
+import {ObjectDisposedError} from "../ObjectDisposedError.js";
 
 export class StreamContent extends HttpContent
 {
 	readonly #stream: ReadableStream<Uint8Array>;
 	readonly #headers: HeaderMap;
+	#disposed: boolean = false;
 
 	public constructor(stream: ReadableStream<Uint8Array>, contentType = "application/octet-stream")
 	{
@@ -22,16 +24,19 @@ export class StreamContent extends HttpContent
 
 	public get headers()
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		return this.#headers;
 	}
 
 	public get stream(): ReadableStream<Uint8Array>
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		return this.#stream;
 	}
 
 	public async readAsString(): Promise<string>
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		const reader = this.#stream.getReader();
 		const decoder = new TextDecoder();
 
@@ -50,4 +55,8 @@ export class StreamContent extends HttpContent
 		return result;
 	}
 
+	public dispose()
+	{
+		this.#disposed = true;
+	}
 }

@@ -2,11 +2,13 @@
 import {ThrowHelper} from "../ThrowHelper.js";
 import {HeaderMap} from "./HeaderMap.js";
 import {SealedClassError} from "../SealedClassError.js";
+import {ObjectDisposedError} from "../ObjectDisposedError.js";
 
 export class JsonContent extends HttpContent
 {
 	readonly #headers: HeaderMap;
 	readonly #string: string;
+	#disposed: boolean = false;
 
 	public constructor(value: unknown)
 	{
@@ -20,16 +22,24 @@ export class JsonContent extends HttpContent
 
 	public get headers()
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		return this.#headers;
 	}
 
 	public get stream(): ReadableStream<Uint8Array>
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		return new Blob([this.#string]).stream();
 	}
 
 	public readAsString(): Promise<string>
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		return Promise.resolve(this.#string);
+	}
+
+	public dispose()
+	{
+		this.#disposed = true;
 	}
 }
