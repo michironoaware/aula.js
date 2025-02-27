@@ -1,4 +1,6 @@
-﻿export class AulaError extends Error
+﻿import {ThrowHelper} from "../Common/ThrowHelper.js";
+
+export class AulaError extends Error
 {
 	readonly #content: string | null;
 
@@ -7,6 +9,8 @@
 		content: string | null)
 	{
 		super(message);
+		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
+
 		this.#content = content;
 	}
 
