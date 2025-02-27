@@ -2,6 +2,7 @@
 import {RoomData} from "./Models/RoomData.js";
 import {ThrowHelper} from "../../Common/ThrowHelper.js";
 import {Temporal} from "@js-temporal/polyfill";
+import {SealedClassError} from "../../Common/SealedClassError.js";
 
 export class Room
 {
@@ -9,6 +10,7 @@ export class Room
 	readonly #data: RoomData;
 	public constructor(restClient: RestClient, data: RoomData)
 	{
+		SealedClassError.throwIfNotEqual(Room, new.target);
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, RoomData);
 

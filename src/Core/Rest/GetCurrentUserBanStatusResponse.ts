@@ -1,4 +1,5 @@
 ﻿import {ThrowHelper} from "../../Common/ThrowHelper.js";
+import {SealedClassError} from "../../Common/SealedClassError.js";
 
 export class GetCurrentUserBanStatusResponse
 {
@@ -6,6 +7,7 @@ export class GetCurrentUserBanStatusResponse
 
 	constructor(data: any)
 	{
+		SealedClassError.throwIfNotEqual(GetCurrentUserBanStatusResponse, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.banned, "boolean");
 

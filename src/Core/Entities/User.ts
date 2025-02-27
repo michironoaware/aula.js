@@ -4,6 +4,7 @@ import {UserData} from "./Models/UserData.js";
 import {UserType} from "./UserType.js";
 import {Permissions} from "./Permissions.js";
 import {Presence} from "./Presence.js";
+import {SealedClassError} from "../../Common/SealedClassError.js";
 
 export class User
 {
@@ -12,6 +13,7 @@ export class User
 
 	public constructor(restClient: RestClient, data: UserData)
 	{
+		SealedClassError.throwIfNotEqual(User, new.target);
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, UserData);
 

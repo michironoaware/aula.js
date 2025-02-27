@@ -6,6 +6,7 @@ import {MessageUserJoinData} from "./MessageUserJoinData.js";
 import {ThrowHelper} from "../../../Common/ThrowHelper.js";
 import {Temporal} from "@js-temporal/polyfill";
 import {TypeHelper} from "../../../Common/TypeHelper.js";
+import {SealedClassError} from "../../../Common/SealedClassError.js";
 
 export class MessageData
 {
@@ -22,6 +23,7 @@ export class MessageData
 
 	public constructor(data: any)
 	{
+		SealedClassError.throwIfNotEqual(MessageData, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");

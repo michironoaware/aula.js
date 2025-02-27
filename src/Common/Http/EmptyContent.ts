@@ -1,5 +1,6 @@
 ﻿import {HttpContent} from "./HttpContent.js";
 import {HeaderMap} from "./HeaderMap.js";
+import {SealedClassError} from "../SealedClassError.js";
 
 export class EmptyContent extends HttpContent
 {
@@ -16,6 +17,7 @@ export class EmptyContent extends HttpContent
 	public constructor()
 	{
 		super();
+		SealedClassError.throwIfNotEqual(EmptyContent, new.target);
 	}
 
 	public get headers()

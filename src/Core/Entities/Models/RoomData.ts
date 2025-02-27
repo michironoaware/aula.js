@@ -1,4 +1,5 @@
 ﻿import {ThrowHelper} from "../../../Common/ThrowHelper.js";
+import {SealedClassError} from "../../../Common/SealedClassError.js";
 
 export class RoomData
 {
@@ -11,6 +12,7 @@ export class RoomData
 
 	public constructor(data: any)
 	{
+		SealedClassError.throwIfNotEqual(RoomData, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.name, "string");

@@ -1,4 +1,5 @@
 ﻿import {ThrowHelper} from "../../Common/ThrowHelper.js";
+import {SealedClassError} from "../../Common/SealedClassError.js";
 
 export class ResetBotTokenResponse
 {
@@ -6,6 +7,7 @@ export class ResetBotTokenResponse
 
 	public constructor(data: any)
 	{
+		SealedClassError.throwIfNotEqual(ResetBotTokenResponse, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
 

@@ -4,6 +4,7 @@ import {ThrowHelper} from "../ThrowHelper.js";
 import {HeaderMap} from "./HeaderMap.js";
 import {IDisposable} from "../IDisposable.js";
 import {ObjectDisposedError} from "../ObjectDisposedError.js";
+import {SealedClassError} from "../SealedClassError.js";
 
 export class HttpRequestMessage implements IDisposable
 {
@@ -15,6 +16,7 @@ export class HttpRequestMessage implements IDisposable
 
 	public constructor(method: HttpMethod, requestUri: URL | string)
 	{
+		SealedClassError.throwIfNotEqual(HttpRequestMessage, new.target);
 		ThrowHelper.TypeError.throwIfNotType(method, HttpMethod);
 		ThrowHelper.TypeError.throwIfNotAnyType(requestUri, URL, "string");
 

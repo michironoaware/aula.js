@@ -2,6 +2,7 @@ import {UserType} from "../UserType.js";
 import {Presence} from "../Presence.js";
 import {Permissions} from "../Permissions.js";
 import {ThrowHelper} from "../../../Common/ThrowHelper.js";
+import {SealedClassError} from "../../../Common/SealedClassError.js";
 
 export class UserData
 {
@@ -15,6 +16,7 @@ export class UserData
 
 	public constructor(data: any)
 	{
+		SealedClassError.throwIfNotEqual(UserData, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.displayName, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.description, "string", "null", "undefined");

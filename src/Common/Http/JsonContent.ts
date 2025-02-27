@@ -1,6 +1,7 @@
 ﻿import {HttpContent} from "./HttpContent.js";
 import {ThrowHelper} from "../ThrowHelper.js";
 import {HeaderMap} from "./HeaderMap.js";
+import {SealedClassError} from "../SealedClassError.js";
 
 export class JsonContent extends HttpContent
 {
@@ -10,6 +11,7 @@ export class JsonContent extends HttpContent
 	public constructor(value: unknown)
 	{
 		super();
+		SealedClassError.throwIfNotEqual(JsonContent, new.target);
 
 		this.#string = JSON.stringify(value);
 		this.#headers = new HeaderMap();

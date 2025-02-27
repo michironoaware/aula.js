@@ -1,6 +1,7 @@
 ﻿import {HttpContent} from "./HttpContent.js";
 import {ThrowHelper} from "../ThrowHelper.js";
 import {HeaderMap} from "./HeaderMap.js";
+import {SealedClassError} from "../SealedClassError.js";
 
 export class StreamContent extends HttpContent
 {
@@ -10,6 +11,7 @@ export class StreamContent extends HttpContent
 	public constructor(stream: ReadableStream<Uint8Array>, contentType = "application/octet-stream")
 	{
 		super();
+		SealedClassError.throwIfNotEqual(StreamContent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(stream, ReadableStream<Uint8Array>);
 
 		this.#stream = stream;

@@ -1,9 +1,13 @@
+import {SealedClassError} from "../SealedClassError.js";
+
 export class ReadonlyMapWrapper<K, V> implements ReadonlyMap<K, V>
 {
 	readonly #underlyingMap: ReadonlyMap<K, V>;
 
 	public constructor(underlyingMap: ReadonlyMap<K, V>)
 	{
+		SealedClassError.throwIfNotEqual(ReadonlyMapWrapper, new.target);
+
 		this.#underlyingMap = underlyingMap;
 	}
 

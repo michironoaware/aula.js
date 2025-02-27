@@ -2,6 +2,7 @@
 import {ThrowHelper} from "../../Common/ThrowHelper.js";
 import {MessageData} from "./Models/MessageData.js";
 import {Temporal} from "@js-temporal/polyfill";
+import {SealedClassError} from "../../Common/SealedClassError.js";
 
 export class Message
 {
@@ -10,6 +11,7 @@ export class Message
 
 	public constructor(restClient: RestClient, data: MessageData)
 	{
+		SealedClassError.throwIfNotEqual(Message, new.target);
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, MessageData);
 

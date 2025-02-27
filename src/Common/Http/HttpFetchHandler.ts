@@ -5,9 +5,16 @@ import { HttpRequestMessage } from "./HttpRequestMessage.js";
 import { HttpResponseMessage } from "./HttpResponseMessage.js";
 import { HttpStatusCode } from "./HttpStatusCode.js";
 import { StreamContent } from "./StreamContent.js";
+import {SealedClassError} from "../SealedClassError.js";
 
 export class HttpFetchHandler extends HttpMessageHandler
 {
+	constructor()
+	{
+		super();
+		SealedClassError.throwIfNotEqual(HttpFetchHandler, new.target);
+	}
+
 	public async send(message: HttpRequestMessage): Promise<HttpResponseMessage>
 	{
 		const received = await fetch(message.requestUri,

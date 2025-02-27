@@ -2,6 +2,7 @@
 import {BanData} from "./Models/BanData.js";
 import {ThrowHelper} from "../../Common/ThrowHelper.js";
 import {Temporal} from "@js-temporal/polyfill";
+import {SealedClassError} from "../../Common/SealedClassError.js";
 
 export class Ban
 {
@@ -10,6 +11,7 @@ export class Ban
 
 	public constructor(restClient: RestClient, data: BanData)
 	{
+		SealedClassError.throwIfNotEqual(Ban, new.target);
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, BanData);
 

@@ -1,5 +1,6 @@
 ﻿import {BanType} from "./BanType.js";
 import {ThrowHelper} from "../../../Common/ThrowHelper.js";
+import {SealedClassError} from "../../../Common/SealedClassError.js";
 
 export class BanData
 {
@@ -11,6 +12,7 @@ export class BanData
 
 	public constructor(data: any)
 	{
+		SealedClassError.throwIfNotEqual(BanData, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.executorId, "string", "null", "undefined");

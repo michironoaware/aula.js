@@ -1,4 +1,5 @@
 ﻿import {ThrowHelper} from "../../../Common/ThrowHelper.js";
+import {SealedClassError} from "../../../Common/SealedClassError.js";
 
 export class MessageUserJoinData
 {
@@ -6,6 +7,7 @@ export class MessageUserJoinData
 
 	public constructor(data: any)
 	{
+		SealedClassError.throwIfNotEqual(MessageUserJoinData, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
 

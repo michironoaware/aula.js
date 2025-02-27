@@ -5,6 +5,7 @@ import { HttpMessageHandler } from "./HttpMessageHandler.js";
 import { HttpFetchHandler } from "./HttpFetchHandler.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { InvalidOperationError } from "../InvalidOperationError.js";
+import {SealedClassError} from "../SealedClassError.js";
 
 export class HttpClient
 {
@@ -14,6 +15,7 @@ export class HttpClient
 
 	public constructor(options: { handler?: HttpMessageHandler; } = {})
 	{
+		SealedClassError.throwIfNotEqual(HttpClient, new.target);
 		ThrowHelper.TypeError.throwIfNotType(options, "object");
 		ThrowHelper.TypeError.throwIfNotAnyType(options.handler, HttpMessageHandler, "undefined");
 

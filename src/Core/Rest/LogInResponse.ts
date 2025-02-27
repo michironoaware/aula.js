@@ -1,4 +1,5 @@
 ﻿import {ThrowHelper} from "../../Common/ThrowHelper.js";
+import {SealedClassError} from "../../Common/SealedClassError.js";
 
 export class LogInResponse
 {
@@ -6,6 +7,7 @@ export class LogInResponse
 
 	public constructor(data: any)
 	{
+		SealedClassError.throwIfNotEqual(LogInResponse, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
 

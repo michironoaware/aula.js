@@ -1,8 +1,14 @@
 ﻿import {ThrowHelper} from "../ThrowHelper.js";
+import {SealedClassError} from "../SealedClassError.js";
 
 export class HeaderMap implements ReadonlyMap<string, string>
 {
 	readonly #underlyingMap: Map<string, string> = new Map<string, string>();
+
+	public constructor()
+	{
+		SealedClassError.throwIfNotEqual(HeaderMap, new.target);
+	}
 
 	public get size()
 	{

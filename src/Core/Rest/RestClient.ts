@@ -42,6 +42,7 @@ import {IBanUserRequestBody} from "./IBanUserRequestBody.js";
 import {BanData} from "../Entities/Models/BanData.js";
 import {Ban} from "../Entities/Ban.js";
 import {GetCurrentUserBanStatusResponse} from "./GetCurrentUserBanStatusResponse.js";
+import {SealedClassError} from "../../Common/SealedClassError.js";
 
 export class RestClient
 {
@@ -49,6 +50,7 @@ export class RestClient
 
 	public constructor(httpClient: HttpClient = new HttpClient())
 	{
+		SealedClassError.throwIfNotEqual(RestClient, new.target);
 		ThrowHelper.TypeError.throwIfNotType(httpClient, HttpClient);
 
 		this.#httpClient = httpClient;

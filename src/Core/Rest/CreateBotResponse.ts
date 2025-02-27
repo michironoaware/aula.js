@@ -2,6 +2,7 @@
 import {ThrowHelper} from "../../Common/ThrowHelper.js";
 import {RestClient} from "./RestClient.js";
 import {UserData} from "../Entities/Models/UserData.js";
+import {SealedClassError} from "../../Common/SealedClassError.js";
 
 export class CreateBotResponse
 {
@@ -10,6 +11,7 @@ export class CreateBotResponse
 
 	public constructor(data: any, restClient: RestClient)
 	{
+		SealedClassError.throwIfNotEqual(CreateBotResponse, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.user, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
