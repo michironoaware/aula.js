@@ -77,8 +77,8 @@ export class HttpRequestMessage implements IDisposable
 
 	public set content(value: HttpContent | null)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(value, HttpContent, "null");
 		ObjectDisposedError.throwIf(this.#disposed);
+		ThrowHelper.TypeError.throwIfNotAnyType(value, HttpContent, "null");
 
 		this.#content = value;
 	}
