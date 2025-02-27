@@ -5,7 +5,7 @@ export class AulaBadRequestError extends AulaError
 {
 	public constructor(content: string | null)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
 		super(`The request was improperly formatted, or the server couldn't understand it.`, content);
+		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
 	}
 }
