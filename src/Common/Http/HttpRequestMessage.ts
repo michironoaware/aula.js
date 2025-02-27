@@ -8,8 +8,8 @@ import {SealedClassError} from "../SealedClassError.js";
 
 export class HttpRequestMessage implements IDisposable
 {
-	readonly #method: HttpMethod;
 	readonly #headers: HeaderMap;
+	#method: HttpMethod;
 	#requestUri: URL | string;
 	#content: HttpContent | null;
 	#disposed: boolean = false;
@@ -41,6 +41,14 @@ export class HttpRequestMessage implements IDisposable
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
 		return this.#method;
+	}
+
+	public set method(value: HttpMethod)
+	{
+		ObjectDisposedError.throwIf(this.#disposed);
+		ThrowHelper.TypeError.throwIfNotType(value, HttpMethod);
+
+		this.#method = value;
 	}
 
 	public get requestUri()
