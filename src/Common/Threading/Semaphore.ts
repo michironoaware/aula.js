@@ -1,6 +1,6 @@
 ﻿import {ThrowHelper} from "../ThrowHelper.js";
 import {InvalidOperationError} from "../InvalidOperationError.js";
-import {ValueOutOfRangeError} from "../../ValueOutOfRangeError.js";
+import {ValueOutOfRangeError} from "../ValueOutOfRangeError.js";
 import {SemaphoreFullError} from "./SemaphoreFullError.js";
 import {Action} from "../Action.js";
 import {SealedClassError} from "../SealedClassError.js";

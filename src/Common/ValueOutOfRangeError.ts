@@ -1,5 +1,5 @@
-﻿import {SealedClassError} from "./Common/SealedClassError.js";
-import {ThrowHelper} from "./Common/ThrowHelper.js";
+﻿import {SealedClassError} from "./SealedClassError.js";
+import {ThrowHelper} from "./ThrowHelper.js";
 
 export class ValueOutOfRangeError extends Error
 {
