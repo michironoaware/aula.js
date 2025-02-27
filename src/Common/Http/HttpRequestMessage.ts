@@ -28,6 +28,12 @@ export class HttpRequestMessage implements IDisposable
 
 	public dispose()
 	{
+		if (this.#disposed)
+		{
+			return;
+		}
+
+		this.content?.dispose();
 		this.#disposed = true;
     }
 
