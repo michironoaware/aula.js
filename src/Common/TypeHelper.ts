@@ -7,7 +7,7 @@
 
 		// For checking whether an enum value is inside the defined range
 		// Doesn't work with flag enums
-		const isPropertyOf = typeof type === "object" && type[object as any];
+		const isPropertyOf = typeof type === "object" && !!type[object as any];
 
 		// Check if the object is an instance of the specified class
 		const isInstanceOf = typeof type === "function" && object instanceof type;
