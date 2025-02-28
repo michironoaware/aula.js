@@ -9,10 +9,32 @@
 		// Doesn't work with flag enums
 		const isPropertyOf = typeof type === "object" && !!type[object as any];
 
+		// For checking whether an enum flag is inside the defined range
+		let isEnumFlagOf = isPropertyOf;
+		if (!isEnumFlagOf && typeof type === "object" && typeof object === "number")
+		{
+			let valuesSum = 0;
+			for (const property in type)
+			{
+				const value = type[property];
+				if (typeof value !== "number")
+				{
+					continue;
+				}
+
+				valuesSum += value;
+			}
+
+			if (valuesSum >= object)
+			{
+				isEnumFlagOf = true;
+			}
+		}
+
 		// Check if the object is an instance of the specified class
 		const isInstanceOf = typeof type === "function" && object instanceof type;
 
-		return isTypeOf || isInstanceOf || isPropertyOf;
+		return isTypeOf || isInstanceOf || isPropertyOf || isEnumFlagOf;
 	}
 
 	export function isAnyType(object: unknown, ...types: any[]): boolean
