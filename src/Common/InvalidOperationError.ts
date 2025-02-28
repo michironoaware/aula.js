@@ -1,4 +1,5 @@
 import {SealedClassError} from "./SealedClassError.js";
+import {ThrowHelper} from "./ThrowHelper.js";
 
 export class InvalidOperationError extends Error
 {
@@ -6,5 +7,6 @@ export class InvalidOperationError extends Error
 	{
 		super(message);
 		SealedClassError.throwIfNotEqual(InvalidOperationError, new.target);
+		ThrowHelper.TypeError.throwIfNotType(message, "string");
 	}
 }

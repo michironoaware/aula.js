@@ -7,6 +7,7 @@ export class ValueOutOfRangeError extends Error
 	{
 		super(`Parameter name: "${paramName}".` + message ? ` ${message}` : "");
 		SealedClassError.throwIfNotEqual(ValueOutOfRangeError, new.target);
+		ThrowHelper.TypeError.throwIfNotType(message, "string");
 		ThrowHelper.TypeError.throwIfNotType(paramName, "string");
 	}
 

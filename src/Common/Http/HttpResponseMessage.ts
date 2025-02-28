@@ -3,6 +3,7 @@ import {HttpContent} from "./HttpContent.js";
 import {ReadonlyMapWrapper} from "../Collections/ReadonlyMapWrapper.js";
 import {HttpRequestError} from "./HttpRequestError.js";
 import {SealedClassError} from "../SealedClassError.js";
+import {ThrowHelper} from "../ThrowHelper.js";
 
 export class HttpResponseMessage
 {
@@ -13,6 +14,9 @@ export class HttpResponseMessage
 	public constructor(statusCode: HttpStatusCode, content: HttpContent, headers: ReadonlyMap<string, string>)
 	{
 		SealedClassError.throwIfNotEqual(HttpResponseMessage, new.target);
+		ThrowHelper.TypeError.throwIfNotType(statusCode, "number");
+		ThrowHelper.TypeError.throwIfNotType(content, HttpContent);
+		ThrowHelper.TypeError.throwIfNotType(headers, "object");
 
 		this.#statusCode = statusCode;
 		this.#content = content;

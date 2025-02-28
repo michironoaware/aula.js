@@ -1,4 +1,5 @@
 import {SealedClassError} from "../SealedClassError.js";
+import {ThrowHelper} from "../ThrowHelper.js";
 
 export class ReadonlyMapWrapper<K, V> implements ReadonlyMap<K, V>
 {
@@ -7,6 +8,7 @@ export class ReadonlyMapWrapper<K, V> implements ReadonlyMap<K, V>
 	public constructor(underlyingMap: ReadonlyMap<K, V>)
 	{
 		SealedClassError.throwIfNotEqual(ReadonlyMapWrapper, new.target);
+		ThrowHelper.TypeError.throwIfNotType(underlyingMap, "object");
 
 		this.#underlyingMap = underlyingMap;
 	}

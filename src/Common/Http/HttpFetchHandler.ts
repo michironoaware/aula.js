@@ -6,6 +6,7 @@ import { HttpResponseMessage } from "./HttpResponseMessage.js";
 import { HttpStatusCode } from "./HttpStatusCode.js";
 import { StreamContent } from "./StreamContent.js";
 import {SealedClassError} from "../SealedClassError.js";
+import {ThrowHelper} from "../ThrowHelper.js";
 
 export class HttpFetchHandler extends HttpMessageHandler
 {
@@ -17,6 +18,8 @@ export class HttpFetchHandler extends HttpMessageHandler
 
 	public async send(message: HttpRequestMessage): Promise<HttpResponseMessage>
 	{
+		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
+
 		const received = await fetch(message.requestUri,
 			{
 				method: HttpMethod[message.method],

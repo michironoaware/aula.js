@@ -15,6 +15,7 @@ export class StreamContent extends HttpContent
 		super();
 		SealedClassError.throwIfNotEqual(StreamContent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(stream, ReadableStream<Uint8Array>);
+		ThrowHelper.TypeError.throwIfNotType(contentType, "string");
 
 		this.#stream = stream;
 

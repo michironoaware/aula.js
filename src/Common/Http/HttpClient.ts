@@ -45,6 +45,8 @@ export class HttpClient
 	
 	public async send(message: HttpRequestMessage): Promise<HttpResponseMessage>
 	{
+		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
+
 		if (!(message.requestUri instanceof URL))
 		{
 			let requestUri : URL;
