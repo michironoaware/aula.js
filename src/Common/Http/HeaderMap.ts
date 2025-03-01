@@ -22,7 +22,7 @@ export class HeaderMap implements ReadonlyMap<string, string>
 
 	public get(key: string)
 	{
-		return this.#underlyingMap.get(key);
+		return this.#underlyingMap.get(key.toLowerCase());
 	}
 
 	public has(key: string)
@@ -55,9 +55,9 @@ export class HeaderMap implements ReadonlyMap<string, string>
 		ThrowHelper.TypeError.throwIfNotType(name, "string");
 		ThrowHelper.TypeError.throwIfNotType(value, "string");
 
-		let currentValue = this.#underlyingMap.get(name);
+		let currentValue = this.#underlyingMap.get(name.toLowerCase());
 		let newValue = currentValue ? currentValue += `,${value}` : value;
-		this.#underlyingMap.set(name, newValue);
+		this.#underlyingMap.set(name.toLowerCase(), newValue);
 	}
 
 	public delete(name: string)
