@@ -3,11 +3,14 @@ import {SealedClassError} from "../SealedClassError.js";
 
 export class HeaderMap implements ReadonlyMap<string, string>
 {
-	readonly #underlyingMap: Map<string, string> = new Map<string, string>();
+	readonly #underlyingMap: Map<string, string>;
 
-	public constructor()
+	public constructor(headers?: ReadonlyMap<string, string> | Headers)
 	{
 		SealedClassError.throwIfNotEqual(HeaderMap, new.target);
+		ThrowHelper.TypeError.throwIfNotAnyType(headers, "object", "undefined");
+
+		this.#underlyingMap = new Map(headers);
 	}
 
 	public get size()
