@@ -4,12 +4,15 @@ import {ValueOutOfRangeError} from "../ValueOutOfRangeError.js";
 import {SemaphoreFullError} from "./SemaphoreFullError.js";
 import {Action} from "../Action.js";
 import {SealedClassError} from "../SealedClassError.js";
+import {IDisposable} from "../IDisposable.js";
+import {ObjectDisposedError} from "../ObjectDisposedError.js";
 
-export class Semaphore {
-
+export class Semaphore implements IDisposable
+{
 	readonly #queue: Action<[]>[] = [];
 	readonly #maximumCount: number;
 	#availableCount: number;
+	#disposed: boolean = false;
 
 	constructor(initialCount: number = 0, maximumCount: number = 1)
 	{
@@ -26,10 +29,16 @@ export class Semaphore {
 
 	public async waitOne()
 	{
-		return new Promise<void>(resolve =>
+		ObjectDisposedError.throwIf(this.#disposed);
+		return new Promise<void>((resolve, reject) =>
 		{
 			const tryGetLock = () =>
 			{
+				if (this.#disposed)
+				{
+					throw new ObjectDisposedError();
+				}
+
 				if(this.#availableCount > 0)
 				{
 					this.#availableCount--;
@@ -47,6 +56,7 @@ export class Semaphore {
 
 	public release(releaseCount: number = 1)
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		ThrowHelper.TypeError.throwIfNotType(releaseCount, "number");
 		ValueOutOfRangeError.throwIfLessThan(releaseCount, 1);
 
@@ -60,5 +70,20 @@ export class Semaphore {
 			this.#availableCount += 1;
 			this.#queue.shift()?.();
 		}
+	}
+
+	public dispose()
+	{
+		if (this.#disposed)
+		{
+			return;
+		}
+
+		for (const tryGetLock of this.#queue)
+		{
+			tryGetLock();
+		}
+
+		this.#disposed = true;
 	}
 }
