@@ -3,7 +3,7 @@ import {Semaphore} from "./Semaphore.js";
 import {ThrowHelper} from "../ThrowHelper.js";
 import {Action} from "../Action.js";
 
-export class EventEmitter<TEventMap extends { [key: string]: Action<[...any[]]> }>
+export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...any[]]>>>
 {
 	readonly #listeners: Map<keyof TEventMap, TEventMap[keyof TEventMap][]> = new Map();
 	readonly #operateOverListenersSemaphore: Semaphore = new Semaphore(1, 1);
