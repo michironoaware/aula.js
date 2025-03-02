@@ -6,6 +6,7 @@ import {HttpStatusCode} from "../../Common/Http/HttpStatusCode.js";
 import {AulaUnauthorizedError} from "./AulaUnauthorizedError.js";
 import {AulaForbiddenError} from "./AulaForbiddenError.js";
 import {AulaBadRequestError} from "./AulaBadRequestError.js";
+import {AulaNotFoundError} from "./AulaNotFoundError.js";
 import {HttpMethod} from "../../Common/Http/HttpMethod.js";
 import {HttpRequestMessage} from "../../Common/Http/HttpRequestMessage.js";
 import {AulaRoute} from "../AulaRoute.js";
@@ -86,6 +87,8 @@ export class RestClient
 					throw new AulaForbiddenError(content, error);
 				case HttpStatusCode.BadRequest:
 					throw new AulaBadRequestError(content, error);
+				case HttpStatusCode.NotFound:
+					throw new AulaNotFoundError(content, error);
 				default:
 					throw error;
 			}
