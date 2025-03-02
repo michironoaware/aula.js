@@ -50,7 +50,7 @@ export class RestClient
 {
 	readonly #httpClient: HttpClient;
 
-	public constructor(options: { httpClient?: HttpClient })
+	public constructor(options: { httpClient?: HttpClient } = {})
 	{
 		SealedClassError.throwIfNotEqual(RestClient, new.target);
 		ThrowHelper.TypeError.throwIfNotType(options, "object");
