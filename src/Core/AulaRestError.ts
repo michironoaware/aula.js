@@ -1,6 +1,6 @@
 ﻿import {ThrowHelper} from "../Common/ThrowHelper.js";
 
-export class AulaError extends Error
+export class AulaRestError extends Error
 {
 	readonly #content: string | null;
 

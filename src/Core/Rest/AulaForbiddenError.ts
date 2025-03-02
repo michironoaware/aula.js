@@ -1,8 +1,8 @@
-﻿import {AulaError} from "../AulaError.js";
+﻿import {AulaRestError} from "../AulaRestError.js";
 import {ThrowHelper} from "../../Common/ThrowHelper.js";
 import {SealedClassError} from "../../Common/SealedClassError.js";
 
-export class AulaForbiddenError extends AulaError
+export class AulaForbiddenError extends AulaRestError
 {
 	public constructor(content: string | null)
 	{
