@@ -43,17 +43,20 @@ import {BanData} from "../Entities/Models/BanData.js";
 import {Ban} from "../Entities/Ban.js";
 import {GetCurrentUserBanStatusResponse} from "./GetCurrentUserBanStatusResponse.js";
 import {SealedClassError} from "../../Common/SealedClassError.js";
+import {AulaGlobalRateLimiterHandler} from "./AulaGlobalRateLimiterHandler.js";
+import {HttpFetchHandler} from "../../Common/Http/HttpFetchHandler.js";
 
 export class RestClient
 {
 	readonly #httpClient: HttpClient;
 
-	public constructor(httpClient: HttpClient = new HttpClient())
+	public constructor(options: { httpClient?: HttpClient })
 	{
 		SealedClassError.throwIfNotEqual(RestClient, new.target);
-		ThrowHelper.TypeError.throwIfNotType(httpClient, HttpClient);
+		ThrowHelper.TypeError.throwIfNotType(options, "object");
+		ThrowHelper.TypeError.throwIfNotAnyType(options.httpClient, HttpClient, "undefined");
 
-		this.#httpClient = httpClient;
+		this.#httpClient = options.httpClient ?? new HttpClient();
 	}
 
 
