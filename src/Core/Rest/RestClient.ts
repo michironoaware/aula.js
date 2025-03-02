@@ -81,11 +81,11 @@ export class RestClient
 			switch (response.statusCode)
 			{
 				case HttpStatusCode.Unauthorized:
-					throw new AulaUnauthorizedError(content);
+					throw new AulaUnauthorizedError(content, error);
 				case HttpStatusCode.Forbidden:
-					throw new AulaForbiddenError(content);
+					throw new AulaForbiddenError(content, error);
 				case HttpStatusCode.BadRequest:
-					throw new AulaBadRequestError(content);
+					throw new AulaBadRequestError(content, error);
 				default:
 					throw error;
 			}
