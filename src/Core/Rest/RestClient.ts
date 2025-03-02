@@ -62,7 +62,6 @@ export class RestClient
 		});
 	}
 
-
 	static async #ensureSuccessStatusCode(response: HttpResponseMessage): Promise<void>
 	{
 		ThrowHelper.TypeError.throwIfNotType(response, HttpResponseMessage);
