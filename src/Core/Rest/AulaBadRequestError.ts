@@ -9,6 +9,5 @@ export class AulaBadRequestError extends AulaRestError
 	{
 		super(`The request was improperly formatted, or the server couldn't understand it.`, content, innerError);
 		SealedClassError.throwIfNotEqual(AulaBadRequestError, new.target);
-		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
 	}
 }
