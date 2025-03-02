@@ -1,0 +1,153 @@
+﻿import {DelegatingHandler} from "../../Common/Http/DelegatingHandler.js";
+import {SealedClassError} from "../../Common/SealedClassError.js";
+import {EventEmitter} from "../../Common/Threading/EventEmitter.js";
+import {Action} from "../../Common/Action.js";
+import {HttpRequestMessage} from "../../Common/Http/HttpRequestMessage.js";
+import {ThrowHelper} from "../../Common/ThrowHelper.js";
+import {HttpMessageHandler} from "../../Common/Http/HttpMessageHandler.js";
+import {Temporal} from "@js-temporal/polyfill";
+import {AutoResetEvent} from "../../Common/Threading/AutoResetEvent.js";
+import {ValueOutOfRangeError} from "../../Common/ValueOutOfRangeError.js";
+import {HttpStatusCode} from "../../Common/Http/HttpStatusCode.js";
+
+export class AulaGlobalRateLimiterHandler extends DelegatingHandler
+{
+	readonly #eventEmitter: EventEmitter<HttpGlobalRateLimiterHandlerEvents> = new EventEmitter();
+	readonly #requestAvailableEvent: AutoResetEvent = new AutoResetEvent(true);
+	#requestLimit: number = 1;
+	#remainingRequests: number = 1;
+	#windowMilliseconds: number = 1;
+	#availableRequestEventId: unknown | null = null;
+
+	public constructor(innerHandler: HttpMessageHandler)
+	{
+		super(innerHandler);
+		SealedClassError.throwIfNotEqual(AulaGlobalRateLimiterHandler, new.target);
+		ThrowHelper.TypeError.throwIfNotType(innerHandler, HttpMessageHandler);
+	}
+
+	public async send(message: HttpRequestMessage)
+	{
+		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
+
+		while (true)
+		{
+			await this.#requestAvailableEvent.waitOne();
+
+			if (this.#remainingRequests === this.#requestLimit)
+			{
+				this.#scheduleRequestReplenishment();
+			}
+
+			if (--this.#remainingRequests > 0)
+			{
+				this.#requestAvailableEvent.set();
+			}
+
+			const response = await super.send(message);
+
+			const requestLimitHeaderValue = response.headers.get("X-RateLimit-Global-Limit");
+			const windowMillisecondsHeaderValue = response.headers.get("X-RateLimit-Global-WindowMilliseconds");
+			if (requestLimitHeaderValue === undefined ||
+				windowMillisecondsHeaderValue === undefined)
+			{
+				// Endpoint does not account for global rate limits.
+				return response;
+			}
+
+			const requestLimit = parseInt(requestLimitHeaderValue, 10);
+			const windowMilliseconds = parseInt(windowMillisecondsHeaderValue, 10);
+			if (requestLimit !== this.#requestLimit ||
+				windowMilliseconds !== this.#windowMilliseconds)
+			{
+				// This is the first time making a request and limits must be synced
+				// or the global rate limits has been updated server-side.
+				ValueOutOfRangeError.throwIfLessThan(requestLimit, 1);
+				ValueOutOfRangeError.throwIfLessThan(windowMilliseconds, 1);
+
+				this.#requestLimit = requestLimit;
+				this.#windowMilliseconds = windowMilliseconds;
+				this.#remainingRequests = requestLimit - 1;
+				if (this.#remainingRequests > 0)
+				{
+					this.#requestAvailableEvent.set();
+				}
+
+				this.#scheduleRequestReplenishment();
+			}
+
+			const resetTimestampHeaderValue = response.headers.get("X-RateLimit-ResetsAt");
+			if (resetTimestampHeaderValue !== undefined)
+			{
+				// There are no requests left, or we have reached an unexpected 429 http status code.
+				const resetDateTime = Temporal.PlainDateTime.from(resetTimestampHeaderValue);
+				const timeUntilReset = Temporal.Instant.from(resetTimestampHeaderValue).since(Temporal.Now.instant());
+
+				this.#requestAvailableEvent.reset();
+				this.#scheduleRequestReplenishment(timeUntilReset);
+
+				if (response.statusCode === HttpStatusCode.TooManyRequests)
+				{
+					this.#eventEmitter.emit("RateLimited", new RateLimitedEvent(resetDateTime));
+					continue;
+				}
+			}
+
+			return response;
+		}
+	}
+
+	public async on<TEvent extends keyof HttpGlobalRateLimiterHandlerEvents>(
+		event: TEvent,
+		listener: HttpGlobalRateLimiterHandlerEvents[TEvent])
+	{
+		return await this.#eventEmitter.on(event, listener);
+	}
+
+	public async remove<TEvent extends keyof HttpGlobalRateLimiterHandlerEvents>(
+		event: TEvent,
+		listener: HttpGlobalRateLimiterHandlerEvents[TEvent])
+	{
+		return await this.#eventEmitter.remove(event, listener);
+	}
+
+	#scheduleRequestReplenishment(wait?: Temporal.Duration)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(wait, Temporal.Duration, "undefined");
+
+		if (this.#availableRequestEventId !== null)
+		{
+			clearTimeout(this.#availableRequestEventId as any);
+		}
+
+		const milliseconds = wait ? wait.milliseconds : this.#windowMilliseconds;
+		this.#availableRequestEventId = setTimeout(() =>
+		{
+			this.#remainingRequests = this.#requestLimit;
+			this.#requestAvailableEvent.set();
+		}, milliseconds);
+	}
+}
+
+interface HttpGlobalRateLimiterHandlerEvents
+{
+	RateLimited: Action<[RateLimitedEvent]>;
+}
+
+class RateLimitedEvent
+{
+	readonly #resetDateTime: Temporal.PlainDateTime;
+
+	public constructor(resetDateTime: Temporal.PlainDateTime)
+	{
+		SealedClassError.throwIfNotEqual(RateLimitedEvent, new.target);
+		ThrowHelper.TypeError.throwIfNotType(resetDateTime, Temporal.PlainDateTime);
+
+		this.#resetDateTime = resetDateTime;
+	}
+
+	public get resetDateTime()
+	{
+		return this.#resetDateTime;
+	}
+}
