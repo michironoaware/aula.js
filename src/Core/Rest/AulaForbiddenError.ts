@@ -9,6 +9,5 @@ export class AulaForbiddenError extends AulaRestError
 	{
 		super(`You did not have permission to the resource.`, content, innerError);
 		SealedClassError.throwIfNotEqual(AulaForbiddenError, new.target);
-		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
 	}
 }
