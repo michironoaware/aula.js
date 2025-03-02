@@ -9,6 +9,5 @@ export class AulaNotFoundError extends AulaRestError
 	{
 		super(`The resource doesn't exist.`, content, innerError);
 		SealedClassError.throwIfNotEqual(AulaNotFoundError, new.target);
-		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
 	}
 }
