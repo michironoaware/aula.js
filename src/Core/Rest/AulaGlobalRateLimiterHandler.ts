@@ -23,7 +23,6 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 	{
 		super(innerHandler);
 		SealedClassError.throwIfNotEqual(AulaGlobalRateLimiterHandler, new.target);
-		ThrowHelper.TypeError.throwIfNotType(innerHandler, HttpMessageHandler);
 	}
 
 	public async send(message: HttpRequestMessage)
