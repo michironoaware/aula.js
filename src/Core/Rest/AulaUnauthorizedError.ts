@@ -9,6 +9,5 @@ export class AulaUnauthorizedError extends AulaRestError
 	{
 		super(`The 'Authorization' header was missing or invalid.`, content, innerError);
 		SealedClassError.throwIfNotEqual(AulaUnauthorizedError, new.target);
-		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
 	}
 }
