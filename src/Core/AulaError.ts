@@ -9,6 +9,7 @@ export class AulaError extends Error
 		content: string | null)
 	{
 		super(message);
+		ThrowHelper.TypeError.throwIfNotAnyType(message, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
 
 		this.#content = content;
