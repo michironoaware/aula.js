@@ -34,10 +34,7 @@ export class Semaphore implements IDisposable
 		{
 			const tryGetLock = () =>
 			{
-				if (this.#disposed)
-				{
-					throw new ObjectDisposedError();
-				}
+				ObjectDisposedError.throwIf(this.#disposed);
 
 				if(this.#availableCount > 0)
 				{
