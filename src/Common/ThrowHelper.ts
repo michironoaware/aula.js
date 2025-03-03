@@ -26,10 +26,10 @@ export namespace ThrowHelper
 			}
 		}
 
-		export function throwIfNotAnyType<T extends TypeResolvable[]>(object: unknown, ...type: T)
+		export function throwIfNotAnyType<T extends TypeResolvable[]>(object: unknown, ...types: T)
 			: asserts object is ResolvedType<T[number]>
 		{
-			const isAnyType = type.find(t => TypeHelper.isType(object, t)) !== undefined;
+			const isAnyType = types.find(t => TypeHelper.isType(object, t)) !== undefined;
 			if (!isAnyType)
 			{
 				throw new TypeErrorConstructor("Object is not an instance of the type expected.");
