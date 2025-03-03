@@ -47,6 +47,7 @@ import {SealedClassError} from "../../Common/SealedClassError.js";
 import {AulaGlobalRateLimiterHandler} from "./AulaGlobalRateLimiterHandler.js";
 import {HttpFetchHandler} from "../../Common/Http/HttpFetchHandler.js";
 import {AulaRestError} from "../AulaRestError.js";
+import {AulaRouteRateLimiterHandler} from "./AulaRouteRateLimiterHandler.js";
 
 export class RestClient
 {
@@ -60,7 +61,8 @@ export class RestClient
 
 		this.#httpClient = options.httpClient ?? new HttpClient({
 			handler: new AulaGlobalRateLimiterHandler(
-				new HttpFetchHandler())
+				new AulaRouteRateLimiterHandler(
+				new HttpFetchHandler(), true))
 		});
 	}
 
