@@ -41,4 +41,16 @@
 	{
 		return types.find(t => isType(object, t)) !== undefined;
 	}
+
+	export type TypeResolvable =
+		"string" |
+		"number" |
+		"bigint" |
+		"boolean" |
+		"symbol" |
+		"undefined" |
+		"object" |
+		"function" |
+		(abstract new (...args: any[]) => any) |
+		Record<string, string | number>;
 }

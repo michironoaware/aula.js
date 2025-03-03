@@ -7,6 +7,8 @@ export namespace ThrowHelper
 {
 	export namespace TypeError
 	{
+		import TypeResolvable = TypeHelper.TypeResolvable;
+
 		export function throwIfNull<T>(object: T): asserts object is NonNullable<T>
 		{
 			if (object === null || object === undefined)
@@ -32,18 +34,6 @@ export namespace ThrowHelper
 				throw new TypeErrorConstructor("Object is not an instance of the type expected.");
 			}
 		}
-
-		type TypeResolvable =
-			"string" |
-			"number" |
-			"bigint" |
-			"boolean" |
-			"symbol" |
-			"undefined" |
-			"object" |
-			"function" |
-			(abstract new (...args: any[]) => any) |
-			Record<string, string | number>;
 
 		type ResolvedType<T> =
 			T extends "string" ? string
