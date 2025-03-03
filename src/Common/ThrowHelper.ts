@@ -15,7 +15,7 @@ export namespace ThrowHelper
 			}
 		}
 
-		export function throwIfNotType<T>(object: T, type: any)
+		export function throwIfNotType<T extends TypeResolvable>(object: unknown, type: T): asserts object is ResolvedType<T>
 		{
 			if (!TypeHelper.isType(object, type))
 			{
@@ -23,7 +23,8 @@ export namespace ThrowHelper
 			}
 		}
 
-		export function throwIfNotAnyType<T>(object: T, ...type: any[])
+		export function throwIfNotAnyType<T extends TypeResolvable[]>(object: unknown, ...type: T)
+			: asserts object is ResolvedType<T[number]>
 		{
 			const isAnyType = type.find(t => TypeHelper.isType(object, t)) != null;
 			if (!isAnyType)
@@ -31,6 +32,31 @@ export namespace ThrowHelper
 				throw new TypeErrorConstructor("Object is not an instance of the type expected.");
 			}
 		}
+
+		type TypeResolvable =
+			"string" |
+			"number" |
+			"bigint" |
+			"boolean" |
+			"symbol" |
+			"undefined" |
+			"object" |
+			"function" |
+			(abstract new (...args: any[]) => any) |
+			Record<string, string | number>;
+
+		type ResolvedType<T> =
+			T extends "string" ? string
+			: T extends "number" ? number
+			: T extends "bigint" ? bigint
+			: T extends "boolean" ? boolean
+			: T extends "symbol" ? symbol
+			: T extends "undefined" ? undefined
+			: T extends "object" ? object
+			: T extends "function" ? Function
+			: T extends abstract new (...args: any[]) => infer R ? R
+			: T extends Record<string, string | number> ? T[keyof T]
+			: never;
 	}
 
 	export namespace ReferenceError
