@@ -46,6 +46,7 @@ import {GetCurrentUserBanStatusResponse} from "./GetCurrentUserBanStatusResponse
 import {SealedClassError} from "../../Common/SealedClassError.js";
 import {AulaGlobalRateLimiterHandler} from "./AulaGlobalRateLimiterHandler.js";
 import {HttpFetchHandler} from "../../Common/Http/HttpFetchHandler.js";
+import {AulaRestError} from "../AulaRestError.js";
 
 export class RestClient
 {
@@ -90,7 +91,7 @@ export class RestClient
 				case HttpStatusCode.NotFound:
 					throw new AulaNotFoundError(content, error);
 				default:
-					throw error;
+					throw new AulaRestError(error.message, content, error);
 			}
 		}
 	}
