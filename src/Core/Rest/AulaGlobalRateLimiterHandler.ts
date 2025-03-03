@@ -93,7 +93,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
-					this.#eventEmitter.emit("RateLimited", new RateLimitedEvent(resetDateTime));
+					await this.#eventEmitter.emit("RateLimited", new RateLimitedEvent(resetDateTime));
 					continue;
 				}
 			}

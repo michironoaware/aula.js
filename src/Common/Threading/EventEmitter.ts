@@ -4,6 +4,7 @@ import {ThrowHelper} from "../ThrowHelper.js";
 import {Action} from "../Action.js";
 import {IDisposable} from "../IDisposable.js";
 import {ObjectDisposedError} from "../ObjectDisposedError.js";
+import {AsNonBlocking} from "./AsNonBlocking.js";
 
 export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...any[]]>>> implements IDisposable
 {
@@ -70,7 +71,7 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...a
 		}
 	}
 
-	public emit<TEvent extends keyof TEventMap>(event: TEvent, ...args: Parameters<TEventMap[TEvent]>)
+	public async emit<TEvent extends keyof TEventMap>(event: TEvent, ...args: Parameters<TEventMap[TEvent]>)
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
 		ThrowHelper.TypeError.throwIfNull(event);
@@ -82,10 +83,8 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...a
 			return;
 		}
 
-		for (const listener of listeners)
-		{
-			listener(...args);
-		}
+		const promises = listeners.map(l => AsNonBlocking(() => l(args)));
+		return await Promise.all(promises);
 	}
 
 	public dispose()
