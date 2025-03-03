@@ -13,7 +13,7 @@ import {ObjectDisposedError} from "../../Common/ObjectDisposedError.js";
 
 export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 {
-	readonly #eventEmitter: EventEmitter<HttpGlobalRateLimiterHandlerEvents> = new EventEmitter();
+	readonly #eventEmitter: EventEmitter<AulaGlobalRateLimiterHandlerEvents> = new EventEmitter();
 	readonly #requestAvailableEvent: AutoResetEvent = new AutoResetEvent(true);
 	#requestLimit: number = 1;
 	#remainingRequests: number = 1;
@@ -102,17 +102,17 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		}
 	}
 
-	public async on<TEvent extends keyof HttpGlobalRateLimiterHandlerEvents>(
+	public async on<TEvent extends keyof AulaGlobalRateLimiterHandlerEvents>(
 		event: TEvent,
-		listener: HttpGlobalRateLimiterHandlerEvents[TEvent])
+		listener: AulaGlobalRateLimiterHandlerEvents[TEvent])
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
 		return await this.#eventEmitter.on(event, listener);
 	}
 
-	public async remove<TEvent extends keyof HttpGlobalRateLimiterHandlerEvents>(
+	public async remove<TEvent extends keyof AulaGlobalRateLimiterHandlerEvents>(
 		event: TEvent,
-		listener: HttpGlobalRateLimiterHandlerEvents[TEvent])
+		listener: AulaGlobalRateLimiterHandlerEvents[TEvent])
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
 		return await this.#eventEmitter.remove(event, listener);
@@ -149,7 +149,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 	}
 }
 
-interface HttpGlobalRateLimiterHandlerEvents
+interface AulaGlobalRateLimiterHandlerEvents
 {
 	RateLimited: Action<[RateLimitedEvent]>;
 }
