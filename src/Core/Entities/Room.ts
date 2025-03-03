@@ -50,6 +50,6 @@ export class Room
 
 	public get creationTime()
 	{
-		return Temporal.PlainDateTime.from(this.#data.creationTime);
+		return Temporal.ZonedDateTime.from(this.#data.creationTime);
 	}
 }
