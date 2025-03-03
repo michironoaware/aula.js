@@ -85,7 +85,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 				resetTimestampHeaderValue !== undefined)
 			{
 				// There are no requests left, or we have reached an unexpected 429 http status code.
-				const resetDateTime = Temporal.PlainDateTime.from(resetTimestampHeaderValue);
+				const resetDateTime = Temporal.ZonedDateTime.from(resetTimestampHeaderValue);
 				const timeUntilReset = Temporal.Instant.from(resetTimestampHeaderValue).since(Temporal.Now.instant());
 
 				this.#requestAvailableEvent.reset();
@@ -156,12 +156,12 @@ export interface AulaGlobalRateLimiterHandlerEvents
 
 export class RateLimitedEvent
 {
-	readonly #resetDateTime: Temporal.PlainDateTime;
+	readonly #resetDateTime: Temporal.ZonedDateTime;
 
-	public constructor(resetDateTime: Temporal.PlainDateTime)
+	public constructor(resetDateTime: Temporal.ZonedDateTime)
 	{
 		SealedClassError.throwIfNotEqual(RateLimitedEvent, new.target);
-		ThrowHelper.TypeError.throwIfNotType(resetDateTime, Temporal.PlainDateTime);
+		ThrowHelper.TypeError.throwIfNotType(resetDateTime, Temporal.ZonedDateTime);
 
 		this.#resetDateTime = resetDateTime;
 	}
