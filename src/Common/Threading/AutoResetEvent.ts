@@ -2,8 +2,8 @@
 import {Action} from "../Action.js";
 import {SealedClassError} from "../SealedClassError.js";
 
-export class AutoResetEvent {
-
+export class AutoResetEvent
+{
 	readonly #queue: Action<[]>[] = [];
 	#signaled: boolean;
 
