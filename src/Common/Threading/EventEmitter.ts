@@ -2,11 +2,14 @@
 import {Semaphore} from "./Semaphore.js";
 import {ThrowHelper} from "../ThrowHelper.js";
 import {Action} from "../Action.js";
+import {IDisposable} from "../IDisposable.js";
+import {ObjectDisposedError} from "../ObjectDisposedError.js";
 
-export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...any[]]>>>
+export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...any[]]>>> implements IDisposable
 {
 	readonly #listeners: Map<keyof TEventMap, TEventMap[keyof TEventMap][]> = new Map();
 	readonly #operateOverListenersSemaphore: Semaphore = new Semaphore(1, 1);
+	#disposed: boolean = false;
 
 	public constructor()
 	{
@@ -15,6 +18,7 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...a
 
 	public async on<TEvent extends keyof TEventMap>(event: TEvent, listener: TEventMap[TEvent])
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		ThrowHelper.TypeError.throwIfNull(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 
@@ -39,6 +43,7 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...a
 
 	public async remove<TEvent extends keyof TEventMap>(event: TEvent, listener: TEventMap[TEvent])
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		ThrowHelper.TypeError.throwIfNull(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 
@@ -67,6 +72,7 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...a
 
 	public emit<TEvent extends keyof TEventMap>(event: TEvent, ...args: Parameters<TEventMap[TEvent]>)
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		ThrowHelper.TypeError.throwIfNull(event);
 		ThrowHelper.TypeError.throwIfNotType(args, "object");
 
@@ -80,5 +86,17 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...a
 		{
 			listener(...args);
 		}
+	}
+
+	public dispose()
+	{
+		if (this.#disposed)
+		{
+			return;
+		}
+
+		this.#operateOverListenersSemaphore.dispose();
+		this.#listeners.clear();
+		this.#disposed = true;
 	}
 }
