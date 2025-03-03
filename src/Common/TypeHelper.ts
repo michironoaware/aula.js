@@ -2,6 +2,8 @@
 {
 	export function isType<T extends TypeResolvable>(object: unknown, type: T): object is ResolvedType<T>
 	{
+		const isNullType = type === "null" && object === null;
+
 		// Check whether typeof of the object is the same as the type string.
 		const isTypeOf = typeof type === "string" && typeof object === type;
 
@@ -34,7 +36,7 @@
 		// Check if the object is an instance of the specified class
 		const isInstanceOf = typeof type === "function" && object instanceof type;
 
-		return isTypeOf || isInstanceOf || isPropertyOf || isEnumFlagOf;
+		return isNullType || isTypeOf || isInstanceOf || isPropertyOf || isEnumFlagOf;
 	}
 
 	export function isAnyType<T extends TypeResolvable[]>(object: unknown, ...types: T): object is ResolvedType<T[number]>
@@ -51,6 +53,7 @@
 		"undefined" |
 		"object" |
 		"function" |
+		"null" |
 		(abstract new (...args: any[]) => any) |
 		Record<string, string | number>;
 
@@ -63,6 +66,7 @@
 		: T extends "undefined" ? undefined
 		: T extends "object" ? object
 		: T extends "function" ? Function
+		: T extends "null" ? null
 		: T extends abstract new (...args: any[]) => infer R ? R
 		: T extends Record<string, string | number> ? T[keyof T]
 		: never;
