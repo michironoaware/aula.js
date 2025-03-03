@@ -16,7 +16,7 @@
 			let valuesSum = 0;
 			for (const property in type)
 			{
-				const value = type[property];
+				const value = type[property] as unknown;
 				if (typeof value !== "number")
 				{
 					continue;
