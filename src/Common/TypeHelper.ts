@@ -1,6 +1,6 @@
 ﻿export namespace TypeHelper
 {
-	export function isType(object: unknown, type: any): boolean
+	export function isType<T extends TypeResolvable>(object: unknown, type: T): object is ResolvedType<T>
 	{
 		// Check whether typeof of the object is the same as the type string.
 		const isTypeOf = typeof type === "string" && typeof object === type;
@@ -37,7 +37,7 @@
 		return isTypeOf || isInstanceOf || isPropertyOf || isEnumFlagOf;
 	}
 
-	export function isAnyType(object: unknown, ...types: any[]): boolean
+	export function isAnyType<T extends TypeResolvable[]>(object: unknown, ...types: T): object is ResolvedType<T[number]>
 	{
 		return types.find(t => isType(object, t)) !== undefined;
 	}
