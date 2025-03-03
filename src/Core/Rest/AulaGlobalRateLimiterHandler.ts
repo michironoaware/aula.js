@@ -9,6 +9,7 @@ import {Temporal} from "@js-temporal/polyfill";
 import {AutoResetEvent} from "../../Common/Threading/AutoResetEvent.js";
 import {ValueOutOfRangeError} from "../../Common/ValueOutOfRangeError.js";
 import {HttpStatusCode} from "../../Common/Http/HttpStatusCode.js";
+import {ObjectDisposedError} from "../../Common/ObjectDisposedError.js";
 
 export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 {
@@ -18,6 +19,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 	#remainingRequests: number = 1;
 	#windowMilliseconds: number = 1;
 	#availableRequestEventId: unknown | null = null;
+	#disposed: boolean = false;
 
 	public constructor(innerHandler: HttpMessageHandler)
 	{
@@ -27,6 +29,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 
 	public async send(message: HttpRequestMessage)
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
 
 		while (true)
@@ -103,6 +106,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		event: TEvent,
 		listener: HttpGlobalRateLimiterHandlerEvents[TEvent])
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		return await this.#eventEmitter.on(event, listener);
 	}
 
@@ -110,6 +114,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		event: TEvent,
 		listener: HttpGlobalRateLimiterHandlerEvents[TEvent])
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		return await this.#eventEmitter.remove(event, listener);
 	}
 
@@ -128,6 +133,19 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			this.#remainingRequests = this.#requestLimit;
 			this.#requestAvailableEvent.set();
 		}, milliseconds);
+	}
+
+	public dispose()
+	{
+		if (this.#disposed)
+		{
+			return;
+		}
+
+		this.#eventEmitter.dispose();
+		this.#requestAvailableEvent.dispose();
+
+		this.#disposed = true;
 	}
 }
 
