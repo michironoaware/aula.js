@@ -9,7 +9,7 @@ export class ObjectDisposedError extends Error
 		SealedClassError.throwIfNotEqual(ObjectDisposedError, new.target);
 	}
 
-	public static throwIf(condition: boolean)
+	public static throwIf(condition: boolean): asserts condition is false
 	{
 		ThrowHelper.TypeError.throwIfNotType(condition, "boolean");
 
