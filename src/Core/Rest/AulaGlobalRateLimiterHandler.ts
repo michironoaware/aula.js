@@ -149,12 +149,12 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 	}
 }
 
-interface AulaGlobalRateLimiterHandlerEvents
+export interface AulaGlobalRateLimiterHandlerEvents
 {
 	RateLimited: Action<[RateLimitedEvent]>;
 }
 
-class RateLimitedEvent
+export class RateLimitedEvent
 {
 	readonly #resetDateTime: Temporal.PlainDateTime;
 
