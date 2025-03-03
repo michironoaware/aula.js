@@ -79,10 +79,10 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			}
 
 			const isGlobalHeaderValue = response.headers.get("X-RateLimit-IsGlobal");
-			const isGlobal = isGlobalHeaderValue !== undefined && isGlobalHeaderValue === "true";
 			const resetTimestampHeaderValue = response.headers.get("X-RateLimit-ResetsAt");
-			if (resetTimestampHeaderValue !== undefined &&
-				isGlobal)
+			if (isGlobalHeaderValue !== undefined &&
+				isGlobalHeaderValue === "true" &&
+				resetTimestampHeaderValue !== undefined)
 			{
 				// There are no requests left, or we have reached an unexpected 429 http status code.
 				const resetDateTime = Temporal.PlainDateTime.from(resetTimestampHeaderValue);
