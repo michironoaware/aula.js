@@ -39,14 +39,6 @@
 
 	export function isAnyType(object: unknown, ...types: any[]): boolean
 	{
-		for (const type of types)
-		{
-			if (isType(object, type))
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return types.find(t => isType(object, t)) !== undefined;
 	}
 }
