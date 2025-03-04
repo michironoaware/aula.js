@@ -402,6 +402,20 @@ export class RestClient
 		return;
 	}
 
+	public async getRoomUsers(roomId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomUsers({ route: { roomId }}));
+
+		const response = await this.#httpClient.send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse(await response.content.readAsString())
+			.map((d: any) => new UserData(d))
+			.map((d: UserData) => new User(this, d)) as User[];
+	}
+
 	public async startTyping(roomId: string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
