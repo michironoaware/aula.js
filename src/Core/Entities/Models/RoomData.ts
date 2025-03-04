@@ -7,7 +7,7 @@ export class RoomData
 	readonly #name: string;
 	readonly #description: string | null;
 	readonly #isEntrance: boolean;
-	readonly #connectedRoomIds: ReadonlyArray<string>;
+	readonly #connectedRoomIds: Array<string>;
 	readonly #creationTime: string;
 
 	public constructor(data: any)
@@ -53,7 +53,7 @@ export class RoomData
 		return this.#isEntrance;
 	}
 
-	public get connectedRoomIds()
+	public get connectedRoomIds(): ReadonlyArray<string>
 	{
 		return this.#connectedRoomIds;
 	}
