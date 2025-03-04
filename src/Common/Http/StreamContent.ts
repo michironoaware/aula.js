@@ -29,13 +29,13 @@ export class StreamContent extends HttpContent
 		return this.#headers;
 	}
 
-	public get stream(): ReadableStream<Uint8Array>
+	public get stream()
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
 		return this.#stream;
 	}
 
-	public async readAsString(): Promise<string>
+	public async readAsString()
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
 		const reader = this.#stream.getReader();

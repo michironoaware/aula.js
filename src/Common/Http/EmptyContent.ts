@@ -28,13 +28,13 @@ export class EmptyContent extends HttpContent
 		return this.#headers;
 	}
 
-	public get stream(): ReadableStream<Uint8Array<ArrayBufferLike>>
+	public get stream()
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
 		return EmptyContent.#emptyStream;
 	}
 
-	public readAsString(): Promise<string>
+	public readAsString()
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
 		return Promise.resolve("");

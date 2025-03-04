@@ -92,7 +92,7 @@ export class Room
 		return await this.#restClient.setRoomConnections(this.#data.id, { roomIds });
 	}
 
-	public async addConnection(room: Room | string): Promise<void>
+	public async addConnection(room: Room | string)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string");
 
@@ -100,7 +100,7 @@ export class Room
 		return await this.#restClient.addRoomConnection(this.#data.id, roomId);
 	}
 
-	public async removeConnection(room: Room | string): Promise<void>
+	public async removeConnection(room: Room | string)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string");
 

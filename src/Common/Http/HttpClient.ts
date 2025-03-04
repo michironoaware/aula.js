@@ -43,7 +43,7 @@ export class HttpClient
 		return this.#handler;
 	}
 	
-	public async send(message: HttpRequestMessage): Promise<HttpResponseMessage>
+	public async send(message: HttpRequestMessage)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
 

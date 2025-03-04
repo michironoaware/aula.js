@@ -26,13 +26,13 @@ export class JsonContent extends HttpContent
 		return this.#headers;
 	}
 
-	public get stream(): ReadableStream<Uint8Array>
+	public get stream()
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
 		return new Blob([this.#string]).stream();
 	}
 
-	public readAsString(): Promise<string>
+	public readAsString()
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
 		return Promise.resolve(this.#string);

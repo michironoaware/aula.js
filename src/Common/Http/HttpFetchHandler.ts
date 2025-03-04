@@ -20,7 +20,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 		SealedClassError.throwIfNotEqual(HttpFetchHandler, new.target);
 	}
 
-	public async send(message: HttpRequestMessage): Promise<HttpResponseMessage>
+	public async send(message: HttpRequestMessage)
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);

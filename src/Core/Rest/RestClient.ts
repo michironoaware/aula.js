@@ -66,7 +66,7 @@ export class RestClient
 		});
 	}
 
-	static async #ensureSuccessStatusCode(response: HttpResponseMessage): Promise<void>
+	static async #ensureSuccessStatusCode(response: HttpResponseMessage)
 	{
 		ThrowHelper.TypeError.throwIfNotType(response, HttpResponseMessage);
 
@@ -113,7 +113,7 @@ export class RestClient
 		return this;
 	}
 
-	public async getCurrentUser(): Promise<User>
+	public async getCurrentUser()
 	{
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUser());
 
