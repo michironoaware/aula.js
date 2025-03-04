@@ -4,6 +4,7 @@ import { MessageData } from "./Models/MessageData.js";
 import { Temporal } from "@js-temporal/polyfill";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { MessageAuthorType } from "./MessageAuthorType.js";
+import { MessageType } from "./MessageType.js";
 import { MessageUserJoin } from "./MessageUserJoin.js";
 import { MessageUserLeave } from "./MessageUserLeave.js";
 
@@ -81,6 +82,21 @@ export class Message
 		return Temporal.ZonedDateTime.from(this.#data.creationTime);
 	}
 
+	public isStandardMessage(): this is IStandardMessage
+	{
+		return this.#data.type === MessageType.Standard;
+	}
+
+	public isUserJoinMessage(): this is IUserJoinMessage
+	{
+		return this.#data.type === MessageType.UserJoin;
+	}
+
+	public isUserLeaveMessage(): this is IUserLeaveMessage
+	{
+		return this.#data.type === MessageType.UserJoin;
+	}
+
 	public async getAuthor()
 	{
 		if (this.authorId === null || this.authorType !== MessageAuthorType.User)
@@ -100,4 +116,32 @@ export class Message
 	{
 		return await this.restClient.removeMessage(this.roomId, this.id);
 	}
+}
+
+interface IStandardMessage
+{
+	type: MessageType.Standard;
+	userJoin: null;
+	userLeave: null;
+	content: string;
+}
+
+interface IUserJoinMessage
+{
+	type: MessageType.UserJoin;
+	authorType: MessageAuthorType.System;
+	authorId: null;
+	userJoin: MessageUserJoin;
+	userLeave: null;
+	content: null;
+}
+
+interface IUserLeaveMessage
+{
+	type: MessageType.UserLeave;
+	authorType: MessageAuthorType.System;
+	authorId: null;
+	userJoin: null;
+	userLeave: MessageUserLeave;
+	content: null;
 }
