@@ -372,10 +372,12 @@ export class RestClient
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotType(body, "object");
-		ThrowHelper.TypeError.throwIfNotType(body.roomIds, Array<string>);
-		for (const id of body.roomIds)
+		ThrowHelper.TypeError.throwIfNotType(body.roomIds, "iterable");
+
+		const roomIds = [...body.roomIds];
+		for (const roomId of roomIds)
 		{
-			ThrowHelper.TypeError.throwIfNotAnyType(id, "string");
+			ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		}
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnections({ route: { roomId }}));
