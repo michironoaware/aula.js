@@ -66,6 +66,16 @@ export class User
 		return await this.#restClient.getUser(this.#data.id);
 	}
 
+	public async getCurrentRoom()
+	{
+		if (this.currentRoomId === null)
+		{
+			return null;
+		}
+
+		return await this.#restClient.getRoom(this.currentRoomId);
+	}
+
 	public async setCurrentRoom(room: Room): Promise<void>;
 
 	public async setCurrentRoom(roomId: string): Promise<void>;
