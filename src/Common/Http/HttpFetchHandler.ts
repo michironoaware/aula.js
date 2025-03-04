@@ -8,9 +8,12 @@ import { StreamContent } from "./StreamContent.js";
 import {SealedClassError} from "../SealedClassError.js";
 import {ThrowHelper} from "../ThrowHelper.js";
 import {HeaderMap} from "./HeaderMap.js";
+import {ObjectDisposedError} from "../ObjectDisposedError.js";
 
 export class HttpFetchHandler extends HttpMessageHandler
 {
+	#disposed: boolean = false;
+
 	constructor()
 	{
 		super();
@@ -19,6 +22,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 
 	public async send(message: HttpRequestMessage): Promise<HttpResponseMessage>
 	{
+		ObjectDisposedError.throwIf(this.#disposed);
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
 
 		const received = await fetch(message.requestUri,
@@ -33,5 +37,15 @@ export class HttpFetchHandler extends HttpMessageHandler
 		const content = received.body ? new StreamContent(received.body) : new EmptyContent();
 		const headers = new HeaderMap(received.headers);
 		return new HttpResponseMessage(status, content, headers);
+	}
+
+	public dispose()
+	{
+		if (this.#disposed)
+		{
+			return;
+		}
+
+		this.#disposed = true;
 	}
 }
