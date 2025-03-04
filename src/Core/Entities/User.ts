@@ -66,11 +66,11 @@ export class User
 		return await this.#restClient.getUser(this.#data.id);
 	}
 
-	public async setRoom(room: Room): Promise<void>;
+	public async setCurrentRoom(room: Room): Promise<void>;
 
-	public async setRoom(roomId: string): Promise<void>;
+	public async setCurrentRoom(roomId: string): Promise<void>;
 
-	public async setRoom(room: Room | string)
+	public async setCurrentRoom(room: Room | string)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string");
 
