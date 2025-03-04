@@ -33,6 +33,28 @@ export class MessageData
 		ThrowHelper.TypeError.throwIfNotAnyType(data.content, "string", "null", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(data.creationTime, "string");
 
+		switch (data.authorType)
+		{
+			case MessageAuthorType.User:
+				ThrowHelper.TypeError.throwIfNullable(data.authorId);
+				break;
+		}
+
+		switch (data.type)
+		{
+			case MessageType.Standard:
+				ThrowHelper.TypeError.throwIfNullable(data.content);
+				break;
+			case MessageType.UserJoin:
+				ThrowHelper.TypeError.throwIfNullable(data.joinData);
+				break;
+			case MessageType.UserLeave:
+				ThrowHelper.TypeError.throwIfNullable(data.leaveData);
+				break;
+			default:
+				break;
+		}
+
 		this.#id = data.id;
 		this.#type = data.type;
 		this.#flags = data.flags;

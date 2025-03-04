@@ -20,6 +20,12 @@ export class BanData
 		ThrowHelper.TypeError.throwIfNotAnyType(data.targetId, "string", "null", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(data.creationTime, "string");
 
+		switch (data.type)
+		{
+			case BanType.Id:
+				ThrowHelper.TypeError.throwIfNullable(data.targetid);
+		}
+
 		this.#type = data.type;
 		this.#executorId = data.executorId ?? null;
 		this.#reason = data.reason ?? null;
