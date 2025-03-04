@@ -4,11 +4,15 @@ import { MessageData } from "./Models/MessageData.js";
 import { Temporal } from "@js-temporal/polyfill";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { MessageAuthorType } from "./MessageAuthorType.js";
+import { MessageUserJoin } from "./MessageUserJoin.js";
+import { MessageUserLeave } from "./MessageUserLeave.js";
 
 export class Message
 {
 	readonly #restClient: RestClient;
 	readonly #data: MessageData;
+	readonly #userJoin: MessageUserJoin | null;
+	readonly #userLeave: MessageUserLeave | null;
 
 	public constructor(restClient: RestClient, data: MessageData)
 	{
@@ -18,6 +22,8 @@ export class Message
 
 		this.#restClient = restClient;
 		this.#data = data;
+		this.#userJoin = data.joinData ? new MessageUserJoin(restClient, data.joinData) : null;
+		this.#userLeave = data.leaveData ? new MessageUserLeave(restClient, data.leaveData) : null;
 	}
 
 	public get restClient()
@@ -62,12 +68,12 @@ export class Message
 
 	public get joinData()
 	{
-		return this.#data.joinData;
+		return this.#userJoin;
 	}
 
 	public get leaveData()
 	{
-		return this.#data.leaveData;
+		return this.#userLeave;
 	}
 
 	public get creationTime()
