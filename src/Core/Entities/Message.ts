@@ -66,12 +66,12 @@ export class Message
 		return this.#data.content;
 	}
 
-	public get joinData()
+	public get userJoin()
 	{
 		return this.#userJoin;
 	}
 
-	public get leaveData()
+	public get userLeave()
 	{
 		return this.#userLeave;
 	}
