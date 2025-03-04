@@ -19,7 +19,7 @@ export class HttpClient
 		ThrowHelper.TypeError.throwIfNullable(options);
 		ThrowHelper.TypeError.throwIfNotAnyType(options.handler, HttpMessageHandler, "undefined");
 
-		this.#handler = options?.handler ?? new HttpFetchHandler();
+		this.#handler = options.handler ?? new HttpFetchHandler();
 	}
 
 	public get baseUri()
