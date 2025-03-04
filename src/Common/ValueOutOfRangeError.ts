@@ -11,9 +11,10 @@ export class ValueOutOfRangeError extends Error
 		ThrowHelper.TypeError.throwIfNotType(paramName, "string");
 	}
 
-	public static throwIfEqual<T>(value: T, other: T, paramName?: string)
+	public static throwIfEqual(value: number, other: number, paramName?: string)
 	{
-		ThrowHelper.TypeError.throwIfNotType(value, typeof other);
+		ThrowHelper.TypeError.throwIfNotType(value, "number");
+		ThrowHelper.TypeError.throwIfNotType(other, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(paramName, "string", "undefined");
 
 		if (value === other)
@@ -22,9 +23,10 @@ export class ValueOutOfRangeError extends Error
 		}
 	}
 
-	public static throwIfGreaterThan<T>(value: T, other: T, paramName?: string)
+	public static throwIfGreaterThan(value: number, other: number, paramName?: string)
 	{
-		ThrowHelper.TypeError.throwIfNotType(value, typeof other);
+		ThrowHelper.TypeError.throwIfNotType(value, "number");
+		ThrowHelper.TypeError.throwIfNotType(other, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(paramName, "string", "undefined");
 
 		if (value > other)
@@ -33,9 +35,10 @@ export class ValueOutOfRangeError extends Error
 		}
 	}
 
-	public static throwIfGreaterThanOrEqual<T>(value: T, other: T, paramName?: string)
+	public static throwIfGreaterThanOrEqual(value: number, other: number, paramName?: string)
 	{
-		ThrowHelper.TypeError.throwIfNotType(value, typeof other);
+		ThrowHelper.TypeError.throwIfNotType(value, "number");
+		ThrowHelper.TypeError.throwIfNotType(other, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(paramName, "string", "undefined");
 
 		if (value >= other)
@@ -44,9 +47,10 @@ export class ValueOutOfRangeError extends Error
 		}
 	}
 
-	public static throwIfLessThan<T>(value: T, other: T, paramName?: string)
+	public static throwIfLessThan(value: number, other: number, paramName?: string)
 	{
-		ThrowHelper.TypeError.throwIfNotType(value, typeof other);
+		ThrowHelper.TypeError.throwIfNotType(value, "number");
+		ThrowHelper.TypeError.throwIfNotType(other, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(paramName, "string", "undefined");
 
 		if (value < other)
@@ -55,9 +59,10 @@ export class ValueOutOfRangeError extends Error
 		}
 	}
 
-	public static throwIfLessThanOrEqual<T>(value: T, other: T, paramName?: string)
+	public static throwIfLessThanOrEqual(value: number, other: number, paramName?: string)
 	{
-		ThrowHelper.TypeError.throwIfNotType(value, typeof other);
+		ThrowHelper.TypeError.throwIfNotType(value, "number");
+		ThrowHelper.TypeError.throwIfNotType(other, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(paramName, "string", "undefined");
 
 		if (value <= other)
@@ -66,9 +71,10 @@ export class ValueOutOfRangeError extends Error
 		}
 	}
 
-	public static throwIfNotEqual<T>(value: T, other: T, paramName?: string)
+	public static throwIfNotEqual(value: number, other: number, paramName?: string)
 	{
-		ThrowHelper.TypeError.throwIfNotType(value, typeof other);
+		ThrowHelper.TypeError.throwIfNotType(value, "number");
+		ThrowHelper.TypeError.throwIfNotType(other, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(paramName, "string", "undefined");
 
 		if (value !== other)
