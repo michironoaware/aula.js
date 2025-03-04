@@ -8,7 +8,7 @@ export class LogInResponse
 	public constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(LogInResponse, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, "object");
+		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
 
 		this.#token = data.token;

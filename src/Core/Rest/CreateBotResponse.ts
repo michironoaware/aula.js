@@ -12,7 +12,7 @@ export class CreateBotResponse
 	public constructor(data: any, restClient: RestClient)
 	{
 		SealedClassError.throwIfNotEqual(CreateBotResponse, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, "object");
+		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.user, "object");
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);

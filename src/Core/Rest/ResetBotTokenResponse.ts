@@ -8,7 +8,7 @@ export class ResetBotTokenResponse
 	public constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(ResetBotTokenResponse, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, "object");
+		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
 
 		this.#token = data.token;

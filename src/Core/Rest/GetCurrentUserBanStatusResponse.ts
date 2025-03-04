@@ -8,7 +8,7 @@ export class GetCurrentUserBanStatusResponse
 	constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(GetCurrentUserBanStatusResponse, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, "object");
+		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.banned, "boolean");
 
 		this.#banned = data.banned;
