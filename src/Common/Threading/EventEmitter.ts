@@ -24,22 +24,17 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...a
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 
 		await this.#operateOverListenersSemaphore.waitOne();
-		try
-		{
 
-			let listeners = this.#listeners.get(event);
-			if (listeners === undefined)
-			{
-				listeners = [];
-				this.#listeners.set(event, listeners);
-			}
-
-			listeners.push(listener);
-		}
-		finally
+		let listeners = this.#listeners.get(event);
+		if (listeners === undefined)
 		{
-			this.#operateOverListenersSemaphore.release();
+			listeners = [];
+			this.#listeners.set(event, listeners);
 		}
+
+		listeners.push(listener);
+
+		this.#operateOverListenersSemaphore.release();
 	}
 
 	public async remove<TEvent extends keyof TEventMap>(event: TEvent, listener: TEventMap[TEvent])
@@ -49,26 +44,22 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...a
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 
 		await this.#operateOverListenersSemaphore.waitOne();
-		try
-		{
-			const listeners = this.#listeners.get(event);
-			if (listeners === undefined)
-			{
-				return;
-			}
 
-			const listenerIndex = listeners.indexOf(listener);
-			if (listenerIndex === -1)
-			{
-				return;
-			}
-
-			listeners.splice(listenerIndex, 1);
-		}
-		finally
+		const listeners = this.#listeners.get(event);
+		if (listeners === undefined)
 		{
-			this.#operateOverListenersSemaphore.release();
+			return;
 		}
+
+		const listenerIndex = listeners.indexOf(listener);
+		if (listenerIndex === -1)
+		{
+			return;
+		}
+
+		listeners.splice(listenerIndex, 1);
+
+		this.#operateOverListenersSemaphore.release();
 	}
 
 	public async emit<TEvent extends keyof TEventMap>(event: TEvent, ...args: Parameters<TEventMap[TEvent]>)
