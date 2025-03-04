@@ -14,7 +14,7 @@ export namespace ThrowHelper
 		{
 			if (TypeHelper.isNullable(object))
 			{
-				throw new TypeErrorConstructor(`Object is null.`);
+				throw new TypeErrorConstructor(`Object is nullable.`);
 			}
 		}
 
