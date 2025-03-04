@@ -3,6 +3,7 @@ import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { MessageData } from "./Models/MessageData.js";
 import { Temporal } from "@js-temporal/polyfill";
 import { SealedClassError } from "../../Common/SealedClassError.js";
+import { MessageAuthorType } from "./MessageAuthorType.js";
 
 export class Message
 {
@@ -72,5 +73,25 @@ export class Message
 	public get creationTime()
 	{
 		return Temporal.ZonedDateTime.from(this.#data.creationTime);
+	}
+
+	public async getAuthor()
+	{
+		if (this.authorId === null || this.authorType !== MessageAuthorType.User)
+		{
+			return null;
+		}
+
+		return await this.#restClient.getUser(this.authorId);
+	}
+
+	public async getRoom()
+	{
+		return await this.#restClient.getRoom(this.roomId);
+	}
+
+	public async remove()
+	{
+		return await this.#restClient.removeMessage(this.roomId, this.id);
 	}
 }
