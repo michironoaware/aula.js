@@ -20,7 +20,7 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...a
 	public async on<TEvent extends keyof TEventMap>(event: TEvent, listener: TEventMap[TEvent])
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
-		ThrowHelper.TypeError.throwIfNull(event);
+		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 
 		await this.#operateOverListenersSemaphore.waitOne();
@@ -45,7 +45,7 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...a
 	public async remove<TEvent extends keyof TEventMap>(event: TEvent, listener: TEventMap[TEvent])
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
-		ThrowHelper.TypeError.throwIfNull(event);
+		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 
 		await this.#operateOverListenersSemaphore.waitOne();
@@ -74,7 +74,7 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...a
 	public async emit<TEvent extends keyof TEventMap>(event: TEvent, ...args: Parameters<TEventMap[TEvent]>)
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
-		ThrowHelper.TypeError.throwIfNull(event);
+		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(args, "object");
 
 		const listeners = this.#listeners.get(event);

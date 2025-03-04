@@ -10,7 +10,7 @@ export namespace ThrowHelper
 		import TypeResolvable = TypeHelper.TypeResolvable;
 		import ResolvedType = TypeHelper.ResolvedType;
 
-		export function throwIfNull<T>(object: T): asserts object is NonNullable<T>
+		export function throwIfNullable<T>(object: T): asserts object is NonNullable<T>
 		{
 			if (TypeHelper.isNullable(object))
 			{
