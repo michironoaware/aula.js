@@ -56,7 +56,7 @@ export class Ban
 			return null;
 		}
 
-		return await this.#restClient.getUser(this.executorId);
+		return await this.restClient.getUser(this.executorId);
 	}
 
 	public async getTarget()
@@ -66,6 +66,6 @@ export class Ban
 			return null;
 		}
 
-		return await this.#restClient.getUser(this.targetId);
+		return await this.restClient.getUser(this.targetId);
 	}
 }

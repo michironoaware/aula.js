@@ -82,16 +82,16 @@ export class Message
 			return null;
 		}
 
-		return await this.#restClient.getUser(this.authorId);
+		return await this.restClient.getUser(this.authorId);
 	}
 
 	public async getRoom()
 	{
-		return await this.#restClient.getRoom(this.roomId);
+		return await this.restClient.getRoom(this.roomId);
 	}
 
 	public async remove()
 	{
-		return await this.#restClient.removeMessage(this.roomId, this.id);
+		return await this.restClient.removeMessage(this.roomId, this.id);
 	}
 }

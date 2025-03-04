@@ -62,22 +62,22 @@ export class Room
 
 	public async getLatest()
 	{
-		return await this.#restClient.getRoom(this.#data.id);
+		return await this.restClient.getRoom(this.id);
 	}
 
 	public async modify(body: IModifyRoomRequestBody)
 	{
-		return await this.#restClient.modifyRoom(this.#data.id, body);
+		return await this.restClient.modifyRoom(this.id, body);
 	}
 
 	public async remove()
 	{
-		return await this.#restClient.removeRoom(this.#data.id);
+		return await this.restClient.removeRoom(this.id);
 	}
 
 	public async getConnections()
 	{
-		return await this.#restClient.getRoomConnections(this.#data.id);
+		return await this.restClient.getRoomConnections(this.id);
 	}
 
 	public async setConnections(rooms: Iterable<Room | string>)
@@ -90,7 +90,7 @@ export class Room
 			ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		}
 
-		return await this.#restClient.setRoomConnections(this.#data.id, { roomIds });
+		return await this.restClient.setRoomConnections(this.id, { roomIds });
 	}
 
 	public async addConnection(room: Room | string)
@@ -98,7 +98,7 @@ export class Room
 		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string");
 
 		const roomId = TypeHelper.isType(room, Room) ? room.id : room;
-		return await this.#restClient.addRoomConnection(this.#data.id, roomId);
+		return await this.restClient.addRoomConnection(this.id, roomId);
 	}
 
 	public async removeConnection(room: Room | string)
@@ -106,22 +106,22 @@ export class Room
 		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string");
 
 		const roomId = TypeHelper.isType(room, Room) ? room.id : room;
-		return await this.#restClient.removeRoomConnection(this.#data.id, roomId);
+		return await this.restClient.removeRoomConnection(this.id, roomId);
 	}
 
 	public async getUsers()
 	{
-		return await this.#restClient.getRoomUsers(this.#data.id);
+		return await this.restClient.getRoomUsers(this.id);
 	}
 
 	public async startTyping()
 	{
-		return await this.#restClient.startTyping(this.#data.id);
+		return await this.restClient.startTyping(this.id);
 	}
 
 	public async stopTyping()
 	{
-		return await this.#restClient.stopTyping(this.#data.id);
+		return await this.restClient.stopTyping(this.id);
 	}
 
 	public async getMessage(message: Message | string)
@@ -129,13 +129,13 @@ export class Room
 		ThrowHelper.TypeError.throwIfNotAnyType(message, Message, "string");
 
 		const messageId = TypeHelper.isType(message, Message) ? message.id : message;
-		return await this.#restClient.getMessage(this.#data.id, messageId);
+		return await this.restClient.getMessage(this.id, messageId);
 	}
 
 	public async getMessages(query: IGetMessagesQuery = {})
 	{
 		ThrowHelper.TypeError.throwIfNullable(query);
-		return await this.#restClient.getMessages(this.#data.id, query);
+		return await this.restClient.getMessages(this.id, query);
 	}
 
 	public async sendMessage(message: ISendMessageRequestBody)
@@ -152,6 +152,6 @@ export class Room
 			body = message;
 		}
 
-		return await this.#restClient.sendMessage(this.#data.id, body);
+		return await this.restClient.sendMessage(this.id, body);
 	}
 }

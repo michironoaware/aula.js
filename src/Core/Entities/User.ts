@@ -63,7 +63,7 @@ export class User
 
 	public async getLatest()
 	{
-		return await this.#restClient.getUser(this.#data.id);
+		return await this.restClient.getUser(this.id);
 	}
 
 	public async getCurrentRoom()
@@ -73,7 +73,7 @@ export class User
 			return null;
 		}
 
-		return await this.#restClient.getRoom(this.currentRoomId);
+		return await this.restClient.getRoom(this.currentRoomId);
 	}
 
 	public async setCurrentRoom(room: Room): Promise<void>;
@@ -85,23 +85,23 @@ export class User
 		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string");
 
 		const roomId = TypeHelper.isType(room, Room) ? room.id : room;
-		return await this.#restClient.setUserRoom(this.#data.id, { roomId });
+		return await this.restClient.setUserRoom(this.id, { roomId });
 	}
 
 	public async setPermissions(permissions: Permissions)
 	{
 		ThrowHelper.TypeError.throwIfNotType(permissions, "number");
-		return await this.#restClient.setUserPermissions(this.#data.id, { permissions });
+		return await this.restClient.setUserPermissions(this.id, { permissions });
 	}
 
 	public async ban(reason: string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(reason, "string");
-		return await this.#restClient.banUser(this.#data.id, { reason });
+		return await this.restClient.banUser(this.id, { reason });
 	}
 
 	public async unban()
 	{
-		return await this.#restClient.unbanUser(this.#data.id);
+		return await this.restClient.unbanUser(this.id);
 	}
 }
