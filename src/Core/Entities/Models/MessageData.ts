@@ -6,6 +6,7 @@ import { MessageUserJoinData } from "./MessageUserJoinData.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { TypeHelper } from "../../../Common/TypeHelper.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
+import { ValueOutOfRangeError } from "../../../Common/ValueOutOfRangeError.js";
 
 export class MessageData
 {
@@ -47,9 +48,11 @@ export class MessageData
 				break;
 			case MessageType.UserJoin:
 				ThrowHelper.TypeError.throwIfNullable(data.joinData);
+				ValueOutOfRangeError.throwIfNotEqual(data.authorType, MessageAuthorType.System);
 				break;
 			case MessageType.UserLeave:
 				ThrowHelper.TypeError.throwIfNullable(data.leaveData);
+				ValueOutOfRangeError.throwIfNotEqual(data.authorType, MessageAuthorType.System);
 				break;
 			default:
 				break;
