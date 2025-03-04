@@ -8,7 +8,7 @@ export class MessageUserJoinData
 	public constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(MessageUserJoinData, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, "object");
+		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
 
 		this.#userId = data.userId;

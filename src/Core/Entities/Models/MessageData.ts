@@ -24,7 +24,7 @@ export class MessageData
 	public constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(MessageData, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, "object");
+		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.flags, "number");
@@ -41,8 +41,8 @@ export class MessageData
 		this.#authorId = data.authorId ?? null;
 		this.#roomId = data.roomId;
 		this.#content = data.content ?? null;
-		this.#joinData = TypeHelper.isType(data.joinData, "object") ? new MessageUserJoinData(data.joinData) : null;
-		this.#leaveData = TypeHelper.isType(data.leaveData, "object") ? new MessageUserLeaveData(data.leaveData) : null;
+		this.#joinData = TypeHelper.isNullable(data.joinData) ? null : new MessageUserJoinData(data.joinData);
+		this.#leaveData = TypeHelper.isNullable(data.leaveData) ? null : new MessageUserLeaveData(data.leaveData);
 		this.#creationTime = data.creationTime;
 	}
 

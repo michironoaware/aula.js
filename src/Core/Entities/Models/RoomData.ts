@@ -13,6 +13,7 @@ export class RoomData
 	public constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(RoomData, new.target);
+		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.name, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.description, "string");

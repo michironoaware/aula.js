@@ -17,7 +17,7 @@ export class UserData
 	public constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(UserData, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, "object");
+		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.displayName, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.description, "string", "null", "undefined");

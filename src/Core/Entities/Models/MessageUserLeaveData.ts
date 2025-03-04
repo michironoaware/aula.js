@@ -9,7 +9,7 @@ export class MessageUserLeaveData
 	public constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(MessageUserLeaveData, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, "object");
+		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.roomId, "string", "null", "undefined");
 

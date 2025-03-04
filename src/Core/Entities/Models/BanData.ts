@@ -13,7 +13,7 @@ export class BanData
 	public constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(BanData, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, "object");
+		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.executorId, "string", "null", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.reason, "string", "null", "undefined");
