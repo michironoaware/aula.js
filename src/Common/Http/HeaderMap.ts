@@ -1,5 +1,5 @@
-﻿import {ThrowHelper} from "../ThrowHelper.js";
-import {SealedClassError} from "../SealedClassError.js";
+﻿import { ThrowHelper } from "../ThrowHelper.js";
+import { SealedClassError } from "../SealedClassError.js";
 
 export class HeaderMap implements ReadonlyMap<string, string>
 {
@@ -48,7 +48,7 @@ export class HeaderMap implements ReadonlyMap<string, string>
 		return this.#underlyingMap.values();
 	}
 
-	public [Symbol.iterator]()
+	public [ Symbol.iterator ]()
 	{
 		return this.#underlyingMap.entries();
 	}

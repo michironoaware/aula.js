@@ -1,53 +1,53 @@
-import {HttpClient} from "../../Common/Http/HttpClient.js";
-import {ThrowHelper} from "../../Common/ThrowHelper.js";
-import {HttpResponseMessage} from "../../Common/Http/HttpResponseMessage.js";
-import {HttpRequestError} from "../../Common/Http/HttpRequestError.js";
-import {HttpStatusCode} from "../../Common/Http/HttpStatusCode.js";
-import {AulaUnauthorizedError} from "./AulaUnauthorizedError.js";
-import {AulaForbiddenError} from "./AulaForbiddenError.js";
-import {AulaBadRequestError} from "./AulaBadRequestError.js";
-import {AulaNotFoundError} from "./AulaNotFoundError.js";
-import {HttpMethod} from "../../Common/Http/HttpMethod.js";
-import {HttpRequestMessage} from "../../Common/Http/HttpRequestMessage.js";
-import {AulaRoute} from "../AulaRoute.js";
-import {User} from "../Entities/User.js";
-import {IGetUsersQuery} from "./IGetUsersQuery.js";
-import {UserData} from "../Entities/Models/UserData.js";
-import {IModifyCurrentUserRequestBody} from "./IModifyCurrentUserRequestBody.js";
-import {JsonContent} from "../../Common/Http/JsonContent.js";
-import {UserType} from "../Entities/UserType.js";
-import {ISetUserRoomRequestBody} from "./ISetUserRoomRequestBody.js";
-import {ISetUserPermissionsRequestBody} from "./ISetUserPermissionsRequestBody.js";
-import {ICreateRoomRequestBody} from "./ICreateRoomRequestBody.js";
-import {RoomData} from "../Entities/Models/RoomData.js";
-import {Room} from "../Entities/Room.js";
-import {IGetRoomsQuery} from "./IGetRoomsQuery.js";
-import {IModifyRoomRequestBody} from "./IModifyRoomRequestBody.js";
-import {ISetRoomConnectionsRequestBody} from "./ISetRoomConnectionsRequestBody.js";
-import {MessageData} from "../Entities/Models/MessageData.js";
-import {Message} from "../Entities/Message.js";
-import {IGetMessagesQuery} from "./IGetMessagesQuery.js";
-import {MessageType} from "../Entities/MessageType.js";
-import {ISendMessageRequestBody} from "./ISendMessageRequestBody.js";
-import {ISendUnknownMessageRequestBody} from "./ISendUnknownMessageRequestBody.js";
-import {IConfirmEmailQuery} from "./IConfirmEmailQuery.js";
-import {IForgotPasswordQuery} from "./IForgotPasswordQuery.js";
-import {IResetPasswordRequestBody} from "./IResetPasswordRequestBody.js";
-import {IRegisterRequestBody} from "./IRegisterRequestBody.js";
-import {ILogInRequestBody} from "./ILogInRequestBody.js";
-import {LogInResponse} from "./LogInResponse.js";
-import {ICreateBotRequestBody} from "./ICreateBotRequestBody.js";
-import {CreateBotResponse} from "./CreateBotResponse.js";
-import {ResetBotTokenResponse} from "./ResetBotTokenResponse.js";
-import {IBanUserRequestBody} from "./IBanUserRequestBody.js";
-import {BanData} from "../Entities/Models/BanData.js";
-import {Ban} from "../Entities/Ban.js";
-import {GetCurrentUserBanStatusResponse} from "./GetCurrentUserBanStatusResponse.js";
-import {SealedClassError} from "../../Common/SealedClassError.js";
-import {AulaGlobalRateLimiterHandler} from "./AulaGlobalRateLimiterHandler.js";
-import {HttpFetchHandler} from "../../Common/Http/HttpFetchHandler.js";
-import {AulaRestError} from "../AulaRestError.js";
-import {AulaRouteRateLimiterHandler} from "./AulaRouteRateLimiterHandler.js";
+import { HttpClient } from "../../Common/Http/HttpClient.js";
+import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { HttpResponseMessage } from "../../Common/Http/HttpResponseMessage.js";
+import { HttpRequestError } from "../../Common/Http/HttpRequestError.js";
+import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
+import { AulaUnauthorizedError } from "./AulaUnauthorizedError.js";
+import { AulaForbiddenError } from "./AulaForbiddenError.js";
+import { AulaBadRequestError } from "./AulaBadRequestError.js";
+import { AulaNotFoundError } from "./AulaNotFoundError.js";
+import { HttpMethod } from "../../Common/Http/HttpMethod.js";
+import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
+import { AulaRoute } from "../AulaRoute.js";
+import { User } from "../Entities/User.js";
+import { IGetUsersQuery } from "./IGetUsersQuery.js";
+import { UserData } from "../Entities/Models/UserData.js";
+import { IModifyCurrentUserRequestBody } from "./IModifyCurrentUserRequestBody.js";
+import { JsonContent } from "../../Common/Http/JsonContent.js";
+import { UserType } from "../Entities/UserType.js";
+import { ISetUserRoomRequestBody } from "./ISetUserRoomRequestBody.js";
+import { ISetUserPermissionsRequestBody } from "./ISetUserPermissionsRequestBody.js";
+import { ICreateRoomRequestBody } from "./ICreateRoomRequestBody.js";
+import { RoomData } from "../Entities/Models/RoomData.js";
+import { Room } from "../Entities/Room.js";
+import { IGetRoomsQuery } from "./IGetRoomsQuery.js";
+import { IModifyRoomRequestBody } from "./IModifyRoomRequestBody.js";
+import { ISetRoomConnectionsRequestBody } from "./ISetRoomConnectionsRequestBody.js";
+import { MessageData } from "../Entities/Models/MessageData.js";
+import { Message } from "../Entities/Message.js";
+import { IGetMessagesQuery } from "./IGetMessagesQuery.js";
+import { MessageType } from "../Entities/MessageType.js";
+import { ISendMessageRequestBody } from "./ISendMessageRequestBody.js";
+import { ISendUnknownMessageRequestBody } from "./ISendUnknownMessageRequestBody.js";
+import { IConfirmEmailQuery } from "./IConfirmEmailQuery.js";
+import { IForgotPasswordQuery } from "./IForgotPasswordQuery.js";
+import { IResetPasswordRequestBody } from "./IResetPasswordRequestBody.js";
+import { IRegisterRequestBody } from "./IRegisterRequestBody.js";
+import { ILogInRequestBody } from "./ILogInRequestBody.js";
+import { LogInResponse } from "./LogInResponse.js";
+import { ICreateBotRequestBody } from "./ICreateBotRequestBody.js";
+import { CreateBotResponse } from "./CreateBotResponse.js";
+import { ResetBotTokenResponse } from "./ResetBotTokenResponse.js";
+import { IBanUserRequestBody } from "./IBanUserRequestBody.js";
+import { BanData } from "../Entities/Models/BanData.js";
+import { Ban } from "../Entities/Ban.js";
+import { GetCurrentUserBanStatusResponse } from "./GetCurrentUserBanStatusResponse.js";
+import { SealedClassError } from "../../Common/SealedClassError.js";
+import { AulaGlobalRateLimiterHandler } from "./AulaGlobalRateLimiterHandler.js";
+import { HttpFetchHandler } from "../../Common/Http/HttpFetchHandler.js";
+import { AulaRestError } from "../AulaRestError.js";
+import { AulaRouteRateLimiterHandler } from "./AulaRouteRateLimiterHandler.js";
 
 export class RestClient
 {
@@ -62,7 +62,7 @@ export class RestClient
 		this.#httpClient = options.httpClient ?? new HttpClient({
 			handler: new AulaGlobalRateLimiterHandler(
 				new AulaRouteRateLimiterHandler(
-				new HttpFetchHandler(), true))
+					new HttpFetchHandler(), true))
 		});
 	}
 
@@ -146,8 +146,8 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse(await response.content.readAsString())
-			.map((d: any) => new UserData(d))
-			.map((d: UserData) => new User(this, d)) as User[];
+		           .map((d: any) => new UserData(d))
+		           .map((d: UserData) => new User(this, d)) as User[];
 	}
 
 	public async getUser(userId: string)
@@ -284,15 +284,15 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse(await response.content.readAsString())
-			.map((d: any) => new RoomData(d))
-			.map((d: RoomData) => new Room(this, d)) as Room[];
+		           .map((d: any) => new RoomData(d))
+		           .map((d: RoomData) => new Room(this, d)) as Room[];
 	}
 
 	public async getRoom(roomId: string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.room({ route: { roomId }}));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.room({ route: { roomId } }));
 
 		const response = await this.#httpClient.send(request);
 		if (response.statusCode === HttpStatusCode.NotFound)
@@ -314,7 +314,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "undefined");
 
-		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.room({ route: { roomId }}));
+		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.room({ route: { roomId } }));
 		request.content = new JsonContent(
 			{
 				name: body.name,
@@ -346,7 +346,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(targetId, "string");
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomConnection({ route: { roomId, targetId }}));
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomConnection({ route: { roomId, targetId } }));
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -358,14 +358,14 @@ export class RestClient
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomConnections({ route: { roomId }}));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomConnections({ route: { roomId } }));
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse((await response.content.readAsString()))
-			.map((d: any)=> new RoomData(d))
-			.map((d: RoomData) => new Room(this, d)) as Room[];
+		           .map((d: any) => new RoomData(d))
+		           .map((d: RoomData) => new Room(this, d)) as Room[];
 	}
 
 	public async setRoomConnections(roomId: string, body: ISetRoomConnectionsRequestBody)
@@ -374,13 +374,13 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNullable(body);
 		ThrowHelper.TypeError.throwIfNotType(body.roomIds, "iterable");
 
-		const roomIds = [...body.roomIds];
+		const roomIds = [ ...body.roomIds ];
 		for (const roomId of roomIds)
 		{
 			ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		}
 
-		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnections({ route: { roomId }}));
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnections({ route: { roomId } }));
 		request.content = new JsonContent({ roomIds } as ISetRoomConnectionsRequestBody);
 
 		const response = await this.#httpClient.send(request);
@@ -394,7 +394,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(targetId, "string");
 
-		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomConnection({ route: { roomId, targetId }}));
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomConnection({ route: { roomId, targetId } }));
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -406,21 +406,21 @@ export class RestClient
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomUsers({ route: { roomId }}));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomUsers({ route: { roomId } }));
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse(await response.content.readAsString())
-			.map((d: any) => new UserData(d))
-			.map((d: UserData) => new User(this, d)) as User[];
+		           .map((d: any) => new UserData(d))
+		           .map((d: UserData) => new User(this, d)) as User[];
 	}
 
 	public async startTyping(roomId: string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.startTyping({ route: { roomId }}));
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.startTyping({ route: { roomId } }));
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -432,7 +432,7 @@ export class RestClient
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.stopTyping({ route: { roomId }}));
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.stopTyping({ route: { roomId } }));
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -448,7 +448,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(body.flags, "number", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType((body as ISendUnknownMessageRequestBody).content, "string", "undefined");
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomMessages({ route: { roomId }}));
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomMessages({ route: { roomId } }));
 		request.content = new JsonContent(
 			{
 				type: body.type,
@@ -468,7 +468,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(messageId, "string");
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessage({ route: { roomId, messageId }}));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessage({ route: { roomId, messageId } }));
 
 		const response = await this.#httpClient.send(request);
 		if (response.statusCode === HttpStatusCode.NotFound)
@@ -506,8 +506,8 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse((await response.content.readAsString()))
-			.map((d: any) => new MessageData(d))
-			.map((d: MessageData) => new Message(this, d)) as Message[];
+		           .map((d: any) => new MessageData(d))
+		           .map((d: MessageData) => new Message(this, d)) as Message[];
 	}
 
 	public async removeMessage(roomId: string, messageId: string)
@@ -515,7 +515,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(messageId, "string");
 
-		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomMessage({ route: { roomId, messageId }}));
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomMessage({ route: { roomId, messageId } }));
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);

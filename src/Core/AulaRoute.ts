@@ -8,13 +8,13 @@
 	export function users(args?: { query?: { type?: number, count?: number, after?: string } })
 	{
 		return "users" +
-			(typeof args?.query !== "undefined" ? "?" : "") +
-			(args?.query?.type ? `type=${args.query.type}` : "") +
-			(args?.query?.count ? `&count=${args.query.count}` : "") +
-			(args?.query?.after ? `&after=${args.query.after}` : "");
+		       (typeof args?.query !== "undefined" ? "?" : "") +
+		       (args?.query?.type ? `type=${args.query.type}` : "") +
+		       (args?.query?.count ? `&count=${args.query.count}` : "") +
+		       (args?.query?.after ? `&after=${args.query.after}` : "");
 	}
 
-	export function user(args: { route: {userId: string} })
+	export function user(args: { route: { userId: string } })
 	{
 		return `users/${args.route.userId}`;
 	}
@@ -37,9 +37,9 @@
 	export function rooms(args?: { query?: { count?: number, after?: string } })
 	{
 		return "rooms" +
-			(typeof args?.query !== "undefined" ? "?" : "") +
-			(args?.query?.count ? `count=${args.query.count}` : "") +
-			(args?.query?.after ? `&after=${args.query.after}` : "");
+		       (typeof args?.query !== "undefined" ? "?" : "") +
+		       (args?.query?.count ? `count=${args.query.count}` : "") +
+		       (args?.query?.after ? `&after=${args.query.after}` : "");
 	}
 
 	export function room(args: { route: { roomId: string } })
@@ -75,10 +75,10 @@
 	export function roomMessages(args: { route: { roomId: string }, query?: { count?: number, before?: string, after?: string } })
 	{
 		return `rooms/${args.route.roomId}/messages` +
-			(typeof args?.query !== "undefined" ? "?" : "") +
-			(args.query?.count ? `count=${args.query.count}` : "") +
-			(args.query?.before ? `&before=${args.query.before}` : "") +
-			(args.query?.after ? `&after=${args.query.after}` : "");
+		       (typeof args?.query !== "undefined" ? "?" : "") +
+		       (args.query?.count ? `count=${args.query.count}` : "") +
+		       (args.query?.before ? `&before=${args.query.before}` : "") +
+		       (args.query?.after ? `&after=${args.query.after}` : "");
 	}
 
 	export function roomMessage(args: { route: { roomId: string, messageId: string } })
@@ -114,7 +114,7 @@
 	export function confirmEmail(args: { query: { email: string, token?: string } })
 	{
 		return `identity/confirm-email?email=${args.query.email}` +
-			(args.query?.token ? `&token=${args.query.token}` : "");
+		       (args.query?.token ? `&token=${args.query.token}` : "");
 	}
 
 	export function forgotPassword(args: { query: { email: string } })
@@ -129,7 +129,7 @@
 
 	export function resetToken()
 	{
-		return "identity/reset-token"
+		return "identity/reset-token";
 	}
 
 	export function bots()

@@ -1,7 +1,7 @@
-﻿import {HttpContent} from "./HttpContent.js";
-import {HeaderMap} from "./HeaderMap.js";
-import {SealedClassError} from "../SealedClassError.js";
-import {ObjectDisposedError} from "../ObjectDisposedError.js";
+﻿import { HttpContent } from "./HttpContent.js";
+import { HeaderMap } from "./HeaderMap.js";
+import { SealedClassError } from "../SealedClassError.js";
+import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 export class EmptyContent extends HttpContent
 {

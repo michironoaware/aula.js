@@ -1,6 +1,6 @@
-﻿import {HttpStatusCode} from "./HttpStatusCode.js";
-import {ThrowHelper} from "../ThrowHelper.js";
-import {SealedClassError} from "../SealedClassError.js";
+﻿import { HttpStatusCode } from "./HttpStatusCode.js";
+import { ThrowHelper } from "../ThrowHelper.js";
+import { SealedClassError } from "../SealedClassError.js";
 
 export class HttpRequestError extends Error
 {

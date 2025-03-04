@@ -1,5 +1,5 @@
-﻿import {ThrowHelper} from "../../Common/ThrowHelper.js";
-import {SealedClassError} from "../../Common/SealedClassError.js";
+﻿import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { SealedClassError } from "../../Common/SealedClassError.js";
 
 export class ResetBotTokenResponse
 {

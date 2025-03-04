@@ -1,4 +1,4 @@
-﻿import {ThrowHelper} from "../ThrowHelper.js";
+﻿import { ThrowHelper } from "../ThrowHelper.js";
 
 export async function Delay(milliseconds: number)
 {

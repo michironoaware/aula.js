@@ -1,5 +1,5 @@
-﻿import {ISendUnknownMessageRequestBody} from "./ISendUnknownMessageRequestBody.js";
-import {MessageType} from "../Entities/MessageType.js";
+﻿import { ISendUnknownMessageRequestBody } from "./ISendUnknownMessageRequestBody.js";
+import { MessageType } from "../Entities/MessageType.js";
 
 export interface ISendStandardMessageRequestBody extends ISendUnknownMessageRequestBody
 {

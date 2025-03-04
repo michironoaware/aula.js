@@ -1,4 +1,4 @@
-﻿import {ISendStandardMessageRequestBody} from "./ISendStandardMessageRequestBody.js";
+﻿import { ISendStandardMessageRequestBody } from "./ISendStandardMessageRequestBody.js";
 
 export type ISendMessageRequestBody = ISendStandardMessageRequestBody;
 

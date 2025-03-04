@@ -1,5 +1,5 @@
-﻿import {ThrowHelper} from "./ThrowHelper.js";
-import {SealedClassError} from "./SealedClassError.js";
+﻿import { ThrowHelper } from "./ThrowHelper.js";
+import { SealedClassError } from "./SealedClassError.js";
 
 export class ObjectDisposedError extends Error
 {

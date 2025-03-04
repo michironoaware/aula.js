@@ -1,7 +1,6 @@
-﻿import {AulaRestError} from "../AulaRestError.js";
-import {ThrowHelper} from "../../Common/ThrowHelper.js";
-import {SealedClassError} from "../../Common/SealedClassError.js";
-import {HttpRequestError} from "../../Common/Http/HttpRequestError.js";
+﻿import { AulaRestError } from "../AulaRestError.js";
+import { SealedClassError } from "../../Common/SealedClassError.js";
+import { HttpRequestError } from "../../Common/Http/HttpRequestError.js";
 
 export class AulaNotFoundError extends AulaRestError
 {

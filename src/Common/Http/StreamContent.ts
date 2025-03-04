@@ -1,8 +1,8 @@
-﻿import {HttpContent} from "./HttpContent.js";
-import {ThrowHelper} from "../ThrowHelper.js";
-import {HeaderMap} from "./HeaderMap.js";
-import {SealedClassError} from "../SealedClassError.js";
-import {ObjectDisposedError} from "../ObjectDisposedError.js";
+﻿import { HttpContent } from "./HttpContent.js";
+import { ThrowHelper } from "../ThrowHelper.js";
+import { HeaderMap } from "./HeaderMap.js";
+import { SealedClassError } from "../SealedClassError.js";
+import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 export class StreamContent extends HttpContent
 {
@@ -44,7 +44,7 @@ export class StreamContent extends HttpContent
 		let result = "";
 		while (true)
 		{
-			const {done, value} = await reader.read();
+			const { done, value } = await reader.read();
 			result += decoder.decode(value);
 
 			if (done)

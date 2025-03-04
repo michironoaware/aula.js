@@ -1,6 +1,6 @@
 import { HttpRequestMessage } from "./HttpRequestMessage.js";
 import { HttpResponseMessage } from "./HttpResponseMessage.js";
-import {IDisposable} from "../IDisposable.js";
+import { IDisposable } from "../IDisposable.js";
 
 export abstract class HttpMessageHandler implements IDisposable
 {

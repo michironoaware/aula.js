@@ -1,8 +1,8 @@
-﻿import {HttpContent} from "./HttpContent.js";
-import {ThrowHelper} from "../ThrowHelper.js";
-import {HeaderMap} from "./HeaderMap.js";
-import {SealedClassError} from "../SealedClassError.js";
-import {ObjectDisposedError} from "../ObjectDisposedError.js";
+﻿import { HttpContent } from "./HttpContent.js";
+import { ThrowHelper } from "../ThrowHelper.js";
+import { HeaderMap } from "./HeaderMap.js";
+import { SealedClassError } from "../SealedClassError.js";
+import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 export class StringContent extends HttpContent
 {
@@ -31,7 +31,7 @@ export class StringContent extends HttpContent
 	public get stream()
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
-		return new Blob([this.#string]).stream();
+		return new Blob([ this.#string ]).stream();
 	}
 
 	public readAsString()

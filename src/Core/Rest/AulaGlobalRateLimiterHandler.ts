@@ -1,15 +1,15 @@
-﻿import {DelegatingHandler} from "../../Common/Http/DelegatingHandler.js";
-import {SealedClassError} from "../../Common/SealedClassError.js";
-import {EventEmitter} from "../../Common/Threading/EventEmitter.js";
-import {Action} from "../../Common/Action.js";
-import {HttpRequestMessage} from "../../Common/Http/HttpRequestMessage.js";
-import {ThrowHelper} from "../../Common/ThrowHelper.js";
-import {HttpMessageHandler} from "../../Common/Http/HttpMessageHandler.js";
-import {Temporal} from "@js-temporal/polyfill";
-import {AutoResetEvent} from "../../Common/Threading/AutoResetEvent.js";
-import {ValueOutOfRangeError} from "../../Common/ValueOutOfRangeError.js";
-import {HttpStatusCode} from "../../Common/Http/HttpStatusCode.js";
-import {ObjectDisposedError} from "../../Common/ObjectDisposedError.js";
+﻿import { DelegatingHandler } from "../../Common/Http/DelegatingHandler.js";
+import { SealedClassError } from "../../Common/SealedClassError.js";
+import { EventEmitter } from "../../Common/Threading/EventEmitter.js";
+import { Action } from "../../Common/Action.js";
+import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
+import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler.js";
+import { Temporal } from "@js-temporal/polyfill";
+import { AutoResetEvent } from "../../Common/Threading/AutoResetEvent.js";
+import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError.js";
+import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
+import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 
 export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 {
@@ -51,7 +51,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			const requestLimitHeaderValue = response.headers.get("X-RateLimit-Global-Limit");
 			const windowMillisecondsHeaderValue = response.headers.get("X-RateLimit-Global-WindowMilliseconds");
 			if (requestLimitHeaderValue === undefined ||
-				windowMillisecondsHeaderValue === undefined)
+			    windowMillisecondsHeaderValue === undefined)
 			{
 				// Endpoint does not account for global rate limits.
 				return response;
@@ -60,7 +60,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			const requestLimit = parseInt(requestLimitHeaderValue, 10);
 			const windowMilliseconds = parseInt(windowMillisecondsHeaderValue, 10);
 			if (requestLimit !== this.#requestLimit ||
-				windowMilliseconds !== this.#windowMilliseconds)
+			    windowMilliseconds !== this.#windowMilliseconds)
 			{
 				// This is the first time making a request and limits must be synced
 				// or the global rate limits has been updated server-side.
@@ -81,8 +81,8 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			const isGlobalHeaderValue = response.headers.get("X-RateLimit-IsGlobal");
 			const resetTimestampHeaderValue = response.headers.get("X-RateLimit-ResetsAt");
 			if (isGlobalHeaderValue !== undefined &&
-				isGlobalHeaderValue === "true" &&
-				resetTimestampHeaderValue !== undefined)
+			    isGlobalHeaderValue === "true" &&
+			    resetTimestampHeaderValue !== undefined)
 			{
 				// There are no requests left, or we have reached an unexpected 429 http status code.
 				const resetDateTime = Temporal.ZonedDateTime.from(resetTimestampHeaderValue);
@@ -118,6 +118,19 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		return await this.#eventEmitter.remove(event, listener);
 	}
 
+	public dispose()
+	{
+		if (this.#disposed)
+		{
+			return;
+		}
+
+		this.#eventEmitter.dispose();
+		this.#requestAvailableEvent.dispose();
+
+		this.#disposed = true;
+	}
+
 	#scheduleRequestReplenishment(wait?: Temporal.Duration)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(wait, Temporal.Duration, "undefined");
@@ -134,24 +147,11 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			this.#requestAvailableEvent.set();
 		}, milliseconds);
 	}
-
-	public dispose()
-	{
-		if (this.#disposed)
-		{
-			return;
-		}
-
-		this.#eventEmitter.dispose();
-		this.#requestAvailableEvent.dispose();
-
-		this.#disposed = true;
-	}
 }
 
 export interface AulaGlobalRateLimiterHandlerEvents
 {
-	RateLimited: Action<[RateLimitedEvent]>;
+	RateLimited: Action<[ RateLimitedEvent ]>;
 }
 
 export class RateLimitedEvent

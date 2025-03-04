@@ -1,11 +1,10 @@
-﻿import {ThrowHelper} from "../ThrowHelper.js";
-import {InvalidOperationError} from "../InvalidOperationError.js";
-import {ValueOutOfRangeError} from "../ValueOutOfRangeError.js";
-import {SemaphoreFullError} from "./SemaphoreFullError.js";
-import {Action} from "../Action.js";
-import {SealedClassError} from "../SealedClassError.js";
-import {IDisposable} from "../IDisposable.js";
-import {ObjectDisposedError} from "../ObjectDisposedError.js";
+﻿import { ThrowHelper } from "../ThrowHelper.js";
+import { ValueOutOfRangeError } from "../ValueOutOfRangeError.js";
+import { SemaphoreFullError } from "./SemaphoreFullError.js";
+import { Action } from "../Action.js";
+import { SealedClassError } from "../SealedClassError.js";
+import { IDisposable } from "../IDisposable.js";
+import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 export class Semaphore implements IDisposable
 {
@@ -36,7 +35,7 @@ export class Semaphore implements IDisposable
 			{
 				ObjectDisposedError.throwIf(this.#disposed);
 
-				if(this.#availableCount > 0)
+				if (this.#availableCount > 0)
 				{
 					this.#availableCount--;
 					resolve();
@@ -45,7 +44,7 @@ export class Semaphore implements IDisposable
 				{
 					this.#queue.push(tryGetLock);
 				}
-			}
+			};
 
 			tryGetLock();
 		});

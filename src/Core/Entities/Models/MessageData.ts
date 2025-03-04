@@ -1,12 +1,11 @@
-﻿import {MessageType} from "../MessageType.js";
-import {MessageFlags} from "../MessageFlags.js";
-import {MessageAuthorType} from "../MessageAuthorType.js";
-import {MessageUserLeaveData} from "./MessageUserLeaveData.js";
-import {MessageUserJoinData} from "./MessageUserJoinData.js";
-import {ThrowHelper} from "../../../Common/ThrowHelper.js";
-import {Temporal} from "@js-temporal/polyfill";
-import {TypeHelper} from "../../../Common/TypeHelper.js";
-import {SealedClassError} from "../../../Common/SealedClassError.js";
+﻿import { MessageType } from "../MessageType.js";
+import { MessageFlags } from "../MessageFlags.js";
+import { MessageAuthorType } from "../MessageAuthorType.js";
+import { MessageUserLeaveData } from "./MessageUserLeaveData.js";
+import { MessageUserJoinData } from "./MessageUserJoinData.js";
+import { ThrowHelper } from "../../../Common/ThrowHelper.js";
+import { TypeHelper } from "../../../Common/TypeHelper.js";
+import { SealedClassError } from "../../../Common/SealedClassError.js";
 
 export class MessageData
 {

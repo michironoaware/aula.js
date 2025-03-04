@@ -1,5 +1,5 @@
-﻿import {ThrowHelper} from "../Common/ThrowHelper.js";
-import {HttpRequestError} from "../Common/Http/HttpRequestError.js";
+﻿import { ThrowHelper } from "../Common/ThrowHelper.js";
+import { HttpRequestError } from "../Common/Http/HttpRequestError.js";
 
 export class AulaRestError extends Error
 {
@@ -9,7 +9,7 @@ export class AulaRestError extends Error
 	public constructor(
 		message: string | undefined = undefined,
 		content: string | null,
-		innerError: HttpRequestError | null =  null)
+		innerError: HttpRequestError | null = null)
 	{
 		super(message);
 		ThrowHelper.TypeError.throwIfNotAnyType(message, "string", "undefined");

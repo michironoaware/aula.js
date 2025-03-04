@@ -1,6 +1,6 @@
-﻿import {BanType} from "./BanType.js";
-import {ThrowHelper} from "../../../Common/ThrowHelper.js";
-import {SealedClassError} from "../../../Common/SealedClassError.js";
+﻿import { BanType } from "./BanType.js";
+import { ThrowHelper } from "../../../Common/ThrowHelper.js";
+import { SealedClassError } from "../../../Common/SealedClassError.js";
 
 export class BanData
 {

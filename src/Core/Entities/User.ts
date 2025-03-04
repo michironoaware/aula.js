@@ -1,13 +1,10 @@
-﻿import {ThrowHelper} from "../../Common/ThrowHelper.js";
-import {RestClient} from "../Rest/RestClient.js";
-import {UserData} from "./Models/UserData.js";
-import {UserType} from "./UserType.js";
-import {Permissions} from "./Permissions.js";
-import {Presence} from "./Presence.js";
-import {SealedClassError} from "../../Common/SealedClassError.js";
-import {IBanUserRequestBody} from "../Rest/IBanUserRequestBody.js";
-import {Room} from "./Room.js";
-import {TypeHelper} from "../../Common/TypeHelper.js";
+﻿import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { RestClient } from "../Rest/RestClient.js";
+import { UserData } from "./Models/UserData.js";
+import { Permissions } from "./Permissions.js";
+import { SealedClassError } from "../../Common/SealedClassError.js";
+import { Room } from "./Room.js";
+import { TypeHelper } from "../../Common/TypeHelper.js";
 
 export class User
 {

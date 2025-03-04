@@ -1,6 +1,6 @@
 ﻿export namespace TypeHelper
 {
-	export function isNullable<T>(object: T) : object is NonNullable<T>
+	export function isNullable<T>(object: T): object is NonNullable<T>
 	{
 		return object !== null && object !== undefined;
 	}
@@ -9,14 +9,14 @@
 	{
 		const isNullType = type === "null" && object === null;
 
-		const isIterable = type === "iterable" && (object as any)[Symbol.iterator] !== undefined;
+		const isIterable = type === "iterable" && (object as any)[ Symbol.iterator ] !== undefined;
 
 		// Check whether typeof of the object is the same as the type string.
 		const isTypeOf = typeof type === "string" && typeof object === type;
 
 		// For checking whether an enum value is inside the defined range
 		// Doesn't work with flag enums
-		const isPropertyOf = typeof type === "object" && !!type[object as any];
+		const isPropertyOf = typeof type === "object" && !!type[ object as any ];
 
 		// For checking whether an enum flag is inside the defined range
 		let isEnumFlagOf = isPropertyOf;
@@ -25,7 +25,7 @@
 			let valuesSum = 0;
 			for (const property in type)
 			{
-				const value = type[property] as unknown;
+				const value = type[ property ] as unknown;
 				if (typeof value !== "number")
 				{
 					continue;
@@ -67,16 +67,16 @@
 
 	export type ResolvedType<T> =
 		T extends "string" ? string
-		: T extends "number" ? number
-		: T extends "bigint" ? bigint
-		: T extends "boolean" ? boolean
-		: T extends "symbol" ? symbol
-		: T extends "undefined" ? undefined
-		: T extends "object" ? object
-		: T extends "function" ? Function
-		: T extends "null" ? null
-		: T extends "iterable" ? Iterable<unknown>
-		: T extends abstract new (...args: any[]) => infer R ? R
-		: T extends Record<string, string | number> ? T[keyof T]
-		: never;
+		                   : T extends "number" ? number
+		                                        : T extends "bigint" ? bigint
+		                                                             : T extends "boolean" ? boolean
+		                                                                                   : T extends "symbol" ? symbol
+		                                                                                                        : T extends "undefined" ? undefined
+		                                                                                                                                : T extends "object" ? object
+		                                                                                                                                                     : T extends "function" ? Function
+		                                                                                                                                                                            : T extends "null" ? null
+		                                                                                                                                                                                               : T extends "iterable" ? Iterable<unknown>
+		                                                                                                                                                                                                                      : T extends abstract new (...args: any[]) => infer R ? R
+		                                                                                                                                                                                                                                                                           : T extends Record<string, string | number> ? T[keyof T]
+		                                                                                                                                                                                                                                                                                                                       : never;
 }

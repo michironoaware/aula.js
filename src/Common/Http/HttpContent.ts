@@ -1,5 +1,5 @@
-import {HeaderMap} from "./HeaderMap.js";
-import {IDisposable} from "../IDisposable.js";
+import { HeaderMap } from "./HeaderMap.js";
+import { IDisposable } from "../IDisposable.js";
 
 export abstract class HttpContent implements IDisposable
 {

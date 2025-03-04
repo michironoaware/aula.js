@@ -1,8 +1,8 @@
-import {UserType} from "../UserType.js";
-import {Presence} from "../Presence.js";
-import {Permissions} from "../Permissions.js";
-import {ThrowHelper} from "../../../Common/ThrowHelper.js";
-import {SealedClassError} from "../../../Common/SealedClassError.js";
+import { UserType } from "../UserType.js";
+import { Presence } from "../Presence.js";
+import { Permissions } from "../Permissions.js";
+import { ThrowHelper } from "../../../Common/ThrowHelper.js";
+import { SealedClassError } from "../../../Common/SealedClassError.js";
 
 export class UserData
 {
@@ -43,7 +43,6 @@ export class UserData
 	{
 		return this.#displayName;
 	}
-
 
 	public get description()
 	{

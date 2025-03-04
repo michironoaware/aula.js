@@ -1,10 +1,10 @@
-import {HttpMethod} from "./HttpMethod.js";
-import {HttpContent} from "./HttpContent.js";
-import {ThrowHelper} from "../ThrowHelper.js";
-import {HeaderMap} from "./HeaderMap.js";
-import {IDisposable} from "../IDisposable.js";
-import {ObjectDisposedError} from "../ObjectDisposedError.js";
-import {SealedClassError} from "../SealedClassError.js";
+import { HttpMethod } from "./HttpMethod.js";
+import { HttpContent } from "./HttpContent.js";
+import { ThrowHelper } from "../ThrowHelper.js";
+import { HeaderMap } from "./HeaderMap.js";
+import { IDisposable } from "../IDisposable.js";
+import { ObjectDisposedError } from "../ObjectDisposedError.js";
+import { SealedClassError } from "../SealedClassError.js";
 
 export class HttpRequestMessage implements IDisposable
 {
@@ -25,17 +25,6 @@ export class HttpRequestMessage implements IDisposable
 		this.#headers = new HeaderMap();
 		this.#content = null;
 	}
-
-	public dispose()
-	{
-		if (this.#disposed)
-		{
-			return;
-		}
-
-		this.content?.dispose();
-		this.#disposed = true;
-    }
 
 	public get method()
 	{
@@ -83,5 +72,16 @@ export class HttpRequestMessage implements IDisposable
 		ThrowHelper.TypeError.throwIfNotAnyType(value, HttpContent, "null");
 
 		this.#content = value;
+	}
+
+	public dispose()
+	{
+		if (this.#disposed)
+		{
+			return;
+		}
+
+		this.content?.dispose();
+		this.#disposed = true;
 	}
 }

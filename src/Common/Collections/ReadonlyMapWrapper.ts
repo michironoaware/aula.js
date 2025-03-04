@@ -1,5 +1,5 @@
-import {SealedClassError} from "../SealedClassError.js";
-import {ThrowHelper} from "../ThrowHelper.js";
+import { SealedClassError } from "../SealedClassError.js";
+import { ThrowHelper } from "../ThrowHelper.js";
 
 export class ReadonlyMapWrapper<K, V> implements ReadonlyMap<K, V>
 {
@@ -48,7 +48,7 @@ export class ReadonlyMapWrapper<K, V> implements ReadonlyMap<K, V>
 		return this.#underlyingMap.values();
 	}
 
-	public [Symbol.iterator]()
+	public [ Symbol.iterator ]()
 	{
 		return this.#underlyingMap.entries();
 	}

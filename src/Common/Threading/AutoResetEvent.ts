@@ -1,8 +1,8 @@
-﻿import {ThrowHelper} from "../ThrowHelper.js";
-import {Action} from "../Action.js";
-import {SealedClassError} from "../SealedClassError.js";
-import {IDisposable} from "../IDisposable.js";
-import {ObjectDisposedError} from "../ObjectDisposedError.js";
+﻿import { ThrowHelper } from "../ThrowHelper.js";
+import { Action } from "../Action.js";
+import { SealedClassError } from "../SealedClassError.js";
+import { IDisposable } from "../IDisposable.js";
+import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 export class AutoResetEvent implements IDisposable
 {
@@ -27,7 +27,7 @@ export class AutoResetEvent implements IDisposable
 			{
 				ObjectDisposedError.throwIf(this.#disposed);
 
-				if(this.#signaled)
+				if (this.#signaled)
 				{
 					this.#signaled = false;
 					resolve();
@@ -36,7 +36,7 @@ export class AutoResetEvent implements IDisposable
 				{
 					this.#queue.push(tryGetLock);
 				}
-			}
+			};
 
 			tryGetLock();
 		});

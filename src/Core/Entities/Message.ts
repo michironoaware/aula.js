@@ -1,8 +1,8 @@
-﻿import {RestClient} from "../Rest/RestClient.js";
-import {ThrowHelper} from "../../Common/ThrowHelper.js";
-import {MessageData} from "./Models/MessageData.js";
-import {Temporal} from "@js-temporal/polyfill";
-import {SealedClassError} from "../../Common/SealedClassError.js";
+﻿import { RestClient } from "../Rest/RestClient.js";
+import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { MessageData } from "./Models/MessageData.js";
+import { Temporal } from "@js-temporal/polyfill";
+import { SealedClassError } from "../../Common/SealedClassError.js";
 
 export class Message
 {

@@ -5,10 +5,10 @@ import { HttpRequestMessage } from "./HttpRequestMessage.js";
 import { HttpResponseMessage } from "./HttpResponseMessage.js";
 import { HttpStatusCode } from "./HttpStatusCode.js";
 import { StreamContent } from "./StreamContent.js";
-import {SealedClassError} from "../SealedClassError.js";
-import {ThrowHelper} from "../ThrowHelper.js";
-import {HeaderMap} from "./HeaderMap.js";
-import {ObjectDisposedError} from "../ObjectDisposedError.js";
+import { SealedClassError } from "../SealedClassError.js";
+import { ThrowHelper } from "../ThrowHelper.js";
+import { HeaderMap } from "./HeaderMap.js";
+import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 export class HttpFetchHandler extends HttpMessageHandler
 {
@@ -27,7 +27,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 
 		const received = await fetch(message.requestUri,
 			{
-				method: HttpMethod[message.method],
+				method: HttpMethod[ message.method ],
 				headers: Array.from(message.headers),
 				body: message.content?.stream,
 				duplex: "half"

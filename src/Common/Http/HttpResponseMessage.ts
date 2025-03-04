@@ -1,9 +1,9 @@
-import {HttpStatusCode} from "./HttpStatusCode.js";
-import {HttpContent} from "./HttpContent.js";
-import {ReadonlyMapWrapper} from "../Collections/ReadonlyMapWrapper.js";
-import {HttpRequestError} from "./HttpRequestError.js";
-import {SealedClassError} from "../SealedClassError.js";
-import {ThrowHelper} from "../ThrowHelper.js";
+import { HttpStatusCode } from "./HttpStatusCode.js";
+import { HttpContent } from "./HttpContent.js";
+import { ReadonlyMapWrapper } from "../Collections/ReadonlyMapWrapper.js";
+import { HttpRequestError } from "./HttpRequestError.js";
+import { SealedClassError } from "../SealedClassError.js";
+import { ThrowHelper } from "../ThrowHelper.js";
 
 export class HttpResponseMessage
 {

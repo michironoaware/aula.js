@@ -1,19 +1,20 @@
-﻿import {RestClient} from "../Rest/RestClient.js";
-import {RoomData} from "./Models/RoomData.js";
-import {ThrowHelper} from "../../Common/ThrowHelper.js";
-import {Temporal} from "@js-temporal/polyfill";
-import {SealedClassError} from "../../Common/SealedClassError.js";
-import {IModifyRoomRequestBody} from "../Rest/IModifyRoomRequestBody.js";
-import {TypeHelper} from "../../Common/TypeHelper.js";
-import {Message} from "./Message.js";
-import {IGetMessagesQuery} from "../Rest/IGetMessagesQuery.js";
-import {ISendMessageRequestBody} from "../Rest/ISendMessageRequestBody.js";
-import {MessageType} from "./MessageType.js";
+﻿import { RestClient } from "../Rest/RestClient.js";
+import { RoomData } from "./Models/RoomData.js";
+import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { Temporal } from "@js-temporal/polyfill";
+import { SealedClassError } from "../../Common/SealedClassError.js";
+import { IModifyRoomRequestBody } from "../Rest/IModifyRoomRequestBody.js";
+import { TypeHelper } from "../../Common/TypeHelper.js";
+import { Message } from "./Message.js";
+import { IGetMessagesQuery } from "../Rest/IGetMessagesQuery.js";
+import { ISendMessageRequestBody } from "../Rest/ISendMessageRequestBody.js";
+import { MessageType } from "./MessageType.js";
 
 export class Room
 {
 	readonly #restClient: RestClient;
 	readonly #data: RoomData;
+
 	public constructor(restClient: RestClient, data: RoomData)
 	{
 		SealedClassError.throwIfNotEqual(Room, new.target);
@@ -83,7 +84,7 @@ export class Room
 	{
 		ThrowHelper.TypeError.throwIfNotType(rooms, "iterable");
 
-		const roomIds = [...rooms].map(r => TypeHelper.isType(r, Room) ? r.id : r);
+		const roomIds = [ ...rooms ].map(r => TypeHelper.isType(r, Room) ? r.id : r);
 		for (const roomId of roomIds)
 		{
 			ThrowHelper.TypeError.throwIfNotType(roomId, "string");

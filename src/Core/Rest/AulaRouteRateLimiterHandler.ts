@@ -1,17 +1,17 @@
-﻿import {DelegatingHandler} from "../../Common/Http/DelegatingHandler.js";
-import {Temporal} from "@js-temporal/polyfill";
-import {Semaphore} from "../../Common/Threading/Semaphore.js";
-import {SealedClassError} from "../../Common/SealedClassError.js";
-import {ThrowHelper} from "../../Common/ThrowHelper.js";
-import {ValueOutOfRangeError} from "../../Common/ValueOutOfRangeError.js";
-import {HttpMethod} from "../../Common/Http/HttpMethod.js";
-import {HttpMessageHandler} from "../../Common/Http/HttpMessageHandler.js";
-import {HttpRequestMessage} from "../../Common/Http/HttpRequestMessage.js";
-import {Action} from "../../Common/Action.js";
-import {EventEmitter} from "../../Common/Threading/EventEmitter.js";
-import {Delay} from "../../Common/Threading/Delay.js";
-import {HttpStatusCode} from "../../Common/Http/HttpStatusCode.js";
-import {ObjectDisposedError} from "../../Common/ObjectDisposedError.js";
+﻿import { DelegatingHandler } from "../../Common/Http/DelegatingHandler.js";
+import { Temporal } from "@js-temporal/polyfill";
+import { Semaphore } from "../../Common/Threading/Semaphore.js";
+import { SealedClassError } from "../../Common/SealedClassError.js";
+import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError.js";
+import { HttpMethod } from "../../Common/Http/HttpMethod.js";
+import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler.js";
+import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
+import { Action } from "../../Common/Action.js";
+import { EventEmitter } from "../../Common/Threading/EventEmitter.js";
+import { Delay } from "../../Common/Threading/Delay.js";
+import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
+import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 
 export class AulaRouteRateLimiterHandler extends DelegatingHandler
 {
@@ -64,9 +64,9 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 
 			let routeRateLimit = this.#rateLimits.get(routeHash);
 			if (routeRateLimit !== undefined &&
-				Temporal.ZonedDateTime.compare(routeRateLimit.resetDateTime, now) < 1)
+			    Temporal.ZonedDateTime.compare(routeRateLimit.resetDateTime, now) < 1)
 			{
-				routeRateLimit =  new RouteRateLimit(
+				routeRateLimit = new RouteRateLimit(
 					routeRateLimit.requestLimit,
 					routeRateLimit.windowMilliseconds,
 					routeRateLimit.requestLimit,
@@ -77,11 +77,11 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 			// When concurrent requests are allowed, the response headers may not be reliable;
 			// therefore, we proactively track the rate limit and take action when approaching it.
 			if (routeRateLimit !== undefined &&
-				routeRateLimit.remainingRequests < 1)
+			    routeRateLimit.remainingRequests < 1)
 			{
 				const eventEmission = this.#eventEmitter.emit("RequestDeferred", new RequestDeferredEvent(message.requestUri, routeRateLimit.resetDateTime));
 				const delay = Delay(routeRateLimit.resetDateTime.since(now).milliseconds);
-				await Promise.all([eventEmission, delay]);
+				await Promise.all([ eventEmission, delay ]);
 				continue;
 			}
 
@@ -90,7 +90,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 			const requestLimitHeaderValue = response.headers.get("X-RateLimit-Route-Limit");
 			const windowMillisecondsHeaderValue = response.headers.get("X-RateLimit-Route-WindowMilliseconds");
 			if (requestLimitHeaderValue === undefined ||
-				windowMillisecondsHeaderValue === undefined)
+			    windowMillisecondsHeaderValue === undefined)
 			{
 				// Endpoint does not have rate limits.
 				routeSemaphore?.release();
@@ -100,12 +100,12 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 			const requestLimit = parseInt(requestLimitHeaderValue, 10);
 			const windowMilliseconds = parseInt(windowMillisecondsHeaderValue, 10);
 			if (routeRateLimit === undefined ||
-				(routeRateLimit.requestLimit !== requestLimit ||
-				routeRateLimit.windowMilliseconds !== windowMilliseconds))
+			    (routeRateLimit.requestLimit !== requestLimit ||
+			    routeRateLimit.windowMilliseconds !== windowMilliseconds))
 			{
 				// This is the first request, so the limits need to be synchronized,
 				// or the global rate limits may have been updated on the server
-				routeRateLimit =  new RouteRateLimit(
+				routeRateLimit = new RouteRateLimit(
 					requestLimit,
 					windowMilliseconds,
 					requestLimit,
@@ -113,7 +113,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 				this.#rateLimits.set(routeHash, routeRateLimit);
 			}
 
-			routeRateLimit =  new RouteRateLimit(
+			routeRateLimit = new RouteRateLimit(
 				routeRateLimit.requestLimit,
 				routeRateLimit.windowMilliseconds,
 				routeRateLimit.remainingRequests - 1,
@@ -123,18 +123,18 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 			const isGlobalHeaderValue = response.headers.get("X-RateLimit-IsGlobal");
 			const resetTimestampHeaderValue = response.headers.get("X-RateLimit-ResetsAt");
 			if (isGlobalHeaderValue !== undefined &&
-				isGlobalHeaderValue === "false")
+			    isGlobalHeaderValue === "false")
 			{
 				// No requests remain, or an unexpected HTTP 429 (Too Many Requests) status code was encountered.
 				const resetDateTime = resetTimestampHeaderValue
-					? Temporal.ZonedDateTime.from(resetTimestampHeaderValue)
-					: routeRateLimit.resetDateTime;
+				                      ? Temporal.ZonedDateTime.from(resetTimestampHeaderValue)
+				                      : routeRateLimit.resetDateTime;
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
 					const eventEmission = await this.#eventEmitter.emit("RateLimited", new RateLimitedEvent(resetDateTime));
 					const delay = await Delay(routeRateLimit.resetDateTime.since(now).milliseconds);
-					await Promise.all([eventEmission, delay]);
+					await Promise.all([ eventEmission, delay ]);
 					continue;
 				}
 
@@ -177,13 +177,13 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 
 class RouteRateLimit
 {
-	readonly #requestLimit : number;
+	readonly #requestLimit: number;
 	readonly #windowMilliseconds: number;
 	readonly #remainingRequests: number;
 	readonly #resetDateTime: Temporal.ZonedDateTime;
 
 	public constructor(
-		requestLimit : number,
+		requestLimit: number,
 		windowMilliseconds: number,
 		remainingRequests: number,
 		resetDateTime: Temporal.ZonedDateTime)
@@ -227,8 +227,8 @@ class RouteRateLimit
 
 export interface AulaRouteRateLimiterHandlerEvents
 {
-	RequestDeferred: Action<[RequestDeferredEvent]>;
-	RateLimited: Action<[RateLimitedEvent]>;
+	RequestDeferred: Action<[ RequestDeferredEvent ]>;
+	RateLimited: Action<[ RateLimitedEvent ]>;
 }
 
 export class RequestDeferredEvent

@@ -1,5 +1,5 @@
-﻿import {SealedClassError} from "./SealedClassError.js";
-import {InvalidOperationError} from "./InvalidOperationError.js";
+﻿import { SealedClassError } from "./SealedClassError.js";
+import { InvalidOperationError } from "./InvalidOperationError.js";
 
 export class UnreachableError extends Error
 {

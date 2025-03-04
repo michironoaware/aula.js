@@ -1,5 +1,5 @@
-﻿import {ThrowHelper} from "../../../Common/ThrowHelper.js";
-import {SealedClassError} from "../../../Common/SealedClassError.js";
+﻿import { ThrowHelper } from "../../../Common/ThrowHelper.js";
+import { SealedClassError } from "../../../Common/SealedClassError.js";
 
 export class RoomData
 {
@@ -21,7 +21,7 @@ export class RoomData
 		ThrowHelper.TypeError.throwIfNotType(data.connectedRoomIds, "iterable");
 		ThrowHelper.TypeError.throwIfNotType(data.creationTime, "string");
 
-		const connectedRoomIds = Object.freeze([...data.connectedRoomIds]);
+		const connectedRoomIds = Object.freeze([ ...data.connectedRoomIds ]);
 		for (const roomId of connectedRoomIds)
 		{
 			ThrowHelper.TypeError.throwIfNotType(roomId, "string");

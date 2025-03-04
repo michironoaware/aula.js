@@ -1,4 +1,4 @@
-﻿import {SealedClassError} from "../SealedClassError.js";
+﻿import { SealedClassError } from "../SealedClassError.js";
 
 export class SemaphoreFullError extends Error
 {

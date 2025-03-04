@@ -1,12 +1,12 @@
-﻿import {SealedClassError} from "../SealedClassError.js";
-import {Semaphore} from "./Semaphore.js";
-import {ThrowHelper} from "../ThrowHelper.js";
-import {Action} from "../Action.js";
-import {IDisposable} from "../IDisposable.js";
-import {ObjectDisposedError} from "../ObjectDisposedError.js";
-import {AsNonBlocking} from "./AsNonBlocking.js";
+﻿import { SealedClassError } from "../SealedClassError.js";
+import { Semaphore } from "./Semaphore.js";
+import { ThrowHelper } from "../ThrowHelper.js";
+import { Action } from "../Action.js";
+import { IDisposable } from "../IDisposable.js";
+import { ObjectDisposedError } from "../ObjectDisposedError.js";
+import { AsNonBlocking } from "./AsNonBlocking.js";
 
-export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...any[]]>>> implements IDisposable
+export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[ ...any[] ]>>> implements IDisposable
 {
 	readonly #listeners: Map<keyof TEventMap, TEventMap[keyof TEventMap][]> = new Map();
 	readonly #operateOverListenersSemaphore: Semaphore = new Semaphore(1, 1);

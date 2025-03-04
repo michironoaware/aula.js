@@ -1,4 +1,4 @@
-﻿import {Permissions} from "../Entities/Permissions.js";
+﻿import { Permissions } from "../Entities/Permissions.js";
 
 export interface ISetUserPermissionsRequestBody
 {
