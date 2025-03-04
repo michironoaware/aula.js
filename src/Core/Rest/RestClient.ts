@@ -379,6 +379,7 @@ export class RestClient
 		}
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnections({ route: { roomId }}));
+		request.content = new JsonContent({ roomIds } as ISetRoomConnectionsRequestBody);
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
