@@ -48,4 +48,24 @@ export class Ban
 	{
 		return Temporal.Instant.from(this.#data.creationTime);
 	}
+
+	public async getExecutor()
+	{
+		if (this.executorId === null)
+		{
+			return null;
+		}
+
+		return await this.#restClient.getUser(this.executorId);
+	}
+
+	public async getTarget()
+	{
+		if (this.targetId === null)
+		{
+			return null;
+		}
+
+		return await this.#restClient.getUser(this.targetId);
+	}
 }
