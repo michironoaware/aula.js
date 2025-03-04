@@ -13,7 +13,7 @@ export class CreateBotResponse
 	{
 		SealedClassError.throwIfNotEqual(CreateBotResponse, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
-		ThrowHelper.TypeError.throwIfNotType(data.user, "object");
+		ThrowHelper.TypeError.throwIfNullable(data.user);
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 

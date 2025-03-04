@@ -133,7 +133,7 @@ export class Room
 
 	public async getMessages(query: IGetMessagesQuery = {})
 	{
-		ThrowHelper.TypeError.throwIfNotType(query, "object");
+		ThrowHelper.TypeError.throwIfNullable(query);
 		return await this.#restClient.getMessages(this.#data.id, query);
 	}
 

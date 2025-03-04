@@ -16,7 +16,7 @@ export class HttpResponseMessage
 		SealedClassError.throwIfNotEqual(HttpResponseMessage, new.target);
 		ThrowHelper.TypeError.throwIfNotType(statusCode, "number");
 		ThrowHelper.TypeError.throwIfNotType(content, HttpContent);
-		ThrowHelper.TypeError.throwIfNotType(headers, "object");
+		ThrowHelper.TypeError.throwIfNullable(headers);
 
 		this.#statusCode = statusCode;
 		this.#content = content;

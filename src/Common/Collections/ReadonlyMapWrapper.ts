@@ -8,7 +8,7 @@ export class ReadonlyMapWrapper<K, V> implements ReadonlyMap<K, V>
 	public constructor(underlyingMap: ReadonlyMap<K, V>)
 	{
 		SealedClassError.throwIfNotEqual(ReadonlyMapWrapper, new.target);
-		ThrowHelper.TypeError.throwIfNotType(underlyingMap, "object");
+		ThrowHelper.TypeError.throwIfNullable(underlyingMap);
 
 		this.#underlyingMap = underlyingMap;
 	}

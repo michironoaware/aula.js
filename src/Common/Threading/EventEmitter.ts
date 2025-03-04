@@ -75,7 +75,7 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[...a
 	{
 		ObjectDisposedError.throwIf(this.#disposed);
 		ThrowHelper.TypeError.throwIfNullable(event);
-		ThrowHelper.TypeError.throwIfNotType(args, "object");
+		ThrowHelper.TypeError.throwIfNotType(args, "iterable");
 
 		const listeners = this.#listeners.get(event);
 		if (listeners === undefined)
