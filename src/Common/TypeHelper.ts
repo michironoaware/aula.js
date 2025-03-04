@@ -1,5 +1,10 @@
 ﻿export namespace TypeHelper
 {
+	export function isNullable<T>(object: T) : object is NonNullable<T>
+	{
+		return object !== null && object !== undefined;
+	}
+
 	export function isType<T extends TypeResolvable>(object: unknown, type: T): object is ResolvedType<T>
 	{
 		const isNullType = type === "null" && object === null;
