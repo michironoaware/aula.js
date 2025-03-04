@@ -5,6 +5,9 @@ import {UserType} from "./UserType.js";
 import {Permissions} from "./Permissions.js";
 import {Presence} from "./Presence.js";
 import {SealedClassError} from "../../Common/SealedClassError.js";
+import {IBanUserRequestBody} from "../Rest/IBanUserRequestBody.js";
+import {Room} from "./Room.js";
+import {TypeHelper} from "../../Common/TypeHelper.js";
 
 export class User
 {
@@ -59,5 +62,39 @@ export class User
 	public get currentRoomId()
 	{
 		return this.#data.currentRoomId;
+	}
+
+	public async getLatest()
+	{
+		return await this.#restClient.getUser(this.#data.id);
+	}
+
+	public async setRoom(room: Room): Promise<void>;
+
+	public async setRoom(roomId: string): Promise<void>;
+
+	public async setRoom(room: Room | string)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string");
+
+		const roomId = TypeHelper.isType(room, Room) ? room.id : room;
+		return await this.#restClient.setUserRoom(this.#data.id, { roomId });
+	}
+
+	public async setPermissions(permissions: Permissions)
+	{
+		ThrowHelper.TypeError.throwIfNotType(permissions, "number");
+		return await this.#restClient.setUserPermissions(this.#data.id, { permissions });
+	}
+
+	public async ban(reason: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(reason, "string");
+		return await this.#restClient.banUser(this.#data.id, { reason });
+	}
+
+	public async unban()
+	{
+		return await this.#restClient.unbanUser(this.#data.id);
 	}
 }
