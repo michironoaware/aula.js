@@ -1,4 +1,4 @@
 ﻿export interface ISetRoomConnectionsRequestBody
 {
-	readonly roomIds: ReadonlyArray<string>;
+	readonly roomIds: Iterable<string>;
 }
