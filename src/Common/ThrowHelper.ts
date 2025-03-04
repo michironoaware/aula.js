@@ -12,7 +12,7 @@ export namespace ThrowHelper
 
 		export function throwIfNull<T>(object: T): asserts object is NonNullable<T>
 		{
-			if (object === null || object === undefined)
+			if (TypeHelper.isNullable(object))
 			{
 				throw new TypeErrorConstructor(`Object is null.`);
 			}
