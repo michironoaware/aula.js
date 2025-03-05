@@ -101,6 +101,12 @@ export class RestClient
 	public setBaseUri(uri: URL)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(uri, URL);
+
+		if (!uri.href.endsWith("/"))
+		{
+			uri = new URL(`${uri.href}/`);
+		}
+
 		this.#httpClient.baseUri = uri;
 		return this;
 	}
