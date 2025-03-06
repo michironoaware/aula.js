@@ -13,31 +13,6 @@ export abstract class WebSocket implements IDisposable
 	public abstract state: WebSocketState;
 
 	/**
-	 * Receives data from the {@link WebSocket} connection asynchronously.
-	 * */
-	public abstract receive(buffer: ArrayBuffer): Promise<WebSocketReceiveResult>;
-
-	/**
-	 * Sends data over the {@link WebSocket} connection asynchronously.
-	 * */
-	public abstract send(buffer: ArrayBuffer, messageType: WebSocketMessageType, endOfMessage: boolean): Promise<void>;
-
-	/**
-	 * Closes the {@link WebSocket} connection as an asynchronous operation.
-	 * */
-	public abstract close(): Promise<void>;
-
-	/**
-	 * Aborts the {@link WebSocket} connection and cancels any pending IO operations.
-	 * */
-	public abstract abort(): void;
-
-	/**
-	 * @inheritDoc
-	 * */
-	public abstract dispose(): void;
-
-	/**
 	 * Returns a {@link boolean} that indicates if the state of the {@link WebSocket} instance
 	 * is {@link WebSocketState.Closed} or {@link WebSocketState.Aborted}.
 	 * */
@@ -66,4 +41,29 @@ export abstract class WebSocket implements IDisposable
 			.join(", ");
 		throw new WebSocketError(`WebSocket is on an invalid state. Expected ${validStatesText} but got ${WebSocketState[currentState]}`);
 	}
+
+	/**
+	 * Receives data from the {@link WebSocket} connection asynchronously.
+	 * */
+	public abstract receive(buffer: ArrayBuffer): Promise<WebSocketReceiveResult>;
+
+	/**
+	 * Sends data over the {@link WebSocket} connection asynchronously.
+	 * */
+	public abstract send(buffer: ArrayBuffer, messageType: WebSocketMessageType, endOfMessage: boolean): Promise<void>;
+
+	/**
+	 * Closes the {@link WebSocket} connection as an asynchronous operation.
+	 * */
+	public abstract close(): Promise<void>;
+
+	/**
+	 * Aborts the {@link WebSocket} connection and cancels any pending IO operations.
+	 * */
+	public abstract abort(): void;
+
+	/**
+	 * @inheritDoc
+	 * */
+	public abstract dispose(): void;
 }
