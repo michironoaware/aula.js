@@ -67,16 +67,16 @@
 
 	export type ResolvedType<T> =
 		T extends "string" ? string
-		                   : T extends "number" ? number
-		                                        : T extends "bigint" ? bigint
-		                                                             : T extends "boolean" ? boolean
-		                                                                                   : T extends "symbol" ? symbol
-		                                                                                                        : T extends "undefined" ? undefined
-		                                                                                                                                : T extends "object" ? object
-		                                                                                                                                                     : T extends "function" ? Function
-		                                                                                                                                                                            : T extends "null" ? null
-		                                                                                                                                                                                               : T extends "iterable" ? Iterable<unknown>
-		                                                                                                                                                                                                                      : T extends abstract new (...args: any[]) => infer R ? R
-		                                                                                                                                                                                                                                                                           : T extends Record<string, string | number> ? T[keyof T]
-		                                                                                                                                                                                                                                                                                                                       : never;
+			: T extends "number" ? number
+				: T extends "bigint" ? bigint
+					: T extends "boolean" ? boolean
+						: T extends "symbol" ? symbol
+							: T extends "undefined" ? undefined
+								: T extends "object" ? object
+									: T extends "function" ? Function
+										: T extends "null" ? null
+											: T extends "iterable" ? Iterable<unknown>
+												: T extends abstract new (...args: any[]) => infer R ? R
+													: T extends Record<string, string | number> ? T[keyof T]
+														: never;
 }

@@ -127,8 +127,8 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 			{
 				// No requests remain, or an unexpected HTTP 429 (Too Many Requests) status code was encountered.
 				const resetDateTime = resetTimestampHeaderValue
-				                      ? Temporal.ZonedDateTime.from(resetTimestampHeaderValue)
-				                      : routeRateLimit.resetDateTime;
+					? Temporal.ZonedDateTime.from(resetTimestampHeaderValue)
+					: routeRateLimit.resetDateTime;
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
