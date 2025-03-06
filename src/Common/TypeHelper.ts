@@ -11,6 +11,8 @@
 
 		const isIterable = type === "iterable" && (object as any)[ Symbol.iterator ] !== undefined;
 
+		const isArray = type === "array" && Array.isArray(object);
+
 		// Check whether typeof of the object is the same as the type string.
 		const isTypeOf = typeof type === "string" && typeof object === type;
 
@@ -43,7 +45,7 @@
 		// Check if the object is an instance of the specified class
 		const isInstanceOf = typeof type === "function" && object instanceof type;
 
-		return isNullType || isIterable || isTypeOf || isInstanceOf || isPropertyOf || isEnumFlagOf;
+		return isNullType || isIterable || isArray || isTypeOf || isInstanceOf || isPropertyOf || isEnumFlagOf;
 	}
 
 	export function isAnyType<T extends TypeResolvable[]>(object: unknown, ...types: T): object is ResolvedType<T[number]>
@@ -62,6 +64,7 @@
 		"function" |
 		"null" |
 		"iterable" |
+		"array" |
 		(abstract new (...args: any[]) => any) |
 		Record<string, string | number>;
 
@@ -76,6 +79,7 @@
 									: T extends "function" ? Function
 										: T extends "null" ? null
 											: T extends "iterable" ? Iterable<unknown>
+												: T extends "array" ? readonly unknown[]
 												: T extends abstract new (...args: any[]) => infer R ? R
 													: T extends Record<string, string | number> ? T[keyof T]
 														: never;
