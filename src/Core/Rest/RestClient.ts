@@ -45,7 +45,7 @@ import { Ban } from "../Entities/Ban.js";
 import { GetCurrentUserBanStatusResponse } from "./GetCurrentUserBanStatusResponse.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { AulaGlobalRateLimiterHandler } from "./AulaGlobalRateLimiterHandler.js";
-import { HttpFetchHandler } from "../../Common/Http/HttpFetchHandler.js";
+import { HttpFetchHandler } from "./HttpFetchHandler.js";
 import { AulaRestError } from "../AulaRestError.js";
 import { AulaRouteRateLimiterHandler } from "./AulaRouteRateLimiterHandler.js";
 
