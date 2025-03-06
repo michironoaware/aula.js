@@ -1,7 +1,6 @@
 import { HttpRequestMessage } from "./HttpRequestMessage.js";
 import { HeaderMap } from "./HeaderMap.js";
 import { HttpMessageHandler } from "./HttpMessageHandler.js";
-import { HttpFetchHandler } from "./HttpFetchHandler.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { InvalidOperationError } from "../InvalidOperationError.js";
 import { SealedClassError } from "../SealedClassError.js";
@@ -12,13 +11,13 @@ export class HttpClient
 	#baseUri: URL | null = null;
 	#defaultRequestHeaders: HeaderMap = new HeaderMap();
 
-	public constructor(options: { handler?: HttpMessageHandler; } = {})
+	public constructor(options: { handler: HttpMessageHandler; })
 	{
 		SealedClassError.throwIfNotEqual(HttpClient, new.target);
 		ThrowHelper.TypeError.throwIfNullable(options);
-		ThrowHelper.TypeError.throwIfNotAnyType(options.handler, HttpMessageHandler, "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(options.handler, HttpMessageHandler);
 
-		this.#handler = options.handler ?? new HttpFetchHandler();
+		this.#handler = options.handler;
 	}
 
 	public get baseUri()
