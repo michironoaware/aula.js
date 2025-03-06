@@ -78,7 +78,7 @@ export class RestClient
 		{
 			if (!(error instanceof HttpRequestError))
 			{
-				return;
+				throw error;
 			}
 
 			const content = await response.content.readAsString();
