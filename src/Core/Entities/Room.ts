@@ -9,6 +9,7 @@ import { Message } from "./Message.js";
 import { IGetMessagesQuery } from "../Rest/IGetMessagesQuery.js";
 import { ISendMessageRequestBody } from "../Rest/ISendMessageRequestBody.js";
 import { MessageType } from "./MessageType.js";
+import { ArrayHelper } from "../../Common/ArrayHelper.js";
 
 export class Room
 {
@@ -84,7 +85,7 @@ export class Room
 	{
 		ThrowHelper.TypeError.throwIfNotType(rooms, "iterable");
 
-		const roomIds = [ ...rooms ].map(r => TypeHelper.isType(r, Room) ? r.id : r);
+		const roomIds = ArrayHelper.asArray(rooms).map(r => TypeHelper.isType(r, Room) ? r.id : r);
 		for (const roomId of roomIds)
 		{
 			ThrowHelper.TypeError.throwIfNotType(roomId, "string");
