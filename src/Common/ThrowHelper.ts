@@ -43,6 +43,25 @@ export namespace ThrowHelper
 				throw new TypeErrorConstructor("Object is not an instance of the type expected.");
 			}
 		}
+
+		export function throwIfNotTypeArray<T extends TypeResolvable>(object: unknown[], type: T): asserts object is ResolvedType<T>[]
+		{
+			throwIfNotType(object, "array");
+			for (const item of object)
+			{
+				throwIfNotType(item, type);
+			}
+		}
+
+		export function throwIfNotTypesArray<T extends TypeResolvable[]>(object: unknown[], ...types: T)
+			: asserts object is ResolvedType<T[number]>[]
+		{
+			throwIfNotType(object, "array");
+			for (const item of object)
+			{
+				throwIfNotAnyType(item, ...types);
+			}
+		}
 	}
 
 	export namespace ReferenceError
