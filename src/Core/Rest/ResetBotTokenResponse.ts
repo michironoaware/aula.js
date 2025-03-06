@@ -13,4 +13,9 @@ export class ResetBotTokenResponse
 
 		this.#token = data.token;
 	}
+
+	public get token()
+	{
+		return this.#token;
+	}
 }
