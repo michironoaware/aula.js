@@ -16,14 +16,14 @@
 		// Check whether typeof of the object is the same as the type string.
 		const isTypeOf = typeof type === "string" && typeof object === type;
 
-		// For checking whether an enum value is inside the defined range
+		// For checking whether a numeric value is defined in the enum's members
 		// Doesn't work with flag enums
-		const isPropertyOf = typeof type === "object" && type[ object as any ] !== undefined;
+		const isMemberOf = typeof type === "object" && type[ object as any ] !== undefined;
 
 		// Check if the object is an instance of the specified class
 		const isInstanceOf = typeof type === "function" && object instanceof type;
 
-		return isNullType || isIterable || isArray || isTypeOf || isInstanceOf || isPropertyOf;
+		return isNullType || isIterable || isArray || isTypeOf || isInstanceOf || isMemberOf;
 	}
 
 	export function isAnyType<T extends TypeResolvable[]>(object: unknown, ...types: T): object is ResolvedType<T[number]>
