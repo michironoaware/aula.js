@@ -1,4 +1,4 @@
-﻿import { ThrowHelper } from "./Common/ThrowHelper.js";
+﻿import { ThrowHelper } from "./ThrowHelper.js";
 
 export namespace ArrayHelper
 {
