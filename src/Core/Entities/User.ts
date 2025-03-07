@@ -94,9 +94,9 @@ export class User
 		return await this.restClient.setUserPermissions(this.id, { permissions });
 	}
 
-	public async ban(reason: string)
+	public async ban(reason?: string)
 	{
-		ThrowHelper.TypeError.throwIfNotType(reason, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(reason, "string", "undefined");
 		return await this.restClient.banUser(this.id, { reason });
 	}
 
