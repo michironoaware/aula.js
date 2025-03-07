@@ -10,6 +10,7 @@ import { IGetMessagesQuery } from "../Rest/IGetMessagesQuery.js";
 import { ISendMessageRequestBody } from "../Rest/ISendMessageRequestBody.js";
 import { MessageType } from "./MessageType.js";
 import { ArrayHelper } from "../../Common/ArrayHelper.js";
+import Instant = Temporal.Instant;
 
 export class Room
 {
@@ -56,9 +57,9 @@ export class Room
 		return this.#data.connectedRoomIds;
 	}
 
-	public get creationTime()
+	public get creationInstant()
 	{
-		return Temporal.ZonedDateTime.from(this.#data.creationTime);
+		return Instant.from(this.#data.creationTime);
 	}
 
 	public async getLatest()

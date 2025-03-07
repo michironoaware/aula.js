@@ -7,6 +7,7 @@ import { MessageAuthorType } from "./MessageAuthorType.js";
 import { MessageType } from "./MessageType.js";
 import { MessageUserJoin } from "./MessageUserJoin.js";
 import { MessageUserLeave } from "./MessageUserLeave.js";
+import Instant = Temporal.Instant;
 
 export class Message
 {
@@ -77,9 +78,9 @@ export class Message
 		return this.#userLeave;
 	}
 
-	public get creationTime()
+	public get creationInstant()
 	{
-		return Temporal.ZonedDateTime.from(this.#data.creationTime);
+		return Instant.from(this.#data.creationTime);
 	}
 
 	public isStandardMessage(): this is IStandardMessage

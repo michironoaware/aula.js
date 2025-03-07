@@ -12,6 +12,7 @@ import { EventEmitter } from "../../Common/Threading/EventEmitter.js";
 import { Delay } from "../../Common/Threading/Delay.js";
 import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
+import Instant = Temporal.Instant;
 
 export class AulaRouteRateLimiterHandler extends DelegatingHandler
 {
@@ -60,11 +61,11 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 		{
 			ObjectDisposedError.throwIf(this.#disposed);
 
-			const now = Temporal.Now.zonedDateTimeISO("UTC");
+			const now = Temporal.Now.instant();
 
 			let routeRateLimit = this.#rateLimits.get(routeHash);
 			if (routeRateLimit !== undefined &&
-			    Temporal.ZonedDateTime.compare(routeRateLimit.resetDateTime, now) < 1)
+			    Instant.compare(routeRateLimit.resetInstant, now) < 1)
 			{
 				routeRateLimit = new RouteRateLimit(
 					routeRateLimit.requestLimit,
@@ -79,8 +80,8 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 			if (routeRateLimit !== undefined &&
 			    routeRateLimit.remainingRequests < 1)
 			{
-				const eventEmission = this.#eventEmitter.emit("RequestDeferred", new RequestDeferredEvent(message.requestUri, routeRateLimit.resetDateTime));
-				const delay = Delay(routeRateLimit.resetDateTime.since(now).milliseconds);
+				const eventEmission = this.#eventEmitter.emit("RequestDeferred", new RequestDeferredEvent(message.requestUri, routeRateLimit.resetInstant));
+				const delay = Delay(routeRateLimit.resetInstant.since(now).milliseconds);
 				await Promise.all([ eventEmission, delay ]);
 				continue;
 			}
@@ -117,7 +118,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 				routeRateLimit.requestLimit,
 				routeRateLimit.windowMilliseconds,
 				routeRateLimit.remainingRequests - 1,
-				routeRateLimit.resetDateTime);
+				routeRateLimit.resetInstant);
 			this.#rateLimits.set(routeHash, routeRateLimit);
 
 			const isGlobalHeaderValue = response.headers.get("X-RateLimit-IsGlobal");
@@ -126,19 +127,19 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 			    isGlobalHeaderValue === "false")
 			{
 				// No requests remain, or an unexpected HTTP 429 (Too Many Requests) status code was encountered.
-				const resetDateTime = resetTimestampHeaderValue
-					? Temporal.ZonedDateTime.from(resetTimestampHeaderValue)
-					: routeRateLimit.resetDateTime;
+				const resetInstant = resetTimestampHeaderValue
+					? Instant.from(resetTimestampHeaderValue)
+					: routeRateLimit.resetInstant;
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
-					const eventEmission = await this.#eventEmitter.emit("RateLimited", new RateLimitedEvent(resetDateTime));
-					const delay = await Delay(routeRateLimit.resetDateTime.since(now).milliseconds);
+					const eventEmission = await this.#eventEmitter.emit("RateLimited", new RateLimitedEvent(resetInstant));
+					const delay = await Delay(routeRateLimit.resetInstant.since(now).milliseconds);
 					await Promise.all([ eventEmission, delay ]);
 					continue;
 				}
 
-				await this.#eventEmitter.emit("RequestDeferred", new RequestDeferredEvent(message.requestUri, resetDateTime));
+				await this.#eventEmitter.emit("RequestDeferred", new RequestDeferredEvent(message.requestUri, resetInstant));
 			}
 
 			routeSemaphore?.release();
@@ -180,19 +181,19 @@ class RouteRateLimit
 	readonly #requestLimit: number;
 	readonly #windowMilliseconds: number;
 	readonly #remainingRequests: number;
-	readonly #resetDateTime: Temporal.ZonedDateTime;
+	readonly #resetInstant: Instant;
 
 	public constructor(
 		requestLimit: number,
 		windowMilliseconds: number,
 		remainingRequests: number,
-		resetDateTime: Temporal.ZonedDateTime)
+		resetInstant: Instant)
 	{
 		SealedClassError.throwIfNotEqual(RouteRateLimit, new.target);
 		ThrowHelper.TypeError.throwIfNotType(requestLimit, "number");
 		ThrowHelper.TypeError.throwIfNotType(windowMilliseconds, "number");
 		ThrowHelper.TypeError.throwIfNotType(remainingRequests, "number");
-		ThrowHelper.TypeError.throwIfNotType(resetDateTime, Temporal.ZonedDateTime);
+		ThrowHelper.TypeError.throwIfNotType(resetInstant, Instant);
 		ValueOutOfRangeError.throwIfLessThan(requestLimit, 1);
 		ValueOutOfRangeError.throwIfLessThan(remainingRequests, 0);
 		ValueOutOfRangeError.throwIfLessThan(windowMilliseconds, 1);
@@ -201,7 +202,7 @@ class RouteRateLimit
 		this.#requestLimit = requestLimit;
 		this.#windowMilliseconds = windowMilliseconds;
 		this.#remainingRequests = remainingRequests;
-		this.#resetDateTime = resetDateTime;
+		this.#resetInstant = resetInstant;
 	}
 
 	public get requestLimit()
@@ -219,9 +220,9 @@ class RouteRateLimit
 		return this.#remainingRequests;
 	}
 
-	public get resetDateTime()
+	public get resetInstant()
 	{
-		return this.#resetDateTime;
+		return this.#resetInstant;
 	}
 }
 
@@ -234,16 +235,16 @@ export interface AulaRouteRateLimiterHandlerEvents
 export class RequestDeferredEvent
 {
 	readonly #uri: URL;
-	readonly #resetDateTime: Temporal.ZonedDateTime;
+	readonly #resetInstant: Instant;
 
-	public constructor(uri: URL, resetDateTime: Temporal.ZonedDateTime)
+	public constructor(uri: URL, resetInstant: Instant)
 	{
 		SealedClassError.throwIfNotEqual(RequestDeferredEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(uri, URL);
-		ThrowHelper.TypeError.throwIfNotType(resetDateTime, Temporal.ZonedDateTime);
+		ThrowHelper.TypeError.throwIfNotType(resetInstant, Instant);
 
 		this.#uri = uri;
-		this.#resetDateTime = resetDateTime;
+		this.#resetInstant = resetInstant;
 	}
 
 	public get uri()
@@ -251,26 +252,26 @@ export class RequestDeferredEvent
 		return this.#uri;
 	}
 
-	public get resetDateTime()
+	public get resetInstant()
 	{
-		return this.#resetDateTime;
+		return this.#resetInstant;
 	}
 }
 
 export class RateLimitedEvent
 {
-	readonly #resetDateTime: Temporal.ZonedDateTime;
+	readonly #resetInstant: Instant;
 
-	public constructor(resetDateTime: Temporal.ZonedDateTime)
+	public constructor(resetInstant: Instant)
 	{
 		SealedClassError.throwIfNotEqual(RateLimitedEvent, new.target);
-		ThrowHelper.TypeError.throwIfNotType(resetDateTime, Temporal.ZonedDateTime);
+		ThrowHelper.TypeError.throwIfNotType(resetInstant, Instant);
 
-		this.#resetDateTime = resetDateTime;
+		this.#resetInstant = resetInstant;
 	}
 
-	public get resetDateTime()
+	public get resetInstant()
 	{
-		return this.#resetDateTime;
+		return this.#resetInstant;
 	}
 }

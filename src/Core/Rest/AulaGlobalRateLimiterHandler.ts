@@ -10,6 +10,8 @@ import { AutoResetEvent } from "../../Common/Threading/AutoResetEvent.js";
 import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError.js";
 import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
+import Instant = Temporal.Instant;
+import Duration = Temporal.Duration;
 
 export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 {
@@ -85,15 +87,15 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			    resetTimestampHeaderValue !== undefined)
 			{
 				// There are no requests left, or we have reached an unexpected 429 http status code.
-				const resetDateTime = Temporal.ZonedDateTime.from(resetTimestampHeaderValue);
-				const timeUntilReset = Temporal.Instant.from(resetTimestampHeaderValue).since(Temporal.Now.instant());
+				const resetInstant = Instant.from(resetTimestampHeaderValue);
+				const timeUntilReset = Instant.from(resetTimestampHeaderValue).since(Temporal.Now.instant());
 
 				this.#requestAvailableEvent.reset();
 				this.#scheduleRequestReplenishment(timeUntilReset);
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
-					await this.#eventEmitter.emit("RateLimited", new RateLimitedEvent(resetDateTime));
+					await this.#eventEmitter.emit("RateLimited", new RateLimitedEvent(resetInstant));
 					continue;
 				}
 			}
@@ -131,9 +133,9 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		this.#disposed = true;
 	}
 
-	#scheduleRequestReplenishment(wait?: Temporal.Duration)
+	#scheduleRequestReplenishment(wait?: Duration)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(wait, Temporal.Duration, "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(wait, Duration, "undefined");
 
 		if (this.#availableRequestEventId !== null)
 		{
@@ -156,18 +158,18 @@ export interface AulaGlobalRateLimiterHandlerEvents
 
 export class RateLimitedEvent
 {
-	readonly #resetDateTime: Temporal.ZonedDateTime;
+	readonly #resetInstant: Instant;
 
-	public constructor(resetDateTime: Temporal.ZonedDateTime)
+	public constructor(resetInstant: Instant)
 	{
 		SealedClassError.throwIfNotEqual(RateLimitedEvent, new.target);
-		ThrowHelper.TypeError.throwIfNotType(resetDateTime, Temporal.ZonedDateTime);
+		ThrowHelper.TypeError.throwIfNotType(resetInstant, Instant);
 
-		this.#resetDateTime = resetDateTime;
+		this.#resetInstant = resetInstant;
 	}
 
-	public get resetDateTime()
+	public get resetInstant()
 	{
-		return this.#resetDateTime;
+		return this.#resetInstant;
 	}
 }
