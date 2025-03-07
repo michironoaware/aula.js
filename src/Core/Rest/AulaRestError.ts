@@ -1,5 +1,5 @@
-﻿import { ThrowHelper } from "../Common/ThrowHelper.js";
-import { HttpRequestError } from "../Common/Http/HttpRequestError.js";
+﻿import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { HttpRequestError } from "../../Common/Http/HttpRequestError.js";
 
 export class AulaRestError extends Error
 {

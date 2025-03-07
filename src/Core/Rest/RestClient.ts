@@ -46,7 +46,7 @@ import { GetCurrentUserBanStatusResponse } from "./GetCurrentUserBanStatusRespon
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { AulaGlobalRateLimiterHandler } from "./AulaGlobalRateLimiterHandler.js";
 import { HttpFetchHandler } from "./HttpFetchHandler.js";
-import { AulaRestError } from "../AulaRestError.js";
+import { AulaRestError } from "./AulaRestError.js";
 import { AulaRouteRateLimiterHandler } from "./AulaRouteRateLimiterHandler.js";
 
 export class RestClient

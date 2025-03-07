@@ -1,4 +1,4 @@
-﻿import { AulaRestError } from "../AulaRestError.js";
+﻿import { AulaRestError } from "./AulaRestError.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { HttpRequestError } from "../../Common/Http/HttpRequestError.js";
 
