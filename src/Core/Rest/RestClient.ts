@@ -352,7 +352,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(targetId, "string");
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomConnection({ route: { roomId, targetId } }));
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnection({ route: { roomId, targetId } }));
 
 		const response = await this.#httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
