@@ -20,7 +20,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 	#requestLimit: number = 1;
 	#remainingRequests: number = 1;
 	#windowMilliseconds: number = 1;
-	#availableRequestEventId: unknown | null = null;
+	#availableRequestEventId: NodeJS.Timeout | number | null = null;
 	#disposed: boolean = false;
 
 	public constructor(innerHandler: HttpMessageHandler)
