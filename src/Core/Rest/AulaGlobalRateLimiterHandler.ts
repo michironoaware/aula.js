@@ -148,6 +148,8 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			this.#remainingRequests = this.#requestLimit;
 			this.#requestAvailableEvent.set();
 		}, milliseconds);
+
+		this.#availableRequestEventId.unref();
 	}
 }
 
