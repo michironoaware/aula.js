@@ -4,7 +4,7 @@ export class SealedClassError extends Error
 {
 	public constructor()
 	{
-		super("This class extends a sealed class and cannot be instantiated.");
+		super("This class extends a sealed class and cannot be instantiated");
 		SealedClassError.throwIfNotEqual(SealedClassError, new.target);
 	}
 

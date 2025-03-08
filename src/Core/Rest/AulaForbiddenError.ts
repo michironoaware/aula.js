@@ -6,7 +6,7 @@ export class AulaForbiddenError extends AulaRestError
 {
 	public constructor(content: string | null, innerError: HttpRequestError | null = null)
 	{
-		super(`You did not have permission to the resource.`, content, innerError);
+		super(`You did not have permission to access the resource`, content, innerError);
 		SealedClassError.throwIfNotEqual(AulaForbiddenError, new.target);
 	}
 }

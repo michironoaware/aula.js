@@ -11,7 +11,7 @@ export class HttpRequestError extends Error
 		SealedClassError.throwIfNotEqual(HttpRequestError, new.target);
 		ThrowHelper.TypeError.throwIfNotType(statusCode, "number");
 
-		super(`Http request error failed with status code '${statusCode}'.`);
+		super(`Http request error failed with status code '${statusCode}'`);
 		this.#statusCode = statusCode;
 	}
 

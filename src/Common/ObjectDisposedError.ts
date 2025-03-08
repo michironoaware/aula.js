@@ -5,7 +5,7 @@ export class ObjectDisposedError extends Error
 {
 	public constructor()
 	{
-		super("Cannot access a disposed object.");
+		super("Cannot access a disposed object");
 		SealedClassError.throwIfNotEqual(ObjectDisposedError, new.target);
 	}
 

@@ -14,7 +14,7 @@ export namespace ThrowHelper
 		{
 			if (TypeHelper.isNullable(object))
 			{
-				throw new TypeErrorConstructor(`Object is nullable.`);
+				throw new TypeErrorConstructor("Object is nullable");
 			}
 		}
 
@@ -22,7 +22,7 @@ export namespace ThrowHelper
 		{
 			if (!TypeHelper.isNullable(object))
 			{
-				throw new TypeErrorConstructor(`Object is not nullable.`);
+				throw new TypeErrorConstructor("Object is not nullable");
 			}
 		}
 
@@ -30,7 +30,7 @@ export namespace ThrowHelper
 		{
 			if (!TypeHelper.isType(object, type))
 			{
-				throw new TypeErrorConstructor("Object is not an instance of the type expected.");
+				throw new TypeErrorConstructor("Object is not an instance of the type expected");
 			}
 		}
 
@@ -40,7 +40,7 @@ export namespace ThrowHelper
 			const isAnyType = types.find(t => TypeHelper.isType(object, t)) !== undefined;
 			if (!isAnyType)
 			{
-				throw new TypeErrorConstructor("Object is not an instance of the type expected.");
+				throw new TypeErrorConstructor("Object is not an instance of the type expected");
 			}
 		}
 
@@ -70,7 +70,7 @@ export namespace ThrowHelper
 		{
 			if (object === undefined)
 			{
-				throw new ReferenceErrorConstructor("Value is undefined.");
+				throw new ReferenceErrorConstructor("Value is undefined");
 			}
 		}
 	}

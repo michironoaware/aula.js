@@ -5,7 +5,7 @@ export class ValueOutOfRangeError extends Error
 {
 	public constructor(message: string, paramName?: string)
 	{
-		super(`Parameter name: "${paramName}".` + message ? ` ${message}` : "");
+		super(`Parameter name: "${paramName}"` + message ? `. ${message}` : "");
 		SealedClassError.throwIfNotEqual(ValueOutOfRangeError, new.target);
 		ThrowHelper.TypeError.throwIfNotType(message, "string");
 		ThrowHelper.TypeError.throwIfNotType(paramName, "string");
@@ -19,7 +19,7 @@ export class ValueOutOfRangeError extends Error
 
 		if (value === other)
 		{
-			throw new ValueOutOfRangeError((paramName ? `Parameter name: "${paramName}". ` : "") + "value is equal to other.");
+			throw new ValueOutOfRangeError((paramName ? `Parameter name: "${paramName}". ` : "") + "Value is equal to other");
 		}
 	}
 
@@ -31,7 +31,7 @@ export class ValueOutOfRangeError extends Error
 
 		if (value > other)
 		{
-			throw new ValueOutOfRangeError((paramName ? `Parameter name: "${paramName}". ` : "") + "value is greater than other.");
+			throw new ValueOutOfRangeError((paramName ? `Parameter name: "${paramName}". ` : "") + "value is greater than other");
 		}
 	}
 
@@ -43,7 +43,7 @@ export class ValueOutOfRangeError extends Error
 
 		if (value >= other)
 		{
-			throw new ValueOutOfRangeError((paramName ? `Parameter name: "${paramName}". ` : "") + "value is greater than or equal to other.");
+			throw new ValueOutOfRangeError((paramName ? `Parameter name: "${paramName}". ` : "") + "value is greater than or equal to other");
 		}
 	}
 
@@ -55,7 +55,7 @@ export class ValueOutOfRangeError extends Error
 
 		if (value < other)
 		{
-			throw new ValueOutOfRangeError((paramName ? `Parameter name: "${paramName}". ` : "") + "value is less than other.");
+			throw new ValueOutOfRangeError((paramName ? `Parameter name: "${paramName}". ` : "") + "value is less than other");
 		}
 	}
 
@@ -67,7 +67,7 @@ export class ValueOutOfRangeError extends Error
 
 		if (value <= other)
 		{
-			throw new ValueOutOfRangeError((paramName ? `Parameter name: "${paramName}". ` : "") + "value is less than or equal to other.");
+			throw new ValueOutOfRangeError((paramName ? `Parameter name: "${paramName}". ` : "") + "value is less than or equal to other");
 		}
 	}
 
@@ -79,7 +79,7 @@ export class ValueOutOfRangeError extends Error
 
 		if (value !== other)
 		{
-			throw new ValueOutOfRangeError((paramName ? `Parameter name: "${paramName}". ` : "") + "value is not equal to other.");
+			throw new ValueOutOfRangeError((paramName ? `Parameter name: "${paramName}". ` : "") + "value is not equal to other");
 		}
 	}
 }

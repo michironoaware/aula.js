@@ -63,7 +63,7 @@ export class HttpClient
 
 				if (this.#baseUri === null)
 				{
-					throw new InvalidOperationError("The HttpClient has no baseUri set, the request uri cannot be relative.");
+					throw new InvalidOperationError("The HttpClient has no baseUri set, the request uri cannot be relative");
 				}
 
 				requestUri = new URL(message.requestUri, this.#baseUri.href);
