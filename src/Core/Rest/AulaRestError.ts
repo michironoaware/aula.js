@@ -11,7 +11,7 @@ export class AulaRestError extends Error
 		content: string | null,
 		innerError: HttpRequestError | null = null)
 	{
-		super(message);
+		super(`${message}.${content ? `\n${content}` : ""}`);
 		ThrowHelper.TypeError.throwIfNotAnyType(message, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
 		ThrowHelper.TypeError.throwIfNotAnyType(innerError, HttpRequestError, "null");
