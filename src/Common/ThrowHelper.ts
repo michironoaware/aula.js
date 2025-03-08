@@ -20,7 +20,7 @@ export namespace ThrowHelper
 
 		export function throwIfNotNullable<T>(object: T): asserts object is Extract<T, null | undefined>
 		{
-			if (!TypeHelper.isNullable(object))
+			if (TypeHelper.isNotNullable(object))
 			{
 				throw new TypeErrorConstructor("Object is not nullable");
 			}
