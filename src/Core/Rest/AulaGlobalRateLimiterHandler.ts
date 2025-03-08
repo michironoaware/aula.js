@@ -129,6 +129,17 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 
 		this.#eventEmitter.dispose();
 		this.#requestAvailableEvent.dispose();
+		try
+		{
+			(this.#availableRequestEventId as NodeJS.Timeout).unref();
+		}
+		catch (error)
+		{
+			if (!(error instanceof ReferenceError))
+			{
+				throw error;
+			}
+		}
 
 		this.#disposed = true;
 	}
@@ -149,7 +160,6 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			this.#requestAvailableEvent.set();
 		}, milliseconds);
 
-		this.#availableRequestEventId.unref();
 	}
 }
 
