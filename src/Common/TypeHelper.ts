@@ -1,6 +1,6 @@
 ﻿export namespace TypeHelper
 {
-	export function isNullable<T>(object: T): object is NonNullable<T>
+	export function isNullable<T>(object: T): object is Extract<T, null | undefined>
 	{
 		return object === null || object === undefined;
 	}
