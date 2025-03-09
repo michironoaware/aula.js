@@ -1,15 +1,15 @@
-﻿import { RestClient } from "../Rest/RestClient.js";
+﻿import { RestClient } from "../RestClient.js";
 import { RoomData } from "./Models/RoomData.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { Temporal } from "@js-temporal/polyfill";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { IModifyRoomRequestBody } from "../Rest/IModifyRoomRequestBody.js";
-import { TypeHelper } from "../../Common/TypeHelper.js";
+import { SealedClassError } from "../../../Common/SealedClassError.js";
+import { IModifyRoomRequestBody } from "../IModifyRoomRequestBody.js";
+import { TypeHelper } from "../../../Common/TypeHelper.js";
 import { Message } from "./Message.js";
-import { IGetMessagesQuery } from "../Rest/IGetMessagesQuery.js";
-import { ISendMessageRequestBody } from "../Rest/ISendMessageRequestBody.js";
+import { IGetMessagesQuery } from "../IGetMessagesQuery.js";
+import { ISendMessageRequestBody } from "../ISendMessageRequestBody.js";
 import { MessageType } from "./MessageType.js";
-import { ArrayHelper } from "../../Common/ArrayHelper.js";
+import { ArrayHelper } from "../../../Common/ArrayHelper.js";
 import Instant = Temporal.Instant;
 
 export class Room

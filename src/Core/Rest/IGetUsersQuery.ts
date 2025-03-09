@@ -1,4 +1,4 @@
-﻿import { UserType } from "../Entities/UserType.js";
+﻿import { UserType } from "./Entities/UserType.js";
 
 export interface IGetUsersQuery
 {

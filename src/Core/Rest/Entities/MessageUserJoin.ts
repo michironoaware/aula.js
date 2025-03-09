@@ -1,7 +1,7 @@
-﻿import { SealedClassError } from "../../Common/SealedClassError.js";
+﻿import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { MessageUserJoinData } from "./Models/MessageUserJoinData.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { RestClient } from "../Rest/RestClient.js";
+import { ThrowHelper } from "../../../Common/ThrowHelper.js";
+import { RestClient } from "../RestClient.js";
 
 export class MessageUserJoin
 {

@@ -1,8 +1,8 @@
-﻿import { RestClient } from "../Rest/RestClient.js";
+﻿import { RestClient } from "../RestClient.js";
 import { BanData } from "./Models/BanData.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { Temporal } from "@js-temporal/polyfill";
-import { SealedClassError } from "../../Common/SealedClassError.js";
+import { SealedClassError } from "../../../Common/SealedClassError.js";
 
 export class Ban
 {

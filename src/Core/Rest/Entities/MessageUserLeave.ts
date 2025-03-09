@@ -1,7 +1,7 @@
 ﻿import { MessageUserLeaveData } from "./Models/MessageUserLeaveData.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { RestClient } from "../Rest/RestClient.js";
+import { SealedClassError } from "../../../Common/SealedClassError.js";
+import { ThrowHelper } from "../../../Common/ThrowHelper.js";
+import { RestClient } from "../RestClient.js";
 
 export class MessageUserLeave
 {
