@@ -46,7 +46,7 @@ export class Ban
 
 	get creationTime()
 	{
-		return Temporal.Instant.from(this.#data.creationTime);
+		return Temporal.Instant.from(this.#data.creationDate);
 	}
 
 	public async getExecutor()

@@ -8,7 +8,7 @@ export class RoomData
 	readonly #description: string | null;
 	readonly #isEntrance: boolean;
 	readonly #connectedRoomIds: ReadonlyArray<string>;
-	readonly #creationTime: string;
+	readonly #creationDate: string;
 
 	public constructor(data: any)
 	{
@@ -19,7 +19,7 @@ export class RoomData
 		ThrowHelper.TypeError.throwIfNotType(data.description, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.isEntrance, "boolean");
 		ThrowHelper.TypeError.throwIfNotType(data.connectedRoomIds, "iterable");
-		ThrowHelper.TypeError.throwIfNotType(data.creationTime, "string");
+		ThrowHelper.TypeError.throwIfNotType(data.creationDate, "string");
 
 		const connectedRoomIds = Object.freeze([ ...data.connectedRoomIds ]);
 		for (const roomId of connectedRoomIds)
@@ -32,7 +32,7 @@ export class RoomData
 		this.#description = data.description;
 		this.#isEntrance = data.isEntrance;
 		this.#connectedRoomIds = connectedRoomIds;
-		this.#creationTime = data.creationTime;
+		this.#creationDate = data.creationDate;
 	}
 
 	public get id()
@@ -60,8 +60,8 @@ export class RoomData
 		return this.#connectedRoomIds;
 	}
 
-	public get creationTime()
+	public get creationDate()
 	{
-		return this.#creationTime;
+		return this.#creationDate;
 	}
 }

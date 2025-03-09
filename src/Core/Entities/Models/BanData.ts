@@ -8,7 +8,7 @@ export class BanData
 	readonly #executorId: string | null;
 	readonly #reason: string | null;
 	readonly #targetId: string | null;
-	readonly #creationTime: string;
+	readonly #creationDate: string;
 
 	public constructor(data: any)
 	{
@@ -18,7 +18,7 @@ export class BanData
 		ThrowHelper.TypeError.throwIfNotAnyType(data.executorId, "string", "null", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.reason, "string", "null", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.targetId, "string", "null", "undefined");
-		ThrowHelper.TypeError.throwIfNotType(data.creationTime, "string");
+		ThrowHelper.TypeError.throwIfNotType(data.creationDate, "string");
 
 		switch (data.type)
 		{
@@ -30,7 +30,7 @@ export class BanData
 		this.#executorId = data.executorId ?? null;
 		this.#reason = data.reason ?? null;
 		this.#targetId = data.targetId ?? null;
-		this.#creationTime = data.creationTime;
+		this.#creationDate = data.creationDate;
 	}
 
 	public get type()
@@ -53,8 +53,8 @@ export class BanData
 		return this.#targetId;
 	}
 
-	public get creationTime()
+	public get creationDate()
 	{
-		return this.#creationTime;
+		return this.#creationDate;
 	}
 }

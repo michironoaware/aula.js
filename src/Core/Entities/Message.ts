@@ -80,7 +80,7 @@ export class Message
 
 	public get creationInstant()
 	{
-		return Instant.from(this.#data.creationTime);
+		return Instant.from(this.#data.creationDate);
 	}
 
 	public isStandardMessage(): this is IStandardMessage

@@ -19,7 +19,7 @@ export class MessageData
 	readonly #content: string | null;
 	readonly #joinData: MessageUserJoinData | null;
 	readonly #leaveData: MessageUserLeaveData | null;
-	readonly #creationTime: string;
+	readonly #creationDate: string;
 
 	public constructor(data: any)
 	{
@@ -32,7 +32,7 @@ export class MessageData
 		ThrowHelper.TypeError.throwIfNotAnyType(data.authorId, "string", "null", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(data.roomId, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.content, "string", "null", "undefined");
-		ThrowHelper.TypeError.throwIfNotType(data.creationTime, "string");
+		ThrowHelper.TypeError.throwIfNotType(data.creationDate, "string");
 
 		switch (data.authorType)
 		{
@@ -67,7 +67,7 @@ export class MessageData
 		this.#content = data.content ?? null;
 		this.#joinData = TypeHelper.isNullable(data.joinData) ? null : new MessageUserJoinData(data.joinData);
 		this.#leaveData = TypeHelper.isNullable(data.leaveData) ? null : new MessageUserLeaveData(data.leaveData);
-		this.#creationTime = data.creationTime;
+		this.#creationDate = data.creationDate;
 	}
 
 	public get id()
@@ -115,8 +115,8 @@ export class MessageData
 		return this.#leaveData;
 	}
 
-	public get creationTime()
+	public get creationDate()
 	{
-		return this.#creationTime;
+		return this.#creationDate;
 	}
 }
