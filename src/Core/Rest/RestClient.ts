@@ -102,7 +102,7 @@ export class RestClient
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(uri, URL);
 
-		this.#httpClient.baseUri = new URL(`${uri.href}${uri.href.endsWith("/") ? "" : "/"}`);
+		this.#httpClient.baseUri = new URL(`${uri.href}${uri.href.endsWith("/") ? "" : "/"}api/v1/`);
 		return this;
 	}
 
