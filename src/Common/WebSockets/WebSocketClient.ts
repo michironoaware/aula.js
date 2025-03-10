@@ -4,9 +4,12 @@ import { WebSocketMessageType } from "./WebSocketMessageType.js";
 import { IDisposable } from "../IDisposable.js";
 import { WebSocketError } from "./WebSocketError.js";
 import { ThrowHelper } from "../ThrowHelper.js";
+import { HeaderMap } from "../Http/HeaderMap.js";
 
 export abstract class WebSocketClient implements IDisposable
 {
+	public Headers: HeaderMap = new HeaderMap();
+
 	/**
 	 * Returns the current state of the {@link WebSocketClient} connection.
 	 * */
