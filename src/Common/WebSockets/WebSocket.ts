@@ -37,9 +37,9 @@ export abstract class WebSocket implements IDisposable
 		}
 
 		const validStatesText = validStates
-			.map(s => WebSocketState[s])
+			.map(s => WebSocketState[ s ])
 			.join(", ");
-		throw new WebSocketError(`WebSocket is on an invalid state. Expected ${validStatesText} but got ${WebSocketState[currentState]}`);
+		throw new WebSocketError(`WebSocket is on an invalid state. Expected ${validStatesText} but got ${WebSocketState[ currentState ]}`);
 	}
 
 	/**
