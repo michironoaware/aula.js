@@ -2,28 +2,44 @@
 import { OperationType } from "../OperationType.js";
 import { EventType } from "../EventType.js";
 import { ThrowHelper } from "../../../../Common/ThrowHelper.js";
-import { TypeHelper } from "../../../../Common/TypeHelper.js";
+import { HelloEventData } from "./HelloEventData.js";
 
-export class GatewayPayload<TData>
+export class GatewayPayload
 {
 	readonly #operation: OperationType;
-	readonly #event: EventType;
-	readonly #eventData: TData | null = null;
+	readonly #event: EventType | null;
+	readonly #eventData: HelloEventData | null = null;
 
-	public constructor(payloadData: any, eventDataTypeConstructor: new (arg1: any) => TData)
+	public constructor(payloadData: any)
 	{
 		SealedClassError.throwIfNotEqual(GatewayPayload, new.target);
 		ThrowHelper.TypeError.throwIfNullable(payloadData);
 		ThrowHelper.TypeError.throwIfNotType(payloadData.operation, "number");
-		ThrowHelper.TypeError.throwIfNotType(payloadData.event, "number");
-		ThrowHelper.TypeError.throwIfNotAnyType(eventDataTypeConstructor, "function");
+		ThrowHelper.TypeError.throwIfNotAnyType(payloadData.event, "number", "null", "undefined");
 
 		this.#operation = payloadData.operation;
-		this.#event = payloadData.event;
+		this.#event = payloadData.event ?? null;
 
-		if (!TypeHelper.isNullable(payloadData.data))
+		switch (this.#operation)
 		{
-			this.#eventData = new eventDataTypeConstructor(payloadData.data);
+			case OperationType.Hello:
+			{
+				ThrowHelper.TypeError.throwIfNullable(payloadData.data);
+				this.#eventData = new HelloEventData(payloadData);
+				break;
+			}
+			case OperationType.Dispatch:
+			{
+				ThrowHelper.TypeError.throwIfNullable(this.#event);
+				ThrowHelper.TypeError.throwIfNullable(payloadData.Data);
+
+				switch (this.#event)
+				{
+					// TODO:
+				}
+
+				break;
+			}
 		}
 	}
 
