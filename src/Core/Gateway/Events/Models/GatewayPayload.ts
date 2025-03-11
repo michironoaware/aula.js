@@ -8,7 +8,7 @@ export class GatewayPayload
 {
 	readonly #operation: OperationType;
 	readonly #event: EventType | null;
-	readonly #eventData: HelloOperationData | null = null;
+	readonly #data: HelloOperationData | null = null;
 
 	public constructor(payloadData: any)
 	{
@@ -25,7 +25,7 @@ export class GatewayPayload
 			case OperationType.Hello:
 			{
 				ThrowHelper.TypeError.throwIfNullable(payloadData.data);
-				this.#eventData = new HelloOperationData(payloadData);
+				this.#data = new HelloOperationData(payloadData);
 				break;
 			}
 			case OperationType.Dispatch:
@@ -55,6 +55,6 @@ export class GatewayPayload
 
 	public get data()
 	{
-		return this.#eventData;
+		return this.#data;
 	}
 }
