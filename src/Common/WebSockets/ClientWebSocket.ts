@@ -5,6 +5,7 @@ import { IDisposable } from "../IDisposable.js";
 import { WebSocketError } from "./WebSocketError.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "../Http/HeaderMap.js";
+import { WebSocketCloseCode } from "./WebSocketCloseCode.js";
 
 export abstract class ClientWebSocket implements IDisposable
 {
@@ -58,7 +59,7 @@ export abstract class ClientWebSocket implements IDisposable
 	/**
 	 * Closes the {@link ClientWebSocket} connection as an asynchronous operation.
 	 * */
-	public abstract close(): Promise<void>;
+	public abstract close(code: WebSocketCloseCode): Promise<void>;
 
 	/**
 	 * Aborts the {@link ClientWebSocket} connection and cancels any pending IO operations.
