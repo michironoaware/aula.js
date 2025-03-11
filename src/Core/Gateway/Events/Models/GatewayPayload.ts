@@ -25,7 +25,7 @@ export class GatewayPayload
 			case OperationType.Hello:
 			{
 				ThrowHelper.TypeError.throwIfNullable(payloadData.data);
-				this.#data = new HelloOperationData(payloadData);
+				this.#data = new HelloOperationData(payloadData.data);
 				break;
 			}
 			case OperationType.Dispatch:
