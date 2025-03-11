@@ -6,17 +6,17 @@ import { WebSocketError } from "./WebSocketError.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "../Http/HeaderMap.js";
 
-export abstract class WebSocketClient implements IDisposable
+export abstract class ClientWebSocket implements IDisposable
 {
 	public Headers: HeaderMap = new HeaderMap();
 
 	/**
-	 * Returns the current state of the {@link WebSocketClient} connection.
+	 * Returns the current state of the {@link ClientWebSocket} connection.
 	 * */
 	public abstract state: WebSocketState;
 
 	/**
-	 * Returns a {@link boolean} that indicates if the state of the {@link WebSocketClient} instance
+	 * Returns a {@link boolean} that indicates if the state of the {@link ClientWebSocket} instance
 	 * is {@link WebSocketState.Closed} or {@link WebSocketState.Aborted}.
 	 * */
 	protected static isStateTerminal(state: WebSocketState): boolean
@@ -46,22 +46,22 @@ export abstract class WebSocketClient implements IDisposable
 	}
 
 	/**
-	 * Receives data from the {@link WebSocketClient} connection asynchronously.
+	 * Receives data from the {@link ClientWebSocket} connection asynchronously.
 	 * */
 	public abstract receive(buffer: ArrayBuffer): Promise<WebSocketReceiveResult>;
 
 	/**
-	 * Sends data over the {@link WebSocketClient} connection asynchronously.
+	 * Sends data over the {@link ClientWebSocket} connection asynchronously.
 	 * */
 	public abstract send(buffer: ArrayBuffer, messageType: WebSocketMessageType, endOfMessage: boolean): Promise<void>;
 
 	/**
-	 * Closes the {@link WebSocketClient} connection as an asynchronous operation.
+	 * Closes the {@link ClientWebSocket} connection as an asynchronous operation.
 	 * */
 	public abstract close(): Promise<void>;
 
 	/**
-	 * Aborts the {@link WebSocketClient} connection and cancels any pending IO operations.
+	 * Aborts the {@link ClientWebSocket} connection and cancels any pending IO operations.
 	 * */
 	public abstract abort(): void;
 

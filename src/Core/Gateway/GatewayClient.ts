@@ -4,21 +4,22 @@ import { Action } from "../../Common/Action.js";
 import { HelloEvent } from "./Events/HelloEvent.js";
 import { RestClient } from "../Rest/RestClient.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { WebSocketClient } from "../../Common/WebSockets/WebSocketClient.js";
+import { ClientWebSocket } from "../../Common/WebSockets/ClientWebSocket.js";
 import { IDisposable } from "../../Common/IDisposable.js";
 
 export class GatewayClient implements IDisposable
 {
 	readonly #_restClient: RestClient;
 	readonly #_eventEmitter: EventEmitter<GatewayClientEvents> = new EventEmitter();
-	readonly #_webSocketTypeConstructor: new (uri: URL) => WebSocketClient;
+	readonly #_webSocketTypeConstructor: new (uri: URL) => ClientWebSocket;
 	readonly #_uri: URL;
+	#_webSocket: ClientWebSocket | null = null;
 	#_disposed: boolean = false;
 
 	public constructor(options: {
 		baseUri: URL,
 		restClient?: RestClient,
-		webSocketType: new (uri: URL) => WebSocketClient
+		webSocketType: new (uri: URL) => ClientWebSocket
 	})
 	{
 		SealedClassError.throwIfNotEqual(GatewayClient, new.target);
