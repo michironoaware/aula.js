@@ -31,7 +31,7 @@ export class GatewayPayload
 			case OperationType.Dispatch:
 			{
 				ThrowHelper.TypeError.throwIfNullable(this.#event);
-				ThrowHelper.TypeError.throwIfNullable(payloadData.Data);
+				ThrowHelper.TypeError.throwIfNullable(payloadData.data);
 
 				switch (this.#event)
 				{
