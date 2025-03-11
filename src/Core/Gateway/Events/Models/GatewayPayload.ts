@@ -2,13 +2,13 @@
 import { OperationType } from "../OperationType.js";
 import { EventType } from "../EventType.js";
 import { ThrowHelper } from "../../../../Common/ThrowHelper.js";
-import { HelloEventData } from "./HelloEventData.js";
+import { HelloOperationData } from "./HelloOperationData.js";
 
 export class GatewayPayload
 {
 	readonly #operation: OperationType;
 	readonly #event: EventType | null;
-	readonly #eventData: HelloEventData | null = null;
+	readonly #eventData: HelloOperationData | null = null;
 
 	public constructor(payloadData: any)
 	{
@@ -25,7 +25,7 @@ export class GatewayPayload
 			case OperationType.Hello:
 			{
 				ThrowHelper.TypeError.throwIfNullable(payloadData.data);
-				this.#eventData = new HelloEventData(payloadData);
+				this.#eventData = new HelloOperationData(payloadData);
 				break;
 			}
 			case OperationType.Dispatch:

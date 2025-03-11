@@ -1,15 +1,15 @@
 ﻿import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { HelloEventData } from "./Models/HelloEventData.js";
+import { HelloOperationData } from "./Models/HelloOperationData.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 
 export class HelloEvent
 {
-	readonly #data: HelloEventData;
+	readonly #data: HelloOperationData;
 
-	public constructor(data: HelloEventData)
+	public constructor(data: HelloOperationData)
 	{
 		SealedClassError.throwIfNotEqual(HelloEvent, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, HelloEventData);
+		ThrowHelper.TypeError.throwIfNotType(data, HelloOperationData);
 
 		this.#data = data;
 	}
