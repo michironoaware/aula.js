@@ -11,15 +11,14 @@ export class GatewayClient implements IDisposable
 {
 	readonly #_restClient: RestClient;
 	readonly #_eventEmitter: EventEmitter<GatewayClientEvents> = new EventEmitter();
-	readonly #_webSocketTypeConstructor: new (uri: URL) => ClientWebSocket;
 	readonly #_uri: URL;
-	#_webSocket: ClientWebSocket | null = null;
+	#_webSocket: ClientWebSocket;
 	#_disposed: boolean = false;
 
 	public constructor(options: {
 		baseUri: URL,
 		restClient?: RestClient,
-		webSocketType: new (uri: URL) => ClientWebSocket
+		webSocketType: new () => ClientWebSocket
 	})
 	{
 		SealedClassError.throwIfNotEqual(GatewayClient, new.target);
@@ -30,7 +29,7 @@ export class GatewayClient implements IDisposable
 
 		this.#_restClient = options.restClient ?? new RestClient().setBaseUri(options.baseUri);
 		this.#_uri = new URL(`${options.baseUri.href}${options.baseUri.href.endsWith("/") ? "" : "/"}api/v1/gateway`);
-		this.#_webSocketTypeConstructor = options.webSocketType;
+		this.#_webSocket = new options.webSocketType();
 	}
 
 	public get restClient()
