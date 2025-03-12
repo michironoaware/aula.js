@@ -17,6 +17,11 @@ export abstract class ClientWebSocket implements IDisposable
 	public abstract state: WebSocketState;
 
 	/**
+	 * Connects to a WebSocket server.
+	 * */
+	public abstract connect(uri: URL): Promise<void>;
+
+	/**
 	 * Returns a {@link boolean} that indicates if the state of the {@link ClientWebSocket} instance
 	 * is {@link WebSocketState.Closed} or {@link WebSocketState.Aborted}.
 	 * */
