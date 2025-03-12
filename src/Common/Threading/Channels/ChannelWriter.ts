@@ -2,5 +2,5 @@
 {
 	public abstract waitToWrite(): Promise<boolean>;
 
-	public abstract write(): Promise<void>;
+	public abstract write(item: T): Promise<void>;
 }
