@@ -54,12 +54,12 @@ export abstract class ClientWebSocket implements IDisposable
 	/**
 	 * Receives data from the {@link ClientWebSocket} connection asynchronously.
 	 * */
-	public abstract receive(buffer: ArrayBuffer): Promise<WebSocketReceiveResult>;
+	public abstract receive(buffer: Uint8Array): Promise<WebSocketReceiveResult>;
 
 	/**
 	 * Sends data over the {@link ClientWebSocket} connection asynchronously.
 	 * */
-	public abstract send(buffer: ArrayBuffer, messageType: WebSocketMessageType, endOfMessage: boolean): Promise<void>;
+	public abstract send(buffer: Uint8Array, messageType: WebSocketMessageType, endOfMessage: boolean): Promise<void>;
 
 	/**
 	 * Closes the {@link ClientWebSocket} connection as an asynchronous operation.
