@@ -46,7 +46,7 @@ export class UnboundedChannelCore<T>
 		return Promise.resolve(!this.#_complete);
 	}
 
-	public async write(item: T)
+	public write(item: T)
 	{
 		if (this.#_complete)
 		{
@@ -55,6 +55,8 @@ export class UnboundedChannelCore<T>
 
 		this.#_items.push(item);
 		this.#_readersWaiting.shift()?.resolve(true);
+
+		return Promise.resolve();
 	}
 
 	public async waitToRead()
