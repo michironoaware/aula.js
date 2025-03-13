@@ -13,7 +13,7 @@ export class Semaphore implements IDisposable
 	#availableCount: number;
 	#disposed: boolean = false;
 
-	constructor(initialCount: number = 0, maximumCount: number = 1)
+	constructor(initialCount: number, maximumCount: number)
 	{
 		SealedClassError.throwIfNotEqual(Semaphore, new.target);
 		ThrowHelper.TypeError.throwIfNotType(initialCount, "number");
