@@ -54,7 +54,10 @@ export class UnboundedChannelCore<T>
 		}
 
 		this.#_items.push(item);
-		this.#_readersWaiting.shift()?.resolve(true);
+		while (this.#_readersWaiting.length > 0)
+		{
+			this.#_readersWaiting.shift()!.resolve(true);
+		}
 
 		return Promise.resolve();
 	}
