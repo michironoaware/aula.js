@@ -24,9 +24,4 @@
 	 * Indicates the WebSocket close handshake completed gracefully.
 	 * */
 	Closed = 5,
-
-	/**
-	 * Indicates that the WebSocket has been aborted.
-	 * */
-	Aborted = 6,
 }
