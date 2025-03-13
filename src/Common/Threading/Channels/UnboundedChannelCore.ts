@@ -1,6 +1,7 @@
 ﻿import { SealedClassError } from "../../SealedClassError.js";
 import { InvalidOperationError } from "../../InvalidOperationError.js";
 import { PromiseCompletionSource } from "../PromiseCompletionSource.js";
+import { ThrowHelper } from "../../ThrowHelper.js";
 
 export class UnboundedChannelCore<T>
 {
@@ -46,8 +47,10 @@ export class UnboundedChannelCore<T>
 		return Promise.resolve(!this.#_complete);
 	}
 
-	public write(item: T)
+	public write(item: Exclude<T, undefined>)
 	{
+		ThrowHelper.TypeError.throwIfUndefined(item);
+
 		if (this.#_complete)
 		{
 			throw new InvalidOperationError("Channel has already been marked as completed");
@@ -84,7 +87,7 @@ export class UnboundedChannelCore<T>
 	{
 		if (this.#_items.length > 0)
 		{
-			return Promise.resolve(this.#_items.shift()!);
+			return Promise.resolve(this.#_items.shift() as Exclude<T, undefined>);
 		}
 
 		if (this.#_complete)
