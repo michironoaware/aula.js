@@ -34,6 +34,15 @@ export namespace ThrowHelper
 			}
 		}
 
+		export function throwIfType<TObject, TType extends TypeResolvable>(object: TObject, type: TType)
+			: asserts object is Exclude<TObject, ResolvedType<TType>>
+		{
+			if (TypeHelper.isType(object, type))
+			{
+				throw new TypeErrorConstructor("Object cannot be an instance of the specified type");
+			}
+		}
+
 		export function throwIfNotType<T extends TypeResolvable>(object: unknown, type: T): asserts object is ResolvedType<T>
 		{
 			if (!TypeHelper.isType(object, type))
