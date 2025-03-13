@@ -7,12 +7,12 @@ export class AulaRestError extends Error
 	readonly #innerError: HttpRequestError | null;
 
 	public constructor(
-		message: string | undefined = undefined,
+		message: string,
 		content: string | null,
 		innerError: HttpRequestError | null = null)
 	{
 		super(`${message}.${content ? `\n${content}` : ""}`);
-		ThrowHelper.TypeError.throwIfNotAnyType(message, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(message, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
 		ThrowHelper.TypeError.throwIfNotAnyType(innerError, HttpRequestError, "null");
 
