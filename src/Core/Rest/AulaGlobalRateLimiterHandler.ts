@@ -108,7 +108,10 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		event: TEvent,
 		listener: AulaGlobalRateLimiterHandlerEvents[TEvent])
 	{
+		ThrowHelper.TypeError.throwIfNullable(event);
+		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 		ObjectDisposedError.throwIf(this.#disposed);
+
 		return await this.#eventEmitter.on(event, listener);
 	}
 
@@ -116,7 +119,10 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		event: TEvent,
 		listener: AulaGlobalRateLimiterHandlerEvents[TEvent])
 	{
+		ThrowHelper.TypeError.throwIfNullable(event);
+		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 		ObjectDisposedError.throwIf(this.#disposed);
+
 		return await this.#eventEmitter.remove(event, listener);
 	}
 
