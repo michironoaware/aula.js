@@ -35,4 +35,9 @@ export class UnboundedChannelReader<T> extends ChannelReader<T>
 	{
 		return await this.#_core.read();
 	}
+
+	public tryRead()
+	{
+		return this.#_core.tryRead();
+	}
 }

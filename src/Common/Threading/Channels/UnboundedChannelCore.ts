@@ -2,6 +2,7 @@
 import { InvalidOperationError } from "../../InvalidOperationError.js";
 import { PromiseCompletionSource } from "../PromiseCompletionSource.js";
 import { ThrowHelper } from "../../ThrowHelper.js";
+import { ReadAttemptResult } from "./ReadAttemptResult.js";
 
 export class UnboundedChannelCore<T>
 {
@@ -96,5 +97,15 @@ export class UnboundedChannelCore<T>
 		}
 
 		throw new InvalidOperationError("There are no available items to read");
+	}
+
+	public tryRead()
+	{
+		if (this.#_items.length > 0)
+		{
+			return new ReadAttemptResult(true, this.#_items.shift() as Exclude<T, undefined>);
+		}
+
+		return ReadAttemptResult.failed<T>();
 	}
 }
