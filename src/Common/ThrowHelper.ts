@@ -26,6 +26,14 @@ export namespace ThrowHelper
 			}
 		}
 
+		export function throwIfUndefined<T>(object: T): asserts object is Extract<T, undefined>
+		{
+			if (object === undefined)
+			{
+				throw new TypeErrorConstructor("Object is undefined");
+			}
+		}
+
 		export function throwIfNotType<T extends TypeResolvable>(object: unknown, type: T): asserts object is ResolvedType<T>
 		{
 			if (!TypeHelper.isType(object, type))
