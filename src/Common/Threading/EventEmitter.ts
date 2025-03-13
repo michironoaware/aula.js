@@ -75,7 +75,9 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[ ...
 		}
 
 		const promises = listeners.map(l => AsNonBlocking(() => l(args)));
-		return await Promise.all(promises);
+		await Promise.all(promises);
+
+		return;
 	}
 
 	public dispose()
