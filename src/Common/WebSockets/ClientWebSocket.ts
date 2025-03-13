@@ -22,16 +22,6 @@ export abstract class ClientWebSocket implements IDisposable
 	public abstract connect(uri: URL): Promise<void>;
 
 	/**
-	 * Returns a {@link boolean} that indicates if the state of the {@link ClientWebSocket} instance
-	 * is {@link WebSocketState.Closed} or {@link WebSocketState.Aborted}.
-	 * */
-	protected static isStateTerminal(state: WebSocketState): boolean
-	{
-		ThrowHelper.TypeError.throwIfNotType(state, WebSocketMessageType);
-		return state === WebSocketState.Closed || state === WebSocketState.Aborted;
-	}
-
-	/**
 	 * Verifies that the connection is in an expected state.
 	 * */
 	protected static throwOnInvalidState<TArray extends Array<WebSocketState>>(currentState: WebSocketState, validStates: TArray)
