@@ -9,7 +9,7 @@ import { InvalidOperationError } from "../InvalidOperationError.js";
 
 export abstract class ClientWebSocket implements IDisposable
 {
-	public Headers: HeaderMap = new HeaderMap();
+	public headers: HeaderMap = new HeaderMap();
 
 	/**
 	 * Returns the current state of the {@link ClientWebSocket} connection.
