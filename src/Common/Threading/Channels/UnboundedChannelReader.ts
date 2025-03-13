@@ -21,6 +21,11 @@ export class UnboundedChannelReader<T> extends ChannelReader<T>
 		return this.#_core.completion;
 	}
 
+	public get count()
+	{
+		return this.#_core.count;
+	}
+
 	public async waitToRead()
 	{
 		return await this.#_core.waitToRead();

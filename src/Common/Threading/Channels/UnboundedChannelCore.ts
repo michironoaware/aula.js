@@ -36,6 +36,11 @@ export class UnboundedChannelCore<T>
 		return this.#_completionPromiseSource.promise;
 	}
 
+	public get count()
+	{
+		return this.#_items.length;
+	}
+
 	public waitToWrite()
 	{
 		return Promise.resolve(!this.#_complete);
