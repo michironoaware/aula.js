@@ -52,8 +52,8 @@ export class Semaphore implements IDisposable
 
 	public release(releaseCount: number = 1)
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
 		ThrowHelper.TypeError.throwIfNotType(releaseCount, "number");
+		ObjectDisposedError.throwIf(this.#disposed);
 		ValueOutOfRangeError.throwIfLessThan(releaseCount, 1);
 
 		for (let i = 0; i < releaseCount; i++)

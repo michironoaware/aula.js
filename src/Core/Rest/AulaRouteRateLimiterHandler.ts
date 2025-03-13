@@ -39,9 +39,9 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 
 	public async send(message: HttpRequestMessage)
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
 		ThrowHelper.TypeError.throwIfNotType(message.requestUri, URL);
+		ObjectDisposedError.throwIf(this.#disposed);
 
 		const routeHash = this.#hashRoute(message.method, message.requestUri);
 

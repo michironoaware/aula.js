@@ -22,8 +22,8 @@ export class HttpFetchHandler extends HttpMessageHandler
 
 	public async send(message: HttpRequestMessage)
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
+		ObjectDisposedError.throwIf(this.#disposed);
 
 		const received = await fetch(message.requestUri,
 			{
