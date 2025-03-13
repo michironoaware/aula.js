@@ -1,4 +1,6 @@
-﻿export abstract class ChannelReader<T>
+﻿import { ReadAttemptResult } from "./ReadAttemptResult.js";
+
+export abstract class ChannelReader<T>
 {
 	public abstract completion: Promise<void>;
 
@@ -7,4 +9,6 @@
 	public abstract waitToRead(): Promise<boolean>;
 
 	public abstract read(): Promise<T>;
+
+	public abstract tryRead(): ReadAttemptResult<T>;
 }
