@@ -17,13 +17,11 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[ ...
 		SealedClassError.throwIfNotEqual(EventEmitter, new.target);
 	}
 
-	public async on<TEvent extends keyof TEventMap>(event: TEvent, listener: TEventMap[TEvent])
+	public on<TEvent extends keyof TEventMap>(event: TEvent, listener: TEventMap[TEvent])
 	{
 		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 		ObjectDisposedError.throwIf(this.#disposed);
-
-		await this.#operateOverListenersSemaphore.waitOne();
 
 		let listeners = this.#listeners.get(event);
 		if (listeners === undefined)
@@ -33,17 +31,13 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[ ...
 		}
 
 		listeners.push(listener);
-
-		this.#operateOverListenersSemaphore.release();
 	}
 
-	public async remove<TEvent extends keyof TEventMap>(event: TEvent, listener: TEventMap[TEvent])
+	public remove<TEvent extends keyof TEventMap>(event: TEvent, listener: TEventMap[TEvent])
 	{
 		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 		ObjectDisposedError.throwIf(this.#disposed);
-
-		await this.#operateOverListenersSemaphore.waitOne();
 
 		const listeners = this.#listeners.get(event);
 		if (listeners === undefined)
@@ -58,8 +52,6 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[ ...
 		}
 
 		listeners.splice(listenerIndex, 1);
-
-		this.#operateOverListenersSemaphore.release();
 	}
 
 	public async emit<TEvent extends keyof TEventMap>(event: TEvent, ...args: Parameters<TEventMap[TEvent]>)

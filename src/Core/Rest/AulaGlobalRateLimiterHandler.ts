@@ -104,7 +104,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		}
 	}
 
-	public async on<TEvent extends keyof AulaGlobalRateLimiterHandlerEvents>(
+	public on<TEvent extends keyof AulaGlobalRateLimiterHandlerEvents>(
 		event: TEvent,
 		listener: AulaGlobalRateLimiterHandlerEvents[TEvent])
 	{
@@ -112,10 +112,10 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 		ObjectDisposedError.throwIf(this.#disposed);
 
-		return await this.#eventEmitter.on(event, listener);
+		return this.#eventEmitter.on(event, listener);
 	}
 
-	public async remove<TEvent extends keyof AulaGlobalRateLimiterHandlerEvents>(
+	public remove<TEvent extends keyof AulaGlobalRateLimiterHandlerEvents>(
 		event: TEvent,
 		listener: AulaGlobalRateLimiterHandlerEvents[TEvent])
 	{
@@ -123,7 +123,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 		ObjectDisposedError.throwIf(this.#disposed);
 
-		return await this.#eventEmitter.remove(event, listener);
+		return this.#eventEmitter.remove(event, listener);
 	}
 
 	public dispose()
