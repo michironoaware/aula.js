@@ -3,6 +3,7 @@ import { ThrowHelper } from "../../ThrowHelper.js";
 
 export class ReadAttemptResult<TItem>
 {
+	static readonly #s_failed: ReadAttemptResult<unknown> = new ReadAttemptResult(false, null);
 	readonly #_succeeded: boolean;
 	readonly #_item: TItem;
 
@@ -23,5 +24,10 @@ export class ReadAttemptResult<TItem>
 	public get item()
 	{
 		return this.#_item;
+	}
+
+	public static failed<T>()
+	{
+		return ReadAttemptResult.#s_failed as ReadAttemptResult<T>;
 	}
 }
