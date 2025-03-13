@@ -7,23 +7,25 @@
 
 	export function isType<T extends TypeResolvable>(object: unknown, type: T): object is ResolvedType<T>
 	{
-		const isNullType = type === "null" && object === null;
+		return (
+			// Check whether typeof of the object is the same as the type string.
+			(typeof type === "string" && typeof object === type) ||
 
-		const isIterable = type === "iterable" && (object as any)[ Symbol.iterator ] !== undefined;
+			// Check if the object is an instance of the specified class
+			(typeof type === "function" && object instanceof type) ||
 
-		const isArray = type === "array" && Array.isArray(object);
+			// Check if object is null for type "null"
+			(type === "null" && object === null) ||
+			// For checking whether a numeric value is defined in the enum's members
+			// does not work with flag enums
+			(typeof type === "object" && type[object as any] !== undefined) ||
 
-		// Check whether typeof of the object is the same as the type string.
-		const isTypeOf = typeof type === "string" && typeof object === type;
+			// Check if object is iterable for type "iterable"
+			(type === "iterable" && (object as any)[Symbol.iterator] !== undefined) ||
 
-		// For checking whether a numeric value is defined in the enum's members
-		// Doesn't work with flag enums
-		const isMemberOf = typeof type === "object" && type[ object as any ] !== undefined;
-
-		// Check if the object is an instance of the specified class
-		const isInstanceOf = typeof type === "function" && object instanceof type;
-
-		return isNullType || isIterable || isArray || isTypeOf || isInstanceOf || isMemberOf;
+			// Check if object is array for type "array"
+			(type === "array" && Array.isArray(object))
+		);
 	}
 
 	export function isAnyType<T extends TypeResolvable[]>(object: unknown, ...types: T): object is ResolvedType<T[number]>
