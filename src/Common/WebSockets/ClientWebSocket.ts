@@ -67,11 +67,6 @@ export abstract class ClientWebSocket implements IDisposable
 	public abstract close(code: WebSocketCloseCode, reason?: string): Promise<void>;
 
 	/**
-	 * Aborts the {@link ClientWebSocket} connection and cancels any pending IO operations.
-	 * */
-	public abstract abort(): void;
-
-	/**
 	 * @inheritDoc
 	 * */
 	public abstract dispose(): void;
