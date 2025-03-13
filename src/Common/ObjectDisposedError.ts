@@ -1,7 +1,8 @@
 ﻿import { ThrowHelper } from "./ThrowHelper.js";
 import { SealedClassError } from "./SealedClassError.js";
+import { InvalidOperationError } from "./InvalidOperationError.js";
 
-export class ObjectDisposedError extends Error
+export class ObjectDisposedError extends InvalidOperationError
 {
 	public constructor()
 	{
