@@ -2,6 +2,8 @@
 {
 	public abstract completion: Promise<void>;
 
+	public abstract count: number;
+
 	public abstract waitToRead(): Promise<boolean>;
 
 	public abstract read(): Promise<T>;
