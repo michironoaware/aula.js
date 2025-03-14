@@ -15,7 +15,7 @@ import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 export class CommonClientWebSocket extends ClientWebSocket
 {
 	static readonly #s_closeReceivedResult: WebSocketReceiveResult = new WebSocketReceiveResult(WebSocketMessageType.Close, true, 0);
-	static readonly #s_textDecoder: TextDecoder = new TextDecoder();
+	static readonly #s_textDecoder: TextDecoder = new TextDecoder("utf8", { fatal: true });
 	static readonly #s_textEncoder: TextEncoder = new TextEncoder();
 	readonly #_messageQueue: WebSocketMessage[] = [];
 	readonly #_pendingReceives: WebSocketReceive[] = [];
