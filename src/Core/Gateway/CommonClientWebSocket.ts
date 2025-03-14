@@ -44,8 +44,6 @@ export class CommonClientWebSocket extends ClientWebSocket
 			throw new WebSocketError("WebSocket is already connected or connecting");
 		}
 
-		const promiseSource = new PromiseCompletionSource<void>();
-
 		this.#_state = WebSocketState.Connecting;
 
 		// The [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) API
@@ -67,10 +65,12 @@ export class CommonClientWebSocket extends ClientWebSocket
 		this.#_underlyingWebSocket = new WebSocket(uri, `h_${headersAsBase64Url}`);
 		this.#_underlyingWebSocket.binaryType = "arraybuffer";
 
+		const connectPromiseSource = new PromiseCompletionSource<void>();
+
 		this.#_underlyingWebSocket.addEventListener("open", () =>
 		{
 			this.#_state = WebSocketState.Open;
-			promiseSource.resolve();
+			connectPromiseSource.resolve();
 		});
 
 		this.#_underlyingWebSocket.addEventListener("message", (event) =>
@@ -102,7 +102,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 			this.#_state = WebSocketState.Closed;
 			this.#_underlyingWebSocket = null;
 
-			promiseSource.reject(new WebSocketError("A WebSocket error occurred"));
+			connectPromiseSource.reject(new WebSocketError("A WebSocket error occurred"));
 		});
 
 		this.#_underlyingWebSocket.addEventListener("close", () =>
@@ -120,7 +120,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 			}
 		});
 
-		return promiseSource.promise;
+		return connectPromiseSource.promise;
 	}
 
 	public receive(buffer: Uint8Array)
