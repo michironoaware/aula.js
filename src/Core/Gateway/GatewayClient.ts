@@ -8,7 +8,7 @@ import { ClientWebSocket } from "../../Common/WebSockets/ClientWebSocket.js";
 import { IDisposable } from "../../Common/IDisposable.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { WebSocketMessageType } from "../../Common/WebSockets/WebSocketMessageType.js";
-import { UInt8Stream } from "./UInt8Stream.js";
+import { UInt8Stream } from "../../Common/IO/UInt8Stream.js";
 import { WebSocketReceiveResult } from "../../Common/WebSockets/WebSocketReceiveResult.js";
 import { GatewayPayload } from "./Events/Models/GatewayPayload.js";
 import { WebSocketCloseCode } from "../../Common/WebSockets/WebSocketCloseCode.js";
