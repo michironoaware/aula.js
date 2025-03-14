@@ -58,9 +58,11 @@ export class HeaderMap implements ReadonlyMap<string, string>
 		ThrowHelper.TypeError.throwIfNotType(name, "string");
 		ThrowHelper.TypeError.throwIfNotType(value, "string");
 
-		let currentValue = this.#underlyingMap.get(name.toLowerCase());
+		const nameInLowerCase = name.toLowerCase();
+
+		let currentValue = this.#underlyingMap.get(nameInLowerCase);
 		let newValue = currentValue ? currentValue += `,${value}` : value;
-		this.#underlyingMap.set(name.toLowerCase(), newValue);
+		this.#underlyingMap.set(nameInLowerCase, newValue);
 	}
 
 	public delete(name: string)
