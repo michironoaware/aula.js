@@ -66,7 +66,7 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[ ...
 			return;
 		}
 
-		const promises = listeners.map(l => AsNonBlocking(() => l(args)));
+		const promises = listeners.map(l => AsNonBlocking(() => l(...args)));
 		await Promise.all(promises);
 
 		return;
