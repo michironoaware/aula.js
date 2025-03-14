@@ -21,7 +21,7 @@ export class UnboundedChannelWriter<T> extends ChannelWriter<T>
 		return await this.#_core.waitToWrite();
 	}
 
-	public async write(item: T)
+	public async write(item: Exclude<T, undefined>)
 	{
 		return await this.#_core.write(item);
 	}
