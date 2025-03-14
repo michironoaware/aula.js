@@ -192,7 +192,11 @@ export class CommonClientWebSocket extends ClientWebSocket
 		ThrowHelper.TypeError.throwIfNotType(code, WebSocketCloseCode);
 		ThrowHelper.TypeError.throwIfNotAnyType(reason, "string", "undefined");
 		ObjectDisposedError.throwIf(this.#_disposed);
-		this.#throwIfNotOpen();
+
+		if (this.#_state !== WebSocketState.Open)
+		{
+			return Promise.resolve();
+		}
 
 		this.#_state = WebSocketState.CloseSent;
 
