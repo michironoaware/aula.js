@@ -7,7 +7,7 @@ import { HelloOperationData } from "./HelloOperationData.js";
 export class GatewayPayload
 {
 	readonly #operation: OperationType;
-	readonly #event: EventType | null;
+	readonly #event: keyof EventType | null;
 	readonly #data: HelloOperationData | null = null;
 
 	public constructor(payloadData: any)
@@ -15,7 +15,7 @@ export class GatewayPayload
 		SealedClassError.throwIfNotEqual(GatewayPayload, new.target);
 		ThrowHelper.TypeError.throwIfNullable(payloadData);
 		ThrowHelper.TypeError.throwIfNotType(payloadData.operation, "number");
-		ThrowHelper.TypeError.throwIfNotAnyType(payloadData.event, "number", "null", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(payloadData.event, "string", "null", "undefined");
 
 		this.#operation = payloadData.operation;
 		this.#event = payloadData.event ?? null;
