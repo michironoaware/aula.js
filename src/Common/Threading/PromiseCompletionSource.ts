@@ -6,6 +6,8 @@ export class PromiseCompletionSource<TResolve>
 	readonly #_promise: Promise<TResolve>;
 	#_resolve: Action<[ TResolve ]> = null!;
 	#_reject: Action<[ any? ]> = null!;
+	readonly #_resolved: boolean = false;
+	readonly #_rejected: boolean = false;
 
 	public constructor()
 	{
@@ -31,5 +33,20 @@ export class PromiseCompletionSource<TResolve>
 	public get reject()
 	{
 		return this.#_reject;
+	}
+
+	public get isComplete()
+	{
+		return this.#_resolved || this.#_rejected;
+	}
+
+	public get isRejected()
+	{
+		return this.#_rejected;
+	}
+
+	public get isCompleteSuccessfully()
+	{
+		return this.#_resolved;
 	}
 }
