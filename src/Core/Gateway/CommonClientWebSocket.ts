@@ -195,11 +195,11 @@ export class CommonClientWebSocket extends ClientWebSocket
 
 		this.#_state = WebSocketState.CloseSent;
 
-		const promiseSource = new PromiseCompletionSource<void>();
-		this.#_underlyingWebSocket!.addEventListener("close", () => promiseSource.resolve());
+		const closePromiseSource = new PromiseCompletionSource<void>();
+		this.#_underlyingWebSocket!.addEventListener("close", () => closePromiseSource.resolve());
 		this.#_underlyingWebSocket!.close(code, reason);
 
-		return promiseSource.promise;
+		return closePromiseSource.promise;
 	}
 
 	public dispose()
