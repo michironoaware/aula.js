@@ -48,13 +48,23 @@ export class CommonClientWebSocket extends ClientWebSocket
 
 		this.#_state = WebSocketState.Connecting;
 
+		// The [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) API
+		// does not allow passing headers other than Sec-WebSocket-Protocol,
+		// so we are going to pass these headers inside the protocol header as a JSON object.
+		// Aula servers will recognize and accept any group of headers inside Sec-WebSocket-Protocol following the specified pattern:
+		// "h_{x}" where {x} is a base64url encoded JSON object containing the headers.
 		const headersAsKeyValuePairObject: { [ key: string ]: string } = {};
 		for (const header of this.headers)
 		{
 			headersAsKeyValuePairObject[ header[ 0 ] ] = header[ 1 ];
 		}
 
-		this.#_underlyingWebSocket = new WebSocket(uri, [ "", JSON.stringify(headersAsKeyValuePairObject) ]);
+		const headersAsBase64Url = btoa(JSON.stringify(headersAsKeyValuePairObject))
+			.replace(/\+/g, "-")
+			.replace(/\//g, "_")
+			.replace(/=+$/, "");
+
+		this.#_underlyingWebSocket = new WebSocket(uri, `h_${headersAsBase64Url}`);
 		this.#_underlyingWebSocket.binaryType = "arraybuffer";
 
 		this.#_underlyingWebSocket.addEventListener("open", () =>
