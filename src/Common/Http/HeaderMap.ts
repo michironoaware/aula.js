@@ -30,7 +30,7 @@ export class HeaderMap implements ReadonlyMap<string, string>
 
 	public has(key: string)
 	{
-		return this.#underlyingMap.has(key);
+		return this.#underlyingMap.has(key.toLowerCase());
 	}
 
 	public entries()
