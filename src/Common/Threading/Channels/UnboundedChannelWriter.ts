@@ -16,6 +16,11 @@ export class UnboundedChannelWriter<T> extends ChannelWriter<T>
 		this.#_core = core;
 	}
 
+	public complete()
+	{
+		return this.#_core.complete();
+	}
+
 	public async waitToWrite()
 	{
 		return await this.#_core.waitToWrite();
