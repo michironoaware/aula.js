@@ -41,7 +41,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 
 		if (this.#_state === WebSocketState.Open || this.#_state === WebSocketState.Connecting)
 		{
-			throw new WebSocketError("WebSocket is already connected or connecting");
+			throw new WebSocketError("WebSocket is connecting or already connected");
 		}
 
 		this.#_state = WebSocketState.Connecting;
