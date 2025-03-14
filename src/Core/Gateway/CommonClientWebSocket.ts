@@ -16,6 +16,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 {
 	static readonly #s_closeReceivedResult: WebSocketReceiveResult = new WebSocketReceiveResult(WebSocketMessageType.Close, true, 0);
 	static readonly #s_textDecoder: TextDecoder = new TextDecoder();
+	static readonly #s_textEncoder: TextEncoder = new TextEncoder();
 	readonly #_messageQueue: WebSocketMessage[] = [];
 	readonly #_pendingReceives: WebSocketReceive[] = [];
 	#_underlyingWebSocket: WebSocket | null = null;
@@ -80,7 +81,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 
 			if (TypeHelper.isType(event.data, "string"))
 			{
-				data = new TextEncoder().encode(event.data);
+				data = CommonClientWebSocket.#s_textEncoder.encode(event.data);
 				messageType = WebSocketMessageType.Text;
 			}
 			else if (TypeHelper.isType(event.data, ArrayBuffer))
