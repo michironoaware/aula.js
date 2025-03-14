@@ -103,6 +103,15 @@ export class CommonClientWebSocket extends ClientWebSocket
 			this.#_state = WebSocketState.Closed;
 			this.#_underlyingWebSocket = null;
 
+			while (this.#_pendingReceives.length > 0)
+			{
+				const pendingReceive = this.#_pendingReceives.shift();
+				if (pendingReceive !== undefined)
+				{
+					pendingReceive.promiseSource.reject(new WebSocketError("A WebSocket error occurred"));
+				}
+			}
+
 			connectPromiseSource.reject(new WebSocketError("A WebSocket error occurred"));
 		});
 
