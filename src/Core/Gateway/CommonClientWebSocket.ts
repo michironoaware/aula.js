@@ -5,7 +5,6 @@ import { WebSocketState } from "../../Common/WebSockets/WebSocketState.js";
 import { WebSocketError } from "../../Common/WebSockets/WebSocketError.js";
 import { WebSocketReceiveResult } from "../../Common/WebSockets/WebSocketReceiveResult.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { TypeHelper } from "../../Common/TypeHelper.js";
 import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 import { PromiseCompletionSource } from "../../Common/Threading/PromiseCompletionSource.js";
 import { NotSupportedError } from "../../Common/NotSupportedError.js";
@@ -79,12 +78,12 @@ export class CommonClientWebSocket extends ClientWebSocket
 			let data: Uint8Array;
 			let messageType: WebSocketMessageType;
 
-			if (TypeHelper.isType(event.data, "string"))
+			if (typeof event.data === "string")
 			{
 				data = CommonClientWebSocket.#s_textEncoder.encode(event.data);
 				messageType = WebSocketMessageType.Text;
 			}
-			else if (TypeHelper.isType(event.data, ArrayBuffer))
+			else if (event.data instanceof ArrayBuffer)
 			{
 				data = new Uint8Array(event.data);
 				messageType = WebSocketMessageType.Binary;
