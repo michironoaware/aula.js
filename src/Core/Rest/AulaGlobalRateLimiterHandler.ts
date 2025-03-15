@@ -176,18 +176,18 @@ export interface AulaGlobalRateLimiterHandlerEvents
 
 export class RateLimitedEvent
 {
-	readonly #resetInstant: Instant;
+	readonly #_resetIsoString: string;
 
-	public constructor(resetInstant: Instant)
+	public constructor(resetIsoString: string)
 	{
 		SealedClassError.throwIfNotEqual(RateLimitedEvent, new.target);
-		ThrowHelper.TypeError.throwIfNotType(resetInstant, Instant);
+		ThrowHelper.TypeError.throwIfNotType(resetIsoString, "string");
 
-		this.#resetInstant = resetInstant;
+		this.#_resetIsoString = resetIsoString;
 	}
 
-	public get resetInstant()
+	public get resetIsoString()
 	{
-		return this.#resetInstant;
+		return this.#_resetIsoString;
 	}
 }
