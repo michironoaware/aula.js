@@ -16,11 +16,11 @@ export class Message
 	readonly #userJoin: MessageUserJoin | null;
 	readonly #userLeave: MessageUserLeave | null;
 
-	public constructor(restClient: RestClient, data: MessageData)
+	public constructor(data: MessageData, restClient: RestClient)
 	{
 		SealedClassError.throwIfNotEqual(Message, new.target);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, MessageData);
+		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
 		this.#restClient = restClient;
 		this.#data = data;
