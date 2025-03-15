@@ -181,19 +181,19 @@ class RouteRateLimit
 	readonly #requestLimit: number;
 	readonly #windowMilliseconds: number;
 	readonly #remainingRequests: number;
-	readonly #resetInstant: Instant;
+	readonly #resetTimestamp: number;
 
 	public constructor(
 		requestLimit: number,
 		windowMilliseconds: number,
 		remainingRequests: number,
-		resetInstant: Instant)
+		resetTimestamp: number)
 	{
 		SealedClassError.throwIfNotEqual(RouteRateLimit, new.target);
 		ThrowHelper.TypeError.throwIfNotType(requestLimit, "number");
 		ThrowHelper.TypeError.throwIfNotType(windowMilliseconds, "number");
 		ThrowHelper.TypeError.throwIfNotType(remainingRequests, "number");
-		ThrowHelper.TypeError.throwIfNotType(resetInstant, Instant);
+		ThrowHelper.TypeError.throwIfNotType(resetTimestamp, "number");
 		ValueOutOfRangeError.throwIfLessThan(requestLimit, 1);
 		ValueOutOfRangeError.throwIfLessThan(remainingRequests, 0);
 		ValueOutOfRangeError.throwIfLessThan(windowMilliseconds, 1);
@@ -202,7 +202,7 @@ class RouteRateLimit
 		this.#requestLimit = requestLimit;
 		this.#windowMilliseconds = windowMilliseconds;
 		this.#remainingRequests = remainingRequests;
-		this.#resetInstant = resetInstant;
+		this.#resetTimestamp = resetTimestamp;
 	}
 
 	public get requestLimit()
@@ -220,9 +220,9 @@ class RouteRateLimit
 		return this.#remainingRequests;
 	}
 
-	public get resetInstant()
+	public get resetTimestamp()
 	{
-		return this.#resetInstant;
+		return this.#resetTimestamp;
 	}
 }
 
