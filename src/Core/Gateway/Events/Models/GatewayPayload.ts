@@ -7,7 +7,7 @@ import { HelloOperationData } from "./HelloOperationData.js";
 export class GatewayPayload
 {
 	readonly #operation: OperationType;
-	readonly #event: keyof EventType | null;
+	readonly #event: keyof typeof EventType | null;
 	readonly #data: HelloOperationData | null = null;
 
 	public constructor(payloadData: any)
