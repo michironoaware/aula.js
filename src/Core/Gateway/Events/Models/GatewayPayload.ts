@@ -1,6 +1,6 @@
 ﻿import { SealedClassError } from "../../../../Common/SealedClassError.js";
-import { OperationType } from "../OperationType.js";
-import { EventType } from "../EventType.js";
+import { OperationType } from "./OperationType.js";
+import { EventType } from "./EventType.js";
 import { ThrowHelper } from "../../../../Common/ThrowHelper.js";
 import { HelloOperationData } from "./HelloOperationData.js";
 import { BanData } from "../../../Rest/Entities/Models/BanData.js";
