@@ -498,7 +498,7 @@ class PayloadSendRequest
 	}
 }
 
-interface ReceivableEvents
+export interface ReceivableEvents
 {
 	Hello: Action<[ HelloEvent ]>;
 	ClientDisconnected: Action<[]>;
