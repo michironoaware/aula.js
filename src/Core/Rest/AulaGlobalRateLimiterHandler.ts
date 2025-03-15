@@ -150,16 +150,16 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		this.#_disposed = true;
 	}
 
-	#scheduleRequestReplenishment(wait?: Duration)
+	#scheduleRequestReplenishment(millisecondsWait?: number)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(wait, Duration, "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(millisecondsWait, "number", "undefined");
 
 		if (this.#_availableRequestEventId !== null)
 		{
 			clearTimeout(this.#_availableRequestEventId as any);
 		}
 
-		const milliseconds = wait ? wait.milliseconds : this.#_windowMilliseconds;
+		const milliseconds = millisecondsWait ? millisecondsWait : this.#_windowMilliseconds;
 		this.#_availableRequestEventId = setTimeout(() =>
 		{
 			this.#_remainingRequests = this.#_requestLimit;
