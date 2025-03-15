@@ -5,13 +5,10 @@ import { Action } from "../../Common/Action.js";
 import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler.js";
-import { Temporal } from "@js-temporal/polyfill";
 import { AutoResetEvent } from "../../Common/Threading/AutoResetEvent.js";
 import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError.js";
 import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
-import Instant = Temporal.Instant;
-import Duration = Temporal.Duration;
 
 export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 {
@@ -87,15 +84,12 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			    resetTimestampHeaderValue !== undefined)
 			{
 				// There are no requests left, or we have reached an unexpected 429 http status code.
-				const resetInstant = Instant.from(resetTimestampHeaderValue);
-				const timeUntilReset = Instant.from(resetTimestampHeaderValue).since(Temporal.Now.instant());
-
 				this.#_requestAvailableEvent.reset();
-				this.#scheduleRequestReplenishment(timeUntilReset);
+				this.#scheduleRequestReplenishment(Date.now() - Date.parse(resetTimestampHeaderValue));
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
-					await this.#_eventEmitter.emit("RateLimited", new RateLimitedEvent(resetInstant));
+					await this.#_eventEmitter.emit("RateLimited", new RateLimitedEvent(resetTimestampHeaderValue));
 					continue;
 				}
 			}
