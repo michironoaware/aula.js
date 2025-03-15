@@ -17,11 +17,11 @@ export class Room
 	readonly #restClient: RestClient;
 	readonly #data: RoomData;
 
-	public constructor(restClient: RestClient, data: RoomData)
+	public constructor(data: RoomData, restClient: RestClient)
 	{
 		SealedClassError.throwIfNotEqual(Room, new.target);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, RoomData);
+		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
 		this.#restClient = restClient;
 		this.#data = data;

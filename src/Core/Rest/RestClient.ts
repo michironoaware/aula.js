@@ -262,7 +262,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
-		return new Room(this, roomData);
+		return new Room(roomData, this);
 	}
 
 	public async getRooms(query: IGetRoomsQuery = {})
@@ -286,7 +286,7 @@ export class RestClient
 
 		return JSON.parse(await response.content.readAsString())
 		           .map((d: any) => new RoomData(d))
-		           .map((d: RoomData) => new Room(this, d)) as Room[];
+		           .map((d: RoomData) => new Room(d, this)) as Room[];
 	}
 
 	public async getRoom(roomId: string)
@@ -304,7 +304,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
-		return new Room(this, roomData);
+		return new Room(roomData, this);
 	}
 
 	public async modifyRoom(roomId: string, body: IModifyRoomRequestBody)
@@ -327,7 +327,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
-		return new Room(this, roomData);
+		return new Room(roomData, this);
 	}
 
 	public async removeRoom(roomId: string)
@@ -366,7 +366,7 @@ export class RestClient
 
 		return JSON.parse((await response.content.readAsString()))
 		           .map((d: any) => new RoomData(d))
-		           .map((d: RoomData) => new Room(this, d)) as Room[];
+		           .map((d: RoomData) => new Room(d, this)) as Room[];
 	}
 
 	public async setRoomConnections(roomId: string, body: ISetRoomConnectionsRequestBody)
