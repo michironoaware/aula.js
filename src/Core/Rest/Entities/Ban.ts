@@ -9,11 +9,11 @@ export class Ban
 	readonly #restClient: RestClient;
 	readonly #data: BanData;
 
-	public constructor(restClient: RestClient, data: BanData)
+	public constructor(data: BanData, restClient: RestClient)
 	{
 		SealedClassError.throwIfNotEqual(Ban, new.target);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, BanData);
+		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
 		this.#restClient = restClient;
 		this.#data = data;

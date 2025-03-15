@@ -700,7 +700,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const banData = new BanData(JSON.parse(await response.content.readAsString()));
-		return new Ban(this, banData);
+		return new Ban(banData, this);
 	}
 
 	public async unbanUser(userId: string)
