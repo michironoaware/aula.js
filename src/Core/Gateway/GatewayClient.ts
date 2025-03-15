@@ -19,7 +19,7 @@ import { HelloOperationData } from "./Events/Models/HelloOperationData.js";
 import { CommonClientWebSocket } from "./CommonClientWebSocket.js";
 import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 import { Intents } from "./Intents.js";
-import { UpdatePresenceEventData } from "./Events/UpdatePresenceEventData.js";
+import { UpdatePresenceEvent } from "./Events/UpdatePresenceEvent.js";
 import { EventType } from "./Events/EventType.js";
 import { PromiseCompletionSource } from "../../Common/Threading/PromiseCompletionSource.js";
 import { WebSocketError } from "../../Common/WebSockets/WebSocketError.js";
@@ -219,7 +219,7 @@ export class GatewayClient implements IDisposable
 		return this.#_eventEmitter.remove(event, listener);
 	}
 
-	public async updatePresence(...args: ConstructorParameters<typeof UpdatePresenceEventData>)
+	public async updatePresence(...args: ConstructorParameters<typeof UpdatePresenceEvent>)
 	{
 		ThrowHelper.TypeError.throwIfNotType(args, "iterable");
 		ObjectDisposedError.throwIf(this.#_disposed);
@@ -228,7 +228,7 @@ export class GatewayClient implements IDisposable
 			{
 				operation: OperationType.Dispatch,
 				event: EventType[ EventType.UpdatePresence ],
-				data: new UpdatePresenceEventData(...args),
+				data: new UpdatePresenceEvent(...args),
 			});
 		const sendPromiseSource = new PromiseCompletionSource<void>();
 		const sendRequest = new PayloadSendRequest(GatewayClient.#s_textEncoder.encode(JSON.stringify(payload)), sendPromiseSource);
