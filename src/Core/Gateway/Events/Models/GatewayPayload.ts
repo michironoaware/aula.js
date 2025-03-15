@@ -14,7 +14,7 @@ import { UserData } from "../../../Rest/Entities/Models/UserData.js";
 export class GatewayPayload
 {
 	readonly #operation: OperationType;
-	readonly #event: string | null;
+	readonly #event: keyof typeof EventType | null;
 	readonly #data: HelloOperationData | BanData | MessageData | UserTypingEventData | RoomConnectionEventData | RoomData |
 	                UserCurrentRoomUpdatedEventData | UserData | null = null;
 
