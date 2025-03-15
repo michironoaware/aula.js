@@ -1,17 +1,21 @@
 ﻿import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { RoomConnectionEventData } from "./Models/RoomConnectionEventData.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
+import { GatewayClient } from "../GatewayClient.js";
 
 export class RoomConnectionCreatedEvent
 {
 	readonly #_data: RoomConnectionEventData;
+	readonly #_gatewayClient: GatewayClient;
 
-	public constructor(data: RoomConnectionEventData)
+	public constructor(data: RoomConnectionEventData, gatewayClient: GatewayClient)
 	{
 		SealedClassError.throwIfNotEqual(RoomConnectionCreatedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, RoomConnectionEventData);
+		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
 
 		this.#_data = data;
+		this.#_gatewayClient = gatewayClient;
 	}
 
 	public get sourceRoomId()
@@ -22,5 +26,10 @@ export class RoomConnectionCreatedEvent
 	public get targetRoomId()
 	{
 		return this.#_data.targetRoomId;
+	}
+
+	public get gatewayClient()
+	{
+		return this.#_gatewayClient;
 	}
 }
