@@ -8,11 +8,11 @@ export class MessageUserJoin
 	readonly #restClient: RestClient;
 	readonly #data: MessageUserJoinData;
 
-	public constructor(restClient: RestClient, data: MessageUserJoinData)
+	public constructor(data: MessageUserJoinData, restClient: RestClient)
 	{
 		SealedClassError.throwIfNotEqual(MessageUserJoin, new.target);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, MessageUserJoinData);
+		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
 		this.#restClient = restClient;
 		this.#data = data;
