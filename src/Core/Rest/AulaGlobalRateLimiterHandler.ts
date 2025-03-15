@@ -177,6 +177,7 @@ export interface AulaGlobalRateLimiterHandlerEvents
 export class RateLimitedEvent
 {
 	readonly #_resetIsoString: string;
+	#_resetDate: Date | null = null;
 
 	public constructor(resetIsoString: string)
 	{
@@ -186,8 +187,8 @@ export class RateLimitedEvent
 		this.#_resetIsoString = resetIsoString;
 	}
 
-	public get resetIsoString()
+	public get resetDate()
 	{
-		return this.#_resetIsoString;
+		return this.#_resetDate ??= new Date(this.#_resetIsoString);
 	}
 }
