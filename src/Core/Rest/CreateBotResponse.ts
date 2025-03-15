@@ -17,7 +17,7 @@ export class CreateBotResponse
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
-		this.#user = new User(restClient, new UserData(data.user));
+		this.#user = new User(new UserData(data.user), restClient);
 		this.#token = data.token;
 	}
 

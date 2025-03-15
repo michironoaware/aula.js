@@ -11,11 +11,11 @@ export class User
 	readonly #restClient: RestClient;
 	readonly #data: UserData;
 
-	public constructor(restClient: RestClient, data: UserData)
+	public constructor(data: UserData, restClient: RestClient)
 	{
 		SealedClassError.throwIfNotEqual(User, new.target);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, UserData);
+		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
 		this.#restClient = restClient;
 		this.#data = data;

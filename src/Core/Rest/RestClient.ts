@@ -122,7 +122,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const userData = new UserData(JSON.parse(await response.content.readAsString()));
-		return new User(this, userData);
+		return new User(userData, this);
 	}
 
 	public async getUsers(query: IGetUsersQuery = {})
@@ -148,7 +148,7 @@ export class RestClient
 
 		return JSON.parse(await response.content.readAsString())
 		           .map((d: any) => new UserData(d))
-		           .map((d: UserData) => new User(this, d)) as User[];
+		           .map((d: UserData) => new User(d, this)) as User[];
 	}
 
 	public async getUser(userId: string)
@@ -166,7 +166,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const userData = new UserData(JSON.parse(await response.content.readAsString()));
-		return new User(this, userData);
+		return new User(userData, this);
 	}
 
 	public async modifyCurrentUser(userId: string, body: IModifyCurrentUserRequestBody)
@@ -187,7 +187,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const userData = new UserData(JSON.parse(await response.content.readAsString()));
-		return new User(this, userData);
+		return new User(userData, this);
 	}
 
 	public async setCurrentUserRoom(body: ISetUserRoomRequestBody)
@@ -414,7 +414,7 @@ export class RestClient
 
 		return JSON.parse(await response.content.readAsString())
 		           .map((d: any) => new UserData(d))
-		           .map((d: UserData) => new User(this, d)) as User[];
+		           .map((d: UserData) => new User(d, this)) as User[];
 	}
 
 	public async startTyping(roomId: string)
