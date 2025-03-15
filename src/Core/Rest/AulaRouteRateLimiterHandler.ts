@@ -16,11 +16,11 @@ import Instant = Temporal.Instant;
 
 export class AulaRouteRateLimiterHandler extends DelegatingHandler
 {
-	readonly #eventEmitter: EventEmitter<AulaRouteRateLimiterHandlerEvents> = new EventEmitter();
-	readonly #allowConcurrentRequests: boolean;
-	readonly #routeSemaphores: Map<string, Semaphore> = new Map();
-	readonly #rateLimits: Map<string, RouteRateLimit> = new Map();
-	#disposed: boolean = false;
+	readonly #_eventEmitter: EventEmitter<AulaRouteRateLimiterHandlerEvents> = new EventEmitter();
+	readonly #_allowConcurrentRequests: boolean;
+	readonly #_routeSemaphores: Map<string, Semaphore> = new Map();
+	readonly #_rateLimits: Map<string, RouteRateLimit> = new Map();
+	#_disposed: boolean = false;
 
 	public constructor(innerHandler: HttpMessageHandler, allowConcurrentRequests: boolean)
 	{
@@ -28,28 +28,28 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 		SealedClassError.throwIfNotEqual(AulaRouteRateLimiterHandler, new.target);
 		ThrowHelper.TypeError.throwIfNotType(allowConcurrentRequests, "boolean");
 
-		this.#allowConcurrentRequests = allowConcurrentRequests;
+		this.#_allowConcurrentRequests = allowConcurrentRequests;
 	}
 
 	public get allowConcurrentRequests()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
-		return this.#allowConcurrentRequests;
+		ObjectDisposedError.throwIf(this.#_disposed);
+		return this.#_allowConcurrentRequests;
 	}
 
 	public async send(message: HttpRequestMessage)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
 		ThrowHelper.TypeError.throwIfNotType(message.requestUri, URL);
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 
 		const routeHash = this.#hashRoute(message.method, message.requestUri);
 
-		let routeSemaphore = this.#routeSemaphores.get(routeHash);
-		if (!this.#allowConcurrentRequests && routeSemaphore === undefined)
+		let routeSemaphore = this.#_routeSemaphores.get(routeHash);
+		if (!this.#_allowConcurrentRequests && routeSemaphore === undefined)
 		{
 			routeSemaphore = new Semaphore(1, 1);
-			this.#routeSemaphores.set(routeHash, routeSemaphore);
+			this.#_routeSemaphores.set(routeHash, routeSemaphore);
 		}
 
 		if (routeSemaphore !== undefined)
@@ -59,11 +59,11 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 
 		while (true)
 		{
-			ObjectDisposedError.throwIf(this.#disposed);
+			ObjectDisposedError.throwIf(this.#_disposed);
 
 			const now = Temporal.Now.instant();
 
-			let routeRateLimit = this.#rateLimits.get(routeHash);
+			let routeRateLimit = this.#_rateLimits.get(routeHash);
 			if (routeRateLimit !== undefined &&
 			    Instant.compare(routeRateLimit.resetInstant, now) < 1)
 			{
@@ -72,7 +72,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 					routeRateLimit.windowMilliseconds,
 					routeRateLimit.requestLimit,
 					now.add({ milliseconds: routeRateLimit.windowMilliseconds }));
-				this.#rateLimits.set(routeHash, routeRateLimit);
+				this.#_rateLimits.set(routeHash, routeRateLimit);
 			}
 
 			// When concurrent requests are allowed, the response headers may not be reliable;
@@ -80,7 +80,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 			if (routeRateLimit !== undefined &&
 			    routeRateLimit.remainingRequests < 1)
 			{
-				const eventEmission = this.#eventEmitter.emit("RequestDeferred", new RequestDeferredEvent(message.requestUri, routeRateLimit.resetInstant));
+				const eventEmission = this.#_eventEmitter.emit("RequestDeferred", new RequestDeferredEvent(message.requestUri, routeRateLimit.resetInstant));
 				const delay = Delay(routeRateLimit.resetInstant.since(now).milliseconds);
 				await Promise.all([ eventEmission, delay ]);
 				continue;
@@ -111,7 +111,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 					windowMilliseconds,
 					requestLimit,
 					now.add({ milliseconds: windowMilliseconds }));
-				this.#rateLimits.set(routeHash, routeRateLimit);
+				this.#_rateLimits.set(routeHash, routeRateLimit);
 			}
 
 			routeRateLimit = new RouteRateLimit(
@@ -119,7 +119,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 				routeRateLimit.windowMilliseconds,
 				routeRateLimit.remainingRequests - 1,
 				routeRateLimit.resetInstant);
-			this.#rateLimits.set(routeHash, routeRateLimit);
+			this.#_rateLimits.set(routeHash, routeRateLimit);
 
 			const isGlobalHeaderValue = response.headers.get("X-RateLimit-IsGlobal");
 			const resetTimestampHeaderValue = response.headers.get("X-RateLimit-ResetsAt");
@@ -133,13 +133,13 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
-					const eventEmission = await this.#eventEmitter.emit("RateLimited", new RateLimitedEvent(resetInstant));
+					const eventEmission = await this.#_eventEmitter.emit("RateLimited", new RateLimitedEvent(resetInstant));
 					const delay = await Delay(routeRateLimit.resetInstant.since(now).milliseconds);
 					await Promise.all([ eventEmission, delay ]);
 					continue;
 				}
 
-				await this.#eventEmitter.emit("RequestDeferred", new RequestDeferredEvent(message.requestUri, resetInstant));
+				await this.#_eventEmitter.emit("RequestDeferred", new RequestDeferredEvent(message.requestUri, resetInstant));
 			}
 
 			routeSemaphore?.release();
@@ -149,22 +149,22 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 
 	public dispose()
 	{
-		if (this.#disposed)
+		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.#eventEmitter.dispose();
-		this.#rateLimits.clear();
+		this.#_eventEmitter.dispose();
+		this.#_rateLimits.clear();
 
-		for (const semaphore of this.#routeSemaphores)
+		for (const semaphore of this.#_routeSemaphores)
 		{
 			this.dispose();
 		}
 
-		this.#routeSemaphores.clear();
+		this.#_routeSemaphores.clear();
 
-		this.#disposed = true;
+		this.#_disposed = true;
 	}
 
 	#hashRoute(httpMethod: HttpMethod, uri: URL)

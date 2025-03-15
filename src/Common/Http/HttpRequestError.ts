@@ -4,7 +4,7 @@ import { SealedClassError } from "../SealedClassError.js";
 
 export class HttpRequestError extends Error
 {
-	readonly #statusCode: HttpStatusCode;
+	readonly #_statusCode: HttpStatusCode;
 
 	public constructor(statusCode: HttpStatusCode)
 	{
@@ -12,11 +12,11 @@ export class HttpRequestError extends Error
 		ThrowHelper.TypeError.throwIfNotType(statusCode, "number");
 
 		super(`Http request error failed with status code '${statusCode}'`);
-		this.#statusCode = statusCode;
+		this.#_statusCode = statusCode;
 	}
 
 	public get statusCode()
 	{
-		return this.#statusCode;
+		return this.#_statusCode;
 	}
 }

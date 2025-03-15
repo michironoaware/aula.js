@@ -6,35 +6,35 @@ import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 export class AutoResetEvent implements IDisposable
 {
-	readonly #queue: Action<[]>[] = [];
-	#signaled: boolean;
-	#disposed: boolean = false;
+	readonly #_queue: Action<[]>[] = [];
+	#_signaled: boolean;
+	#_disposed: boolean = false;
 
 	constructor(initialState: boolean)
 	{
 		SealedClassError.throwIfNotEqual(AutoResetEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(initialState, "boolean");
 
-		this.#signaled = initialState;
+		this.#_signaled = initialState;
 	}
 
 	public async waitOne()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 		return new Promise<void>(resolve =>
 		{
 			const tryGetLock = () =>
 			{
-				ObjectDisposedError.throwIf(this.#disposed);
+				ObjectDisposedError.throwIf(this.#_disposed);
 
-				if (this.#signaled)
+				if (this.#_signaled)
 				{
-					this.#signaled = false;
+					this.#_signaled = false;
 					resolve();
 				}
 				else
 				{
-					this.#queue.push(tryGetLock);
+					this.#_queue.push(tryGetLock);
 				}
 			};
 
@@ -44,35 +44,35 @@ export class AutoResetEvent implements IDisposable
 
 	public set()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 
-		if (this.#signaled)
+		if (this.#_signaled)
 		{
 			return;
 		}
 
-		this.#signaled = true;
-		this.#queue.shift()?.();
+		this.#_signaled = true;
+		this.#_queue.shift()?.();
 	}
 
 	public reset()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
-		this.#signaled = false;
+		ObjectDisposedError.throwIf(this.#_disposed);
+		this.#_signaled = false;
 	}
 
 	public dispose()
 	{
-		if (this.#disposed)
+		if (this.#_disposed)
 		{
 			return;
 		}
 
-		for (const tryGetLock of this.#queue)
+		for (const tryGetLock of this.#_queue)
 		{
 			tryGetLock();
 		}
 
-		this.#disposed = true;
+		this.#_disposed = true;
 	}
 }

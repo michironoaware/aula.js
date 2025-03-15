@@ -3,7 +3,7 @@ import { SealedClassError } from "../../Common/SealedClassError.js";
 
 export class GetCurrentUserBanStatusResponse
 {
-	readonly #banned: boolean;
+	readonly #_banned: boolean;
 
 	constructor(data: any)
 	{
@@ -11,11 +11,11 @@ export class GetCurrentUserBanStatusResponse
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.banned, "boolean");
 
-		this.#banned = data.banned;
+		this.#_banned = data.banned;
 	}
 
 	public get banned()
 	{
-		return this.#banned;
+		return this.#_banned;
 	}
 }

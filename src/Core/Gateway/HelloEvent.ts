@@ -5,8 +5,8 @@ import { GatewayClient } from "./GatewayClient.js";
 
 export class HelloEvent
 {
-	readonly #data: HelloOperationData;
-	readonly #gatewayClient: GatewayClient;
+	readonly #_data: HelloOperationData;
+	readonly #_gatewayClient: GatewayClient;
 
 	public constructor(data: HelloOperationData, gatewayClient: GatewayClient)
 	{
@@ -14,17 +14,17 @@ export class HelloEvent
 		ThrowHelper.TypeError.throwIfNotType(data, HelloOperationData);
 		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
 
-		this.#data = data;
-		this.#gatewayClient = gatewayClient;
+		this.#_data = data;
+		this.#_gatewayClient = gatewayClient;
 	}
 
 	public get sessionId()
 	{
-		return this.#data.sessionId;
+		return this.#_data.sessionId;
 	}
 
 	public get gatewayClient()
 	{
-		return this.#gatewayClient;
+		return this.#_gatewayClient;
 	}
 }

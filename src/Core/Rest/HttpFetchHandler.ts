@@ -12,7 +12,7 @@ import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 
 export class HttpFetchHandler extends HttpMessageHandler
 {
-	#disposed: boolean = false;
+	#_disposed: boolean = false;
 
 	constructor()
 	{
@@ -23,7 +23,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 	public async send(message: HttpRequestMessage)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 
 		const received = await fetch(message.requestUri,
 			{
@@ -41,11 +41,11 @@ export class HttpFetchHandler extends HttpMessageHandler
 
 	public dispose()
 	{
-		if (this.#disposed)
+		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.#disposed = true;
+		this.#_disposed = true;
 	}
 }

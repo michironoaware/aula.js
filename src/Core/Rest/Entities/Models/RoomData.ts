@@ -3,12 +3,12 @@ import { SealedClassError } from "../../../../Common/SealedClassError.js";
 
 export class RoomData
 {
-	readonly #id: string;
-	readonly #name: string;
-	readonly #description: string | null;
-	readonly #isEntrance: boolean;
-	readonly #connectedRoomIds: ReadonlyArray<string>;
-	readonly #creationDate: string;
+	readonly #_id: string;
+	readonly #_name: string;
+	readonly #_description: string | null;
+	readonly #_isEntrance: boolean;
+	readonly #_connectedRoomIds: ReadonlyArray<string>;
+	readonly #_creationDate: string;
 
 	public constructor(data: any)
 	{
@@ -27,41 +27,41 @@ export class RoomData
 			ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		}
 
-		this.#id = data.id;
-		this.#name = data.name;
-		this.#description = data.description;
-		this.#isEntrance = data.isEntrance;
-		this.#connectedRoomIds = connectedRoomIds;
-		this.#creationDate = data.creationDate;
+		this.#_id = data.id;
+		this.#_name = data.name;
+		this.#_description = data.description;
+		this.#_isEntrance = data.isEntrance;
+		this.#_connectedRoomIds = connectedRoomIds;
+		this.#_creationDate = data.creationDate;
 	}
 
 	public get id()
 	{
-		return this.#id;
+		return this.#_id;
 	}
 
 	public get name()
 	{
-		return this.#name;
+		return this.#_name;
 	}
 
 	public get description()
 	{
-		return this.#description;
+		return this.#_description;
 	}
 
 	public get isEntrance()
 	{
-		return this.#isEntrance;
+		return this.#_isEntrance;
 	}
 
 	public get connectedRoomIds()
 	{
-		return this.#connectedRoomIds;
+		return this.#_connectedRoomIds;
 	}
 
 	public get creationDate()
 	{
-		return this.#creationDate;
+		return this.#_creationDate;
 	}
 }

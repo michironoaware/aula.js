@@ -8,9 +8,9 @@ import { AsNonBlocking } from "./AsNonBlocking.js";
 
 export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[ ...any[] ]>>> implements IDisposable
 {
-	readonly #listeners: Map<keyof TEventMap, TEventMap[keyof TEventMap][]> = new Map();
-	readonly #operateOverListenersSemaphore: Semaphore = new Semaphore(1, 1);
-	#disposed: boolean = false;
+	readonly #_listeners: Map<keyof TEventMap, TEventMap[keyof TEventMap][]> = new Map();
+	readonly #_operateOverListenersSemaphore: Semaphore = new Semaphore(1, 1);
+	#_disposed: boolean = false;
 
 	public constructor()
 	{
@@ -21,13 +21,13 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[ ...
 	{
 		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 
-		let listeners = this.#listeners.get(event);
+		let listeners = this.#_listeners.get(event);
 		if (listeners === undefined)
 		{
 			listeners = [];
-			this.#listeners.set(event, listeners);
+			this.#_listeners.set(event, listeners);
 		}
 
 		listeners.push(listener);
@@ -37,9 +37,9 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[ ...
 	{
 		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 
-		const listeners = this.#listeners.get(event);
+		const listeners = this.#_listeners.get(event);
 		if (listeners === undefined)
 		{
 			return;
@@ -58,9 +58,9 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[ ...
 	{
 		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(args, "iterable");
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 
-		const listeners = this.#listeners.get(event);
+		const listeners = this.#_listeners.get(event);
 		if (listeners === undefined)
 		{
 			return;
@@ -74,13 +74,13 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Action<[ ...
 
 	public dispose()
 	{
-		if (this.#disposed)
+		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.#operateOverListenersSemaphore.dispose();
-		this.#listeners.clear();
-		this.#disposed = true;
+		this.#_operateOverListenersSemaphore.dispose();
+		this.#_listeners.clear();
+		this.#_disposed = true;
 	}
 }

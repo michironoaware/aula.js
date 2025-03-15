@@ -7,9 +7,9 @@ import { SealedClassError } from "../SealedClassError.js";
 
 export class HttpClient
 {
-	readonly #handler: HttpMessageHandler;
-	#baseUri: URL | null = null;
-	#defaultRequestHeaders: HeaderMap = new HeaderMap();
+	readonly #_handler: HttpMessageHandler;
+	#_baseUri: URL | null = null;
+	#_defaultRequestHeaders: HeaderMap = new HeaderMap();
 
 	public constructor(options: { handler: HttpMessageHandler; })
 	{
@@ -17,28 +17,28 @@ export class HttpClient
 		ThrowHelper.TypeError.throwIfNullable(options);
 		ThrowHelper.TypeError.throwIfNotAnyType(options.handler, HttpMessageHandler);
 
-		this.#handler = options.handler;
+		this.#_handler = options.handler;
 	}
 
 	public get baseUri()
 	{
-		return this.#baseUri;
+		return this.#_baseUri;
 	}
 
 	public set baseUri(value: URL | null)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(value, URL, "null");
-		this.#baseUri = value;
+		this.#_baseUri = value;
 	}
 
 	public get defaultRequestHeaders()
 	{
-		return this.#defaultRequestHeaders;
+		return this.#_defaultRequestHeaders;
 	}
 
 	public get handler()
 	{
-		return this.#handler;
+		return this.#_handler;
 	}
 
 	public async send(message: HttpRequestMessage)
@@ -61,12 +61,12 @@ export class HttpClient
 					throw error;
 				}
 
-				if (this.#baseUri === null)
+				if (this.#_baseUri === null)
 				{
 					throw new InvalidOperationError("The HttpClient has no baseUri set, the request uri cannot be relative");
 				}
 
-				requestUri = new URL(message.requestUri, this.#baseUri.href);
+				requestUri = new URL(message.requestUri, this.#_baseUri.href);
 			}
 
 			message.requestUri = requestUri;
@@ -82,7 +82,7 @@ export class HttpClient
 			message.headers.append(name, value);
 		});
 
-		this.#defaultRequestHeaders.forEach((value, name) =>
+		this.#_defaultRequestHeaders.forEach((value, name) =>
 		{
 			if (!message.headers.has(name))
 			{
@@ -90,7 +90,7 @@ export class HttpClient
 			}
 		});
 
-		const response = await this.#handler.send(message);
+		const response = await this.#_handler.send(message);
 
 		message.dispose();
 		return response;

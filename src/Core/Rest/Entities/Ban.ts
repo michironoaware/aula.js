@@ -6,8 +6,8 @@ import { SealedClassError } from "../../../Common/SealedClassError.js";
 
 export class Ban
 {
-	readonly #restClient: RestClient;
-	readonly #data: BanData;
+	readonly #_restClient: RestClient;
+	readonly #_data: BanData;
 
 	public constructor(data: BanData, restClient: RestClient)
 	{
@@ -15,38 +15,38 @@ export class Ban
 		ThrowHelper.TypeError.throwIfNotType(data, BanData);
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
-		this.#restClient = restClient;
-		this.#data = data;
+		this.#_restClient = restClient;
+		this.#_data = data;
 	}
 
 	get restClient()
 	{
-		return this.#restClient;
+		return this.#_restClient;
 	}
 
 	get type()
 	{
-		return this.#data.type;
+		return this.#_data.type;
 	}
 
 	get executorId()
 	{
-		return this.#data.executorId;
+		return this.#_data.executorId;
 	}
 
 	get reason()
 	{
-		return this.#data.reason;
+		return this.#_data.reason;
 	}
 
 	get targetId()
 	{
-		return this.#data.targetId;
+		return this.#_data.targetId;
 	}
 
 	get creationInstant()
 	{
-		return Temporal.Instant.from(this.#data.creationDate);
+		return Temporal.Instant.from(this.#_data.creationDate);
 	}
 
 	public async getExecutor()

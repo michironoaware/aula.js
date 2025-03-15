@@ -3,8 +3,8 @@ import { SealedClassError } from "../../../../Common/SealedClassError.js";
 
 export class MessageUserLeaveData
 {
-	readonly #userId: string;
-	readonly #roomId: string | null;
+	readonly #_userId: string;
+	readonly #_roomId: string | null;
 
 	public constructor(data: any)
 	{
@@ -13,17 +13,17 @@ export class MessageUserLeaveData
 		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.roomId, "string", "null", "undefined");
 
-		this.#userId = data.userId;
-		this.#roomId = data.roomId ?? null;
+		this.#_userId = data.userId;
+		this.#_roomId = data.roomId ?? null;
 	}
 
 	public get userId()
 	{
-		return this.#userId;
+		return this.#_userId;
 	}
 
 	public get roomId()
 	{
-		return this.#roomId;
+		return this.#_roomId;
 	}
 }

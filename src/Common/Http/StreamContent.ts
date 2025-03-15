@@ -6,9 +6,9 @@ import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 export class StreamContent extends HttpContent
 {
-	readonly #stream: ReadableStream<Uint8Array>;
-	readonly #headers: HeaderMap;
-	#disposed: boolean = false;
+	readonly #_stream: ReadableStream<Uint8Array>;
+	readonly #_headers: HeaderMap;
+	#_disposed: boolean = false;
 
 	public constructor(stream: ReadableStream<Uint8Array>, contentType = "application/octet-stream")
 	{
@@ -17,28 +17,28 @@ export class StreamContent extends HttpContent
 		ThrowHelper.TypeError.throwIfNotType(stream, ReadableStream<Uint8Array>);
 		ThrowHelper.TypeError.throwIfNotType(contentType, "string");
 
-		this.#stream = stream;
+		this.#_stream = stream;
 
-		this.#headers = new HeaderMap();
-		this.#headers.append("Content-Type", contentType);
+		this.#_headers = new HeaderMap();
+		this.#_headers.append("Content-Type", contentType);
 	}
 
 	public get headers()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
-		return this.#headers;
+		ObjectDisposedError.throwIf(this.#_disposed);
+		return this.#_headers;
 	}
 
 	public get stream()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
-		return this.#stream;
+		ObjectDisposedError.throwIf(this.#_disposed);
+		return this.#_stream;
 	}
 
 	public async readAsString()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
-		const reader = this.#stream.getReader();
+		ObjectDisposedError.throwIf(this.#_disposed);
+		const reader = this.#_stream.getReader();
 		const decoder = new TextDecoder();
 
 		let result = "";
@@ -58,6 +58,6 @@ export class StreamContent extends HttpContent
 
 	public dispose()
 	{
-		this.#disposed = true;
+		this.#_disposed = true;
 	}
 }

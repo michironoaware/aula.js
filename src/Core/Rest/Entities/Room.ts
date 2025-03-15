@@ -14,8 +14,8 @@ import Instant = Temporal.Instant;
 
 export class Room
 {
-	readonly #restClient: RestClient;
-	readonly #data: RoomData;
+	readonly #_restClient: RestClient;
+	readonly #_data: RoomData;
 
 	public constructor(data: RoomData, restClient: RestClient)
 	{
@@ -23,43 +23,43 @@ export class Room
 		ThrowHelper.TypeError.throwIfNotType(data, RoomData);
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
-		this.#restClient = restClient;
-		this.#data = data;
+		this.#_restClient = restClient;
+		this.#_data = data;
 	}
 
 	public get restClient()
 	{
-		return this.#restClient;
+		return this.#_restClient;
 	}
 
 	public get id()
 	{
-		return this.#data.id;
+		return this.#_data.id;
 	}
 
 	public get name()
 	{
-		return this.#data.name;
+		return this.#_data.name;
 	}
 
 	public get description()
 	{
-		return this.#data.description;
+		return this.#_data.description;
 	}
 
 	public get isEntrance()
 	{
-		return this.#data.isEntrance;
+		return this.#_data.isEntrance;
 	}
 
 	public get connectedRoomIds()
 	{
-		return this.#data.connectedRoomIds;
+		return this.#_data.connectedRoomIds;
 	}
 
 	public get creationInstant()
 	{
-		return Instant.from(this.#data.creationDate);
+		return Instant.from(this.#_data.creationDate);
 	}
 
 	public async getLatest()

@@ -6,13 +6,13 @@ import { SealedClassError } from "../../../../Common/SealedClassError.js";
 
 export class UserData
 {
-	readonly #id: string;
-	readonly #displayName: string;
-	readonly #description: string | null;
-	readonly #type: UserType;
-	readonly #presence: Presence;
-	readonly #permissions: Permissions;
-	readonly #currentRoomId: string | null;
+	readonly #_id: string;
+	readonly #_displayName: string;
+	readonly #_description: string | null;
+	readonly #_type: UserType;
+	readonly #_presence: Presence;
+	readonly #_permissions: Permissions;
+	readonly #_currentRoomId: string | null;
 
 	public constructor(data: any)
 	{
@@ -25,48 +25,48 @@ export class UserData
 		ThrowHelper.TypeError.throwIfNotType(data.presence, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.currentRoomId, "string", "null", "undefined");
 
-		this.#id = data.id;
-		this.#displayName = data.displayName;
-		this.#description = data.description ?? null;
-		this.#type = data.type;
-		this.#presence = data.presence;
-		this.#permissions = data.permissions;
-		this.#currentRoomId = data.currentRoomId ?? null;
+		this.#_id = data.id;
+		this.#_displayName = data.displayName;
+		this.#_description = data.description ?? null;
+		this.#_type = data.type;
+		this.#_presence = data.presence;
+		this.#_permissions = data.permissions;
+		this.#_currentRoomId = data.currentRoomId ?? null;
 	}
 
 	public get id()
 	{
-		return this.#id;
+		return this.#_id;
 	}
 
 	public get displayName()
 	{
-		return this.#displayName;
+		return this.#_displayName;
 	}
 
 	public get description()
 	{
-		return this.#description;
+		return this.#_description;
 	}
 
 	public get type()
 	{
-		return this.#type;
+		return this.#_type;
 	}
 
 	public get presence()
 	{
-		return this.#presence;
+		return this.#_presence;
 	}
 
 	public get permissions()
 	{
-		return this.#permissions;
+		return this.#_permissions;
 	}
 
 	public get currentRoomId()
 	{
-		return this.#currentRoomId;
+		return this.#_currentRoomId;
 	}
 
 }

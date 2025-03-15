@@ -6,8 +6,8 @@ import { SealedClassError } from "../../Common/SealedClassError.js";
 
 export class CreateBotResponse
 {
-	readonly #user: User;
-	readonly #token: string;
+	readonly #_user: User;
+	readonly #_token: string;
 
 	public constructor(data: any, restClient: RestClient)
 	{
@@ -17,17 +17,17 @@ export class CreateBotResponse
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
-		this.#user = new User(new UserData(data.user), restClient);
-		this.#token = data.token;
+		this.#_user = new User(new UserData(data.user), restClient);
+		this.#_token = data.token;
 	}
 
 	get user()
 	{
-		return this.#user;
+		return this.#_user;
 	}
 
 	get token()
 	{
-		return this.#token;
+		return this.#_token;
 	}
 }

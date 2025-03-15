@@ -8,8 +8,8 @@ import { TypeHelper } from "../../../Common/TypeHelper.js";
 
 export class User
 {
-	readonly #restClient: RestClient;
-	readonly #data: UserData;
+	readonly #_restClient: RestClient;
+	readonly #_data: UserData;
 
 	public constructor(data: UserData, restClient: RestClient)
 	{
@@ -17,48 +17,48 @@ export class User
 		ThrowHelper.TypeError.throwIfNotType(data, UserData);
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
-		this.#restClient = restClient;
-		this.#data = data;
+		this.#_restClient = restClient;
+		this.#_data = data;
 	}
 
 	public get restClient()
 	{
-		return this.#restClient;
+		return this.#_restClient;
 	}
 
 	public get id()
 	{
-		return this.#data.id;
+		return this.#_data.id;
 	}
 
 	public get displayName()
 	{
-		return this.#data.displayName;
+		return this.#_data.displayName;
 	}
 
 	public get description()
 	{
-		return this.#data.description;
+		return this.#_data.description;
 	}
 
 	public get type()
 	{
-		return this.#data.type;
+		return this.#_data.type;
 	}
 
 	public get presence()
 	{
-		return this.#data.presence;
+		return this.#_data.presence;
 	}
 
 	public get permissions()
 	{
-		return this.#data.permissions;
+		return this.#_data.permissions;
 	}
 
 	public get currentRoomId()
 	{
-		return this.#data.currentRoomId;
+		return this.#_data.currentRoomId;
 	}
 
 	public async getLatest()

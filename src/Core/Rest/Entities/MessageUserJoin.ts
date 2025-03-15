@@ -5,8 +5,8 @@ import { RestClient } from "../RestClient.js";
 
 export class MessageUserJoin
 {
-	readonly #restClient: RestClient;
-	readonly #data: MessageUserJoinData;
+	readonly #_restClient: RestClient;
+	readonly #_data: MessageUserJoinData;
 
 	public constructor(data: MessageUserJoinData, restClient: RestClient)
 	{
@@ -14,18 +14,18 @@ export class MessageUserJoin
 		ThrowHelper.TypeError.throwIfNotType(data, MessageUserJoinData);
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
-		this.#restClient = restClient;
-		this.#data = data;
+		this.#_restClient = restClient;
+		this.#_data = data;
 	}
 
 	public get restClient()
 	{
-		return this.#restClient;
+		return this.#_restClient;
 	}
 
 	public get userId()
 	{
-		return this.#data.userId;
+		return this.#_data.userId;
 	}
 
 	public async getUser()

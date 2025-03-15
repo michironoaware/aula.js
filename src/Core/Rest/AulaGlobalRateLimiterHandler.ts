@@ -15,13 +15,13 @@ import Duration = Temporal.Duration;
 
 export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 {
-	readonly #eventEmitter: EventEmitter<AulaGlobalRateLimiterHandlerEvents> = new EventEmitter();
-	readonly #requestAvailableEvent: AutoResetEvent = new AutoResetEvent(true);
-	#requestLimit: number = 1;
-	#remainingRequests: number = 1;
-	#windowMilliseconds: number = 1;
-	#availableRequestEventId: NodeJS.Timeout | number | null = null;
-	#disposed: boolean = false;
+	readonly #_eventEmitter: EventEmitter<AulaGlobalRateLimiterHandlerEvents> = new EventEmitter();
+	readonly #_requestAvailableEvent: AutoResetEvent = new AutoResetEvent(true);
+	#_requestLimit: number = 1;
+	#_remainingRequests: number = 1;
+	#_windowMilliseconds: number = 1;
+	#_availableRequestEventId: NodeJS.Timeout | number | null = null;
+	#_disposed: boolean = false;
 
 	public constructor(innerHandler: HttpMessageHandler)
 	{
@@ -31,21 +31,21 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 
 	public async send(message: HttpRequestMessage)
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
 
 		while (true)
 		{
-			await this.#requestAvailableEvent.waitOne();
+			await this.#_requestAvailableEvent.waitOne();
 
-			if (this.#remainingRequests === this.#requestLimit)
+			if (this.#_remainingRequests === this.#_requestLimit)
 			{
 				this.#scheduleRequestReplenishment();
 			}
 
-			if (--this.#remainingRequests > 0)
+			if (--this.#_remainingRequests > 0)
 			{
-				this.#requestAvailableEvent.set();
+				this.#_requestAvailableEvent.set();
 			}
 
 			const response = await super.send(message);
@@ -61,20 +61,20 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 
 			const requestLimit = parseInt(requestLimitHeaderValue, 10);
 			const windowMilliseconds = parseInt(windowMillisecondsHeaderValue, 10);
-			if (requestLimit !== this.#requestLimit ||
-			    windowMilliseconds !== this.#windowMilliseconds)
+			if (requestLimit !== this.#_requestLimit ||
+			    windowMilliseconds !== this.#_windowMilliseconds)
 			{
 				// This is the first time making a request and limits must be synced
 				// or the global rate limits has been updated server-side.
 				ValueOutOfRangeError.throwIfLessThan(requestLimit, 1);
 				ValueOutOfRangeError.throwIfLessThan(windowMilliseconds, 1);
 
-				this.#requestLimit = requestLimit;
-				this.#windowMilliseconds = windowMilliseconds;
-				this.#remainingRequests = requestLimit - 1;
-				if (this.#remainingRequests > 0)
+				this.#_requestLimit = requestLimit;
+				this.#_windowMilliseconds = windowMilliseconds;
+				this.#_remainingRequests = requestLimit - 1;
+				if (this.#_remainingRequests > 0)
 				{
-					this.#requestAvailableEvent.set();
+					this.#_requestAvailableEvent.set();
 				}
 
 				this.#scheduleRequestReplenishment();
@@ -90,12 +90,12 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 				const resetInstant = Instant.from(resetTimestampHeaderValue);
 				const timeUntilReset = Instant.from(resetTimestampHeaderValue).since(Temporal.Now.instant());
 
-				this.#requestAvailableEvent.reset();
+				this.#_requestAvailableEvent.reset();
 				this.#scheduleRequestReplenishment(timeUntilReset);
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
-					await this.#eventEmitter.emit("RateLimited", new RateLimitedEvent(resetInstant));
+					await this.#_eventEmitter.emit("RateLimited", new RateLimitedEvent(resetInstant));
 					continue;
 				}
 			}
@@ -110,9 +110,9 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 	{
 		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 
-		return this.#eventEmitter.on(event, listener);
+		return this.#_eventEmitter.on(event, listener);
 	}
 
 	public remove<TEvent extends keyof AulaGlobalRateLimiterHandlerEvents>(
@@ -121,23 +121,23 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 	{
 		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 
-		return this.#eventEmitter.remove(event, listener);
+		return this.#_eventEmitter.remove(event, listener);
 	}
 
 	public dispose()
 	{
-		if (this.#disposed)
+		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.#eventEmitter.dispose();
-		this.#requestAvailableEvent.dispose();
+		this.#_eventEmitter.dispose();
+		this.#_requestAvailableEvent.dispose();
 		try
 		{
-			(this.#availableRequestEventId as NodeJS.Timeout).unref();
+			(this.#_availableRequestEventId as NodeJS.Timeout).unref();
 		}
 		catch (error)
 		{
@@ -147,23 +147,23 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			}
 		}
 
-		this.#disposed = true;
+		this.#_disposed = true;
 	}
 
 	#scheduleRequestReplenishment(wait?: Duration)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(wait, Duration, "undefined");
 
-		if (this.#availableRequestEventId !== null)
+		if (this.#_availableRequestEventId !== null)
 		{
-			clearTimeout(this.#availableRequestEventId as any);
+			clearTimeout(this.#_availableRequestEventId as any);
 		}
 
-		const milliseconds = wait ? wait.milliseconds : this.#windowMilliseconds;
-		this.#availableRequestEventId = setTimeout(() =>
+		const milliseconds = wait ? wait.milliseconds : this.#_windowMilliseconds;
+		this.#_availableRequestEventId = setTimeout(() =>
 		{
-			this.#remainingRequests = this.#requestLimit;
-			this.#requestAvailableEvent.set();
+			this.#_remainingRequests = this.#_requestLimit;
+			this.#_requestAvailableEvent.set();
 		}, milliseconds);
 
 	}

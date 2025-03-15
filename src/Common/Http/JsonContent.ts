@@ -5,40 +5,40 @@ import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 export class JsonContent extends HttpContent
 {
-	readonly #headers: HeaderMap;
-	readonly #string: string;
-	#disposed: boolean = false;
+	readonly #_headers: HeaderMap;
+	readonly #_string: string;
+	#_disposed: boolean = false;
 
 	public constructor(value: unknown)
 	{
 		super();
 		SealedClassError.throwIfNotEqual(JsonContent, new.target);
 
-		this.#string = JSON.stringify(value);
-		this.#headers = new HeaderMap();
-		this.#headers.append("Content-Type", "application/json");
+		this.#_string = JSON.stringify(value);
+		this.#_headers = new HeaderMap();
+		this.#_headers.append("Content-Type", "application/json");
 	}
 
 	public get headers()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
-		return this.#headers;
+		ObjectDisposedError.throwIf(this.#_disposed);
+		return this.#_headers;
 	}
 
 	public get stream()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
-		return new Blob([ this.#string ]).stream();
+		ObjectDisposedError.throwIf(this.#_disposed);
+		return new Blob([ this.#_string ]).stream();
 	}
 
 	public readAsString()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
-		return Promise.resolve(this.#string);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		return Promise.resolve(this.#_string);
 	}
 
 	public dispose()
 	{
-		this.#disposed = true;
+		this.#_disposed = true;
 	}
 }

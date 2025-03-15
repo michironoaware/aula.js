@@ -3,8 +3,8 @@ import { HttpRequestError } from "../../Common/Http/HttpRequestError.js";
 
 export class AulaRestError extends Error
 {
-	readonly #content: string | null;
-	readonly #innerError: HttpRequestError | null;
+	readonly #_content: string | null;
+	readonly #_innerError: HttpRequestError | null;
 
 	public constructor(
 		message: string,
@@ -16,17 +16,17 @@ export class AulaRestError extends Error
 		ThrowHelper.TypeError.throwIfNotAnyType(content, "string", "null");
 		ThrowHelper.TypeError.throwIfNotAnyType(innerError, HttpRequestError, "null");
 
-		this.#content = content;
-		this.#innerError = innerError;
+		this.#_content = content;
+		this.#_innerError = innerError;
 	}
 
 	public get content()
 	{
-		return this.#content;
+		return this.#_content;
 	}
 
 	public get innerError()
 	{
-		return this.#innerError;
+		return this.#_innerError;
 	}
 }

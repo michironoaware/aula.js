@@ -3,7 +3,7 @@ import { SealedClassError } from "../../Common/SealedClassError.js";
 
 export class LogInResponse
 {
-	readonly #token: string;
+	readonly #_token: string;
 
 	public constructor(data: any)
 	{
@@ -11,11 +11,11 @@ export class LogInResponse
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
 
-		this.#token = data.token;
+		this.#_token = data.token;
 	}
 
 	public get token()
 	{
-		return this.#token;
+		return this.#_token;
 	}
 }

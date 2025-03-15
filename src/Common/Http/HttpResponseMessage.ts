@@ -7,9 +7,9 @@ import { ThrowHelper } from "../ThrowHelper.js";
 
 export class HttpResponseMessage
 {
-	readonly #statusCode: HttpStatusCode;
-	readonly #content: HttpContent;
-	readonly #headers: ReadonlyMap<string, string>;
+	readonly #_statusCode: HttpStatusCode;
+	readonly #_content: HttpContent;
+	readonly #_headers: ReadonlyMap<string, string>;
 
 	public constructor(statusCode: HttpStatusCode, content: HttpContent, headers: ReadonlyMap<string, string>)
 	{
@@ -18,29 +18,29 @@ export class HttpResponseMessage
 		ThrowHelper.TypeError.throwIfNotType(content, HttpContent);
 		ThrowHelper.TypeError.throwIfNullable(headers);
 
-		this.#statusCode = statusCode;
-		this.#content = content;
-		this.#headers = new ReadonlyMapWrapper(headers);
+		this.#_statusCode = statusCode;
+		this.#_content = content;
+		this.#_headers = new ReadonlyMapWrapper(headers);
 	}
 
 	public get statusCode()
 	{
-		return this.#statusCode;
+		return this.#_statusCode;
 	}
 
 	public get content()
 	{
-		return this.#content;
+		return this.#_content;
 	}
 
 	public get headers()
 	{
-		return this.#headers;
+		return this.#_headers;
 	}
 
 	public get isSuccessStatusCode()
 	{
-		return this.#statusCode >= 200 && this.#statusCode < 300;
+		return this.#_statusCode >= 200 && this.#_statusCode < 300;
 	}
 
 	public ensureSuccessStatusCode()

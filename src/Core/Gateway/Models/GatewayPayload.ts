@@ -13,10 +13,10 @@ import { UserData } from "../../Rest/Entities/Models/UserData.js";
 
 export class GatewayPayload
 {
-	readonly #operation: OperationType;
-	readonly #event: keyof typeof EventType | null;
-	readonly #data: HelloOperationData | BanData | MessageData | UserTypingEventData | RoomConnectionEventData | RoomData |
-	                UserCurrentRoomUpdatedEventData | UserData | null = null;
+	readonly #_operation: OperationType;
+	readonly #_event: keyof typeof EventType | null;
+	readonly #_data: HelloOperationData | BanData | MessageData | UserTypingEventData | RoomConnectionEventData | RoomData |
+	                 UserCurrentRoomUpdatedEventData | UserData | null = null;
 
 	public constructor(payloadData: any)
 	{
@@ -25,50 +25,50 @@ export class GatewayPayload
 		ThrowHelper.TypeError.throwIfNotType(payloadData.operation, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(payloadData.event, "string", "null", "undefined");
 
-		this.#operation = payloadData.operation;
-		this.#event = payloadData.event ?? null;
+		this.#_operation = payloadData.operation;
+		this.#_event = payloadData.event ?? null;
 
-		switch (this.#operation)
+		switch (this.#_operation)
 		{
 			case OperationType.Hello:
 			{
 				ThrowHelper.TypeError.throwIfNullable(payloadData.data);
-				this.#data = new HelloOperationData(payloadData.data);
+				this.#_data = new HelloOperationData(payloadData.data);
 				break;
 			}
 			case OperationType.Dispatch:
 			{
-				ThrowHelper.TypeError.throwIfNullable(this.#event);
+				ThrowHelper.TypeError.throwIfNullable(this.#_event);
 				ThrowHelper.TypeError.throwIfNullable(payloadData.data);
 
-				switch (this.#event)
+				switch (this.#_event)
 				{
 					case EventType[EventType.BanCreated]:
 					case EventType[EventType.BanRemoved]:
-						this.#data = new BanData(payloadData.data);
+						this.#_data = new BanData(payloadData.data);
 						break;
 					case EventType[EventType.MessageCreated]:
 					case EventType[EventType.MessageRemoved]:
-						this.#data = new MessageData(payloadData.data);
+						this.#_data = new MessageData(payloadData.data);
 						break;
 					case EventType[EventType.UserStartedTyping]:
 					case EventType[EventType.UserStoppedTyping]:
-						this.#data = new UserTypingEventData(payloadData.data);
+						this.#_data = new UserTypingEventData(payloadData.data);
 						break;
 					case EventType[EventType.RoomConnectionCreated]:
 					case EventType[EventType.RoomConnectionRemoved]:
-						this.#data = new RoomConnectionEventData(payloadData.data);
+						this.#_data = new RoomConnectionEventData(payloadData.data);
 						break;
 					case EventType[EventType.RoomCreated]:
 					case EventType[EventType.RoomUpdated]:
 					case EventType[EventType.RoomRemoved]:
-						this.#data = new RoomData(payloadData.data);
+						this.#_data = new RoomData(payloadData.data);
 						break;
 					case EventType[EventType.UserCurrentRoomUpdated]:
-						this.#data = new UserCurrentRoomUpdatedEventData(payloadData.data);
+						this.#_data = new UserCurrentRoomUpdatedEventData(payloadData.data);
 						break;
 					case EventType[EventType.UserUpdated]:
-						this.#data = new UserData(payloadData.data);
+						this.#_data = new UserData(payloadData.data);
 						break;
 					default:
 						break;
@@ -83,16 +83,16 @@ export class GatewayPayload
 
 	public get operation()
 	{
-		return this.#operation;
+		return this.#_operation;
 	}
 
 	public get event()
 	{
-		return this.#event;
+		return this.#_event;
 	}
 
 	public get data()
 	{
-		return this.#data;
+		return this.#_data;
 	}
 }

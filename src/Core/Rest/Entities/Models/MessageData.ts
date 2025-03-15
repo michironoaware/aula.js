@@ -10,16 +10,16 @@ import { ValueOutOfRangeError } from "../../../../Common/ValueOutOfRangeError.js
 
 export class MessageData
 {
-	readonly #id: string;
-	readonly #type: MessageType;
-	readonly #flags: MessageFlags;
-	readonly #authorType: MessageAuthorType;
-	readonly #authorId: string | null;
-	readonly #roomId: string;
-	readonly #content: string | null;
-	readonly #joinData: MessageUserJoinData | null;
-	readonly #leaveData: MessageUserLeaveData | null;
-	readonly #creationDate: string;
+	readonly #_id: string;
+	readonly #_type: MessageType;
+	readonly #_flags: MessageFlags;
+	readonly #_authorType: MessageAuthorType;
+	readonly #_authorId: string | null;
+	readonly #_roomId: string;
+	readonly #_content: string | null;
+	readonly #_joinData: MessageUserJoinData | null;
+	readonly #_leaveData: MessageUserLeaveData | null;
+	readonly #_creationDate: string;
 
 	public constructor(data: any)
 	{
@@ -58,65 +58,65 @@ export class MessageData
 				break;
 		}
 
-		this.#id = data.id;
-		this.#type = data.type;
-		this.#flags = data.flags;
-		this.#authorType = data.authorType;
-		this.#authorId = data.authorId ?? null;
-		this.#roomId = data.roomId;
-		this.#content = data.content ?? null;
-		this.#joinData = TypeHelper.isNullable(data.joinData) ? null : new MessageUserJoinData(data.joinData);
-		this.#leaveData = TypeHelper.isNullable(data.leaveData) ? null : new MessageUserLeaveData(data.leaveData);
-		this.#creationDate = data.creationDate;
+		this.#_id = data.id;
+		this.#_type = data.type;
+		this.#_flags = data.flags;
+		this.#_authorType = data.authorType;
+		this.#_authorId = data.authorId ?? null;
+		this.#_roomId = data.roomId;
+		this.#_content = data.content ?? null;
+		this.#_joinData = TypeHelper.isNullable(data.joinData) ? null : new MessageUserJoinData(data.joinData);
+		this.#_leaveData = TypeHelper.isNullable(data.leaveData) ? null : new MessageUserLeaveData(data.leaveData);
+		this.#_creationDate = data.creationDate;
 	}
 
 	public get id()
 	{
-		return this.#id;
+		return this.#_id;
 	}
 
 	public get type()
 	{
-		return this.#type;
+		return this.#_type;
 	}
 
 	public get flags()
 	{
-		return this.#flags;
+		return this.#_flags;
 	}
 
 	public get authorType()
 	{
-		return this.#authorType;
+		return this.#_authorType;
 	}
 
 	public get authorId()
 	{
-		return this.#authorId;
+		return this.#_authorId;
 	}
 
 	public get roomId()
 	{
-		return this.#roomId;
+		return this.#_roomId;
 	}
 
 	public get content()
 	{
-		return this.#content;
+		return this.#_content;
 	}
 
 	public get joinData()
 	{
-		return this.#joinData;
+		return this.#_joinData;
 	}
 
 	public get leaveData()
 	{
-		return this.#leaveData;
+		return this.#_leaveData;
 	}
 
 	public get creationDate()
 	{
-		return this.#creationDate;
+		return this.#_creationDate;
 	}
 }

@@ -10,10 +10,10 @@ import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 
 export class HttpLoggingHandler extends DelegatingHandler
 {
-	readonly #log: Action<[ string ]>;
-	readonly #sensitiveLogging: boolean;
-	readonly #headerLogging: boolean;
-	#disposed: boolean = false;
+	readonly #_log: Action<[ string ]>;
+	readonly #_sensitiveLogging: boolean;
+	readonly #_headerLogging: boolean;
+	#_disposed: boolean = false;
 
 	public constructor(
 		innerHandler: HttpMessageHandler, logFunc: Action<[ string ]>,
@@ -26,14 +26,14 @@ export class HttpLoggingHandler extends DelegatingHandler
 		ThrowHelper.TypeError.throwIfNotType(sensitiveLogging, "boolean");
 		ThrowHelper.TypeError.throwIfNotType(headerLogging, "boolean");
 
-		this.#log = logFunc;
-		this.#sensitiveLogging = sensitiveLogging;
-		this.#headerLogging = headerLogging;
+		this.#_log = logFunc;
+		this.#_sensitiveLogging = sensitiveLogging;
+		this.#_headerLogging = headerLogging;
 	}
 
 	public async send(message: HttpRequestMessage)
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 
 		const response = await super.send(message);
 
@@ -42,7 +42,7 @@ export class HttpLoggingHandler extends DelegatingHandler
 			`${response.isSuccessStatusCode ? "Succeeded" : "Failed"} ` +
 			`with status code ${response.statusCode} ${HttpStatusCode[response.statusCode] ?? ""}.`;
 
-		if (this.#headerLogging)
+		if (this.#_headerLogging)
 		{
 			text += "- Request headers:\n";
 			for (const header of message.headers)
@@ -50,7 +50,7 @@ export class HttpLoggingHandler extends DelegatingHandler
 				let headerName = header[0];
 				let headerValue = header[1];
 
-				if (!this.#sensitiveLogging && header[0] === "authorization")
+				if (!this.#_sensitiveLogging && header[0] === "authorization")
 				{
 					headerValue = "***";
 				}
@@ -65,18 +65,18 @@ export class HttpLoggingHandler extends DelegatingHandler
 			}
 		}
 
-		this.#log(text);
+		this.#_log(text);
 
 		return response;
 	}
 
 	public dispose()
 	{
-		if (this.#disposed)
+		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.#disposed = true;
+		this.#_disposed = true;
 	}
 }

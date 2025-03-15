@@ -3,7 +3,7 @@ import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 
 export class HelloOperationData
 {
-	readonly #sessionId: string;
+	readonly #_sessionId: string;
 
 	public constructor(data: any)
 	{
@@ -11,11 +11,11 @@ export class HelloOperationData
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.sessionId, "string");
 
-		this.#sessionId = data.sessionId;
+		this.#_sessionId = data.sessionId;
 	}
 
 	public get sessionId()
 	{
-		return this.#sessionId;
+		return this.#_sessionId;
 	}
 }

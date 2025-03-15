@@ -4,11 +4,11 @@ import { SealedClassError } from "../../../../Common/SealedClassError.js";
 
 export class BanData
 {
-	readonly #type: BanType;
-	readonly #executorId: string | null;
-	readonly #reason: string | null;
-	readonly #targetId: string | null;
-	readonly #creationDate: string;
+	readonly #_type: BanType;
+	readonly #_executorId: string | null;
+	readonly #_reason: string | null;
+	readonly #_targetId: string | null;
+	readonly #_creationDate: string;
 
 	public constructor(data: any)
 	{
@@ -26,35 +26,35 @@ export class BanData
 				ThrowHelper.TypeError.throwIfNullable(data.targetid);
 		}
 
-		this.#type = data.type;
-		this.#executorId = data.executorId ?? null;
-		this.#reason = data.reason ?? null;
-		this.#targetId = data.targetId ?? null;
-		this.#creationDate = data.creationDate;
+		this.#_type = data.type;
+		this.#_executorId = data.executorId ?? null;
+		this.#_reason = data.reason ?? null;
+		this.#_targetId = data.targetId ?? null;
+		this.#_creationDate = data.creationDate;
 	}
 
 	public get type()
 	{
-		return this.#type;
+		return this.#_type;
 	}
 
 	public get executorId()
 	{
-		return this.#executorId;
+		return this.#_executorId;
 	}
 
 	public get reason()
 	{
-		return this.#reason;
+		return this.#_reason;
 	}
 
 	public get targetId()
 	{
-		return this.#targetId;
+		return this.#_targetId;
 	}
 
 	public get creationDate()
 	{
-		return this.#creationDate;
+		return this.#_creationDate;
 	}
 }

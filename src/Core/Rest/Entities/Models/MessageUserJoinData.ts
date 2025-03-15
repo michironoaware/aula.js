@@ -3,7 +3,7 @@ import { SealedClassError } from "../../../../Common/SealedClassError.js";
 
 export class MessageUserJoinData
 {
-	readonly #userId: string;
+	readonly #_userId: string;
 
 	public constructor(data: any)
 	{
@@ -11,11 +11,11 @@ export class MessageUserJoinData
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
 
-		this.#userId = data.userId;
+		this.#_userId = data.userId;
 	}
 
 	public get userId()
 	{
-		return this.#userId;
+		return this.#_userId;
 	}
 }

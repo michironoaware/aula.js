@@ -7,9 +7,9 @@ import { ThrowHelper } from "../ThrowHelper.js";
  * */
 export class WebSocketReceiveResult
 {
-	readonly #messageType: WebSocketMessageType;
-	readonly #endOfMessage: boolean;
-	readonly #count: number;
+	readonly #_messageType: WebSocketMessageType;
+	readonly #_endOfMessage: boolean;
+	readonly #_count: number;
 
 	public constructor(messageType: WebSocketMessageType, endOfMessage: boolean, count: number)
 	{
@@ -18,9 +18,9 @@ export class WebSocketReceiveResult
 		ThrowHelper.TypeError.throwIfNotType(endOfMessage, "boolean");
 		ThrowHelper.TypeError.throwIfNotType(count, "number");
 
-		this.#messageType = messageType;
-		this.#endOfMessage = endOfMessage;
-		this.#count = count;
+		this.#_messageType = messageType;
+		this.#_endOfMessage = endOfMessage;
+		this.#_count = count;
 	}
 
 	/**
@@ -28,7 +28,7 @@ export class WebSocketReceiveResult
 	 * */
 	public get messageType()
 	{
-		return this.#messageType;
+		return this.#_messageType;
 	}
 
 	/**
@@ -36,7 +36,7 @@ export class WebSocketReceiveResult
 	 * */
 	public get endOfMessage()
 	{
-		return this.#endOfMessage;
+		return this.#_endOfMessage;
 	}
 
 	/**
@@ -44,6 +44,6 @@ export class WebSocketReceiveResult
 	 * */
 	public get count()
 	{
-		return this.#count;
+		return this.#_count;
 	}
 }

@@ -5,7 +5,7 @@ import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 export class EmptyContent extends HttpContent
 {
-	static #emptyStream: ReadableStream<Uint8Array> = new ReadableStream(
+	static #s_emptyStream: ReadableStream<Uint8Array> = new ReadableStream(
 		{
 			start(controller)
 			{
@@ -13,8 +13,8 @@ export class EmptyContent extends HttpContent
 				controller.close();
 			}
 		});
-	readonly #headers: HeaderMap = new HeaderMap();
-	#disposed: boolean = false;
+	readonly #_headers: HeaderMap = new HeaderMap();
+	#_disposed: boolean = false;
 
 	public constructor()
 	{
@@ -24,24 +24,24 @@ export class EmptyContent extends HttpContent
 
 	public get headers()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
-		return this.#headers;
+		ObjectDisposedError.throwIf(this.#_disposed);
+		return this.#_headers;
 	}
 
 	public get stream()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
-		return EmptyContent.#emptyStream;
+		ObjectDisposedError.throwIf(this.#_disposed);
+		return EmptyContent.#s_emptyStream;
 	}
 
 	public readAsString()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 		return Promise.resolve("");
 	}
 
 	public dispose()
 	{
-		this.#disposed = true;
+		this.#_disposed = true;
 	}
 }

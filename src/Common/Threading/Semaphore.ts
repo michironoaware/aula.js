@@ -8,10 +8,10 @@ import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 export class Semaphore implements IDisposable
 {
-	readonly #queue: Action<[]>[] = [];
-	readonly #maximumCount: number;
-	#availableCount: number;
-	#disposed: boolean = false;
+	readonly #_queue: Action<[]>[] = [];
+	readonly #_maximumCount: number;
+	#_availableCount: number;
+	#_disposed: boolean = false;
 
 	constructor(initialCount: number, maximumCount: number)
 	{
@@ -22,27 +22,27 @@ export class Semaphore implements IDisposable
 		ValueOutOfRangeError.throwIfLessThan(maximumCount, 1);
 		ValueOutOfRangeError.throwIfGreaterThan(initialCount, maximumCount);
 
-		this.#availableCount = initialCount;
-		this.#maximumCount = maximumCount;
+		this.#_availableCount = initialCount;
+		this.#_maximumCount = maximumCount;
 	}
 
 	public async waitOne()
 	{
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 		return new Promise<void>((resolve, reject) =>
 		{
 			const tryGetLock = () =>
 			{
-				ObjectDisposedError.throwIf(this.#disposed);
+				ObjectDisposedError.throwIf(this.#_disposed);
 
-				if (this.#availableCount > 0)
+				if (this.#_availableCount > 0)
 				{
-					this.#availableCount--;
+					this.#_availableCount--;
 					resolve();
 				}
 				else
 				{
-					this.#queue.push(tryGetLock);
+					this.#_queue.push(tryGetLock);
 				}
 			};
 
@@ -53,33 +53,33 @@ export class Semaphore implements IDisposable
 	public release(releaseCount: number = 1)
 	{
 		ThrowHelper.TypeError.throwIfNotType(releaseCount, "number");
-		ObjectDisposedError.throwIf(this.#disposed);
+		ObjectDisposedError.throwIf(this.#_disposed);
 		ValueOutOfRangeError.throwIfLessThan(releaseCount, 1);
 
 		for (let i = 0; i < releaseCount; i++)
 		{
-			if (this.#availableCount === this.#maximumCount)
+			if (this.#_availableCount === this.#_maximumCount)
 			{
 				throw new SemaphoreFullError();
 			}
 
-			this.#availableCount += 1;
-			this.#queue.shift()?.();
+			this.#_availableCount += 1;
+			this.#_queue.shift()?.();
 		}
 	}
 
 	public dispose()
 	{
-		if (this.#disposed)
+		if (this.#_disposed)
 		{
 			return;
 		}
 
-		for (const tryGetLock of this.#queue)
+		for (const tryGetLock of this.#_queue)
 		{
 			tryGetLock();
 		}
 
-		this.#disposed = true;
+		this.#_disposed = true;
 	}
 }

@@ -11,10 +11,10 @@ import Instant = Temporal.Instant;
 
 export class Message
 {
-	readonly #restClient: RestClient;
-	readonly #data: MessageData;
-	readonly #userJoin: MessageUserJoin | null;
-	readonly #userLeave: MessageUserLeave | null;
+	readonly #_restClient: RestClient;
+	readonly #_data: MessageData;
+	readonly #_userJoin: MessageUserJoin | null;
+	readonly #_userLeave: MessageUserLeave | null;
 
 	public constructor(data: MessageData, restClient: RestClient)
 	{
@@ -22,80 +22,80 @@ export class Message
 		ThrowHelper.TypeError.throwIfNotType(data, MessageData);
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
-		this.#restClient = restClient;
-		this.#data = data;
-		this.#userJoin = data.joinData ? new MessageUserJoin(data.joinData, restClient) : null;
-		this.#userLeave = data.leaveData ? new MessageUserLeave(data.leaveData, restClient) : null;
+		this.#_restClient = restClient;
+		this.#_data = data;
+		this.#_userJoin = data.joinData ? new MessageUserJoin(data.joinData, restClient) : null;
+		this.#_userLeave = data.leaveData ? new MessageUserLeave(data.leaveData, restClient) : null;
 	}
 
 	public get restClient()
 	{
-		return this.#restClient;
+		return this.#_restClient;
 	}
 
 	public get id()
 	{
-		return this.#data.id;
+		return this.#_data.id;
 	}
 
 	public get type()
 	{
-		return this.#data.type;
+		return this.#_data.type;
 	}
 
 	public get flags()
 	{
-		return this.#data.flags;
+		return this.#_data.flags;
 	}
 
 	public get authorType()
 	{
-		return this.#data.authorType;
+		return this.#_data.authorType;
 	}
 
 	public get authorId()
 	{
-		return this.#data.authorId;
+		return this.#_data.authorId;
 	}
 
 	public get roomId()
 	{
-		return this.#data.roomId;
+		return this.#_data.roomId;
 	}
 
 	public get content()
 	{
-		return this.#data.content;
+		return this.#_data.content;
 	}
 
 	public get userJoin()
 	{
-		return this.#userJoin;
+		return this.#_userJoin;
 	}
 
 	public get userLeave()
 	{
-		return this.#userLeave;
+		return this.#_userLeave;
 	}
 
 	public get creationInstant()
 	{
-		return Instant.from(this.#data.creationDate);
+		return Instant.from(this.#_data.creationDate);
 	}
 
 	public isStandardMessage(): this is IStandardMessage
 	{
-		return this.#data.type === MessageType.Standard;
+		return this.#_data.type === MessageType.Standard;
 	}
 
 	public isUserJoinMessage(): this is IUserJoinMessage
 	{
-		return this.#data.type === MessageType.UserJoin;
+		return this.#_data.type === MessageType.UserJoin;
 	}
 
 	public isUserLeaveMessage(): this is IUserLeaveMessage
 	{
-		return this.#data.type === MessageType.UserJoin;
+		return this.#_data.type === MessageType.UserJoin;
 	}
 
 	public async getAuthor()
