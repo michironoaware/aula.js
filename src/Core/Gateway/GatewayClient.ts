@@ -242,9 +242,9 @@ export class GatewayClient implements IDisposable
 		return this.#_eventEmitter.remove(event, listener);
 	}
 
-	public async updatePresence(...args: ConstructorParameters<typeof UpdatePresenceEvent>)
+	public async updatePresence(presence: PresenceOption)
 	{
-		ThrowHelper.TypeError.throwIfNotType(args, "iterable");
+		ThrowHelper.TypeError.throwIfNotType(presence, PresenceOption);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		this.#throwIfWebSocketNotOpen();
 
@@ -252,7 +252,7 @@ export class GatewayClient implements IDisposable
 			{
 				operation: OperationType.Dispatch,
 				event: EventType[EventType.UpdatePresence],
-				data: new UpdatePresenceEvent(...args),
+				data: new UpdatePresenceEvent(presence, this),
 			});
 		const sendPromiseSource = new PromiseCompletionSource<void>();
 		const sendRequest = new PayloadSendRequest(GatewayClient.#s_textEncoder.encode(JSON.stringify(payload)), sendPromiseSource);
