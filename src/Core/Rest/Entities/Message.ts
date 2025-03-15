@@ -24,8 +24,8 @@ export class Message
 
 		this.#restClient = restClient;
 		this.#data = data;
-		this.#userLeave = data.leaveData ? new MessageUserLeave(restClient, data.leaveData) : null;
 		this.#userJoin = data.joinData ? new MessageUserJoin(data.joinData, restClient) : null;
+		this.#userLeave = data.leaveData ? new MessageUserLeave(data.leaveData, restClient) : null;
 	}
 
 	public get restClient()

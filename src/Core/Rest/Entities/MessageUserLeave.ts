@@ -8,11 +8,11 @@ export class MessageUserLeave
 	readonly #restClient: RestClient;
 	readonly #data: MessageUserLeaveData;
 
-	public constructor(restClient: RestClient, data: MessageUserLeaveData)
+	public constructor(data: MessageUserLeaveData, restClient: RestClient)
 	{
 		SealedClassError.throwIfNotEqual(MessageUserLeave, new.target);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 		ThrowHelper.TypeError.throwIfNotType(data, MessageUserLeaveData);
+		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
 		this.#restClient = restClient;
 		this.#data = data;
