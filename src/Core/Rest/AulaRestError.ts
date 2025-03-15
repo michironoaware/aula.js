@@ -24,4 +24,9 @@ export class AulaRestError extends Error
 	{
 		return this.#content;
 	}
+
+	public get innerError()
+	{
+		return this.#innerError;
+	}
 }
