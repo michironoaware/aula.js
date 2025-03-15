@@ -1,16 +1,16 @@
-﻿import { Message } from "../../Rest/Entities/Message.js";
-import { GatewayClient } from "../GatewayClient.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
+﻿import { Message } from "../Rest/Entities/Message.js";
+import { GatewayClient } from "./GatewayClient.js";
+import { SealedClassError } from "../../Common/SealedClassError.js";
+import { ThrowHelper } from "../../Common/ThrowHelper.js";
 
-export class MessageRemovedEvent
+export class MessageCreatedEvent
 {
 	readonly #_message: Message;
 	readonly #_gatewayClient: GatewayClient;
 
 	public constructor(message: Message, gatewayClient: GatewayClient)
 	{
-		SealedClassError.throwIfNotEqual(MessageRemovedEvent, new.target);
+		SealedClassError.throwIfNotEqual(MessageCreatedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(message, Message);
 		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
 

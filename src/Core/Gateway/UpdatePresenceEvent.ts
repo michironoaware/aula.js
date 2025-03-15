@@ -1,7 +1,7 @@
 ﻿import { PresenceOptions } from "./PresenceOptions.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { GatewayClient } from "../GatewayClient.js";
+import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { SealedClassError } from "../../Common/SealedClassError.js";
+import { GatewayClient } from "./GatewayClient.js";
 
 export class UpdatePresenceEvent
 {

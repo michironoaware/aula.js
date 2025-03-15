@@ -1,7 +1,7 @@
-﻿import { User } from "../../Rest/Entities/User.js";
-import { GatewayClient } from "../GatewayClient.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
+﻿import { User } from "../Rest/Entities/User.js";
+import { GatewayClient } from "./GatewayClient.js";
+import { SealedClassError } from "../../Common/SealedClassError.js";
+import { ThrowHelper } from "../../Common/ThrowHelper.js";
 
 export class UserUpdatedEvent
 {

@@ -1,7 +1,7 @@
-﻿import { Room } from "../../Rest/Entities/Room.js";
-import { GatewayClient } from "../GatewayClient.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
+﻿import { Room } from "../Rest/Entities/Room.js";
+import { GatewayClient } from "./GatewayClient.js";
+import { SealedClassError } from "../../Common/SealedClassError.js";
+import { ThrowHelper } from "../../Common/ThrowHelper.js";
 
 export class RoomRemovedEvent
 {

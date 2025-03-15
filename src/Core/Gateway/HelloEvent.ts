@@ -1,7 +1,7 @@
-﻿import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { HelloOperationData } from "./Models/HelloOperationData.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { GatewayClient } from "../GatewayClient.js";
+﻿import { SealedClassError } from "../../Common/SealedClassError.js";
+import { HelloOperationData } from "./Events/Models/HelloOperationData.js";
+import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { GatewayClient } from "./GatewayClient.js";
 
 export class HelloEvent
 {

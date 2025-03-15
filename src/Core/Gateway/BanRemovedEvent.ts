@@ -1,16 +1,16 @@
-﻿import { Ban } from "../../Rest/Entities/Ban.js";
-import { GatewayClient } from "../GatewayClient.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
+﻿import { Ban } from "../Rest/Entities/Ban.js";
+import { GatewayClient } from "./GatewayClient.js";
+import { SealedClassError } from "../../Common/SealedClassError.js";
+import { ThrowHelper } from "../../Common/ThrowHelper.js";
 
-export class BanCreatedEvent
+export class BanRemovedEvent
 {
 	readonly #_ban: Ban;
 	readonly #_gatewayClient: GatewayClient;
 
 	public constructor(ban: Ban, gatewayClient: GatewayClient)
 	{
-		SealedClassError.throwIfNotEqual(BanCreatedEvent, new.target);
+		SealedClassError.throwIfNotEqual(BanRemovedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(ban, Ban);
 		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
 
