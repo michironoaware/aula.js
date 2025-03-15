@@ -16,23 +16,6 @@ export class UnboundedChannelCore<T>
 		SealedClassError.throwIfNotEqual(UnboundedChannelCore, new.target);
 	}
 
-	public complete()
-	{
-		if (this.#_complete)
-		{
-			throw new InvalidOperationError("Channel has already been marked as completed");
-		}
-		
-		this.#_completionPromiseSource.resolve();
-
-		for (const reader of this.#_readersWaiting)
-		{
-			reader.resolve(false);
-		}
-
-		this.#_complete = true;
-	}
-
 	public get completion()
 	{
 		return this.#_completionPromiseSource.promise;
@@ -41,6 +24,23 @@ export class UnboundedChannelCore<T>
 	public get count()
 	{
 		return this.#_items.length;
+	}
+
+	public complete()
+	{
+		if (this.#_complete)
+		{
+			throw new InvalidOperationError("Channel has already been marked as completed");
+		}
+
+		this.#_completionPromiseSource.resolve();
+
+		for (const reader of this.#_readersWaiting)
+		{
+			reader.resolve(false);
+		}
+
+		this.#_complete = true;
 	}
 
 	public waitToWrite()

@@ -38,19 +38,19 @@ export class HttpLoggingHandler extends DelegatingHandler
 		const response = await super.send(message);
 
 		let text =
-			`${HttpMethod[ message.method ]} to ${message.requestUri} ` +
+			`${HttpMethod[message.method]} to ${message.requestUri} ` +
 			`${response.isSuccessStatusCode ? "Succeeded" : "Failed"} ` +
-			`with status code ${response.statusCode} ${HttpStatusCode[ response.statusCode ] ?? ""}.`;
+			`with status code ${response.statusCode} ${HttpStatusCode[response.statusCode] ?? ""}.`;
 
 		if (this.#headerLogging)
 		{
 			text += "- Request headers:\n";
 			for (const header of message.headers)
 			{
-				let headerName = header[ 0 ];
-				let headerValue = header[ 1 ];
+				let headerName = header[0];
+				let headerValue = header[1];
 
-				if (!this.#sensitiveLogging && header[ 0 ] === "authorization")
+				if (!this.#sensitiveLogging && header[0] === "authorization")
 				{
 					headerValue = "***";
 				}
@@ -61,7 +61,7 @@ export class HttpLoggingHandler extends DelegatingHandler
 			text += `- Response headers:\n`;
 			for (const header of response.headers)
 			{
-				text += `    ${header[ 0 ]}: ${header[ 1 ]}\n`;
+				text += `    ${header[0]}: ${header[1]}\n`;
 			}
 		}
 

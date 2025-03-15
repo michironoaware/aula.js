@@ -12,7 +12,7 @@ export class UnboundedChannelReader<T> extends ChannelReader<T>
 		super();
 		SealedClassError.throwIfNotEqual(UnboundedChannelReader, new.target);
 		ThrowHelper.TypeError.throwIfNotType(core, UnboundedChannelCore);
-		
+
 		this.#_core = core;
 	}
 

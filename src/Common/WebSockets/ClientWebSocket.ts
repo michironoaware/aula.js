@@ -17,11 +17,6 @@ export abstract class ClientWebSocket implements IDisposable
 	public abstract state: WebSocketState;
 
 	/**
-	 * Connects to a WebSocket server.
-	 * */
-	public abstract connect(uri: URL): Promise<void>;
-
-	/**
 	 * Verifies that the connection is in an expected state.
 	 * */
 	protected static throwOnInvalidState<TArray extends Array<WebSocketState>>(currentState: WebSocketState, validStates: TArray)
@@ -36,10 +31,15 @@ export abstract class ClientWebSocket implements IDisposable
 		}
 
 		const validStatesText = validStates
-			.map(s => WebSocketState[ s ])
+			.map(s => WebSocketState[s])
 			.join(", ");
-		throw new InvalidOperationError(`WebSocket is on an invalid state. Expected ${validStatesText} but got ${WebSocketState[ currentState ]}`);
+		throw new InvalidOperationError(`WebSocket is on an invalid state. Expected ${validStatesText} but got ${WebSocketState[currentState]}`);
 	}
+
+	/**
+	 * Connects to a WebSocket server.
+	 * */
+	public abstract connect(uri: URL): Promise<void>;
 
 	/**
 	 * Receives data from the {@link ClientWebSocket} connection asynchronously.

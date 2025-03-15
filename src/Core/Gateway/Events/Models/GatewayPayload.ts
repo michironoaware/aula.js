@@ -43,31 +43,31 @@ export class GatewayPayload
 
 				switch (this.#event)
 				{
-					case EventType[ EventType.BanCreated ]:
-					case EventType[ EventType.BanRemoved ]:
+					case EventType[EventType.BanCreated]:
+					case EventType[EventType.BanRemoved]:
 						this.#data = new BanData(payloadData.data);
 						break;
-					case EventType[ EventType.MessageCreated ]:
-					case EventType[ EventType.MessageRemoved ]:
+					case EventType[EventType.MessageCreated]:
+					case EventType[EventType.MessageRemoved]:
 						this.#data = new MessageData(payloadData.data);
 						break;
-					case EventType[ EventType.UserStartedTyping ]:
-					case EventType[ EventType.UserStoppedTyping ]:
+					case EventType[EventType.UserStartedTyping]:
+					case EventType[EventType.UserStoppedTyping]:
 						this.#data = new UserTypingEventData(payloadData.data);
 						break;
-					case EventType[ EventType.RoomConnectionCreated ]:
-					case EventType[ EventType.RoomConnectionRemoved ]:
+					case EventType[EventType.RoomConnectionCreated]:
+					case EventType[EventType.RoomConnectionRemoved]:
 						this.#data = new RoomConnectionEventData(payloadData.data);
 						break;
-					case EventType[ EventType.RoomCreated ]:
-					case EventType[ EventType.RoomUpdated ]:
-					case EventType[ EventType.RoomRemoved ]:
+					case EventType[EventType.RoomCreated]:
+					case EventType[EventType.RoomUpdated]:
+					case EventType[EventType.RoomRemoved]:
 						this.#data = new RoomData(payloadData.data);
 						break;
-					case EventType[ EventType.UserCurrentRoomUpdated ]:
+					case EventType[EventType.UserCurrentRoomUpdated]:
 						this.#data = new UserCurrentRoomUpdatedEventData(payloadData.data);
 						break;
-					case EventType[ EventType.UserUpdated ]:
+					case EventType[EventType.UserUpdated]:
 						this.#data = new UserData(payloadData.data);
 						break;
 					default:

@@ -51,10 +51,10 @@ export class CommonClientWebSocket extends ClientWebSocket
 		// so we are going to pass these headers inside the protocol header as a JSON object.
 		// Aula servers will recognize and accept any group of headers inside Sec-WebSocket-Protocol following the specified pattern:
 		// "h_{x}" where {x} is a base64url encoded JSON object containing the headers.
-		const headersAsKeyValuePairObject: { [ key: string ]: string } = {};
+		const headersAsKeyValuePairObject: { [key: string]: string } = {};
 		for (const header of this.headers)
 		{
-			headersAsKeyValuePairObject[ header[ 0 ] ] = header[ 1 ];
+			headersAsKeyValuePairObject[header[0]] = header[1];
 		}
 
 		const headersAsBase64Url = btoa(JSON.stringify(headersAsKeyValuePairObject))
@@ -243,7 +243,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 			throw new InvalidOperationError("No messages available");
 		}
 
-		const currentMessage = this.#_messageQueue[ 0 ];
+		const currentMessage = this.#_messageQueue[0];
 		const bytesAvailable = currentMessage.data.length - currentMessage.bytesRead;
 		const bytesToWrite = Math.min(buffer.length, bytesAvailable);
 		const totalBytesRead = currentMessage.bytesRead + bytesToWrite;

@@ -48,7 +48,7 @@ export class HeaderMap implements ReadonlyMap<string, string>
 		return this.#underlyingMap.values();
 	}
 
-	public [ Symbol.iterator ]()
+	public [Symbol.iterator]()
 	{
 		return this.#underlyingMap.entries();
 	}

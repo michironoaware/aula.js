@@ -21,7 +21,7 @@ export class UInt8Stream extends WritableStream<Uint8Array>
 			this.#_bufferView.set(bytes, this.#_nextPosition);
 			this.#_nextPosition += bytes.length;
 		};
-		
+
 		const close = () =>
 		{
 			this.#_bufferView = new Uint8Array(this.#_buffer, 0, this.#_nextPosition);

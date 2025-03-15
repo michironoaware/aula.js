@@ -16,13 +16,13 @@ export class CancellationTokenSource
 		return this.#_cancellationRequested;
 	}
 
-	public cancel()
-	{
-		this.#_cancellationRequested = true;
-	}
-
 	public get token()
 	{
 		return this.#_token ??= new CancellationToken(this);
+	}
+
+	public cancel()
+	{
+		this.#_cancellationRequested = true;
 	}
 }

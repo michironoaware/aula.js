@@ -227,7 +227,7 @@ export class GatewayClient implements IDisposable
 		const payload = new GatewayPayload(
 			{
 				operation: OperationType.Dispatch,
-				event: EventType[ EventType.UpdatePresence ],
+				event: EventType[EventType.UpdatePresence],
 				data: new UpdatePresenceEvent(...args),
 			});
 		const sendPromiseSource = new PromiseCompletionSource<void>();
