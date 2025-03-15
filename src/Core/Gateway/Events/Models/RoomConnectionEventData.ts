@@ -22,7 +22,7 @@ export class RoomConnectionEventData
 		return this.#_sourceRoomId;
 	}
 
-	public get roomId()
+	public get targetRoomId()
 	{
 		return this.#_targetRoomId;
 	}
