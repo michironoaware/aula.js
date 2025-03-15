@@ -48,6 +48,7 @@ import { Room } from "../Rest/Entities/Room.js";
 import { UserCurrentRoomUpdatedEventData } from "./Models/UserCurrentRoomUpdatedEventData.js";
 import { UserData } from "../Rest/Entities/Models/UserData.js";
 import { User } from "../Rest/Entities/User.js";
+import { PresenceOption } from "./PresenceOption.js";
 
 export class GatewayClient implements IDisposable
 {
@@ -135,6 +136,21 @@ export class GatewayClient implements IDisposable
 		this.#_webSocket.headers.delete("Authorization");
 		this.#_webSocket.headers.append("Authorization", `Bearer ${token}`);
 		this.#_restClient.setToken(token);
+		return this;
+	}
+
+	public setDefaultPresence(presence: PresenceOption)
+	{
+		ThrowHelper.TypeError.throwIfNotType(presence, PresenceOption);
+		ObjectDisposedError.throwIf(this.#_disposed);
+
+		if (this.#_webSocket.state !== WebSocketState.Closed)
+		{
+			throw new InvalidOperationError("Cannot set the default presence because the client is not disconnected");
+		}
+
+		this.#_webSocket.headers.delete("X-Presence");
+		this.#_webSocket.headers.append("X-Presence", presence.toString());
 		return this;
 	}
 
