@@ -140,7 +140,7 @@ export class Room
 		return await this.restClient.getMessages(this.id, query);
 	}
 
-	public async sendMessage(message: ISendMessageRequestBody)
+	public async sendMessage(message: ISendMessageRequestBody | string)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(message, "object", "string");
 
