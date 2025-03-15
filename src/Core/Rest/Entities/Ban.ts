@@ -44,7 +44,7 @@ export class Ban
 		return this.#data.targetId;
 	}
 
-	get creationTime()
+	get creationInstant()
 	{
 		return Temporal.Instant.from(this.#data.creationDate);
 	}
