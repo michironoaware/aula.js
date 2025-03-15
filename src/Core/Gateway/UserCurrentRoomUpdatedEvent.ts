@@ -1,5 +1,5 @@
 ﻿import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { UserCurrentRoomUpdatedEventData } from "./Events/Models/UserCurrentRoomUpdatedEventData.js";
+import { UserCurrentRoomUpdatedEventData } from "./Models/UserCurrentRoomUpdatedEventData.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { GatewayClient } from "./GatewayClient.js";
 

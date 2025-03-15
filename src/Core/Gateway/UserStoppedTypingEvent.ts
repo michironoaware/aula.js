@@ -1,4 +1,4 @@
-﻿import { UserTypingEventData } from "./Events/Models/UserTypingEventData.js";
+﻿import { UserTypingEventData } from "./Models/UserTypingEventData.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { GatewayClient } from "./GatewayClient.js";

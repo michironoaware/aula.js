@@ -1,5 +1,5 @@
 ﻿import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { RoomConnectionEventData } from "./Events/Models/RoomConnectionEventData.js";
+import { RoomConnectionEventData } from "./Models/RoomConnectionEventData.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { GatewayClient } from "./GatewayClient.js";
 

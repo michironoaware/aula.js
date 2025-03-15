@@ -1,15 +1,15 @@
-﻿import { SealedClassError } from "../../../../Common/SealedClassError.js";
+﻿import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { OperationType } from "./OperationType.js";
 import { EventType } from "./EventType.js";
-import { ThrowHelper } from "../../../../Common/ThrowHelper.js";
+import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { HelloOperationData } from "./HelloOperationData.js";
-import { BanData } from "../../../Rest/Entities/Models/BanData.js";
-import { MessageData } from "../../../Rest/Entities/Models/MessageData.js";
+import { BanData } from "../../Rest/Entities/Models/BanData.js";
+import { MessageData } from "../../Rest/Entities/Models/MessageData.js";
 import { UserTypingEventData } from "./UserTypingEventData.js";
 import { RoomConnectionEventData } from "./RoomConnectionEventData.js";
-import { RoomData } from "../../../Rest/Entities/Models/RoomData.js";
+import { RoomData } from "../../Rest/Entities/Models/RoomData.js";
 import { UserCurrentRoomUpdatedEventData } from "./UserCurrentRoomUpdatedEventData.js";
-import { UserData } from "../../../Rest/Entities/Models/UserData.js";
+import { UserData } from "../../Rest/Entities/Models/UserData.js";
 
 export class GatewayPayload
 {
