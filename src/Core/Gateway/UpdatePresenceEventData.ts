@@ -2,13 +2,13 @@
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 
-export class UpdatePresenceEvent
+export class UpdatePresenceEventData
 {
 	readonly #_presence: PresenceOption;
 
 	public constructor(presence: PresenceOption)
 	{
-		SealedClassError.throwIfNotEqual(UpdatePresenceEvent, new.target);
+		SealedClassError.throwIfNotEqual(UpdatePresenceEventData, new.target);
 		ThrowHelper.TypeError.throwIfNotType(presence, PresenceOption);
 
 		this.#_presence = presence;
