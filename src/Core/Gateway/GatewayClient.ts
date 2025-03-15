@@ -246,6 +246,7 @@ export class GatewayClient implements IDisposable
 	{
 		ThrowHelper.TypeError.throwIfNotType(args, "iterable");
 		ObjectDisposedError.throwIf(this.#_disposed);
+		this.#throwIfWebSocketNotOpen();
 
 		const payload = new GatewayPayload(
 			{
