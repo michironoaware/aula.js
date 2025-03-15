@@ -1,5 +1,6 @@
 ﻿import { UserTypingEventData } from "./Models/UserTypingEventData.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
+import { SealedClassError } from "../../../Common/SealedClassError.js";
 
 export class UserStartedTypingEvent
 {
@@ -7,6 +8,7 @@ export class UserStartedTypingEvent
 
 	public constructor(data: UserTypingEventData)
 	{
+		SealedClassError.throwIfNotEqual(UserStartedTypingEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, UserTypingEventData);
 
 		this.#_data = data;
