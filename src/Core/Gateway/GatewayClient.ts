@@ -24,7 +24,30 @@ import { EventType } from "./Events/EventType.js";
 import { PromiseCompletionSource } from "../../Common/Threading/PromiseCompletionSource.js";
 import { WebSocketError } from "../../Common/WebSockets/WebSocketError.js";
 import { UnboundedChannel } from "../../Common/Threading/Channels/UnboundedChannel.js";
-import { NotImplementedError } from "../../Common/NotImplementedError.js";
+import { Ban } from "../Rest/Entities/Ban.js";
+import { BanData } from "../Rest/Entities/Models/BanData.js";
+import { MessageData } from "../Rest/Entities/Models/MessageData.js";
+import { Message } from "../Rest/Entities/Message.js";
+import { UserStartedTypingEvent } from "./Events/UserStartedTypingEvent.js";
+import { UserStoppedTypingEvent } from "./Events/UserStoppedTypingEvent.js";
+import { RoomConnectionCreatedEvent } from "./Events/RoomConnectionCreatedEvent.js";
+import { RoomConnectionRemovedEvent } from "./Events/RoomConnectionRemovedEvent.js";
+import { UserCurrentRoomUpdatedEvent } from "./Events/UserCurrentRoomUpdatedEvent.js";
+import { UserTypingEventData } from "./Events/Models/UserTypingEventData.js";
+import { BanCreatedEvent } from "./Events/BanCreatedEvent.js";
+import { BanRemovedEvent } from "./Events/BanRemovedEvent.js";
+import { MessageCreatedEvent } from "./Events/MessageCreatedEvent.js";
+import { MessageRemovedEvent } from "./Events/MessageRemovedEvent.js";
+import { RoomCreatedEvent } from "./Events/RoomCreatedEvent.js";
+import { RoomUpdatedEvent } from "./Events/RoomUpdatedEvent.js";
+import { RoomRemovedEvent } from "./Events/RoomRemovedEvent.js";
+import { UserUpdatedEvent } from "./Events/UserUpdatedEvent.js";
+import { RoomConnectionEventData } from "./Events/Models/RoomConnectionEventData.js";
+import { RoomData } from "../Rest/Entities/Models/RoomData.js";
+import { Room } from "../Rest/Entities/Room.js";
+import { UserCurrentRoomUpdatedEventData } from "./Events/Models/UserCurrentRoomUpdatedEventData.js";
+import { UserData } from "../Rest/Entities/Models/UserData.js";
+import { User } from "../Rest/Entities/User.js";
 
 export class GatewayClient implements IDisposable
 {
@@ -247,11 +270,87 @@ export class GatewayClient implements IDisposable
 			case OperationType.Hello:
 			{
 				ThrowHelper.TypeError.throwIfNotType(payload.data, HelloOperationData);
-				await this.#_eventEmitter.emit("Hello", new HelloEvent(payload.data));
+				await this.#_eventEmitter.emit("Hello", new HelloEvent(payload.data, this));
+				break;
 			}
-		}
+			case OperationType.Dispatch:
+			{
+				switch (payload.event)
+				{
+					case EventType[EventType.BanCreated]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
+						await this.#_eventEmitter.emit(
+							"BanCreated", new BanCreatedEvent(new Ban(payload.data, this.#_restClient), this));
+						break;
+					case EventType[EventType.BanRemoved]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
+						await this.#_eventEmitter.emit(
+							"BanRemoved", new BanRemovedEvent(new Ban(payload.data, this.#_restClient), this));
+						break;
+					case EventType[EventType.MessageCreated]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
+						await this.#_eventEmitter.emit(
+							"MessageCreated", new MessageCreatedEvent(new Message(payload.data, this.#_restClient), this));
+						break;
+					case EventType[EventType.MessageRemoved]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
+						await this.#_eventEmitter.emit(
+							"MessageRemoved", new MessageRemovedEvent(new Message(payload.data, this.#_restClient), this));
+						break;
+					case EventType[EventType.UserStartedTyping]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, UserTypingEventData);
+						await this.#_eventEmitter.emit(
+							"UserStartedTyping", new UserStartedTypingEvent(payload.data, this));
+						break;
+					case EventType[EventType.UserStoppedTyping]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, UserTypingEventData);
+						await this.#_eventEmitter.emit(
+							"UserStoppedTyping", new UserStoppedTypingEvent(payload.data, this));
+						break;
+					case EventType[EventType.RoomConnectionCreated]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomConnectionEventData);
+						await this.#_eventEmitter.emit(
+							"RoomConnectionCreated", new RoomConnectionCreatedEvent(payload.data, this));
+						break;
+					case EventType[EventType.RoomConnectionRemoved]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomConnectionEventData);
+						await this.#_eventEmitter.emit(
+							"RoomConnectionRemoved", new RoomConnectionRemovedEvent(payload.data, this));
+						break;
+					case EventType[EventType.RoomCreated]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomData);
+						await this.#_eventEmitter.emit(
+							"RoomCreated", new RoomCreatedEvent(new Room(payload.data, this.#_restClient), this));
+						break;
+					case EventType[EventType.RoomUpdated]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomData);
+						await this.#_eventEmitter.emit(
+							"RoomUpdated", new RoomUpdatedEvent(new Room(payload.data, this.#_restClient), this));
+						break;
+					case EventType[EventType.RoomRemoved]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomData);
+						await this.#_eventEmitter.emit(
+							"RoomRemoved", new RoomRemovedEvent(new Room(payload.data, this.#_restClient), this));
+						break;
+					case EventType[EventType.UserCurrentRoomUpdated]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, UserCurrentRoomUpdatedEventData);
+						await this.#_eventEmitter.emit(
+							"UserCurrentRoomUpdated", new UserCurrentRoomUpdatedEvent(payload.data, this));
+						break;
+					case EventType[EventType.UserUpdated]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, UserData);
+						await this.#_eventEmitter.emit(
+							"UserUpdated", new UserUpdatedEvent(new User(payload.data, this.#_restClient), this));
+						break;
+					default:
+						break;
+				}
 
-		throw new NotImplementedError();
+				break;
+			}
+			default:
+				break;
+		}
 	}
 
 	async #runPayloadReceiving()
@@ -404,17 +503,17 @@ interface ReceivableEvents
 	Hello: Action<[ HelloEvent ]>;
 	ClientDisconnected: Action<[]>;
 	SessionResumed: Action<[]>;
-	//RoomCreated: Action<[TODO]>;
-	//RoomUpdated: Action<[TODO]>;
-	//RoomRemoved: Action<[TODO]>;
-	//RoomConnectionCreated: Action<[TODO]>;
-	//RoomConnectionRemoved: Action<[TODO]>;
-	//UserUpdated: Action<[TODO]>;
-	//UserCurrentRoomUpdated: Action<[TODO]>;
-	//MessageCreated: Action<[TODO]>;
-	//MessageRemoved: Action<[TODO]>;
-	//UserStartedTyping: Action<[TODO]>;
-	//UserStoppedTyping: Action<[TODO]>;
-	//BanCreated: Action<[TODO]>;
-	//BanRemoved: Action<[TODO]>;
+	BanCreated: Action<[ BanCreatedEvent ]>;
+	BanRemoved: Action<[ BanRemovedEvent ]>;
+	MessageCreated: Action<[ MessageCreatedEvent ]>;
+	MessageRemoved: Action<[ MessageRemovedEvent ]>;
+	UserStartedTyping: Action<[ UserStartedTypingEvent ]>;
+	UserStoppedTyping: Action<[ UserStoppedTypingEvent ]>;
+	RoomConnectionCreated: Action<[ RoomConnectionCreatedEvent ]>;
+	RoomConnectionRemoved: Action<[ RoomConnectionRemovedEvent ]>;
+	RoomCreated: Action<[ RoomCreatedEvent ]>;
+	RoomUpdated: Action<[ RoomUpdatedEvent ]>;
+	RoomRemoved: Action<[ RoomRemovedEvent ]>;
+	UserUpdated: Action<[ UserUpdatedEvent ]>;
+	UserCurrentRoomUpdated: Action<[ UserCurrentRoomUpdatedEvent ]>;
 }
