@@ -13,6 +13,7 @@ export class Message
 	readonly #_data: MessageData;
 	readonly #_userJoin: MessageUserJoin | null;
 	readonly #_userLeave: MessageUserLeave | null;
+	#_creationDate: Date | null = null;
 
 	public constructor(data: MessageData, restClient: RestClient)
 	{
@@ -78,7 +79,7 @@ export class Message
 
 	get creationDate()
 	{
-		return new Date(this.#_data.creationDate);
+		return this.#_creationDate ??= new Date(this.#_data.creationDate);
 	}
 
 	public isStandardMessage(): this is IStandardMessage
