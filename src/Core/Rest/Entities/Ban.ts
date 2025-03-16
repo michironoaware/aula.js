@@ -1,7 +1,6 @@
 ﻿import { RestClient } from "../RestClient.js";
 import { BanData } from "./Models/BanData.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { Temporal } from "@js-temporal/polyfill";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
 
 export class Ban
@@ -44,9 +43,9 @@ export class Ban
 		return this.#_data.targetId;
 	}
 
-	get creationInstant()
+	get creationDate()
 	{
-		return Temporal.Instant.from(this.#_data.creationDate);
+		return new Date(this.#_data.creationDate);
 	}
 
 	public async getExecutor()
