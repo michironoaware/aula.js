@@ -234,6 +234,7 @@ export class RequestDeferredEvent
 {
 	readonly #uri: URL;
 	readonly #_resetTimestamp: number;
+	#_resetDate: Date | null = null;
 
 	public constructor(uri: URL, resetTimestamp: number)
 	{
@@ -250,9 +251,9 @@ export class RequestDeferredEvent
 		return this.#uri;
 	}
 
-	public get resetTimestamp()
+	public get resetDate()
 	{
-		return this.#_resetTimestamp;
+		return this.#_resetDate ??= new Date(this.#_resetTimestamp);
 	}
 }
 
