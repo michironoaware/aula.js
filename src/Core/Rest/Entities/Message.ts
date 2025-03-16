@@ -11,8 +11,8 @@ export class Message
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: MessageData;
-	readonly #_userJoin: MessageUserJoin | null;
-	readonly #_userLeave: MessageUserLeave | null;
+	#_userJoin: MessageUserJoin | null = null;
+	#_userLeave: MessageUserLeave | null = null;
 	#_creationDate: Date | null = null;
 
 	public constructor(data: MessageData, restClient: RestClient)
@@ -23,8 +23,6 @@ export class Message
 
 		this.#_restClient = restClient;
 		this.#_data = data;
-		this.#_userJoin = data.joinData ? new MessageUserJoin(data.joinData, restClient) : null;
-		this.#_userLeave = data.leaveData ? new MessageUserLeave(data.leaveData, restClient) : null;
 	}
 
 	public get restClient()
@@ -69,12 +67,12 @@ export class Message
 
 	public get userJoin()
 	{
-		return this.#_userJoin;
+		return this.#_userJoin ??= this.#_data.joinData ? new MessageUserJoin(this.#_data.joinData, this.#_restClient) : null;
 	}
 
 	public get userLeave()
 	{
-		return this.#_userLeave;
+		return this.#_userLeave ??= this.#_data.leaveData ? new MessageUserLeave(this.#_data.leaveData, this.#_restClient) : null;
 	}
 
 	get creationDate()
