@@ -1,7 +1,6 @@
 ﻿import { RestClient } from "../RestClient.js";
 import { RoomData } from "./Models/RoomData.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { Temporal } from "@js-temporal/polyfill";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { IModifyRoomRequestBody } from "../IModifyRoomRequestBody.js";
 import { TypeHelper } from "../../../Common/TypeHelper.js";
@@ -10,7 +9,6 @@ import { IGetMessagesQuery } from "../IGetMessagesQuery.js";
 import { ISendMessageRequestBody } from "../ISendMessageRequestBody.js";
 import { MessageType } from "./MessageType.js";
 import { ArrayHelper } from "../../../Common/ArrayHelper.js";
-import Instant = Temporal.Instant;
 
 export class Room
 {
@@ -57,9 +55,9 @@ export class Room
 		return this.#_data.connectedRoomIds;
 	}
 
-	public get creationInstant()
+	get creationDate()
 	{
-		return Instant.from(this.#_data.creationDate);
+		return new Date(this.#_data.creationDate);
 	}
 
 	public async getLatest()
