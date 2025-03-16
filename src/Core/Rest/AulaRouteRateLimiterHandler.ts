@@ -260,6 +260,7 @@ export class RequestDeferredEvent
 export class RateLimitedEvent
 {
 	readonly #_resetTimestamp: number;
+	#_resetDate: Date | null = null;
 
 	public constructor(resetTimestamp: number)
 	{
@@ -269,8 +270,8 @@ export class RateLimitedEvent
 		this.#_resetTimestamp = resetTimestamp;
 	}
 
-	public get resetTimestamp()
+	public get resetDate()
 	{
-		return this.#_resetTimestamp;
+		return this.#_resetDate ??= new Date(this.#_resetTimestamp);
 	}
 }
