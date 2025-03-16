@@ -14,6 +14,7 @@ export class Room
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: RoomData;
+	#_creationDate: Date | null = null;
 
 	public constructor(data: RoomData, restClient: RestClient)
 	{
@@ -57,7 +58,7 @@ export class Room
 
 	get creationDate()
 	{
-		return new Date(this.#_data.creationDate);
+		return this.#_creationDate ??= new Date(this.#_data.creationDate);
 	}
 
 	public async getLatest()
