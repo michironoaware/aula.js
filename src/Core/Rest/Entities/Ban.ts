@@ -7,6 +7,7 @@ export class Ban
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: BanData;
+	#_creationDate: Date | null = null;
 
 	public constructor(data: BanData, restClient: RestClient)
 	{
@@ -45,7 +46,7 @@ export class Ban
 
 	get creationDate()
 	{
-		return new Date(this.#_data.creationDate);
+		return this.#_creationDate ??= new Date(this.#_data.creationDate);
 	}
 
 	public async getExecutor()
