@@ -235,16 +235,16 @@ export interface AulaRouteRateLimiterHandlerEvents
 export class RequestDeferredEvent
 {
 	readonly #uri: URL;
-	readonly #resetInstant: Instant;
+	readonly #_resetTimestamp: number;
 
-	public constructor(uri: URL, resetInstant: Instant)
+	public constructor(uri: URL, resetTimestamp: number)
 	{
 		SealedClassError.throwIfNotEqual(RequestDeferredEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(uri, URL);
-		ThrowHelper.TypeError.throwIfNotType(resetInstant, Instant);
+		ThrowHelper.TypeError.throwIfNotType(resetTimestamp, "number");
 
 		this.#uri = uri;
-		this.#resetInstant = resetInstant;
+		this.#_resetTimestamp = resetTimestamp;
 	}
 
 	public get uri()
@@ -252,9 +252,9 @@ export class RequestDeferredEvent
 		return this.#uri;
 	}
 
-	public get resetInstant()
+	public get resetTimestamp()
 	{
-		return this.#resetInstant;
+		return this.#_resetTimestamp;
 	}
 }
 
