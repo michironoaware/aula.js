@@ -1,13 +1,11 @@
 ﻿import { RestClient } from "../RestClient.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { MessageData } from "./Models/MessageData.js";
-import { Temporal } from "@js-temporal/polyfill";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { MessageAuthorType } from "./MessageAuthorType.js";
 import { MessageType } from "./MessageType.js";
 import { MessageUserJoin } from "./MessageUserJoin.js";
 import { MessageUserLeave } from "./MessageUserLeave.js";
-import Instant = Temporal.Instant;
 
 export class Message
 {
@@ -78,9 +76,9 @@ export class Message
 		return this.#_userLeave;
 	}
 
-	public get creationInstant()
+	get creationDate()
 	{
-		return Instant.from(this.#_data.creationDate);
+		return new Date(this.#_data.creationDate);
 	}
 
 	public isStandardMessage(): this is IStandardMessage
