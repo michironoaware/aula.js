@@ -3,7 +3,7 @@ import { MessageFlags } from "./Entities/MessageFlags.js";
 
 export interface ISendUnknownMessageRequestBody
 {
-	readonly type: Extract<MessageType, MessageType.Standard>;
+	readonly type: Exclude<MessageType, MessageType.UserLeave | MessageType.UserJoin>;
 	readonly flags?: MessageFlags;
 	readonly content?: string;
 }
