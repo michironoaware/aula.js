@@ -11,7 +11,7 @@ export class HttpClient
 	#_baseUri: URL | null = null;
 	#_defaultRequestHeaders: HeaderMap = new HeaderMap();
 
-	public constructor(options: { handler: HttpMessageHandler; })
+	public constructor(options: { handler: HttpMessageHandler })
 	{
 		SealedClassError.throwIfNotEqual(HttpClient, new.target);
 		ThrowHelper.TypeError.throwIfNullable(options);
