@@ -1,6 +1,5 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { EventEmitter } from "../../Common/Threading/EventEmitter.js";
-import { Action } from "../../Common/Action.js";
 import { HelloEvent } from "./HelloEvent.js";
 import { RestClient } from "../Rest/RestClient.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
@@ -48,6 +47,7 @@ import { UserCurrentRoomUpdatedEventData } from "./Models/UserCurrentRoomUpdated
 import { UserData } from "../Rest/Entities/Models/UserData.js";
 import { User } from "../Rest/Entities/User.js";
 import { PresenceOption } from "./PresenceOption.js";
+import { Func } from "../../Common/Func.js";
 
 export class GatewayClient implements IDisposable
 {
@@ -516,20 +516,20 @@ class PayloadSendRequest
 
 export interface ReceivableEvents
 {
-	Hello: Action<[ HelloEvent ]>;
-	ClientDisconnected: Action<[]>;
-	SessionResumed: Action<[]>;
-	BanCreated: Action<[ BanCreatedEvent ]>;
-	BanRemoved: Action<[ BanRemovedEvent ]>;
-	MessageCreated: Action<[ MessageCreatedEvent ]>;
-	MessageRemoved: Action<[ MessageRemovedEvent ]>;
-	UserStartedTyping: Action<[ UserStartedTypingEvent ]>;
-	UserStoppedTyping: Action<[ UserStoppedTypingEvent ]>;
-	RoomConnectionCreated: Action<[ RoomConnectionCreatedEvent ]>;
-	RoomConnectionRemoved: Action<[ RoomConnectionRemovedEvent ]>;
-	RoomCreated: Action<[ RoomCreatedEvent ]>;
-	RoomUpdated: Action<[ RoomUpdatedEvent ]>;
-	RoomRemoved: Action<[ RoomRemovedEvent ]>;
-	UserUpdated: Action<[ UserUpdatedEvent ]>;
-	UserCurrentRoomUpdated: Action<[ UserCurrentRoomUpdatedEvent ]>;
+	Hello: Func<[ HelloEvent ]>;
+	ClientDisconnected: Func;
+	SessionResumed: Func;
+	BanCreated: Func<[ BanCreatedEvent ]>;
+	BanRemoved: Func<[ BanRemovedEvent ]>;
+	MessageCreated: Func<[ MessageCreatedEvent ]>;
+	MessageRemoved: Func<[ MessageRemovedEvent ]>;
+	UserStartedTyping: Func<[ UserStartedTypingEvent ]>;
+	UserStoppedTyping: Func<[ UserStoppedTypingEvent ]>;
+	RoomConnectionCreated: Func<[ RoomConnectionCreatedEvent ]>;
+	RoomConnectionRemoved: Func<[ RoomConnectionRemovedEvent ]>;
+	RoomCreated: Func<[ RoomCreatedEvent ]>;
+	RoomUpdated: Func<[ RoomUpdatedEvent ]>;
+	RoomRemoved: Func<[ RoomRemovedEvent ]>;
+	UserUpdated: Func<[ UserUpdatedEvent ]>;
+	UserCurrentRoomUpdated: Func<[ UserCurrentRoomUpdatedEvent ]>;
 }

@@ -1,14 +1,14 @@
 ﻿import { ThrowHelper } from "../ThrowHelper.js";
 import { ValueOutOfRangeError } from "../ValueOutOfRangeError.js";
 import { SemaphoreFullError } from "./SemaphoreFullError.js";
-import { Action } from "../Action.js";
 import { SealedClassError } from "../SealedClassError.js";
 import { IDisposable } from "../IDisposable.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
+import { Func } from "../Func.js";
 
 export class Semaphore implements IDisposable
 {
-	readonly #_queue: Action<[]>[] = [];
+	readonly #_queue: Func[] = [];
 	readonly #_maximumCount: number;
 	#_availableCount: number;
 	#_disposed: boolean = false;

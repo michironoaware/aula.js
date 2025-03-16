@@ -1,11 +1,11 @@
-﻿import { Action } from "../Action.js";
-import { SealedClassError } from "../SealedClassError.js";
+﻿import { SealedClassError } from "../SealedClassError.js";
+import { Func } from "../Func.js";
 
 export class PromiseCompletionSource<TResolve>
 {
 	readonly #_promise: Promise<TResolve>;
-	#_resolve: Action<[ TResolve ]> = null!;
-	#_reject: Action<[ any? ]> = null!;
+	#_resolve: Func<[ TResolve ]> = null!;
+	#_reject: Func<[ any? ]> = null!;
 	readonly #_resolved: boolean = false;
 	readonly #_rejected: boolean = false;
 

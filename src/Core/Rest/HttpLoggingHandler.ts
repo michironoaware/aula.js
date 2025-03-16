@@ -3,20 +3,20 @@ import { DelegatingHandler } from "../../Common/Http/DelegatingHandler.js";
 import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler.js";
 import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { Action } from "../../Common/Action.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { HttpMethod } from "../../Common/Http/HttpMethod.js";
 import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
+import { Func } from "../../Common/Func.js";
 
 export class HttpLoggingHandler extends DelegatingHandler
 {
-	readonly #_log: Action<[ string ]>;
+	readonly #_log: Func<[ string ]>;
 	readonly #_sensitiveLogging: boolean;
 	readonly #_headerLogging: boolean;
 	#_disposed: boolean = false;
 
 	public constructor(
-		innerHandler: HttpMessageHandler, logFunc: Action<[ string ]>,
+		innerHandler: HttpMessageHandler, logFunc: Func<[ string ]>,
 		sensitiveLogging: boolean = false,
 		headerLogging: boolean = false)
 	{

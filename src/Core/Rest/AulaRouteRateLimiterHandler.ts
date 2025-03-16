@@ -6,11 +6,11 @@ import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError.js";
 import { HttpMethod } from "../../Common/Http/HttpMethod.js";
 import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler.js";
 import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
-import { Action } from "../../Common/Action.js";
 import { EventEmitter } from "../../Common/Threading/EventEmitter.js";
 import { Delay } from "../../Common/Threading/Delay.js";
 import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
+import { Func } from "../../Common/Func.js";
 
 export class AulaRouteRateLimiterHandler extends DelegatingHandler
 {
@@ -226,8 +226,8 @@ class RouteRateLimit
 
 export interface AulaRouteRateLimiterHandlerEvents
 {
-	RequestDeferred: Action<[ RequestDeferredEvent ]>;
-	RateLimited: Action<[ RateLimitedEvent ]>;
+	RequestDeferred: Func<[ RequestDeferredEvent ]>;
+	RateLimited: Func<[ RateLimitedEvent ]>;
 }
 
 export class RequestDeferredEvent

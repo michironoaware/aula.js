@@ -1,7 +1,6 @@
 ﻿import { DelegatingHandler } from "../../Common/Http/DelegatingHandler.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { EventEmitter } from "../../Common/Threading/EventEmitter.js";
-import { Action } from "../../Common/Action.js";
 import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler.js";
@@ -9,6 +8,7 @@ import { AutoResetEvent } from "../../Common/Threading/AutoResetEvent.js";
 import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError.js";
 import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
+import { Func } from "../../Common/Func.js";
 
 export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 {
@@ -165,7 +165,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 
 export interface AulaGlobalRateLimiterHandlerEvents
 {
-	RateLimited: Action<[ RateLimitedEvent ]>;
+	RateLimited: Func<[ RateLimitedEvent ]>;
 }
 
 export class RateLimitedEvent

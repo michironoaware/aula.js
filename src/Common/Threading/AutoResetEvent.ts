@@ -1,12 +1,12 @@
 ﻿import { ThrowHelper } from "../ThrowHelper.js";
-import { Action } from "../Action.js";
 import { SealedClassError } from "../SealedClassError.js";
 import { IDisposable } from "../IDisposable.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
+import { Func } from "../Func.js";
 
 export class AutoResetEvent implements IDisposable
 {
-	readonly #_queue: Action<[]>[] = [];
+	readonly #_queue: Func[] = [];
 	#_signaled: boolean;
 	#_disposed: boolean = false;
 
