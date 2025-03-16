@@ -260,18 +260,18 @@ export class RequestDeferredEvent
 
 export class RateLimitedEvent
 {
-	readonly #resetInstant: Instant;
+	readonly #_resetTimestamp: number;
 
-	public constructor(resetInstant: Instant)
+	public constructor(resetTimestamp: number)
 	{
 		SealedClassError.throwIfNotEqual(RateLimitedEvent, new.target);
-		ThrowHelper.TypeError.throwIfNotType(resetInstant, Instant);
+		ThrowHelper.TypeError.throwIfNotType(resetTimestamp, "number");
 
-		this.#resetInstant = resetInstant;
+		this.#_resetTimestamp = resetTimestamp;
 	}
 
-	public get resetInstant()
+	public get resetTimestamp()
 	{
-		return this.#resetInstant;
+		return this.#_resetTimestamp;
 	}
 }
