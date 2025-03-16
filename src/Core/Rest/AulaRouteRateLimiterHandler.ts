@@ -1,5 +1,4 @@
 ﻿import { DelegatingHandler } from "../../Common/Http/DelegatingHandler.js";
-import { Temporal } from "@js-temporal/polyfill";
 import { Semaphore } from "../../Common/Threading/Semaphore.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
@@ -12,7 +11,6 @@ import { EventEmitter } from "../../Common/Threading/EventEmitter.js";
 import { Delay } from "../../Common/Threading/Delay.js";
 import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
-import Instant = Temporal.Instant;
 
 export class AulaRouteRateLimiterHandler extends DelegatingHandler
 {
@@ -61,17 +59,17 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 		{
 			ObjectDisposedError.throwIf(this.#_disposed);
 
-			const now = Temporal.Now.instant();
+			const now = Date.now();
 
 			let routeRateLimit = this.#_rateLimits.get(routeHash);
 			if (routeRateLimit !== undefined &&
-			    Instant.compare(routeRateLimit.resetInstant, now) < 1)
+			    routeRateLimit.resetTimestamp < now)
 			{
 				routeRateLimit = new RouteRateLimit(
 					routeRateLimit.requestLimit,
 					routeRateLimit.windowMilliseconds,
 					routeRateLimit.requestLimit,
-					now.add({ milliseconds: routeRateLimit.windowMilliseconds }));
+					routeRateLimit.windowMilliseconds + now);
 				this.#_rateLimits.set(routeHash, routeRateLimit);
 			}
 
@@ -80,8 +78,9 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 			if (routeRateLimit !== undefined &&
 			    routeRateLimit.remainingRequests < 1)
 			{
-				const eventEmission = this.#_eventEmitter.emit("RequestDeferred", new RequestDeferredEvent(message.requestUri, routeRateLimit.resetInstant));
-				const delay = Delay(routeRateLimit.resetInstant.since(now).milliseconds);
+				const eventEmission = this.#_eventEmitter.emit(
+					"RequestDeferred", new RequestDeferredEvent(message.requestUri, routeRateLimit.resetTimestamp));
+				const delay = Delay(now - routeRateLimit.resetTimestamp);
 				await Promise.all([ eventEmission, delay ]);
 				continue;
 			}
@@ -110,7 +109,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 					requestLimit,
 					windowMilliseconds,
 					requestLimit,
-					now.add({ milliseconds: windowMilliseconds }));
+					windowMilliseconds + now);
 				this.#_rateLimits.set(routeHash, routeRateLimit);
 			}
 
@@ -118,28 +117,27 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 				routeRateLimit.requestLimit,
 				routeRateLimit.windowMilliseconds,
 				routeRateLimit.remainingRequests - 1,
-				routeRateLimit.resetInstant);
+				routeRateLimit.resetTimestamp);
 			this.#_rateLimits.set(routeHash, routeRateLimit);
 
 			const isGlobalHeaderValue = response.headers.get("X-RateLimit-IsGlobal");
 			const resetTimestampHeaderValue = response.headers.get("X-RateLimit-ResetsAt");
 			if (isGlobalHeaderValue !== undefined &&
-			    isGlobalHeaderValue === "false")
+			    isGlobalHeaderValue === "false" &&
+			    resetTimestampHeaderValue !== undefined)
 			{
 				// No requests remain, or an unexpected HTTP 429 (Too Many Requests) status code was encountered.
-				const resetInstant = resetTimestampHeaderValue
-					? Instant.from(resetTimestampHeaderValue)
-					: routeRateLimit.resetInstant;
+				const resetTimestamp = Date.parse(resetTimestampHeaderValue);
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
-					const eventEmission = await this.#_eventEmitter.emit("RateLimited", new RateLimitedEvent(resetInstant));
-					const delay = await Delay(routeRateLimit.resetInstant.since(now).milliseconds);
+					const eventEmission = await this.#_eventEmitter.emit("RateLimited", new RateLimitedEvent(resetTimestamp));
+					const delay = await Delay(now - resetTimestamp);
 					await Promise.all([ eventEmission, delay ]);
 					continue;
 				}
 
-				await this.#_eventEmitter.emit("RequestDeferred", new RequestDeferredEvent(message.requestUri, resetInstant));
+				await this.#_eventEmitter.emit("RequestDeferred", new RequestDeferredEvent(message.requestUri, resetTimestamp));
 			}
 
 			routeSemaphore?.release();
