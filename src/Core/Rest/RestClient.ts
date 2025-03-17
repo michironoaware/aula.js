@@ -59,11 +59,10 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNullable(options);
 		ThrowHelper.TypeError.throwIfNotAnyType(options.httpClient, HttpClient, "undefined");
 
-		this.#_httpClient = options.httpClient ?? new HttpClient({
-			handler: new AulaGlobalRateLimiterHandler(
+		this.#_httpClient = options.httpClient ?? new HttpClient(
+			new AulaGlobalRateLimiterHandler(
 				new AulaRouteRateLimiterHandler(
-					new HttpFetchHandler(), true))
-		});
+					new HttpFetchHandler(), true)));
 	}
 
 	static async #ensureSuccessStatusCode(response: HttpResponseMessage)
