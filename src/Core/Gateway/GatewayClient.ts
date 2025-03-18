@@ -375,17 +375,42 @@ export class GatewayClient implements IDisposable
 
 		while (this.#_webSocket.state === WebSocketState.Open)
 		{
-			const payload = await this.#receivePayload();
-			if (payload === null)
+			const message = await this.#receiveMessage();
+			if (message.type === WebSocketMessageType.Close ||
+			    message.type === WebSocketMessageType.Binary)
 			{
+				const closeCode =
+					message.type === WebSocketMessageType.Binary
+						? WebSocketCloseCode.UnsupportedData
+						: WebSocketCloseCode.NormalClosure;
+
+				this.#pendingPayloads.writer.complete();
+				await this.#_webSocket.close(closeCode);
 				break;
 			}
 
-			this.#emitEventFromPayload(payload).then();
+			try
+			{
+				const messageText = GatewayClient.#s_textDecoder.decode(message.content);
+				this.#emitEventFromPayload(new GatewayPayload(JSON.parse(messageText))).then();
+			}
+			catch (error)
+			{
+				this.#pendingPayloads.writer.complete();
+
+				if (!(error instanceof TypeError || error instanceof SyntaxError))
+				{
+					await this.#_webSocket.close(WebSocketCloseCode.InternalError);
+					throw error;
+				}
+
+				await this.#_webSocket.close(WebSocketCloseCode.InvalidPayloadData);
+			}
+
 		}
 	}
 
-	async #receivePayload()
+	async #receiveMessage()
 	{
 		this.#throwIfWebSocketNotOpen();
 
@@ -407,51 +432,14 @@ export class GatewayClient implements IDisposable
 					throw error;
 				}
 
-				this.#pendingPayloads.writer.complete();
-				await messageWriter.close();
-				await this.#_webSocket.close(WebSocketCloseCode.NormalClosure);
-				return null;
-			}
-
-			if (received.messageType === WebSocketMessageType.Close)
-			{
-				this.#pendingPayloads.writer.complete();
-				await messageWriter.close();
-				await this.#_webSocket.close(WebSocketCloseCode.NormalClosure);
-				return null;
-			}
-			else if (received.messageType === WebSocketMessageType.Binary)
-			{
-				this.#pendingPayloads.writer.complete();
-				await messageWriter.close();
-				await this.#_webSocket.close(WebSocketCloseCode.UnsupportedData);
-				return null;
+				return new GatewayReceivedMessage(new Uint8Array(), WebSocketMessageType.Close);
 			}
 
 			await messageWriter.write(new Uint8Array(buffer.buffer, 0, received.count));
 		} while (!received.endOfMessage);
 
 		await messageWriter.close();
-
-		try
-		{
-			const messageText = GatewayClient.#s_textDecoder.decode(messageBytes.written);
-			return new GatewayPayload(JSON.parse(messageText));
-		}
-		catch (error)
-		{
-			if (!(error instanceof TypeError) && !(error instanceof SyntaxError))
-			{
-				this.#pendingPayloads.writer.complete();
-				await this.#_webSocket.close(WebSocketCloseCode.InternalError);
-				throw error;
-			}
-
-			this.#pendingPayloads.writer.complete();
-			await this.#_webSocket.close(WebSocketCloseCode.InvalidPayloadData);
-		}
-
-		return null;
+		return new GatewayReceivedMessage(messageBytes.written, received.messageType);
 	}
 
 	async #runPayloadSending()
@@ -511,6 +499,32 @@ class PayloadSendRequest
 	public get requestPromiseSource()
 	{
 		return this.#_requestPromiseSource;
+	}
+}
+
+class GatewayReceivedMessage
+{
+	readonly #_content: Uint8Array;
+	readonly #_type: WebSocketMessageType;
+
+	public constructor(content: Uint8Array, type: WebSocketMessageType)
+	{
+		SealedClassError.throwIfNotEqual(GatewayReceivedMessage, new.target);
+		ThrowHelper.TypeError.throwIfNotType(content, Uint8Array);
+		ThrowHelper.TypeError.throwIfNotType(type, WebSocketMessageType);
+
+		this.#_content = content;
+		this.#_type = type;
+	}
+
+	public get content()
+	{
+		return this.#_content;
+	}
+
+	public get type()
+	{
+		return this.#_type;
 	}
 }
 
