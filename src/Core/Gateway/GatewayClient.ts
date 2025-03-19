@@ -287,6 +287,11 @@ export class GatewayClient implements IDisposable
 			{
 				switch (payload.event)
 				{
+					case EventType[EventType.Ready]:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, ReadyEventData);
+						await this.#_eventEmitter.emit(
+							"Ready", new ReadyEvent(payload.data, this));
+						break;
 					case EventType[EventType.BanCreated]:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
 						await this.#_eventEmitter.emit(
