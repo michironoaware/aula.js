@@ -3,7 +3,7 @@
  */
 export enum EventType
 {
-	// Send
+	// Receive
 	/**
 	 * The gateway connection is ready
 	 * */
@@ -74,8 +74,7 @@ export enum EventType
 	 */
 	BanRemoved,
 
-	// Receive
-
+	// Send
 	/**
 	 * Updates the current presence status for the current user.
 	 */
