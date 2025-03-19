@@ -1,6 +1,6 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { EventEmitter } from "../../Common/Threading/EventEmitter.js";
-import { HelloEvent } from "./HelloEvent.js";
+import { ReadyEvent } from "./ReadyEvent.js";
 import { RestClient } from "../Rest/RestClient.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { ClientWebSocket } from "../../Common/WebSockets/ClientWebSocket.js";
@@ -286,7 +286,7 @@ export class GatewayClient implements IDisposable
 			case OperationType.Hello:
 			{
 				ThrowHelper.TypeError.throwIfNotType(payload.data, ReadyEventData);
-				await this.#_eventEmitter.emit("Hello", new HelloEvent(payload.data, this));
+				await this.#_eventEmitter.emit("Hello", new ReadyEvent(payload.data, this));
 				break;
 			}
 			case OperationType.Dispatch:
@@ -530,7 +530,7 @@ class GatewayReceivedMessage
 
 export interface ReceivableEvents
 {
-	Hello: Func<[ HelloEvent ]>;
+	Hello: Func<[ ReadyEvent ]>;
 	ClientDisconnected: Func;
 	SessionResumed: Func;
 	BanCreated: Func<[ BanCreatedEvent ]>;

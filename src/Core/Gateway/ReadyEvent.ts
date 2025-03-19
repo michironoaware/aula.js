@@ -3,14 +3,14 @@ import { ReadyEventData } from "./Models/ReadyEventData.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { GatewayClient } from "./GatewayClient.js";
 
-export class HelloEvent
+export class ReadyEvent
 {
 	readonly #_data: ReadyEventData;
 	readonly #_gatewayClient: GatewayClient;
 
 	public constructor(data: ReadyEventData, gatewayClient: GatewayClient)
 	{
-		SealedClassError.throwIfNotEqual(HelloEvent, new.target);
+		SealedClassError.throwIfNotEqual(ReadyEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, ReadyEventData);
 		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
 
