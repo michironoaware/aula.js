@@ -1,17 +1,17 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
-import { HelloOperationData } from "./Models/HelloOperationData.js";
+import { ReadyEventData } from "./Models/ReadyEventData.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { GatewayClient } from "./GatewayClient.js";
 
 export class HelloEvent
 {
-	readonly #_data: HelloOperationData;
+	readonly #_data: ReadyEventData;
 	readonly #_gatewayClient: GatewayClient;
 
-	public constructor(data: HelloOperationData, gatewayClient: GatewayClient)
+	public constructor(data: ReadyEventData, gatewayClient: GatewayClient)
 	{
 		SealedClassError.throwIfNotEqual(HelloEvent, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, HelloOperationData);
+		ThrowHelper.TypeError.throwIfNotType(data, ReadyEventData);
 		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
 
 		this.#_data = data;

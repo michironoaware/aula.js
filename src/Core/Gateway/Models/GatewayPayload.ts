@@ -2,7 +2,7 @@
 import { OperationType } from "./OperationType.js";
 import { EventType } from "./EventType.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { HelloOperationData } from "./HelloOperationData.js";
+import { ReadyEventData } from "./ReadyEventData.js";
 import { BanData } from "../../Rest/Entities/Models/BanData.js";
 import { MessageData } from "../../Rest/Entities/Models/MessageData.js";
 import { UserTypingEventData } from "./UserTypingEventData.js";
@@ -15,7 +15,7 @@ export class GatewayPayload
 {
 	readonly #_operation: OperationType;
 	readonly #_event: keyof typeof EventType | null;
-	readonly #_data: HelloOperationData | BanData | MessageData | UserTypingEventData | RoomConnectionEventData | RoomData |
+	readonly #_data: ReadyEventData | BanData | MessageData | UserTypingEventData | RoomConnectionEventData | RoomData |
 	                 UserCurrentRoomUpdatedEventData | UserData | null = null;
 
 	public constructor(payloadData: any)
@@ -33,7 +33,7 @@ export class GatewayPayload
 			case OperationType.Hello:
 			{
 				ThrowHelper.TypeError.throwIfNullable(payloadData.data);
-				this.#_data = new HelloOperationData(payloadData.data);
+				this.#_data = new ReadyEventData(payloadData.data);
 				break;
 			}
 			case OperationType.Dispatch:

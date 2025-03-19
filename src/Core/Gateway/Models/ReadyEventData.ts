@@ -1,13 +1,13 @@
 ﻿import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 
-export class HelloOperationData
+export class ReadyEventData
 {
 	readonly #_sessionId: string;
 
 	public constructor(data: any)
 	{
-		SealedClassError.throwIfNotEqual(HelloOperationData, new.target);
+		SealedClassError.throwIfNotEqual(ReadyEventData, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.sessionId, "string");
 

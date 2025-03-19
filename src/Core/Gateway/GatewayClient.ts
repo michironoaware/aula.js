@@ -14,7 +14,7 @@ import { WebSocketCloseCode } from "../../Common/WebSockets/WebSocketCloseCode.j
 import { WebSocketState } from "../../Common/WebSockets/WebSocketState.js";
 import { Channel } from "../../Common/Threading/Channels/Channel.js";
 import { OperationType } from "./Models/OperationType.js";
-import { HelloOperationData } from "./Models/HelloOperationData.js";
+import { ReadyEventData } from "./Models/ReadyEventData.js";
 import { CommonClientWebSocket } from "./CommonClientWebSocket.js";
 import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 import { Intents } from "./Intents.js";
@@ -285,7 +285,7 @@ export class GatewayClient implements IDisposable
 		{
 			case OperationType.Hello:
 			{
-				ThrowHelper.TypeError.throwIfNotType(payload.data, HelloOperationData);
+				ThrowHelper.TypeError.throwIfNotType(payload.data, ReadyEventData);
 				await this.#_eventEmitter.emit("Hello", new HelloEvent(payload.data, this));
 				break;
 			}
