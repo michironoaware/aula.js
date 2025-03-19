@@ -524,7 +524,7 @@ class GatewayReceivedMessage
 
 export interface ReceivableEvents
 {
-	Hello: Func<[ ReadyEvent ]>;
+	Ready: Func<[ ReadyEvent ]>;
 	ClientDisconnected: Func;
 	SessionResumed: Func;
 	BanCreated: Func<[ BanCreatedEvent ]>;
