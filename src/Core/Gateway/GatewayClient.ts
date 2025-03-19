@@ -283,12 +283,6 @@ export class GatewayClient implements IDisposable
 
 		switch (payload.operation)
 		{
-			case OperationType.Hello:
-			{
-				ThrowHelper.TypeError.throwIfNotType(payload.data, ReadyEventData);
-				await this.#_eventEmitter.emit("Hello", new ReadyEvent(payload.data, this));
-				break;
-			}
 			case OperationType.Dispatch:
 			{
 				switch (payload.event)

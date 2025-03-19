@@ -30,12 +30,6 @@ export class GatewayPayload
 
 		switch (this.#_operation)
 		{
-			case OperationType.Hello:
-			{
-				ThrowHelper.TypeError.throwIfNullable(payloadData.data);
-				this.#_data = new ReadyEventData(payloadData.data);
-				break;
-			}
 			case OperationType.Dispatch:
 			{
 				ThrowHelper.TypeError.throwIfNullable(this.#_event);
