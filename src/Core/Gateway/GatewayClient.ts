@@ -196,7 +196,7 @@ export class GatewayClient implements IDisposable
 		{
 			this.#_disconnectPromiseSource!.resolve();
 			this.#_disconnectPromiseSource = null;
-			this.#_eventEmitter.emit("ClientDisconnected");
+			this.#_eventEmitter.emit("Disconnected");
 		});
 	}
 
@@ -530,7 +530,7 @@ class GatewayReceivedMessage
 export interface ReceivableEvents
 {
 	Ready: Func<[ ReadyEvent ]>;
-	ClientDisconnected: Func;
+	Disconnected: Func;
 	SessionResumed: Func;
 	BanCreated: Func<[ BanCreatedEvent ]>;
 	BanRemoved: Func<[ BanRemovedEvent ]>;
