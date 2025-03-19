@@ -37,6 +37,8 @@ export class GatewayPayload
 
 				switch (this.#_event)
 				{
+					case EventType[EventType.Ready]:
+						this.#_data = new ReadyEventData(payloadData.data);
 					case EventType[EventType.BanCreated]:
 					case EventType[EventType.BanRemoved]:
 						this.#_data = new BanData(payloadData.data);
