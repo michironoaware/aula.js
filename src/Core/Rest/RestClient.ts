@@ -80,19 +80,24 @@ export class RestClient
 				throw error;
 			}
 
-			const content = await response.content.readAsString();
+			const content = JSON.parse(await response.content.readAsString());
+			ThrowHelper.TypeError.throwIfNullable(content);
+			ThrowHelper.TypeError.throwIfNotType(content.title, "string");
+			ThrowHelper.TypeError.throwIfNotType(content.detail, "string");
+			ThrowHelper.TypeError.throwIfNotType(content.status, "number");
+
 			switch (response.statusCode)
 			{
 				case HttpStatusCode.Unauthorized:
-					throw new AulaUnauthorizedError(content, error);
+					throw new AulaUnauthorizedError(content.title, content.detail, content.status, error);
 				case HttpStatusCode.Forbidden:
-					throw new AulaForbiddenError(content, error);
+					throw new AulaForbiddenError(content.title, content.detail, content.status, error);
 				case HttpStatusCode.BadRequest:
-					throw new AulaBadRequestError(content, error);
+					throw new AulaBadRequestError(content.title, content.detail, content.status, error);
 				case HttpStatusCode.NotFound:
-					throw new AulaNotFoundError(content, error);
+					throw new AulaNotFoundError(content.title, content.detail, content.status, error);
 				default:
-					throw new AulaRestError(error.message, content, error);
+					throw new AulaRestError(error.message, content.title, content.detail, content.status, error);
 			}
 		}
 	}
