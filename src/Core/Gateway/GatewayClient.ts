@@ -184,7 +184,7 @@ export class GatewayClient implements IDisposable
 
 		if (sessionId !== undefined)
 		{
-			await this.#_eventEmitter.emit("SessionResumed");
+			await this.#_eventEmitter.emit("Resumed");
 		}
 
 		this.#_disconnectPromiseSource = new PromiseCompletionSource<void>();
@@ -531,7 +531,7 @@ export interface ReceivableEvents
 {
 	Ready: Func<[ ReadyEvent ]>;
 	Disconnected: Func;
-	SessionResumed: Func;
+	Resumed: Func;
 	BanCreated: Func<[ BanCreatedEvent ]>;
 	BanRemoved: Func<[ BanRemovedEvent ]>;
 	MessageCreated: Func<[ MessageCreatedEvent ]>;
