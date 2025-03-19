@@ -48,6 +48,7 @@ import { AulaGlobalRateLimiterHandler } from "./AulaGlobalRateLimiterHandler.js"
 import { HttpFetchHandler } from "./HttpFetchHandler.js";
 import { AulaRestError } from "./AulaRestError.js";
 import { AulaRouteRateLimiterHandler } from "./AulaRouteRateLimiterHandler.js";
+import { AulaHttpStatusCode503Handler } from "./AulaHttpStatusCode503Handler.js";
 
 export class RestClient
 {
@@ -60,9 +61,10 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(options.httpClient, HttpClient, "undefined");
 
 		this.#_httpClient = options.httpClient ?? new HttpClient(
-			new AulaGlobalRateLimiterHandler(
-				new AulaRouteRateLimiterHandler(
-					new HttpFetchHandler(), true)));
+			new AulaHttpStatusCode503Handler(
+				new AulaGlobalRateLimiterHandler(
+					new AulaRouteRateLimiterHandler(
+						new HttpFetchHandler(), true))));
 	}
 
 	static async #ensureSuccessStatusCode(response: HttpResponseMessage)
