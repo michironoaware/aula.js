@@ -4,6 +4,10 @@
 export enum EventType
 {
 	// Send
+	/**
+	 * The gateway connection is ready
+	 * */
+	Ready,
 
 	/**
 	 * A new room has been created.
