@@ -23,6 +23,7 @@ export class UserData
 		ThrowHelper.TypeError.throwIfNotAnyType(data.description, "string", "null", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.presence, "number");
+		ThrowHelper.TypeError.throwIfNotType(data.permissions, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.currentRoomId, "string", "null", "undefined");
 
 		this.#_id = data.id;
