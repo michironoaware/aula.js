@@ -48,6 +48,7 @@ import { UserData } from "../Rest/Entities/Models/UserData.js";
 import { User } from "../Rest/Entities/User.js";
 import { PresenceOption } from "./PresenceOption.js";
 import { Func } from "../../Common/Func.js";
+import { BigIntJsonReplacer } from "../../Common/Json/BigIntJsonReplacer.js";
 
 export class GatewayClient implements IDisposable
 {
@@ -270,7 +271,7 @@ export class GatewayClient implements IDisposable
 				data: { presence },
 			};
 		const sendPromiseSource = new PromiseCompletionSource<void>();
-		const sendRequest = new PayloadSendRequest(GatewayClient.#s_textEncoder.encode(JSON.stringify(payload)), sendPromiseSource);
+		const sendRequest = new PayloadSendRequest(GatewayClient.#s_textEncoder.encode(JSON.stringify(payload, BigIntJsonReplacer)), sendPromiseSource);
 
 		await this.#pendingPayloads.writer.waitToWrite();
 		await this.#pendingPayloads.writer.write(sendRequest);

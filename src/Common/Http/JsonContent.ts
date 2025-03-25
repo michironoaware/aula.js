@@ -2,6 +2,7 @@
 import { HeaderMap } from "./HeaderMap.js";
 import { SealedClassError } from "../SealedClassError.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
+import { BigIntJsonReplacer } from "../Json/BigIntJsonReplacer.js";
 
 export class JsonContent extends HttpContent
 {
@@ -14,7 +15,7 @@ export class JsonContent extends HttpContent
 		super();
 		SealedClassError.throwIfNotEqual(JsonContent, new.target);
 
-		this.#_string = JSON.stringify(value);
+		this.#_string = JSON.stringify(value, BigIntJsonReplacer);
 		this.#_headers = new HeaderMap();
 		this.#_headers.append("Content-Type", "application/json");
 	}
