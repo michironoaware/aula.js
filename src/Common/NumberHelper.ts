@@ -19,4 +19,22 @@ export namespace NumberHelper
 
 		return bitFields;
 	}
+
+	export function getInt64BitFields(value: bigint): bigint[]
+	{
+		ThrowHelper.TypeError.throwIfNotType(value, "bigint");
+
+		const bitFields = [];
+
+		for (let i = 0; i < 64; i++)
+		{
+			const bit = 1n << BigInt(i);
+			if ((value & bit) === bit)
+			{
+				bitFields.push(bit);
+			}
+		}
+
+		return bitFields;
+	}
 }
