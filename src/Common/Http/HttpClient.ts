@@ -35,11 +35,6 @@ export class HttpClient
 		return this.#_defaultRequestHeaders;
 	}
 
-	public get handler()
-	{
-		return this.#_handler;
-	}
-
 	public async send(message: HttpRequestMessage)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
