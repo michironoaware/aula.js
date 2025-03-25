@@ -58,7 +58,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 			headersAsKeyValuePairObject[header[0]] = header[1];
 		}
 
-		const headersAsBase64Url = btoa(JSON.stringify(headersAsKeyValuePairObject), BigIntJsonReplacer)
+		const headersAsBase64Url = btoa(JSON.stringify(headersAsKeyValuePairObject, BigIntJsonReplacer))
 			.replace(/\+/g, "-")
 			.replace(/\//g, "_")
 			.replace(/=+$/, "");
