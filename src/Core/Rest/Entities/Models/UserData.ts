@@ -1,6 +1,5 @@
 import { UserType } from "../UserType.js";
 import { Presence } from "../Presence.js";
-import { Permissions } from "../Permissions.js";
 import { ThrowHelper } from "../../../../Common/ThrowHelper.js";
 import { SealedClassError } from "../../../../Common/SealedClassError.js";
 
@@ -11,7 +10,7 @@ export class UserData
 	readonly #_description: string | null;
 	readonly #_type: UserType;
 	readonly #_presence: Presence;
-	readonly #_permissions: Permissions;
+	readonly #_permissions: string;
 	readonly #_currentRoomId: string | null;
 
 	public constructor(data: any)
@@ -23,7 +22,7 @@ export class UserData
 		ThrowHelper.TypeError.throwIfNotAnyType(data.description, "string", "null", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.presence, "number");
-		ThrowHelper.TypeError.throwIfNotType(data.permissions, "number");
+		ThrowHelper.TypeError.throwIfNotType(data.permissions, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.currentRoomId, "string", "null", "undefined");
 
 		this.#_id = data.id;
