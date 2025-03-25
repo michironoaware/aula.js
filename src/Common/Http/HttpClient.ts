@@ -8,7 +8,7 @@ import { SealedClassError } from "../SealedClassError.js";
 export class HttpClient
 {
 	readonly #_handler: HttpMessageHandler;
-	#_baseUri: URL | null = null;
+	#_baseAddress: URL | null = null;
 	#_defaultRequestHeaders: HeaderMap = new HeaderMap();
 
 	public constructor(handler: HttpMessageHandler)
@@ -19,15 +19,15 @@ export class HttpClient
 		this.#_handler = handler;
 	}
 
-	public get baseUri()
+	public get baseAddress()
 	{
-		return this.#_baseUri;
+		return this.#_baseAddress;
 	}
 
-	public set baseUri(value: URL | null)
+	public set baseAddress(value: URL | null)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(value, URL, "null");
-		this.#_baseUri = value;
+		this.#_baseAddress = value;
 	}
 
 	public get defaultRequestHeaders()
@@ -60,12 +60,12 @@ export class HttpClient
 					throw error;
 				}
 
-				if (this.#_baseUri === null)
+				if (this.#_baseAddress === null)
 				{
-					throw new InvalidOperationError("The HttpClient has no baseUri set, the request uri cannot be relative");
+					throw new InvalidOperationError("The HttpClient has no base address set, the request uri cannot be relative");
 				}
 
-				requestUri = new URL(message.requestUri, this.#_baseUri.href);
+				requestUri = new URL(message.requestUri, this.#_baseAddress.href);
 			}
 
 			message.requestUri = requestUri;

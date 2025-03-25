@@ -104,11 +104,11 @@ export class RestClient
 		}
 	}
 
-	public setBaseUri(uri: URL)
+	public setBaseAddress(uri: URL)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(uri, URL);
 
-		this.#_httpClient.baseUri = new URL(`${uri.href}${uri.href.endsWith("/") ? "" : "/"}api/v1/`);
+		this.#_httpClient.baseAddress = new URL(`${uri.href}${uri.href.endsWith("/") ? "" : "/"}api/v1/`);
 		return this;
 	}
 

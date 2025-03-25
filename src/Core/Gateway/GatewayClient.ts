@@ -59,7 +59,7 @@ export class GatewayClient implements IDisposable
 	readonly #_eventEmitter: EventEmitter<ReceivableEvents> = new EventEmitter();
 	#_pendingPayloads: Channel<PayloadSendRequest> | null = null;
 	#_disconnectPromiseSource: PromiseCompletionSource<void> | null = null;
-	#_uri: URL | null = null;
+	#_address: URL | null = null;
 	#_disposed: boolean = false;
 
 	public constructor(options: {
@@ -107,7 +107,7 @@ export class GatewayClient implements IDisposable
 		return this;
 	}
 
-	public setBaseUri(uri: URL)
+	public setBaseAddress(uri: URL)
 	{
 		ThrowHelper.TypeError.throwIfNotType(uri, URL);
 		ObjectDisposedError.throwIf(this.#_disposed);
@@ -117,8 +117,8 @@ export class GatewayClient implements IDisposable
 			throw new InvalidOperationError("Cannot set the base uri when the client is connected");
 		}
 
-		this.#_uri = new URL(`${uri.href}${uri.href.endsWith("/") ? "" : "/"}api/v1/gateway`);
-		this.#_restClient.setBaseUri(uri);
+		this.#_address = new URL(`${uri.href}${uri.href.endsWith("/") ? "" : "/"}api/v1/gateway`);
+		this.#_restClient.setBaseAddress(uri);
 
 		return this;
 	}
@@ -165,7 +165,7 @@ export class GatewayClient implements IDisposable
 			throw new InvalidOperationError("Client is connecting or already connected");
 		}
 
-		if (this.#_uri === null)
+		if (this.#_address === null)
 		{
 			throw new InvalidOperationError("Client's base uri is not defined");
 		}
@@ -181,7 +181,7 @@ export class GatewayClient implements IDisposable
 			this.#_webSocket.headers.append("X-SessionId", sessionId);
 		}
 
-		await this.#_webSocket.connect(this.#_uri);
+		await this.#_webSocket.connect(this.#_address);
 
 		if (sessionId !== undefined)
 		{
