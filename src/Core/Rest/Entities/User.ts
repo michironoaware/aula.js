@@ -10,6 +10,7 @@ export class User
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: UserData;
+	#_permissions: Permissions | null = null;
 
 	public constructor(data: UserData, restClient: RestClient)
 	{
@@ -53,7 +54,7 @@ export class User
 
 	public get permissions()
 	{
-		return this.#_data.permissions;
+		return this.#_permissions ??= BigInt(this.#_data.permissions);
 	}
 
 	public get currentRoomId()
