@@ -4,19 +4,24 @@ import { HttpMessageHandler } from "./HttpMessageHandler.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { InvalidOperationError } from "../InvalidOperationError.js";
 import { SealedClassError } from "../SealedClassError.js";
+import { IDisposable } from "../IDisposable.js";
 
-export class HttpClient
+export class HttpClient implements IDisposable
 {
 	readonly #_handler: HttpMessageHandler;
+	readonly #_disposeHandler: boolean;
 	#_baseAddress: URL | null = null;
 	#_defaultRequestHeaders: HeaderMap = new HeaderMap();
+	#_disposed: boolean = false;
 
-	public constructor(handler: HttpMessageHandler)
+	public constructor(handler: HttpMessageHandler, disposeHandler: boolean = false)
 	{
 		SealedClassError.throwIfNotEqual(HttpClient, new.target);
 		ThrowHelper.TypeError.throwIfNotType(handler, HttpMessageHandler);
+		ThrowHelper.TypeError.throwIfNotType(disposeHandler, "boolean");
 
 		this.#_handler = handler;
+		this.#_disposeHandler = disposeHandler;
 	}
 
 	public get baseAddress()
@@ -88,5 +93,18 @@ export class HttpClient
 
 		message.dispose();
 		return response;
+	}
+
+	public dispose()
+	{
+		if (this.#_disposed)
+		{
+			return;
+		}
+
+		if (this.#_disposeHandler)
+		{
+			this.#_handler.dispose();
+		}
 	}
 }
