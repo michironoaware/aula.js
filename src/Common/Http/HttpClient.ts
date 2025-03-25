@@ -6,6 +6,9 @@ import { InvalidOperationError } from "../InvalidOperationError.js";
 import { SealedClassError } from "../SealedClassError.js";
 import { IDisposable } from "../IDisposable.js";
 
+/**
+ * Provides a class for sending HTTP requests and receiving HTTP responses from a resource identified by a URI.
+ * */
 export class HttpClient implements IDisposable
 {
 	readonly #_handler: HttpMessageHandler;
@@ -14,6 +17,12 @@ export class HttpClient implements IDisposable
 	#_defaultRequestHeaders: HeaderMap = new HeaderMap();
 	#_disposed: boolean = false;
 
+	/**
+	 * Initializes a new instance that will use the provided {@link handler}.
+	 * @param handler The {@link HttpMessageHandler} responsible for processing the HTTP messages.
+	 * @param disposeHandler true if the inner handler should be disposed of by {@link HttpClient.dispose};
+	 *                       false if you intend to reuse the inner handler.
+	 * */
 	public constructor(handler: HttpMessageHandler, disposeHandler: boolean = false)
 	{
 		SealedClassError.throwIfNotEqual(HttpClient, new.target);
@@ -24,22 +33,34 @@ export class HttpClient implements IDisposable
 		this.#_disposeHandler = disposeHandler;
 	}
 
+	/**
+	 * Gets or sets the base address of Uniform Resource Identifier (URI) of the Internet resource used when sending requests.
+	 * */
 	public get baseAddress()
 	{
 		return this.#_baseAddress;
 	}
 
+	/**
+	 * Gets or sets the base address of Uniform Resource Identifier (URI) of the Internet resource used when sending requests.
+	 * */
 	public set baseAddress(value: URL | null)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(value, URL, "null");
 		this.#_baseAddress = value;
 	}
 
+	/**
+	 * Gets the headers which should be sent with each request.
+	 * */
 	public get defaultRequestHeaders()
 	{
 		return this.#_defaultRequestHeaders;
 	}
 
+	/**
+	 * Send an HTTP request as an asynchronous operation.
+	 * */
 	public async send(message: HttpRequestMessage)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
