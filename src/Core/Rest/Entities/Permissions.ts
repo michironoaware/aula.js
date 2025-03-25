@@ -11,4 +11,6 @@ export const Permissions =
 	BanUsers: 1n << 7n,
 }
 
+Object.freeze(Permissions);
+
 export type Permissions = typeof Permissions[keyof typeof Permissions];
