@@ -23,14 +23,14 @@ export class HeaderMap implements ReadonlyMap<string, string>
 		this.#_underlyingMap.forEach((value, key) => callbackfn(value, key, this), thisArg);
 	}
 
-	public get(key: string)
+	public get(name: string)
 	{
-		return this.#_underlyingMap.get(key.toLowerCase());
+		return this.#_underlyingMap.get(name.toLowerCase());
 	}
 
-	public has(key: string)
+	public has(name: string)
 	{
-		return this.#_underlyingMap.has(key.toLowerCase());
+		return this.#_underlyingMap.has(name.toLowerCase());
 	}
 
 	public entries()
