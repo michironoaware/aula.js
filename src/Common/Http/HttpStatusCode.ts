@@ -1,4 +1,8 @@
-﻿export enum HttpStatusCode
+﻿/**
+ * Contains the values of status codes defined for HTTP defined in {@link https://www.rfc-editor.org/rfc/rfc2616 RFC 2616}.
+ * @remarks May not all the defined status codes are enumerated in this enum.
+ * */
+export enum HttpStatusCode
 {
 	Continue = 100,
 	SwitchingProtocols = 101,
