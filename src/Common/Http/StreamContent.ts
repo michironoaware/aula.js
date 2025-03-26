@@ -10,7 +10,7 @@ import { HttpContentConsumedError } from "./HttpContentConsumedError.js";
 export class StreamContent extends HttpContent
 {
 	readonly #_stream: ReadableStream<Uint8Array>;
-	readonly #_headers: HeaderMap;
+	readonly #_headers: HeaderMap = new HeaderMap();
 	#_read: boolean = false;
 
 	/**
@@ -26,8 +26,6 @@ export class StreamContent extends HttpContent
 		ThrowHelper.TypeError.throwIfNotType(contentType, "string");
 
 		this.#_stream = stream;
-
-		this.#_headers = new HeaderMap();
 		this.#_headers.append("Content-Type", contentType);
 	}
 
