@@ -1,5 +1,5 @@
 ﻿/**
- * Enum for WebSocket Close Status Codes as defined in RFC 6455 Section 7.1.5.
+ * Enum for WebSocket Close Status Codes as defined in {@link https://www.rfc-editor.org/rfc/rfc6455#section-7.1.5 RFC 6455}.
  */
 export enum WebSocketCloseCode
 {
