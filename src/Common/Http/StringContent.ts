@@ -1,7 +1,6 @@
 ﻿import { HttpContent } from "./HttpContent.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "./HeaderMap.js";
-import { SealedClassError } from "../SealedClassError.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 export class StringContent extends HttpContent
@@ -13,7 +12,6 @@ export class StringContent extends HttpContent
 	public constructor(stringValue: string, contentType: string = "text/plain")
 	{
 		super();
-		SealedClassError.throwIfNotEqual(StringContent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(stringValue, "string");
 		ThrowHelper.TypeError.throwIfNotType(contentType, "string");
 
