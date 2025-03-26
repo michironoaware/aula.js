@@ -2,7 +2,6 @@
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "./HeaderMap.js";
 import { SealedClassError } from "../SealedClassError.js";
-import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 /**
  * Provides HTTP content based on a stream.
@@ -11,7 +10,6 @@ export class StreamContent extends HttpContent
 {
 	readonly #_stream: ReadableStream<Uint8Array>;
 	readonly #_headers: HeaderMap;
-	#_disposed: boolean = false;
 
 	/**
 	 * Initializes a new instance of {@link StreamContent}.
@@ -33,19 +31,16 @@ export class StreamContent extends HttpContent
 
 	public get headers()
 	{
-		ObjectDisposedError.throwIf(this.#_disposed);
 		return this.#_headers;
 	}
 
 	public readAsStream()
 	{
-		ObjectDisposedError.throwIf(this.#_disposed);
 		return this.#_stream;
 	}
 
 	public async readAsString()
 	{
-		ObjectDisposedError.throwIf(this.#_disposed);
 		const reader = this.#_stream.getReader();
 		const decoder = new TextDecoder();
 
@@ -66,6 +61,5 @@ export class StreamContent extends HttpContent
 
 	public dispose()
 	{
-		this.#_disposed = true;
 	}
 }
