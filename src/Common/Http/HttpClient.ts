@@ -127,5 +127,7 @@ export class HttpClient implements IDisposable
 		{
 			this.#_handler.dispose();
 		}
+
+		this.#_disposed = true;
 	}
 }
