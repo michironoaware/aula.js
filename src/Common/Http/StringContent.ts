@@ -1,7 +1,7 @@
 ﻿import { HttpContent } from "./HttpContent.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "./HeaderMap.js";
-import { HttpContentConsumedError } from "./HttpContentConsumedError.js";
+import { InvalidOperationError } from "../InvalidOperationError.js";
 
 export class StringContent extends HttpContent
 {
@@ -27,14 +27,22 @@ export class StringContent extends HttpContent
 
 	public readAsStream()
 	{
-		HttpContentConsumedError.throwIf(this.#_read);
+		if (this.#_read)
+		{
+			throw new InvalidOperationError("Content was already read once.");
+		}
+
 		this.#_read = true;
 		return new Blob([ this.#_string ]).stream();
 	}
 
 	public readAsString()
 	{
-		HttpContentConsumedError.throwIf(this.#_read);
+		if (this.#_read)
+		{
+			throw new InvalidOperationError("Content was already read once.");
+		}
+
 		this.#_read = true;
 		return Promise.resolve(this.#_string);
 	}

@@ -2,7 +2,7 @@
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "./HeaderMap.js";
 import { SealedClassError } from "../SealedClassError.js";
-import { HttpContentConsumedError } from "./HttpContentConsumedError.js";
+import { InvalidOperationError } from "../InvalidOperationError.js";
 
 /**
  * Provides HTTP content based on a stream.
@@ -36,14 +36,22 @@ export class StreamContent extends HttpContent
 
 	public readAsStream()
 	{
-		HttpContentConsumedError.throwIf(this.#_read);
+		if (this.#_read)
+		{
+			throw new InvalidOperationError("Content was already read once.");
+		}
+
 		this.#_read = true;
 		return this.#_stream;
 	}
 
 	public async readAsString()
 	{
-		HttpContentConsumedError.throwIf(this.#_read);
+		if (this.#_read)
+		{
+			throw new InvalidOperationError("Content was already read once.");
+		}
+
 		this.#_read = true;
 
 		const reader = this.#_stream.getReader();
