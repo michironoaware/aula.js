@@ -29,7 +29,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 			{
 				method: HttpMethod[message.method],
 				headers: Array.from(message.headers),
-				body: message.content?.stream,
+				body: message.content?.readAsStream(),
 				duplex: "half"
 			} as RequestInit);
 

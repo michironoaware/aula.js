@@ -28,7 +28,7 @@ export class EmptyContent extends HttpContent
 		return this.#_headers;
 	}
 
-	public get stream()
+	public readAsStream()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
 		return EmptyContent.#s_emptyStream;

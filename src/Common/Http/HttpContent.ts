@@ -14,7 +14,7 @@ export abstract class HttpContent implements IDisposable
 	/**
 	 * Serializes the HTTP content and returns a stream that represents the content.
 	 * */
-	public abstract get stream(): ReadableStream<Uint8Array>;
+	public abstract readAsStream(): ReadableStream<Uint8Array>;
 
 	/**
 	 * Serialize the HTTP content to a string as an asynchronous operation.

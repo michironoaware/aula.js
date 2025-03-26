@@ -29,7 +29,7 @@ export class StreamContent extends HttpContent
 		return this.#_headers;
 	}
 
-	public get stream()
+	public readAsStream()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
 		return this.#_stream;

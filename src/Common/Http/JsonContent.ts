@@ -26,7 +26,7 @@ export class JsonContent extends HttpContent
 		return this.#_headers;
 	}
 
-	public get stream()
+	public readAsStream()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
 		return new Blob([ this.#_string ]).stream();
