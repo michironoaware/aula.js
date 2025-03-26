@@ -19,6 +19,9 @@ export abstract class ClientWebSocket implements IDisposable
 
 	/**
 	 * Verifies that the connection is in an expected state.
+	 * @param currentState The current state of the connection.
+	 * @param validStates A collection of states the {@link currentState} is expected to be.
+	 * @throws WebSocketError {@link currentState} is not equal or included in the {@link validStates} collection.
 	 * */
 	protected static throwOnInvalidState<TState extends Array<WebSocketState> | WebSocketState>(
 		currentState: WebSocketState,
@@ -68,6 +71,7 @@ export abstract class ClientWebSocket implements IDisposable
 
 	/**
 	 * Closes the {@link ClientWebSocket} connection as an asynchronous operation.
+	 * Subclasses should implement this method in a way that does not fail if the connection is not in an open state.
 	 * */
 	public abstract close(code: WebSocketCloseCode, reason?: string): Promise<void>;
 
