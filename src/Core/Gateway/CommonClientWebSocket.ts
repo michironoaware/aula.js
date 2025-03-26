@@ -39,11 +39,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 	{
 		ThrowHelper.TypeError.throwIfNotType(uri, URL);
 		ObjectDisposedError.throwIf(this.#_disposed);
-
-		if (this.#_state === WebSocketState.Open || this.#_state === WebSocketState.Connecting)
-		{
-			throw new WebSocketError("WebSocket is connecting or already connected");
-		}
+		ClientWebSocket.throwOnInvalidState(this.#_state, WebSocketState.Closed);
 
 		this.#_state = WebSocketState.Connecting;
 
