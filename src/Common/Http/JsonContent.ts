@@ -4,12 +4,19 @@ import { SealedClassError } from "../SealedClassError.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
 import { BigIntJsonReplacer } from "../Json/BigIntJsonReplacer.js";
 
+/**
+ * Provides HTTP content based on JSON.
+ * */
 export class JsonContent extends HttpContent
 {
 	readonly #_headers: HeaderMap;
 	readonly #_string: string;
 	#_disposed: boolean = false;
 
+	/**
+	 * Initializes a new instance of {@link JsonContent}
+	 * @param value The value to serialize and provide as JSON.
+	 * */
 	public constructor(value: unknown)
 	{
 		super();
