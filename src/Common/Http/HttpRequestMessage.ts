@@ -6,6 +6,11 @@ import { IDisposable } from "../IDisposable.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
 import { SealedClassError } from "../SealedClassError.js";
 
+/**
+ * Represents an HTTP request message.
+ * @remarks The {@link HttpRequestMessage} class contains headers, the HTTP verb, and potentially data.
+ *          An {@link HttpRequestMessage} instance should not be modified and/or reused after being sent.
+ * */
 export class HttpRequestMessage implements IDisposable
 {
 	readonly #_headers: HeaderMap;
@@ -14,6 +19,11 @@ export class HttpRequestMessage implements IDisposable
 	#_content: HttpContent | null;
 	#_disposed: boolean = false;
 
+	/**
+	 * Initializes a new instance of the HttpRequestMessage class with an HTTP method and a request Uri.
+	 * @param method The HTTP method.
+	 * @param requestUri The Uri to request.
+	 * */
 	public constructor(method: HttpMethod, requestUri: URL | string)
 	{
 		SealedClassError.throwIfNotEqual(HttpRequestMessage, new.target);
@@ -26,6 +36,9 @@ export class HttpRequestMessage implements IDisposable
 		this.#_content = null;
 	}
 
+	/**
+	 * Gets or sets the HTTP method used by the HTTP request message.
+	 * */
 	public get method()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
@@ -40,6 +53,9 @@ export class HttpRequestMessage implements IDisposable
 		this.#_method = value;
 	}
 
+	/**
+	 * Gets or sets the Uri used for the HTTP request.
+	 * */
 	public get requestUri()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
@@ -54,12 +70,18 @@ export class HttpRequestMessage implements IDisposable
 		this.#_requestUri = value;
 	}
 
+	/**
+	 * Gets the collection of HTTP request headers.
+	 * */
 	public get headers()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
 		return this.#_headers;
 	}
 
+	/**
+	 * Gets or sets the contents of the HTTP message.
+	 * */
 	public get content()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
