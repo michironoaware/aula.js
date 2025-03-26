@@ -38,7 +38,7 @@ export class HttpLoggingHandler extends DelegatingHandler
 		const response = await super.send(message);
 
 		let text =
-			`${HttpMethod[message.method]} to ${message.requestUri} ` +
+			`${HttpMethod.name} to ${message.requestUri} ` +
 			`${response.isSuccessStatusCode ? "Succeeded" : "Failed"} ` +
 			`with status code ${response.statusCode} ${HttpStatusCode[response.statusCode] ?? ""}.`;
 
