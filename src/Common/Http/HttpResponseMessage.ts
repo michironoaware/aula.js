@@ -1,26 +1,23 @@
 import { HttpStatusCode } from "./HttpStatusCode.js";
 import { HttpContent } from "./HttpContent.js";
-import { ReadonlyMapWrapper } from "../Collections/ReadonlyMapWrapper.js";
 import { HttpRequestError } from "./HttpRequestError.js";
 import { SealedClassError } from "../SealedClassError.js";
 import { ThrowHelper } from "../ThrowHelper.js";
+import { EmptyContent } from "./EmptyContent.js";
+import { HeaderMap } from "./HeaderMap.js";
 
 export class HttpResponseMessage
 {
-	readonly #_statusCode: HttpStatusCode;
-	readonly #_content: HttpContent;
-	readonly #_headers: ReadonlyMap<string, string>;
+	#_statusCode: HttpStatusCode;
+	#_content: HttpContent = new EmptyContent();
+	#_headers: HeaderMap = new HeaderMap();
 
-	public constructor(statusCode: HttpStatusCode, content: HttpContent, headers: ReadonlyMap<string, string>)
+	public constructor(statusCode: HttpStatusCode)
 	{
 		SealedClassError.throwIfNotEqual(HttpResponseMessage, new.target);
 		ThrowHelper.TypeError.throwIfNotType(statusCode, "number");
-		ThrowHelper.TypeError.throwIfNotType(content, HttpContent);
-		ThrowHelper.TypeError.throwIfNullable(headers);
 
 		this.#_statusCode = statusCode;
-		this.#_content = content;
-		this.#_headers = new ReadonlyMapWrapper(headers);
 	}
 
 	public get statusCode()
@@ -28,9 +25,21 @@ export class HttpResponseMessage
 		return this.#_statusCode;
 	}
 
+	public set statusCode(value: HttpStatusCode)
+	{
+		ThrowHelper.TypeError.throwIfNotType(value, "number");
+		this.#_statusCode = value;
+	}
+
 	public get content()
 	{
 		return this.#_content;
+	}
+
+	public set content(value: HttpContent)
+	{
+		ThrowHelper.TypeError.throwIfNotType(value, HttpContent);
+		this.#_content = value;
 	}
 
 	public get headers()
