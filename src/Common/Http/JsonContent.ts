@@ -1,52 +1,19 @@
-﻿import { HttpContent } from "./HttpContent.js";
-import { HeaderMap } from "./HeaderMap.js";
+﻿import { StringContent } from "./StringContent.js";
 import { SealedClassError } from "../SealedClassError.js";
-import { ObjectDisposedError } from "../ObjectDisposedError.js";
 import { BigIntJsonReplacer } from "../Json/BigIntJsonReplacer.js";
 
 /**
  * Provides HTTP content based on JSON.
  * */
-export class JsonContent extends HttpContent
+export class JsonContent extends StringContent
 {
-	readonly #_headers: HeaderMap;
-	readonly #_string: string;
-	#_disposed: boolean = false;
-
 	/**
 	 * Initializes a new instance of {@link JsonContent}
 	 * @param value The value to serialize and provide as JSON.
 	 * */
 	public constructor(value: unknown)
 	{
-		super();
+		super(JSON.stringify(value, BigIntJsonReplacer), "application/json");
 		SealedClassError.throwIfNotEqual(JsonContent, new.target);
-
-		this.#_string = JSON.stringify(value, BigIntJsonReplacer);
-		this.#_headers = new HeaderMap();
-		this.#_headers.append("Content-Type", "application/json");
-	}
-
-	public get headers()
-	{
-		ObjectDisposedError.throwIf(this.#_disposed);
-		return this.#_headers;
-	}
-
-	public readAsStream()
-	{
-		ObjectDisposedError.throwIf(this.#_disposed);
-		return new Blob([ this.#_string ]).stream();
-	}
-
-	public readAsString()
-	{
-		ObjectDisposedError.throwIf(this.#_disposed);
-		return Promise.resolve(this.#_string);
-	}
-
-	public dispose()
-	{
-		this.#_disposed = true;
 	}
 }
