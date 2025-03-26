@@ -47,7 +47,7 @@ export class HttpResponseMessage
 	{
 		if (!this.isSuccessStatusCode)
 		{
-			throw new HttpRequestError(this.statusCode);
+			throw new HttpRequestError(null, this.statusCode);
 		}
 	}
 }
