@@ -6,6 +6,7 @@ import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "../Http/HeaderMap.js";
 import { WebSocketCloseCode } from "./WebSocketCloseCode.js";
 import { WebSocketError } from "./WebSocketError.js";
+import { TypeHelper } from "../TypeHelper.js";
 
 export abstract class ClientWebSocket implements IDisposable
 {
@@ -19,21 +20,35 @@ export abstract class ClientWebSocket implements IDisposable
 	/**
 	 * Verifies that the connection is in an expected state.
 	 * */
-	protected static throwOnInvalidState<TArray extends Array<WebSocketState>>(currentState: WebSocketState, validStates: TArray)
-		: asserts this is { state: Exclude<WebSocketState, TArray[number]> }
+	protected static throwOnInvalidState<TState extends Array<WebSocketState> | WebSocketState>(
+		currentState: WebSocketState,
+		validStates: TState)
+		: asserts this is { state: Exclude<WebSocketState, TState extends WebSocketState[] ? TState[number] : TState> }
 	{
 		ThrowHelper.TypeError.throwIfNotType(currentState, WebSocketState);
-		ThrowHelper.TypeError.throwIfNotTypeArray(validStates, WebSocketState);
-
-		if (validStates.includes(currentState))
+		ThrowHelper.TypeError.throwIfNotAnyType(validStates, WebSocketState, "array");
+		if (TypeHelper.isType(validStates, "array"))
 		{
-			return;
+			ThrowHelper.TypeError.throwIfNotTypeArray(validStates, WebSocketState);
+
+			if (validStates.includes(currentState))
+			{
+				return;
+			}
+
+			const validStatesText = validStates
+				.map(s => `"${WebSocketState[s]}"`)
+				.join(", ");
+			const currentStateText = `"${WebSocketState[currentState]}"`;
+			throw new WebSocketError(`WebSocket is on an invalid state. Expected ${validStatesText} but got ${currentStateText}`);
 		}
 
-		const validStatesText = validStates
-			.map(s => `"${WebSocketState[s]}"`)
-			.join(", ");
-		throw new WebSocketError(`WebSocket is on an invalid state. Expected ${validStatesText} but got "${WebSocketState[currentState]}"`);
+		if (currentState !== validStates)
+		{
+			const validStateText = `"${WebSocketState[validStates]}"`;
+			const currentStateText = `"${WebSocketState[currentState]}"`;
+			throw new WebSocketError(`WebSocket is on an invalid state. Expected ${validStateText} but got "${currentStateText}"`);
+		}
 	}
 
 	/**
