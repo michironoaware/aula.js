@@ -1,23 +1,19 @@
-import { PrivateConstructorError } from "../PrivateConstructorError.js";
-
 export class HttpMethod
 {
-	static readonly #_constructorKey: symbol = Symbol();
-	static readonly #_getMethod: HttpMethod = new HttpMethod(HttpMethod.#_constructorKey, "GET");
-	static readonly #_postMethod: HttpMethod = new HttpMethod(HttpMethod.#_constructorKey, "POST");
-	static readonly #_putMethod: HttpMethod = new HttpMethod(HttpMethod.#_constructorKey, "PUT");
-	static readonly #_patchMethod: HttpMethod = new HttpMethod(HttpMethod.#_constructorKey, "PATCH");
-	static readonly #_deleteMethod: HttpMethod = new HttpMethod(HttpMethod.#_constructorKey, "DELETE");
-	static readonly #_headMethod: HttpMethod = new HttpMethod(HttpMethod.#_constructorKey, "HEAD");
-	static readonly #_optionsMethod: HttpMethod = new HttpMethod(HttpMethod.#_constructorKey, "OPTIONS");
-	static readonly #_traceMethod: HttpMethod = new HttpMethod(HttpMethod.#_constructorKey, "TRACE");
-	static readonly #_connectMethod: HttpMethod = new HttpMethod(HttpMethod.#_constructorKey, "CONNECT");
+	static readonly #_getMethod: HttpMethod = new HttpMethod("GET");
+	static readonly #_postMethod: HttpMethod = new HttpMethod("POST");
+	static readonly #_putMethod: HttpMethod = new HttpMethod("PUT");
+	static readonly #_patchMethod: HttpMethod = new HttpMethod("PATCH");
+	static readonly #_deleteMethod: HttpMethod = new HttpMethod("DELETE");
+	static readonly #_headMethod: HttpMethod = new HttpMethod("HEAD");
+	static readonly #_optionsMethod: HttpMethod = new HttpMethod("OPTIONS");
+	static readonly #_traceMethod: HttpMethod = new HttpMethod("TRACE");
+	static readonly #_connectMethod: HttpMethod = new HttpMethod("CONNECT");
 
 	readonly #_name: string;
 
-	constructor(constructorKey: symbol, name: string)
+	constructor(name: string)
 	{
-		PrivateConstructorError.throwIfNotEqual(HttpMethod.#_constructorKey, constructorKey);
 		this.#_name = name;
 	}
 
