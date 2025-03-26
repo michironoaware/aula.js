@@ -3,6 +3,9 @@ import { HeaderMap } from "./HeaderMap.js";
 import { SealedClassError } from "../SealedClassError.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
+/**
+ * Represents an empty HTTP body without headers.
+ * */
 export class EmptyContent extends HttpContent
 {
 	static #s_emptyStream: ReadableStream<Uint8Array> = new ReadableStream(
@@ -16,6 +19,9 @@ export class EmptyContent extends HttpContent
 	readonly #_headers: HeaderMap = new HeaderMap();
 	#_disposed: boolean = false;
 
+	/**
+	 * Initializes a new instance of {@link EmptyContent}.
+	 * */
 	public constructor()
 	{
 		super();
