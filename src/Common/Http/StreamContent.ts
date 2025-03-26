@@ -2,6 +2,7 @@
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "./HeaderMap.js";
 import { SealedClassError } from "../SealedClassError.js";
+import { HttpContentConsumedError } from "./HttpContentConsumedError.js";
 
 /**
  * Provides HTTP content based on a stream.
@@ -10,6 +11,7 @@ export class StreamContent extends HttpContent
 {
 	readonly #_stream: ReadableStream<Uint8Array>;
 	readonly #_headers: HeaderMap;
+	#_read: boolean = false;
 
 	/**
 	 * Initializes a new instance of {@link StreamContent}.
@@ -36,11 +38,16 @@ export class StreamContent extends HttpContent
 
 	public readAsStream()
 	{
+		HttpContentConsumedError.throwIf(this.#_read);
+		this.#_read = true;
 		return this.#_stream;
 	}
 
 	public async readAsString()
 	{
+		HttpContentConsumedError.throwIf(this.#_read);
+		this.#_read = true;
+
 		const reader = this.#_stream.getReader();
 		const decoder = new TextDecoder();
 
