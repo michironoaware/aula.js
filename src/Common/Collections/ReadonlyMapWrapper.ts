@@ -10,6 +10,7 @@ export class ReadonlyMapWrapper<TKey, TValue> implements ReadonlyMap<TKey, TValu
 
 	/**
 	 * Initializes a new instance that it's wrapped around the specified map.
+	 * @param underlyingMap The underlying map.
 	 * */
 	public constructor(underlyingMap: ReadonlyMap<TKey, TValue>)
 	{
