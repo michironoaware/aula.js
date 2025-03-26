@@ -1,11 +1,13 @@
 ﻿import { HttpContent } from "./HttpContent.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "./HeaderMap.js";
+import { HttpContentConsumedError } from "./HttpContentConsumedError.js";
 
 export class StringContent extends HttpContent
 {
 	readonly #_headers: HeaderMap;
 	readonly #_string: string;
+	#_read: boolean = false;
 
 	public constructor(stringValue: string, contentType: string = "text/plain")
 	{
@@ -25,11 +27,15 @@ export class StringContent extends HttpContent
 
 	public readAsStream()
 	{
+		HttpContentConsumedError.throwIf(this.#_read);
+		this.#_read = true;
 		return new Blob([ this.#_string ]).stream();
 	}
 
 	public readAsString()
 	{
+		HttpContentConsumedError.throwIf(this.#_read);
+		this.#_read = true;
 		return Promise.resolve(this.#_string);
 	}
 
