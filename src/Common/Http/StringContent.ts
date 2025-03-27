@@ -3,12 +3,20 @@ import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "./HeaderMap.js";
 import { InvalidOperationError } from "../InvalidOperationError.js";
 
+/**
+ * Provides HTTP content based on text.
+ * */
 export class StringContent extends HttpContent
 {
 	readonly #_headers: HeaderMap;
 	readonly #_string: string;
 	#_read: boolean = false;
 
+	/**
+	 * Initializes a new instance of {@link StringContent}
+	 * @param stringValue The text of the content.
+	 * @param contentType The media type of the content as defined in {@link https://www.rfc-editor.org/rfc/rfc6838 RFC 6836}.
+	 * */
 	public constructor(stringValue: string, contentType: string = "text/plain")
 	{
 		super();
