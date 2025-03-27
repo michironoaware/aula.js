@@ -16,6 +16,10 @@
 
 			// Check if object is null for type "null"
 			(type === "null" && object === null) ||
+
+			// Check if object is either null or undefined for type "nullable"
+			(type === "nullable" && isNullable(object)) ||
+
 			// For checking whether a numeric value is defined in the enum's members
 			// does not work with flag enums
 			(typeof type === "object" && type[object as any] !== undefined) ||
@@ -46,6 +50,7 @@
 		"null" |
 		"iterable" |
 		"array" |
+		"nullable" |
 		(abstract new (...args: any[]) => any) |
 		Record<string, string | number>;
 
@@ -61,6 +66,7 @@
 	: T extends "null" ? null
 	: T extends "iterable" ? Iterable<unknown>
 	: T extends "array" ? readonly unknown[]
+	: T extends "nullable" ? null | undefined
 	: T extends abstract new (...args: any[]) => infer R ? R
 	: T extends Record<string, string | number> ? T[keyof T]
 	: never;
