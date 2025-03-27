@@ -15,14 +15,14 @@ export class HttpRequestError extends Error
 	 * @param message A message that describes the current error.
 	 * @param statusCode The status code of the HTTP response that caused the error.
 	 * */
-	public constructor(message: string | null = null, statusCode: HttpStatusCode | null = null)
+	public constructor(message?: string, statusCode?: HttpStatusCode)
 	{
 		SealedClassError.throwIfNotEqual(HttpRequestError, new.target);
-		ThrowHelper.TypeError.throwIfNotAnyType(message, "string", "null");
-		ThrowHelper.TypeError.throwIfNotAnyType(statusCode, "number", "null");
+		ThrowHelper.TypeError.throwIfNotAnyType(message, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(statusCode, "number", "undefined");
 
 		super(message ? message : `Http request error failed` + statusCode ? ` with status code '${statusCode}'` : "");
-		this.#_statusCode = statusCode;
+		this.#_statusCode = statusCode ?? null;
 	}
 
 	/**

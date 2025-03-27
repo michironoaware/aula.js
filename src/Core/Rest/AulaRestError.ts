@@ -14,19 +14,19 @@ export class AulaRestError extends Error
 		title: string,
 		detail: string,
 		status: HttpStatusCode,
-		innerError: HttpRequestError | null = null)
+		innerError?: HttpRequestError)
 	{
 		super(`${message}.\nTitle: ${title}\nDetail: ${detail}\nStatus: ${status}`);
 		ThrowHelper.TypeError.throwIfNotAnyType(message, "string");
 		ThrowHelper.TypeError.throwIfNotType(title, "string");
 		ThrowHelper.TypeError.throwIfNotType(detail, "string");
 		ThrowHelper.TypeError.throwIfNotType(status, "number");
-		ThrowHelper.TypeError.throwIfNotAnyType(innerError, HttpRequestError, "null");
+		ThrowHelper.TypeError.throwIfNotAnyType(innerError, HttpRequestError, "undefined");
 
 		this.#_title = title;
 		this.#_detail = detail;
 		this.#_status = status;
-		this.#_innerError = innerError;
+		this.#_innerError = innerError ?? null;
 	}
 
 	public get innerError()

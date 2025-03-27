@@ -9,7 +9,7 @@ export class AulaUnauthorizedError extends AulaRestError
 		title: string,
 		detail: string,
 		status: HttpStatusCode,
-		innerError: HttpRequestError | null = null)
+		innerError?: HttpRequestError)
 	{
 		super(`The 'Authorization' header was missing or invalid`, title, detail, status, innerError);
 		SealedClassError.throwIfNotEqual(AulaUnauthorizedError, new.target);

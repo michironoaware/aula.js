@@ -9,7 +9,7 @@ export class AulaBadRequestError extends AulaRestError
 		title: string,
 		detail: string,
 		status: HttpStatusCode,
-		innerError: HttpRequestError | null = null)
+		innerError?: HttpRequestError)
 	{
 		super(`The request was improperly formatted, or the server couldn't understand it`, title, detail, status, innerError);
 		SealedClassError.throwIfNotEqual(AulaBadRequestError, new.target);
