@@ -26,7 +26,7 @@ export class UserJoinMessage extends Message
 
 	public get userJoin()
 	{
-		return this.#_userJoin ??= this.#_data.joinData ? new MessageUserJoin(this.#_data.joinData, this.restClient) : null;
+		return this.#_userJoin ??= new MessageUserJoin(this.#_data.joinData!, this.restClient);
 	}
 
 	public async getLatest()
