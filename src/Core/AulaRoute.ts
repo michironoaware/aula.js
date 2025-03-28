@@ -88,7 +88,7 @@ export namespace AulaRoute
 		return `rooms/${args.route.roomId}/messages/${args.route.messageId}`;
 	}
 
-	export function userBans(args?: { query?: { type?: number, count?: number, after?: string } })
+	export function bans(args?: { query?: { type?: number, count?: number, after?: string } })
 	{
 		return "bans/users" +
 		       (!TypeHelper.isNullable(args?.query) ? "?" : "") +
