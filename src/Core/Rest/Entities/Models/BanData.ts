@@ -2,6 +2,9 @@
 import { ThrowHelper } from "../../../../Common/ThrowHelper.js";
 import { SealedClassError } from "../../../../Common/SealedClassError.js";
 
+/**
+ * Provides a strongly typed DTO class for the API v1 BanData JSON schema.
+ * */
 export class BanData
 {
 	readonly #_type: BanType;
@@ -10,6 +13,11 @@ export class BanData
 	readonly #_targetId: string | null;
 	readonly #_creationDate: string;
 
+	/**
+	 * Initializes a new instance of {@link BanData}.
+	 * @param data An object that conforms to the API v1 BanData JSON schema
+	 *             from where the data will be extracted.
+	 * */
 	public constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(BanData, new.target);
@@ -33,26 +41,42 @@ export class BanData
 		this.#_creationDate = data.creationDate;
 	}
 
+	/**
+	 * Gets the type of the ban.
+	 * */
 	public get type()
 	{
 		return this.#_type;
 	}
 
+	/**
+	 * Gets the ID of the user that created the ban.
+	 * */
 	public get executorId()
 	{
 		return this.#_executorId;
 	}
 
+	/**
+	 * Gets the reason for the ban.
+	 * */
 	public get reason()
 	{
 		return this.#_reason;
 	}
 
+	/**
+	 * Gets the ID of the targeted user.
+	 * */
 	public get targetId()
 	{
 		return this.#_targetId;
 	}
 
+	/**
+	 * Gets the emission date of the ban,
+	 * expressed as a {@link https://en.wikipedia.org/wiki/ISO_8601 ISO 8601} string.
+	 * */
 	public get creationDate()
 	{
 		return this.#_creationDate;
