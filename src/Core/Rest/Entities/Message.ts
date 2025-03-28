@@ -25,6 +25,21 @@ export abstract class Message
 		this.#_data = data;
 	}
 
+	public static create(data: MessageData, restClient: RestClient)
+	{
+		switch (data.type)
+		{
+			case MessageType.Standard:
+				return new StandardMessage(data, restClient);
+			case MessageType.UserJoin:
+				return new UserJoinMessage(data, restClient);
+			case MessageType.UserLeave:
+				return new UserLeaveMessage(data, restClient);
+			default:
+				throw new InvalidOperationError("Unexpected message type.");
+		}
+	}
+
 	public get restClient()
 	{
 		return this.#_restClient;
