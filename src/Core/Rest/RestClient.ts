@@ -50,6 +50,7 @@ import { AulaRestError } from "./AulaRestError.js";
 import { AulaRouteRateLimiterHandler } from "./AulaRouteRateLimiterHandler.js";
 import { AulaHttpStatusCode503Handler } from "./AulaHttpStatusCode503Handler.js";
 import { IGetBansQuery } from "./IGetBansQuery.js";
+import { UserBan } from "./Entities/UserBan.js";
 
 export class RestClient
 {
@@ -707,7 +708,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const banData = new BanData(JSON.parse(await response.content.readAsString()));
-		return new Ban(banData, this);
+		return new UserBan(banData, this);
 	}
 
 	public async unbanUser(userId: string)
@@ -742,7 +743,7 @@ export class RestClient
 
 		return JSON.parse(await response.content.readAsString())
 		           .map((b: any) => new BanData(b))
-		           .map((b: BanData) => new Ban(b, this)) as Ban[];
+		           .map((b: BanData) => Ban.create(b, this)) as Ban[];
 	}
 
 	public async getUserBan(userId: string)
@@ -760,7 +761,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const banData = new BanData(JSON.parse(await response.content.readAsString()));
-		return new Ban(banData, this);
+		return Ban.create(banData, this);
 	}
 
 	public async getCurrentUserBanStatus()
