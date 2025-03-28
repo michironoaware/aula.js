@@ -25,7 +25,7 @@ export abstract class Message
 		this.#_data = data;
 	}
 
-	public static create(data: MessageData, restClient: RestClient)
+	public static create(data: MessageData, restClient: RestClient): Message
 	{
 		switch (data.type)
 		{
