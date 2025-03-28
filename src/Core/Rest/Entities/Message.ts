@@ -75,7 +75,6 @@ export abstract class Message
 		return this.#_data.roomId;
 	}
 
-
 	get creationDate()
 	{
 		return this.#_creationDate ??= new Date(this.#_data.creationDate);
