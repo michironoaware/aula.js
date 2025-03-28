@@ -49,6 +49,17 @@ export class Ban
 		return this.#_creationDate ??= new Date(this.#_data.creationDate);
 	}
 
+	public async getLatest()
+	{
+		switch (this.type)
+		{
+			case BanType.Id:
+				return await this.restClient.getUserBan(this.targetId!);
+			default:
+				return null;
+		}
+	}
+
 	public async getExecutor()
 	{
 		if (this.executorId === null)
