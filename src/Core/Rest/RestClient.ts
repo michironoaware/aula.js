@@ -762,6 +762,7 @@ export class RestClient
 		const banData = new BanData(JSON.parse(await response.content.readAsString()));
 		return new Ban(banData, this);
 	}
+
 	public async getCurrentUserBanStatus()
 	{
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUserBanStatus());
