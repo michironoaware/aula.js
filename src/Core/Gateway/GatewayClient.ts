@@ -306,12 +306,12 @@ export class GatewayClient implements IDisposable
 					case EventType[EventType.MessageCreated]:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
 						await this.#_eventEmitter.emit(
-							"MessageCreated", new MessageCreatedEvent(new Message(payload.data, this.#_restClient), this));
+							"MessageCreated", new MessageCreatedEvent(Message.create(payload.data, this.#_restClient), this));
 						break;
 					case EventType[EventType.MessageRemoved]:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
 						await this.#_eventEmitter.emit(
-							"MessageRemoved", new MessageRemovedEvent(new Message(payload.data, this.#_restClient), this));
+							"MessageRemoved", new MessageRemovedEvent(Message.create(payload.data, this.#_restClient), this));
 						break;
 					case EventType[EventType.UserStartedTyping]:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserTypingEventData);

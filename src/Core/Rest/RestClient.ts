@@ -468,7 +468,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const messageData = new MessageData(JSON.parse(await response.content.readAsString()));
-		return new Message(messageData, this);
+		return Message.create(messageData, this);
 	}
 
 	public async getMessage(roomId: string, messageId: string)
@@ -487,7 +487,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const messageData = new MessageData(JSON.parse((await response.content.readAsString())));
-		return new Message(messageData, this);
+		return Message.create(messageData, this);
 	}
 
 	public async getMessages(roomId: string, query: IGetMessagesQuery = {})
@@ -515,7 +515,7 @@ export class RestClient
 
 		return JSON.parse((await response.content.readAsString()))
 		           .map((d: any) => new MessageData(d))
-		           .map((d: MessageData) => new Message(d, this)) as Message[];
+		           .map((d: MessageData) => Message.create(d, this)) as Message[];
 	}
 
 	public async removeMessage(roomId: string, messageId: string)
