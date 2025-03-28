@@ -15,7 +15,6 @@ import { IGetUsersQuery } from "./IGetUsersQuery.js";
 import { UserData } from "./Entities/Models/UserData.js";
 import { IModifyCurrentUserRequestBody } from "./IModifyCurrentUserRequestBody.js";
 import { JsonContent } from "../../Common/Http/JsonContent.js";
-import { UserType } from "./Entities/UserType.js";
 import { ISetUserRoomRequestBody } from "./ISetUserRoomRequestBody.js";
 import { ISetUserPermissionsRequestBody } from "./ISetUserPermissionsRequestBody.js";
 import { ICreateRoomRequestBody } from "./ICreateRoomRequestBody.js";
@@ -136,9 +135,6 @@ export class RestClient
 	public async getUsers(query: IGetUsersQuery = {})
 	{
 		ThrowHelper.TypeError.throwIfNullable(query);
-		ThrowHelper.TypeError.throwIfNotAnyType(query.type, UserType, "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.users({ query }));
 
@@ -267,8 +263,6 @@ export class RestClient
 	public async getRooms(query: IGetRoomsQuery = {})
 	{
 		ThrowHelper.TypeError.throwIfNullable(query);
-		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.rooms({ query }));
 
@@ -477,10 +471,6 @@ export class RestClient
 	public async getMessages(roomId: string, query: IGetMessagesQuery = {})
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNullable(query);
-		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(query.before, "string", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessages({ route: { roomId }, query }));
 
@@ -550,8 +540,6 @@ export class RestClient
 	public async confirmEmail(query: IConfirmEmailQuery)
 	{
 		ThrowHelper.TypeError.throwIfNullable(query);
-		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(query.token, "string", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.confirmEmail({ query }));
 
@@ -564,7 +552,6 @@ export class RestClient
 	public async forgotPassword(query: IForgotPasswordQuery)
 	{
 		ThrowHelper.TypeError.throwIfNullable(query);
-		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword({ query }));
 
@@ -692,9 +679,6 @@ export class RestClient
 	public async getBans(query: IGetBansQuery = {})
 	{
 		ThrowHelper.TypeError.throwIfNullable(query);
-		ThrowHelper.TypeError.throwIfNotAnyType(query.type, "number", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.bans({ query }));
 
