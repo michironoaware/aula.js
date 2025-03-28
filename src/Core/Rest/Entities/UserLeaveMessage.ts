@@ -26,7 +26,7 @@ export class UserLeaveMessage extends Message
 
 	public get userLeave()
 	{
-		return this.#_userLeave ??= this.#_data.leaveData ? new MessageUserLeave(this.#_data.leaveData, this.restClient) : null;
+		return this.#_userLeave ??= new MessageUserLeave(this.#_data.leaveData!, this.restClient);
 	}
 
 	public async getLatest()
