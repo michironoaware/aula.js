@@ -66,7 +66,7 @@ export class BanData
 	}
 
 	/**
-	 * Gets the ID of the targeted user.
+	 * Gets the ID of the banned user.
 	 * */
 	public get targetId()
 	{
