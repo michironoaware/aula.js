@@ -4,6 +4,7 @@ import { SealedClassError } from "../../../../Common/SealedClassError.js";
 
 /**
  * Provides a strongly typed DTO class for the API v1 BanData JSON schema.
+ * @package
  * */
 export class BanData
 {
