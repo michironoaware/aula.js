@@ -1,4 +1,6 @@
-﻿export namespace AulaRoute
+﻿import { TypeHelper } from "../Common/TypeHelper.js";
+
+export namespace AulaRoute
 {
 	export function currentUser()
 	{
@@ -86,9 +88,13 @@
 		return `rooms/${args.route.roomId}/messages/${args.route.messageId}`;
 	}
 
-	export function userBans()
+	export function userBans(args?: { query?: { type?: number, count?: number, after?: string } })
 	{
-		return "bans/users";
+		return "bans/users" +
+		       (!TypeHelper.isNullable(args?.query) ? "?" : "") +
+		       (args?.query?.type ? `type=${args.query.type}` : "") +
+		       (args?.query?.count ? `&count=${args.query.count}` : "") +
+		       (args?.query?.after ? `&after=${args.query.after}` : "");
 	}
 
 	export function userBan(args: { route: { userId: string } })
