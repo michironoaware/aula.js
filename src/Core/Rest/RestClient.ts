@@ -745,6 +745,23 @@ export class RestClient
 		           .map((b: BanData) => new Ban(b, this)) as Ban[];
 	}
 
+	public async getUserBan(userId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.userBan({ route: { userId } }));
+
+		const response = await this.#_httpClient.send(request);
+		if (response.statusCode === HttpStatusCode.NotFound)
+		{
+			return null;
+		}
+
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		const banData = new BanData(JSON.parse(await response.content.readAsString()));
+		return new Ban(banData, this);
+	}
 	public async getCurrentUserBanStatus()
 	{
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUserBanStatus());
