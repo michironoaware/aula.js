@@ -298,12 +298,12 @@ export class GatewayClient implements IDisposable
 					case EventType[EventType.BanCreated]:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
 						await this.#_eventEmitter.emit(
-							"BanCreated", new BanCreatedEvent(new Ban(payload.data, this.#_restClient), this));
+							"BanCreated", new BanCreatedEvent(Ban.create(payload.data, this.#_restClient), this));
 						break;
 					case EventType[EventType.BanRemoved]:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
 						await this.#_eventEmitter.emit(
-							"BanRemoved", new BanRemovedEvent(new Ban(payload.data, this.#_restClient), this));
+							"BanRemoved", new BanRemovedEvent(Ban.create(payload.data, this.#_restClient), this));
 						break;
 					case EventType[EventType.MessageCreated]:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
