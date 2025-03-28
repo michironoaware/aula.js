@@ -20,4 +20,9 @@ export class UserLeaveMessage extends Message
 	{
 		return this.#_userLeave ??= this.#_data.leaveData ? new MessageUserLeave(this.#_data.leaveData, this.restClient) : null;
 	}
+
+	public async getLatest()
+	{
+		return await super.getLatest() as UserLeaveMessage | null;
+	}
 }

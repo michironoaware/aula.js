@@ -18,4 +18,9 @@ export class StandardMessage extends Message
 	{
 		return this.#_data.content!;
 	}
+
+	public async getLatest()
+	{
+		return await super.getLatest() as StandardMessage | null;
+	}
 }

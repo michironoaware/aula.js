@@ -20,4 +20,9 @@ export class UserJoinMessage extends Message
 	{
 		return this.#_userJoin ??= this.#_data.joinData ? new MessageUserJoin(this.#_data.joinData, this.restClient) : null;
 	}
+
+	public async getLatest()
+	{
+		return await super.getLatest() as UserJoinMessage | null;
+	}
 }

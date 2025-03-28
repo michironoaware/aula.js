@@ -80,6 +80,11 @@ export abstract class Message
 		return this.#_creationDate ??= new Date(this.#_data.creationDate);
 	}
 
+	public async getLatest()
+	{
+		return await this.restClient.getMessage(this.roomId, this.id);
+	}
+
 	public async getAuthor()
 	{
 		if (this.authorId === null || this.authorType !== MessageAuthorType.User)
