@@ -271,7 +271,9 @@ export class GatewayClient implements IDisposable
 				data: { presence },
 			};
 		const sendPromiseSource = new PromiseCompletionSource<void>();
-		const sendRequest = new PayloadSendRequest(GatewayClient.#s_textEncoder.encode(JSON.stringify(payload, BigIntJsonReplacer)), sendPromiseSource);
+		const sendRequest = new PayloadSendRequest(
+			GatewayClient.#s_textEncoder.encode(JSON.stringify(payload, BigIntJsonReplacer)),
+			sendPromiseSource);
 
 		await this.#pendingPayloads.writer.waitToWrite();
 		await this.#pendingPayloads.writer.write(sendRequest);
