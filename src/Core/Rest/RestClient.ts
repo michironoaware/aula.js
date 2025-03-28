@@ -49,6 +49,7 @@ import { HttpFetchHandler } from "./HttpFetchHandler.js";
 import { AulaRestError } from "./AulaRestError.js";
 import { AulaRouteRateLimiterHandler } from "./AulaRouteRateLimiterHandler.js";
 import { AulaHttpStatusCode503Handler } from "./AulaHttpStatusCode503Handler.js";
+import { IGetBansQuery } from "./IGetBansQuery.js";
 
 export class RestClient
 {
@@ -719,6 +720,29 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return;
+	}
+
+	public async getBans(query: IGetBansQuery = {})
+	{
+		ThrowHelper.TypeError.throwIfNullable(query);
+		ThrowHelper.TypeError.throwIfNotAnyType(query.type, "number", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.bans({
+			query: {
+				type: query.type,
+				count: query.count,
+				after: query.after
+			}
+		}));
+
+		const response = await this.#_httpClient.send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse(await response.content.readAsString())
+		           .map((b: any) => new BanData(b))
+		           .map((b: BanData) => new Ban(b, this)) as Ban[];
 	}
 
 	public async getCurrentUserBanStatus()
