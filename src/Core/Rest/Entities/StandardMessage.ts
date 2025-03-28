@@ -2,6 +2,8 @@
 import { MessageData } from "./Models/MessageData.js";
 import { RestClient } from "../RestClient.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
+import { MessageType } from "./MessageType.js";
+import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
 
 export class StandardMessage extends Message
 {
@@ -11,6 +13,12 @@ export class StandardMessage extends Message
 	{
 		super(data, restClient);
 		SealedClassError.throwIfNotEqual(StandardMessage, new.target);
+
+		if (data.type !== MessageType.Standard)
+		{
+			throw new InvalidOperationError(`Unexpected message type.`);
+		}
+
 		this.#_data = data;
 	}
 
