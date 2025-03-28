@@ -140,16 +140,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.users(
-			{
-				query:
-					{
-						type: query.type,
-						count: query.count,
-						after: query.after,
-					}
-			}
-		));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.users({ query }));
 
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -279,15 +270,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.rooms(
-			{
-				query:
-					{
-						count: query.count,
-						after: query.after,
-					}
-			}
-		));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.rooms({ query }));
 
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -499,17 +482,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(query.before, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessages(
-			{
-				route: { roomId },
-				query:
-					{
-						after: query.after,
-						before: query.before,
-						count: query.count,
-					}
-			}
-		));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessages({ route: { roomId }, query }));
 
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -580,14 +553,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.token, "string", "undefined");
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.confirmEmail(
-			{
-				query:
-					{
-						email: query.email,
-						token: query.token,
-					}
-			}));
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.confirmEmail({ query }));
 
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -600,7 +566,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNullable(query);
 		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword({ query: { email: query.email } }));
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword({ query }));
 
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -730,13 +696,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "undefined");
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.bans({
-			query: {
-				type: query.type,
-				count: query.count,
-				after: query.after
-			}
-		}));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.bans({ query }));
 
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
