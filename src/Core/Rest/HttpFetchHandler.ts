@@ -33,10 +33,8 @@ export class HttpFetchHandler extends HttpMessageHandler
 				duplex: "half"
 			} as RequestInit);
 
-		const status = received.status as HttpStatusCode;
-		const content = received.body ? new StreamContent(received.body) : new EmptyContent();
-		const headers = new HeaderMap(received.headers);
-		return new HttpResponseMessage(status, content, headers);
+		const response = new HttpResponseMessage(received.status as HttpStatusCode);
+		response.content = received.body ? new StreamContent(received.body) : response.content;
 	}
 
 	public dispose()
