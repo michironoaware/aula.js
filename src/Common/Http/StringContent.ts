@@ -1,7 +1,6 @@
 ﻿import { HttpContent } from "./HttpContent.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "./HeaderMap.js";
-import { InvalidOperationError } from "../InvalidOperationError.js";
 
 /**
  * Provides HTTP content based on text.
@@ -10,7 +9,6 @@ export class StringContent extends HttpContent
 {
 	readonly #_headers: HeaderMap;
 	readonly #_string: string;
-	#_read: boolean = false;
 
 	/**
 	 * Initializes a new instance of {@link StringContent}
@@ -35,23 +33,11 @@ export class StringContent extends HttpContent
 
 	public readAsStream()
 	{
-		if (this.#_read)
-		{
-			throw new InvalidOperationError("Content was already read once.");
-		}
-
-		this.#_read = true;
 		return new Blob([ this.#_string ]).stream();
 	}
 
 	public readAsString()
 	{
-		if (this.#_read)
-		{
-			throw new InvalidOperationError("Content was already read once.");
-		}
-
-		this.#_read = true;
 		return Promise.resolve(this.#_string);
 	}
 
