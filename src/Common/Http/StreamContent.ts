@@ -2,7 +2,6 @@
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "./HeaderMap.js";
 import { SealedClassError } from "../SealedClassError.js";
-import { InvalidOperationError } from "../InvalidOperationError.js";
 
 /**
  * Provides HTTP content based on a stream.
@@ -11,7 +10,6 @@ export class StreamContent extends HttpContent
 {
 	readonly #_stream: ReadableStream<Uint8Array>;
 	readonly #_headers: HeaderMap = new HeaderMap();
-	#_read: boolean = false;
 
 	/**
 	 * Initializes a new instance of {@link StreamContent}.
@@ -36,24 +34,11 @@ export class StreamContent extends HttpContent
 
 	public readAsStream()
 	{
-		if (this.#_read)
-		{
-			throw new InvalidOperationError("Content was already read once.");
-		}
-
-		this.#_read = true;
 		return this.#_stream;
 	}
 
 	public async readAsString()
 	{
-		if (this.#_read)
-		{
-			throw new InvalidOperationError("Content was already read once.");
-		}
-
-		this.#_read = true;
-
 		const reader = this.#_stream.getReader();
 		const decoder = new TextDecoder();
 
