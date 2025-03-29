@@ -34,7 +34,7 @@ export class ByteArrayContent extends HttpContent
 	public readAsStream()
 	{
 		const byteArray = this.#_byteArray;
-		return new ReadableStream<Uint8Array>({
+		const stream = new ReadableStream<Uint8Array>({
 			
 			start(controller)
 			{
@@ -42,6 +42,8 @@ export class ByteArrayContent extends HttpContent
 				controller.close();
 			},
 		});
+
+		return Promise.resolve(stream);
 	}
 
 	public readAsString()

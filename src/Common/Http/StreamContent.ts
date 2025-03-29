@@ -37,7 +37,7 @@ export class StreamContent extends HttpContent
 	public readAsStream()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
-		return this.#_stream;
+		return Promise.resolve(this.#_stream);
 	}
 
 	public async readAsString()
