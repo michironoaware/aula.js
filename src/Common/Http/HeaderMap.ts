@@ -1,18 +1,19 @@
 ﻿import { ThrowHelper } from "../ThrowHelper.js";
 import { SealedClassError } from "../SealedClassError.js";
+import { InvalidOperationError } from "../InvalidOperationError.js";
 
 /**
  * Represents a wrapper for the request and response headers.
  * */
-export class HeaderMap implements ReadonlyMap<string, string>
+export class HeaderMap implements ReadonlyMap<string, string[]>
 {
-	readonly #_underlyingMap: Map<string, string>;
+	readonly #_underlyingMap: Map<string, string[]>;
 
 	/**
 	 * Initializes a new instance that it's wrapped around the specified map.
 	 * @param headers The underlying key/value pair structure.
 	 * */
-	public constructor(headers?: ReadonlyMap<string, string> | Headers)
+	public constructor(headers?: ReadonlyMap<string, string[]>)
 	{
 		SealedClassError.throwIfNotEqual(HeaderMap, new.target);
 		ThrowHelper.TypeError.throwIfNotAnyType(headers, "object", "undefined");
@@ -31,7 +32,7 @@ export class HeaderMap implements ReadonlyMap<string, string>
 	/**
 	 * Executes the provided function for each header in the map.
 	 * */
-	public forEach(callbackfn: (value: string, key: string, map: ReadonlyMap<string, string>) => void, thisArg?: any)
+	public forEach(callbackfn: (value: string[], key: string, map: ReadonlyMap<string, string[]>) => void, thisArg?: any)
 	{
 		this.#_underlyingMap.forEach((value, key) => callbackfn(value, key, this), thisArg);
 	}
@@ -85,6 +86,25 @@ export class HeaderMap implements ReadonlyMap<string, string>
 	}
 
 	/**
+	 * Adds the provided {@link value} to the specified header.
+	 * @param name The name of the header.
+	 * @param value The value to add.
+	 * @throws InvalidOperationError If a header with the same {@link name} is already defined.
+	 * */
+	public add(name: string, value: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(name, "string");
+		ThrowHelper.TypeError.throwIfNotType(value, "string");
+
+		if (this.#_underlyingMap.has(name.toLowerCase()))
+		{
+			throw new InvalidOperationError(`The key ${name} is already defined in the map`);
+		}
+
+		this.#_underlyingMap.set(name, [ value ]);
+	}
+
+	/**
 	 * Adds or appends the provided {@link value} to the specified header.
 	 * @param name The name of the header.
 	 * @param value The value to add/append.
@@ -94,11 +114,16 @@ export class HeaderMap implements ReadonlyMap<string, string>
 		ThrowHelper.TypeError.throwIfNotType(name, "string");
 		ThrowHelper.TypeError.throwIfNotType(value, "string");
 
-		const nameInLowerCase = name.toLowerCase();
+		const lowerCaseName = name.toLowerCase();
 
-		let currentValue = this.#_underlyingMap.get(nameInLowerCase);
-		let newValue = currentValue ? currentValue += `,${value}` : value;
-		this.#_underlyingMap.set(nameInLowerCase, newValue);
+		let values = this.#_underlyingMap.get(lowerCaseName);
+		if (values === undefined)
+		{
+			values = [];
+			this.#_underlyingMap.set(lowerCaseName, values);
+		}
+
+		values.push(value);
 	}
 
 	/**

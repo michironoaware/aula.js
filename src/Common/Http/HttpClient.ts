@@ -89,21 +89,27 @@ export class HttpClient implements IDisposable
 			message.requestUri = requestUri;
 		}
 
-		message.content?.headers.forEach((value, name) =>
+		message.content?.headers.forEach((headerValues, headerName) =>
 		{
-			if (message.headers.has(name))
+			if (message.headers.has(headerName))
 			{
-				message.headers.delete(name);
+				message.headers.delete(headerName);
 			}
 
-			message.headers.append(name, value);
+			for (const headerValue of headerValues)
+			{
+				message.headers.append(headerName, headerValue);
+			}
 		});
 
-		this.#_defaultRequestHeaders.forEach((value, name) =>
+		this.#_defaultRequestHeaders.forEach((headerValues, headerName) =>
 		{
-			if (!message.headers.has(name))
+			if (!message.headers.has(headerName))
 			{
-				message.headers.append(name, value);
+				for (const headerValue of headerValues)
+				{
+					message.headers.append(headerName, headerValue);
+				}
 			}
 		});
 
