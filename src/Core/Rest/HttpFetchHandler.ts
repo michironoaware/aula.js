@@ -24,7 +24,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 
 		const received = await fetch(message.requestUri,
 			{
-				method: HttpMethod.name,
+				method: message.method.name,
 				headers: Array.from(message.headers).map(v => [ v[0], v[1].join(";") ]),
 				body: message.content?.readAsStream(),
 				duplex: "half"
