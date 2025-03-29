@@ -1,14 +1,11 @@
-﻿import { HttpContent } from "./HttpContent.js";
-import { ThrowHelper } from "../ThrowHelper.js";
-import { HeaderMap } from "./HeaderMap.js";
+﻿import { ByteArrayContent } from "./ByteArrayContent.js";
 
 /**
  * Provides HTTP content based on text.
  * */
-export class StringContent extends HttpContent
+export class StringContent extends ByteArrayContent
 {
-	readonly #_headers: HeaderMap = new HeaderMap();
-	readonly #_string: string;
+	static readonly #s_textEncoder = new TextEncoder();
 
 	/**
 	 * Initializes a new instance of {@link StringContent}
@@ -17,30 +14,6 @@ export class StringContent extends HttpContent
 	 * */
 	public constructor(stringValue: string, contentType: string = "text/plain")
 	{
-		super();
-		ThrowHelper.TypeError.throwIfNotType(stringValue, "string");
-		ThrowHelper.TypeError.throwIfNotType(contentType, "string");
-
-		this.#_string = stringValue;
-		this.#_headers.append("Content-Type", contentType);
-	}
-
-	public get headers()
-	{
-		return this.#_headers;
-	}
-
-	public readAsStream()
-	{
-		return new Blob([ this.#_string ]).stream();
-	}
-
-	public readAsString()
-	{
-		return Promise.resolve(this.#_string);
-	}
-
-	public dispose()
-	{
+		super(StringContent.#s_textEncoder.encode(stringValue), contentType);
 	}
 }
