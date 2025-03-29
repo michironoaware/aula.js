@@ -7,7 +7,7 @@ import { HeaderMap } from "./HeaderMap.js";
  * */
 export class StringContent extends HttpContent
 {
-	readonly #_headers: HeaderMap;
+	readonly #_headers: HeaderMap = new HeaderMap();
 	readonly #_string: string;
 
 	/**
@@ -22,7 +22,6 @@ export class StringContent extends HttpContent
 		ThrowHelper.TypeError.throwIfNotType(contentType, "string");
 
 		this.#_string = stringValue;
-		this.#_headers = new HeaderMap();
 		this.#_headers.append("Content-Type", contentType);
 	}
 
