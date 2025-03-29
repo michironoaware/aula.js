@@ -47,17 +47,17 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 
 			const response = await super.send(message);
 
-			const requestLimitHeaderValue = response.headers.get("X-RateLimit-Global-Limit");
-			const windowMillisecondsHeaderValue = response.headers.get("X-RateLimit-Global-WindowMilliseconds");
-			if (requestLimitHeaderValue === undefined ||
-			    windowMillisecondsHeaderValue === undefined)
+			const requestLimitHeaderValues = response.headers.get("X-RateLimit-Global-Limit");
+			const windowMillisecondsHeaderValues = response.headers.get("X-RateLimit-Global-WindowMilliseconds");
+			if (requestLimitHeaderValues === undefined ||
+			    windowMillisecondsHeaderValues === undefined)
 			{
 				// Endpoint does not account for global rate limits.
 				return response;
 			}
 
-			const requestLimit = parseInt(requestLimitHeaderValue, 10);
-			const windowMilliseconds = parseInt(windowMillisecondsHeaderValue, 10);
+			const requestLimit = parseInt(requestLimitHeaderValues[0], 10);
+			const windowMilliseconds = parseInt(windowMillisecondsHeaderValues[0], 10);
 			if (requestLimit !== this.#_requestLimit ||
 			    windowMilliseconds !== this.#_windowMilliseconds)
 			{
@@ -77,19 +77,20 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 				this.#scheduleRequestReplenishment();
 			}
 
-			const isGlobalHeaderValue = response.headers.get("X-RateLimit-IsGlobal");
-			const resetTimestampHeaderValue = response.headers.get("X-RateLimit-ResetsAt");
-			if (isGlobalHeaderValue !== undefined &&
-			    isGlobalHeaderValue === "true" &&
-			    resetTimestampHeaderValue !== undefined)
+			const isGlobalHeaderValues = response.headers.get("X-RateLimit-IsGlobal");
+			const resetTimestampHeaderValues = response.headers.get("X-RateLimit-ResetsAt");
+			if (isGlobalHeaderValues !== undefined &&
+			    isGlobalHeaderValues[0] === "true" &&
+			    resetTimestampHeaderValues !== undefined)
 			{
 				// There are no requests left, or we have reached an unexpected 429 http status code.
+				const resetTimestamp = resetTimestampHeaderValues[0];
 				this.#_requestAvailableEvent.reset();
-				this.#scheduleRequestReplenishment(Date.now() - Date.parse(resetTimestampHeaderValue));
+				this.#scheduleRequestReplenishment(Date.now() - Date.parse(resetTimestamp));
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
-					await this.#_eventEmitter.emit("RateLimited", new RateLimitedEvent(resetTimestampHeaderValue));
+					await this.#_eventEmitter.emit("RateLimited", new RateLimitedEvent(resetTimestamp));
 					continue;
 				}
 			}

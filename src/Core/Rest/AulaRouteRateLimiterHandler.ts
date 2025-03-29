@@ -87,18 +87,18 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 
 			const response = await super.send(message);
 
-			const requestLimitHeaderValue = response.headers.get("X-RateLimit-Route-Limit");
-			const windowMillisecondsHeaderValue = response.headers.get("X-RateLimit-Route-WindowMilliseconds");
-			if (requestLimitHeaderValue === undefined ||
-			    windowMillisecondsHeaderValue === undefined)
+			const requestLimitHeaderValues = response.headers.get("X-RateLimit-Route-Limit");
+			const windowMillisecondsHeaderValues = response.headers.get("X-RateLimit-Route-WindowMilliseconds");
+			if (requestLimitHeaderValues === undefined ||
+			    windowMillisecondsHeaderValues === undefined)
 			{
 				// Endpoint does not have rate limits.
 				routeSemaphore?.release();
 				return response;
 			}
 
-			const requestLimit = parseInt(requestLimitHeaderValue, 10);
-			const windowMilliseconds = parseInt(windowMillisecondsHeaderValue, 10);
+			const requestLimit = parseInt(requestLimitHeaderValues[0], 10);
+			const windowMilliseconds = parseInt(windowMillisecondsHeaderValues[0], 10);
 			if (routeRateLimit === undefined ||
 			    (routeRateLimit.requestLimit !== requestLimit ||
 			    routeRateLimit.windowMilliseconds !== windowMilliseconds))
@@ -120,14 +120,14 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 				routeRateLimit.resetTimestamp);
 			this.#_rateLimits.set(routeHash, routeRateLimit);
 
-			const isGlobalHeaderValue = response.headers.get("X-RateLimit-IsGlobal");
-			const resetTimestampHeaderValue = response.headers.get("X-RateLimit-ResetsAt");
-			if (isGlobalHeaderValue !== undefined &&
-			    isGlobalHeaderValue === "false" &&
-			    resetTimestampHeaderValue !== undefined)
+			const isGlobalHeaderValues = response.headers.get("X-RateLimit-IsGlobal");
+			const resetTimestampHeaderValues = response.headers.get("X-RateLimit-ResetsAt");
+			if (isGlobalHeaderValues !== undefined &&
+			    isGlobalHeaderValues[0] === "false" &&
+			    resetTimestampHeaderValues !== undefined)
 			{
 				// No requests remain, or an unexpected HTTP 429 (Too Many Requests) status code was encountered.
-				const resetTimestamp = Date.parse(resetTimestampHeaderValue);
+				const resetTimestamp = Date.parse(resetTimestampHeaderValues[0]);
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
