@@ -1,7 +1,6 @@
 ﻿import { RestClient } from "../RestClient.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { MessageData } from "./Models/MessageData.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { MessageAuthorType } from "./MessageAuthorType.js";
 
 export abstract class Message
@@ -12,7 +11,6 @@ export abstract class Message
 
 	protected constructor(data: MessageData, restClient: RestClient)
 	{
-		SealedClassError.throwIfNotEqual(Message, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, MessageData);
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
