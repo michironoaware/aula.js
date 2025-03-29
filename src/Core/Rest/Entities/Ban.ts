@@ -1,9 +1,6 @@
 ﻿import { RestClient } from "../RestClient.js";
 import { BanData } from "./Models/BanData.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { BanType } from "./BanType.js";
-import { UserBan } from "./UserBan.js";
-import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
 
 /**
  * Represents a ban within Aula.
@@ -26,21 +23,6 @@ export abstract class Ban
 
 		this.#_restClient = restClient;
 		this.#_data = data;
-	}
-
-	/**
-	 * @package
-	 * Initializes a new instance of a concrete {@link Ban} subclass, given the input parameters.
-	 * */
-	public static create(data: BanData, restClient: RestClient): Ban
-	{
-		switch (data.type)
-		{
-			case BanType.Id:
-				return new UserBan(data, restClient);
-			default:
-				throw new InvalidOperationError("Unexpected ban type.");
-		}
 	}
 
 	/**

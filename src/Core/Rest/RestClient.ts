@@ -50,6 +50,7 @@ import { AulaRouteRateLimiterHandler } from "./AulaRouteRateLimiterHandler.js";
 import { AulaHttpStatusCode503Handler } from "./AulaHttpStatusCode503Handler.js";
 import { IGetBansQuery } from "./IGetBansQuery.js";
 import { UserBan } from "./Entities/UserBan.js";
+import { EntityFactory } from "./Entities/EntityFactory.js";
 
 export class RestClient
 {
@@ -446,7 +447,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const messageData = new MessageData(JSON.parse(await response.content.readAsString()));
-		return Message.create(messageData, this);
+		return EntityFactory.createMessage(messageData, this);
 	}
 
 	public async getMessage(roomId: string, messageId: string)
@@ -465,7 +466,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const messageData = new MessageData(JSON.parse((await response.content.readAsString())));
-		return Message.create(messageData, this);
+		return EntityFactory.createMessage(messageData, this);
 	}
 
 	public async getMessages(roomId: string, query: IGetMessagesQuery = {})
@@ -479,7 +480,7 @@ export class RestClient
 
 		return JSON.parse((await response.content.readAsString()))
 		           .map((d: any) => new MessageData(d))
-		           .map((d: MessageData) => Message.create(d, this)) as Message[];
+		           .map((d: MessageData) => EntityFactory.createMessage(d, this)) as Message[];
 	}
 
 	public async removeMessage(roomId: string, messageId: string)
@@ -687,7 +688,7 @@ export class RestClient
 
 		return JSON.parse(await response.content.readAsString())
 		           .map((b: any) => new BanData(b))
-		           .map((b: BanData) => Ban.create(b, this)) as Ban[];
+		           .map((b: BanData) => EntityFactory.createBan(b, this)) as Ban[];
 	}
 
 	public async getUserBan(userId: string)
@@ -705,7 +706,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		const banData = new BanData(JSON.parse(await response.content.readAsString()));
-		return Ban.create(banData, this);
+		return EntityFactory.createBan(banData, this);
 	}
 
 	public async getCurrentUserBanStatus()

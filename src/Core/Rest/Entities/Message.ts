@@ -3,11 +3,6 @@ import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { MessageData } from "./Models/MessageData.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { MessageAuthorType } from "./MessageAuthorType.js";
-import { MessageType } from "./MessageType.js";
-import { StandardMessage } from "./StandardMessage.js";
-import { UserJoinMessage } from "./UserJoinMessage.js";
-import { UserLeaveMessage } from "./UserLeaveMessage.js";
-import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
 
 export abstract class Message
 {
@@ -23,21 +18,6 @@ export abstract class Message
 
 		this.#_restClient = restClient;
 		this.#_data = data;
-	}
-
-	public static create(data: MessageData, restClient: RestClient): Message
-	{
-		switch (data.type)
-		{
-			case MessageType.Standard:
-				return new StandardMessage(data, restClient);
-			case MessageType.UserJoin:
-				return new UserJoinMessage(data, restClient);
-			case MessageType.UserLeave:
-				return new UserLeaveMessage(data, restClient);
-			default:
-				throw new InvalidOperationError("Unexpected message type.");
-		}
 	}
 
 	public get restClient()

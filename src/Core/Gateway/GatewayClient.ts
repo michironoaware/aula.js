@@ -22,10 +22,8 @@ import { EventType } from "./Models/EventType.js";
 import { PromiseCompletionSource } from "../../Common/Threading/PromiseCompletionSource.js";
 import { WebSocketError } from "../../Common/WebSockets/WebSocketError.js";
 import { UnboundedChannel } from "../../Common/Threading/Channels/UnboundedChannel.js";
-import { Ban } from "../Rest/Entities/Ban.js";
 import { BanData } from "../Rest/Entities/Models/BanData.js";
 import { MessageData } from "../Rest/Entities/Models/MessageData.js";
-import { Message } from "../Rest/Entities/Message.js";
 import { UserStartedTypingEvent } from "./UserStartedTypingEvent.js";
 import { UserStoppedTypingEvent } from "./UserStoppedTypingEvent.js";
 import { RoomConnectionCreatedEvent } from "./RoomConnectionCreatedEvent.js";
@@ -49,6 +47,7 @@ import { User } from "../Rest/Entities/User.js";
 import { PresenceOption } from "./PresenceOption.js";
 import { Func } from "../../Common/Func.js";
 import { BigIntJsonReplacer } from "../../Common/Json/BigIntJsonReplacer.js";
+import { EntityFactory } from "../Rest/Entities/EntityFactory.js";
 
 export class GatewayClient implements IDisposable
 {
@@ -298,22 +297,22 @@ export class GatewayClient implements IDisposable
 					case EventType[EventType.BanCreated]:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
 						await this.#_eventEmitter.emit(
-							"BanCreated", new BanCreatedEvent(Ban.create(payload.data, this.#_restClient), this));
+							"BanCreated", new BanCreatedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
 						break;
 					case EventType[EventType.BanRemoved]:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
 						await this.#_eventEmitter.emit(
-							"BanRemoved", new BanRemovedEvent(Ban.create(payload.data, this.#_restClient), this));
+							"BanRemoved", new BanRemovedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
 						break;
 					case EventType[EventType.MessageCreated]:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
 						await this.#_eventEmitter.emit(
-							"MessageCreated", new MessageCreatedEvent(Message.create(payload.data, this.#_restClient), this));
+							"MessageCreated", new MessageCreatedEvent(EntityFactory.createMessage(payload.data, this.#_restClient), this));
 						break;
 					case EventType[EventType.MessageRemoved]:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
 						await this.#_eventEmitter.emit(
-							"MessageRemoved", new MessageRemovedEvent(Message.create(payload.data, this.#_restClient), this));
+							"MessageRemoved", new MessageRemovedEvent(EntityFactory.createMessage(payload.data, this.#_restClient), this));
 						break;
 					case EventType[EventType.UserStartedTyping]:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserTypingEventData);
