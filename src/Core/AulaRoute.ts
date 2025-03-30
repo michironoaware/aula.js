@@ -261,6 +261,8 @@ export namespace AulaRoute
 		return `files/${args!.route!.fileId}`;
 	}
 
-		return `content/${args.route.fileId}`;
+	export function fileContent(args: { route: { fileId: string } })
+	{
+		return `files/${args.route.fileId}/content`;
 	}
 }
