@@ -9,7 +9,9 @@ export abstract class Message
 	readonly #_data: MessageData;
 	#_creationDate: Date | null = null;
 
-	// to avoid TS2345 errors when using the {@link TypeHelper} methods, this constructor must be public.
+	/**
+	 * @privateRemarks This constructor needs to be public to prevent a TS2345 warning when using {@link TypeHelper} methods.
+	 * */
 	// noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
 	public constructor(data: MessageData, restClient: RestClient)
 	{

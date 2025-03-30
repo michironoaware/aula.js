@@ -12,8 +12,10 @@ export abstract class DelegatingHandler extends HttpMessageHandler
 	/**
 	 * Initializes a new instance of the {@link DelegatingHandler} class with a specific inner handler.
 	 * @param innerHandler The inner handler to delegate the processing of HTTP response messages.
+	 * @privateRemarks This constructor needs to be public to prevent a TS2345 warning when using {@link TypeHelper} methods.
 	 * */
-	protected constructor(innerHandler: HttpMessageHandler)
+	// noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
+	public constructor(innerHandler: HttpMessageHandler)
 	{
 		super();
 		ThrowHelper.TypeError.throwIfNotType(innerHandler, HttpMessageHandler);

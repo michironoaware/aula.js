@@ -15,8 +15,10 @@ export abstract class Ban
 	 * Initializes a new instance of {@link Ban}.
 	 * @param data A DTO containing the entity data.
 	 * @param restClient The {@link RestClient} that is initializing this instance.
+	 * @privateRemarks 	This constructor needs to be public to prevent a TS2345 warning when using {@link TypeHelper} methods.
 	 * */
-	protected constructor(data: BanData, restClient: RestClient)
+	// noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
+	public constructor(data: BanData, restClient: RestClient)
 	{
 		ThrowHelper.TypeError.throwIfNotType(data, BanData);
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
