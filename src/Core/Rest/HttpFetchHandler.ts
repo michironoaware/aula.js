@@ -26,7 +26,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 			{
 				method: message.method.name,
 				headers: Array.from(message.headers).map(v => [ v[0], v[1].join(";") ]),
-				body: message.content?.readAsStream(),
+				body: await message.content?.readAsByteArray(),
 				duplex: "half"
 			} as RequestInit);
 
