@@ -51,9 +51,9 @@ export class Room
 		return this.#_data.isEntrance;
 	}
 
-	public get musicId()
+	public get backgroundAudioId()
 	{
-		return this.#_data.musicId;
+		return this.#_data.backgroundAudioId;
 	}
 
 	public get connectedRoomIds()
