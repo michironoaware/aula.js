@@ -24,9 +24,9 @@ export class BanData
 		SealedClassError.throwIfNotEqual(BanData, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.executorId, "string", "null", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.reason, "string", "null", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.targetId, "string", "null", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.executorId, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.reason, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.targetId, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(data.creationDate, "string");
 
 		switch (data.type)

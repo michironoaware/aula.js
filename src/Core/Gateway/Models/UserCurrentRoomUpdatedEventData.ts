@@ -12,8 +12,8 @@ export class UserCurrentRoomUpdatedEventData
 		SealedClassError.throwIfNotEqual(UserCurrentRoomUpdatedEventData, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.previousRoomId, "string", "null", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.currentRoomId, "string", "null", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.previousRoomId, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.currentRoomId, "string", "nullable");
 
 		this.#_userId = data.userId;
 		this.#_previousRoomId = data.previousRoomId ?? null;

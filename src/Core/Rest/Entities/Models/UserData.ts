@@ -19,11 +19,11 @@ export class UserData
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.displayName, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.description, "string", "null", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.description, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.presence, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.permissions, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.currentRoomId, "string", "null", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.currentRoomId, "string", "nullable");
 
 		this.#_id = data.id;
 		this.#_displayName = data.displayName;

@@ -23,7 +23,7 @@ export class GatewayPayload
 		SealedClassError.throwIfNotEqual(GatewayPayload, new.target);
 		ThrowHelper.TypeError.throwIfNullable(payloadData);
 		ThrowHelper.TypeError.throwIfNotType(payloadData.operation, "number");
-		ThrowHelper.TypeError.throwIfNotAnyType(payloadData.event, "string", "null", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(payloadData.event, "string", "nullable");
 
 		this.#_operation = payloadData.operation;
 		this.#_event = payloadData.event ?? null;

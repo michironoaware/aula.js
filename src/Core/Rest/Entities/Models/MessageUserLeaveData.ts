@@ -11,7 +11,7 @@ export class MessageUserLeaveData
 		SealedClassError.throwIfNotEqual(MessageUserLeaveData, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.roomId, "string", "null", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.roomId, "string", "nullable");
 
 		this.#_userId = data.userId;
 		this.#_roomId = data.roomId ?? null;
