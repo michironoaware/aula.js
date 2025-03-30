@@ -255,4 +255,13 @@ export namespace AulaRoute
 
 		return `bots/${args.route.userId}/reset-token`;
 	}
+
+	export function content(args: { route: { fileId: string } })
+	{
+		ThrowHelper.TypeError.throwIfNullable(args);
+		ThrowHelper.TypeError.throwIfNullable(args.route);
+		ThrowHelper.TypeError.throwIfNotType(args.route.fileId, "string");
+
+		return `content/${args.route.fileId}`;
+	}
 }
