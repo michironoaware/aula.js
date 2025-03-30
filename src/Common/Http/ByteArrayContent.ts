@@ -46,6 +46,11 @@ export class ByteArrayContent extends HttpContent
 		return Promise.resolve(stream);
 	}
 
+	public readAsByteArray()
+	{
+		return Promise.resolve(this.#_byteArray);
+	}
+
 	public readAsString()
 	{
 		return Promise.resolve(ByteArrayContent.#s_textDecoder.decode(this.#_byteArray));

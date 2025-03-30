@@ -17,6 +17,11 @@ export abstract class HttpContent implements IDisposable
 	public abstract readAsStream(): Promise<ReadableStream<Uint8Array>>;
 
 	/**
+	 * Serialize the HTTP content to a byte array as an asynchronous operation.
+	 * */
+	public abstract readAsByteArray(): Promise<Uint8Array>;
+
+	/**
 	 * Serialize the HTTP content to a string as an asynchronous operation.
 	 * */
 	public abstract readAsString(): Promise<string>;

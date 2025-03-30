@@ -16,6 +16,7 @@ export class EmptyContent extends HttpContent
 				controller.close();
 			}
 		});
+	static #s_emptyByteArray: Uint8Array = new Uint8Array(new ArrayBuffer());
 	readonly #_headers: HeaderMap = new HeaderMap();
 	#_disposed: boolean = false;
 
@@ -38,6 +39,12 @@ export class EmptyContent extends HttpContent
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
 		return Promise.resolve(EmptyContent.#s_emptyStream);
+	}
+
+	public readAsByteArray(): Promise<Uint8Array>
+	{
+		ObjectDisposedError.throwIf(this.#_disposed);
+		return Promise.resolve(EmptyContent.#s_emptyByteArray);
 	}
 
 	public readAsString()

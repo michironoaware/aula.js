@@ -3,6 +3,7 @@ import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "./HeaderMap.js";
 import { SealedClassError } from "../SealedClassError.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
+import { UInt8Stream } from "../IO/UInt8Stream.js";
 
 /**
  * Provides HTTP content based on a stream.
@@ -38,6 +39,27 @@ export class StreamContent extends HttpContent
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
 		return Promise.resolve(this.#_stream);
+	}
+
+	public async readAsByteArray()
+	{
+		const streamReader = this.#_stream.getReader();
+		const arrayStream = new UInt8Stream(0);
+		const arrayWriter = arrayStream.getWriter();
+
+		while (true)
+		{
+			const { done, value } = await streamReader.read();
+			await arrayWriter.write(value);
+
+			if (done)
+			{
+				break;
+			}
+		}
+
+		await arrayWriter.close();
+		return arrayStream.written;
 	}
 
 	public async readAsString()
