@@ -51,6 +51,11 @@ export class Room
 		return this.#_data.isEntrance;
 	}
 
+	public get musicId()
+	{
+		return this.#_data.musicId;
+	}
+
 	public get connectedRoomIds()
 	{
 		return this.#_data.connectedRoomIds;
