@@ -10,14 +10,12 @@ export namespace AulaRoute
 
 	export function users(args?: { query?: { type?: number, count?: number, after?: string } })
 	{
-		if (!TypeHelper.isNullable(args))
+		if (!TypeHelper.isNullable(args) &&
+		    !TypeHelper.isNullable(args.query))
 		{
-			if (!TypeHelper.isNullable(args.query))
-			{
-				ThrowHelper.TypeError.throwIfNotAnyType(args.query.type, "number", "nullable");
-				ThrowHelper.TypeError.throwIfNotAnyType(args.query.count, "number", "nullable");
-				ThrowHelper.TypeError.throwIfNotAnyType(args.query.after, "string", "nullable");
-			}
+			ThrowHelper.TypeError.throwIfNotAnyType(args.query.type, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(args.query.count, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(args.query.after, "string", "nullable");
 		}
 
 		return "users" +
@@ -61,13 +59,11 @@ export namespace AulaRoute
 
 	export function rooms(args?: { query?: { count?: number, after?: string } })
 	{
-		if (!TypeHelper.isNullable(args))
+		if (!TypeHelper.isNullable(args) &&
+		    !TypeHelper.isNullable(args.query))
 		{
-			if (!TypeHelper.isNullable(args.query))
-			{
-				ThrowHelper.TypeError.throwIfNotAnyType(args.query.count, "number", "nullable");
-				ThrowHelper.TypeError.throwIfNotAnyType(args.query.after, "string", "nullable");
-			}
+			ThrowHelper.TypeError.throwIfNotAnyType(args.query.count, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(args.query.after, "string", "nullable");
 		}
 
 		return "rooms" +
@@ -162,14 +158,12 @@ export namespace AulaRoute
 
 	export function bans(args?: { query?: { type?: number, count?: number, after?: string } })
 	{
-		if (!TypeHelper.isNullable(args))
+		if (!TypeHelper.isNullable(args) &&
+		    !TypeHelper.isNullable(args.query))
 		{
-			if (!TypeHelper.isNullable(args.query))
-			{
-				ThrowHelper.TypeError.throwIfNotAnyType(args.query.type, "number", "nullable");
-				ThrowHelper.TypeError.throwIfNotAnyType(args.query.count, "number", "nullable");
-				ThrowHelper.TypeError.throwIfNotAnyType(args.query.after, "string", "nullable");
-			}
+			ThrowHelper.TypeError.throwIfNotAnyType(args.query.type, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(args.query.count, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(args.query.after, "string", "nullable");
 		}
 
 		return "bans/users" +
