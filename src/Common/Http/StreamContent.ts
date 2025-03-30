@@ -43,6 +43,7 @@ export class StreamContent extends HttpContent
 
 	public async readAsByteArray()
 	{
+		ObjectDisposedError.throwIf(this.#_disposed);
 		const streamReader = this.#_stream.getReader();
 		const arrayStream = new UInt8Stream(0);
 		const arrayWriter = arrayStream.getWriter();
