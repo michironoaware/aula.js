@@ -51,7 +51,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 		const headersAsKeyValuePairObject: { [key: string]: string } = {};
 		for (const header of this.headers)
 		{
-			headersAsKeyValuePairObject[header[0]] = header[1];
+			headersAsKeyValuePairObject[header[0]] = header[1].join(";");
 		}
 
 		const headersAsBase64Url = btoa(JSON.stringify(headersAsKeyValuePairObject, BigIntJsonReplacer))
