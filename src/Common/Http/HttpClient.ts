@@ -5,6 +5,7 @@ import { ThrowHelper } from "../ThrowHelper.js";
 import { InvalidOperationError } from "../InvalidOperationError.js";
 import { SealedClassError } from "../SealedClassError.js";
 import { IDisposable } from "../IDisposable.js";
+import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 /**
  * Provides a class for sending HTTP requests and receiving HTTP responses from a resource identified by a URI.
@@ -61,6 +62,7 @@ export class HttpClient implements IDisposable
 	public async send(message: HttpRequestMessage)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
+		ObjectDisposedError.throwIf(this.#_disposed);
 
 		if (!(message.requestUri instanceof URL))
 		{
