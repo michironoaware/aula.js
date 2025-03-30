@@ -41,13 +41,11 @@ export class HttpRequestMessage implements IDisposable
 	 * */
 	public get method()
 	{
-		ObjectDisposedError.throwIf(this.#_disposed);
 		return this.#_method;
 	}
 
 	public set method(value: HttpMethod)
 	{
-		ObjectDisposedError.throwIf(this.#_disposed);
 		ThrowHelper.TypeError.throwIfNotType(value, HttpMethod);
 
 		this.#_method = value;
@@ -58,13 +56,11 @@ export class HttpRequestMessage implements IDisposable
 	 * */
 	public get requestUri()
 	{
-		ObjectDisposedError.throwIf(this.#_disposed);
 		return this.#_requestUri;
 	}
 
 	public set requestUri(value: URL | string)
 	{
-		ObjectDisposedError.throwIf(this.#_disposed);
 		ThrowHelper.TypeError.throwIfNotAnyType(value, URL, "string");
 
 		this.#_requestUri = value;
@@ -75,7 +71,6 @@ export class HttpRequestMessage implements IDisposable
 	 * */
 	public get headers()
 	{
-		ObjectDisposedError.throwIf(this.#_disposed);
 		return this.#_headers;
 	}
 
