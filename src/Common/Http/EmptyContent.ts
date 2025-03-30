@@ -37,7 +37,7 @@ export class EmptyContent extends HttpContent
 	public readAsStream()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
-		return EmptyContent.#s_emptyStream;
+		return Promise.resolve(EmptyContent.#s_emptyStream);
 	}
 
 	public readAsString()
