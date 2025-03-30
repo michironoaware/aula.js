@@ -7,6 +7,7 @@ export class RoomData
 	readonly #_name: string;
 	readonly #_description: string | null;
 	readonly #_isEntrance: boolean;
+	readonly #_musicId: string | null;
 	readonly #_connectedRoomIds: ReadonlyArray<string>;
 	readonly #_creationDate: string;
 
@@ -18,6 +19,7 @@ export class RoomData
 		ThrowHelper.TypeError.throwIfNotType(data.name, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.description, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.isEntrance, "boolean");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.musicId, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(data.connectedRoomIds, "iterable");
 		ThrowHelper.TypeError.throwIfNotType(data.creationDate, "string");
 
@@ -31,6 +33,7 @@ export class RoomData
 		this.#_name = data.name;
 		this.#_description = data.description;
 		this.#_isEntrance = data.isEntrance;
+		this.#_musicId = data.musicId ?? null;
 		this.#_connectedRoomIds = connectedRoomIds;
 		this.#_creationDate = data.creationDate;
 	}
@@ -53,6 +56,11 @@ export class RoomData
 	public get isEntrance()
 	{
 		return this.#_isEntrance;
+	}
+
+	public get musicId()
+	{
+		return this.#_musicId;
 	}
 
 	public get connectedRoomIds()
