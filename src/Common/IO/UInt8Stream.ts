@@ -15,7 +15,8 @@ export class UInt8Stream extends WritableStream<Uint8Array>
 		{
 			if (this.#_buffer.byteLength - this.#_nextPosition < bytes.length)
 			{
-				this.#_buffer = this.#_buffer.transfer(bytes.length - (this.#_buffer.byteLength - this.#_nextPosition));
+				this.#_buffer = this.#_buffer.transfer(this.#_buffer.byteLength + bytes.length);
+				this.#_bufferView = new Uint8Array(this.#_buffer);
 			}
 
 			this.#_bufferView.set(bytes, this.#_nextPosition);
