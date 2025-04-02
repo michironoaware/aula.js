@@ -161,8 +161,7 @@ export class RestClient
 
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		const userData = new UserData(JSON.parse(await response.content.readAsString()));
-		return new User(userData, this);
+		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	public async modifyCurrentUser(body: IModifyCurrentUserRequestBody)
@@ -181,8 +180,7 @@ export class RestClient
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		const userData = new UserData(JSON.parse(await response.content.readAsString()));
-		return new User(userData, this);
+		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	public async setCurrentUserRoom(body: ISetUserRoomRequestBody)
@@ -256,8 +254,7 @@ export class RestClient
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
-		return new Room(roomData, this);
+		return new Room(new RoomData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	public async getRooms(query: IGetRoomsQuery = {})
@@ -287,8 +284,7 @@ export class RestClient
 
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
-		return new Room(roomData, this);
+		return new Room(new RoomData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	public async modifyRoom(roomId: string, body: IModifyRoomRequestBody)
@@ -310,8 +306,7 @@ export class RestClient
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		const roomData = new RoomData(JSON.parse(await response.content.readAsString()));
-		return new Room(roomData, this);
+		return new Room(new RoomData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	public async removeRoom(roomId: string)
@@ -442,8 +437,7 @@ export class RestClient
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		const messageData = new MessageData(JSON.parse(await response.content.readAsString()));
-		return EntityFactory.createMessage(messageData, this);
+		return EntityFactory.createMessage(new MessageData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	public async getMessage(roomId: string, messageId: string)
@@ -461,8 +455,7 @@ export class RestClient
 
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		const messageData = new MessageData(JSON.parse((await response.content.readAsString())));
-		return EntityFactory.createMessage(messageData, this);
+		return EntityFactory.createMessage(new MessageData(JSON.parse((await response.content.readAsString()))), this);
 	}
 
 	public async getMessages(roomId: string, query: IGetMessagesQuery = {})
@@ -656,8 +649,7 @@ export class RestClient
 		}
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		const banData = new BanData(JSON.parse(await response.content.readAsString()));
-		return new UserBan(banData, this);
+		return new UserBan(new BanData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	public async unbanUser(userId: string)
@@ -699,8 +691,7 @@ export class RestClient
 
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		const banData = new BanData(JSON.parse(await response.content.readAsString()));
-		return EntityFactory.createBan(banData, this);
+		return EntityFactory.createBan(new BanData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	public async getCurrentUserBanStatus()
