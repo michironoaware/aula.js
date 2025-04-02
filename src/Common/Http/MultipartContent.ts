@@ -6,7 +6,7 @@ import { ObjectDisposedError } from "../ObjectDisposedError.js";
 export class MultipartContent extends HttpContent
 {
 	static #s_allowedBoundaryChars: string = "()+,-./0123456789:=?ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz";
-	static #s_boundaryPrefix = "--";
+	static #s_boundaryDelimiter = "--";
 	static #s_boundaryMaxLength: number = 70;
 	static #s_crlf: string = "\r\n";
 	static #s_textEncoder: TextEncoder = new TextEncoder();
@@ -86,7 +86,7 @@ export class MultipartContent extends HttpContent
 			});
 		await Promise.all(contents.map(c => c.bodyBytes));
 
-		const boundary = MultipartContent.#s_boundaryPrefix + this.#_boundary;
+		const boundary = MultipartContent.#s_boundaryDelimiter + this.#_boundary;
 		const parts: (string | Uint8Array)[] = [ boundary, MultipartContent.#s_crlf ];
 		for (const content of contents)
 		{
@@ -104,7 +104,7 @@ export class MultipartContent extends HttpContent
 			parts.push(boundary);
 		}
 
-		parts.push(MultipartContent.#s_boundaryPrefix);
+		parts.push(MultipartContent.#s_boundaryDelimiter);
 		return new Blob(parts).stream();
 	}
 
