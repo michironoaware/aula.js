@@ -104,6 +104,7 @@ export class MultipartContent extends HttpContent
 			parts.push(boundary);
 		}
 
+		parts.push(MultipartContent.#s_boundaryPrefix);
 		return new Blob(parts).stream();
 	}
 
