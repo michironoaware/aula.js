@@ -415,7 +415,7 @@ export class GatewayClient implements IDisposable
 	{
 		this.#throwIfWebSocketNotOpen();
 
-		const buffer = new Uint8Array(new ArrayBuffer(1024));
+		const buffer = new Uint8Array(1024);
 		const messageBytes = new UInt8Stream(1024);
 		const messageWriter = messageBytes.getWriter();
 
