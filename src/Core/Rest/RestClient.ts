@@ -144,8 +144,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse(await response.content.readAsString())
-		           .map((d: any) => new UserData(d))
-		           .map((d: UserData) => new User(d, this)) as User[];
+		           .map((d: any) => new User(new UserData(d), this)) as User[];
 	}
 
 	public async getUser(userId: string)
@@ -271,8 +270,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse(await response.content.readAsString())
-		           .map((d: any) => new RoomData(d))
-		           .map((d: RoomData) => new Room(d, this)) as Room[];
+		           .map((d: any) => new Room(new RoomData(d), this)) as Room[];
 	}
 
 	public async getRoom(roomId: string)
@@ -351,8 +349,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse((await response.content.readAsString()))
-		           .map((d: any) => new RoomData(d))
-		           .map((d: RoomData) => new Room(d, this)) as Room[];
+		           .map((d: any) => new Room(new RoomData(d), this)) as Room[];
 	}
 
 	public async setRoomConnections(roomId: string, body: ISetRoomConnectionsRequestBody)
@@ -399,8 +396,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse(await response.content.readAsString())
-		           .map((d: any) => new UserData(d))
-		           .map((d: UserData) => new User(d, this)) as User[];
+		           .map((d: any) => new User(new UserData(d), this)) as User[];
 	}
 
 	public async startTyping(roomId: string)
@@ -479,8 +475,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse((await response.content.readAsString()))
-		           .map((d: any) => new MessageData(d))
-		           .map((d: MessageData) => EntityFactory.createMessage(d, this)) as Message[];
+		           .map((d: any) => EntityFactory.createMessage(new MessageData(d), this)) as Message[];
 	}
 
 	public async removeMessage(roomId: string, messageId: string)
@@ -687,8 +682,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse(await response.content.readAsString())
-		           .map((b: any) => new BanData(b))
-		           .map((b: BanData) => EntityFactory.createBan(b, this)) as Ban[];
+		           .map((b: any) => EntityFactory.createBan(new BanData(b), this)) as Ban[];
 	}
 
 	public async getUserBan(userId: string)
