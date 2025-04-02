@@ -25,7 +25,7 @@ export class MultipartContent extends HttpContent
 		boundary = boundary ? boundary : MultipartContent.#generateBoundary();
 		MultipartContent.#throwIfInvalidBoundary(boundary);
 
-		this.#_headers.add("content-type", `multipart/form-data; boundary=${boundary}`);
+		this.#_headers.add("content-type", `multipart/form-data; boundary="${boundary}"`);
 		this.#_boundary = boundary;
 	}
 
