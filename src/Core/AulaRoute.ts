@@ -247,9 +247,18 @@ export namespace AulaRoute
 		return `bots/${args.route.userId}/reset-token`;
 	}
 
-	export function files()
+	export function files(args?: { query?: { after?: string, count?: number } })
 	{
-		return "files";
+		if (!TypeHelper.isNullable(args?.query))
+		{
+			ThrowHelper.TypeError.throwIfNotAnyType(args.query.count, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(args.query.after, "string", "nullable");
+		}
+
+		return "files" +
+		       (!TypeHelper.isNullable(args?.query) ? "?" : "") +
+		       (args?.query?.count ? `count=${args.query.count}` : "") +
+		       (args?.query?.after ? `&after=${args.query.after}` : "");
 	}
 
 	export function file(args: { route: { fileId: string } })
