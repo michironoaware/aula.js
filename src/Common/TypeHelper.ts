@@ -37,6 +37,24 @@
 		return types.find(t => isType(object, t)) !== undefined;
 	}
 
+	export function isTypeArray<T extends TypeResolvable>(object: unknown, type: T): object is ResolvedType<T>[]
+	{
+		if (!isType(object, "array"))
+		{
+			return false;
+		}
+
+		for (let item of object)
+		{
+			if (!isType(item, type))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	// @formatter:off
 	export type TypeResolvable =
 		"string" |
