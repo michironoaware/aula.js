@@ -9,7 +9,7 @@ export class AulaNotFoundError extends AulaRestError
 		problemDetails: ProblemDetails,
 		innerError?: HttpRequestError)
 	{
-		super(`The resource doesn't exist`, problemDetails, innerError);
+		super("The resource doesn't exist", problemDetails, innerError);
 		SealedClassError.throwIfNotEqual(AulaNotFoundError, new.target);
 	}
 }
