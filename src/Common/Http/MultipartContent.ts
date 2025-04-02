@@ -86,7 +86,7 @@ export class MultipartContent extends HttpContent
 		await Promise.all(contents.map(c => c.bodyBytes));
 
 		const boundary = MultipartContent.#s_boundaryPrefix + this.#_boundary;
-		const parts: (string | Uint8Array)[] = [ boundary ];
+		const parts: (string | Uint8Array)[] = [ boundary, MultipartContent.#s_crlf ];
 		for (const content of contents)
 		{
 			const headerFields = Array.from(content.headers).map(h =>
