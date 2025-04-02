@@ -12,7 +12,7 @@ export class MultipartFormDataContent extends MultipartContent
 	public add(content: HttpContent, name?: string, filename?: string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(content, HttpContent);
-		ThrowHelper.TypeError.throwIfNotType(name, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(name, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(filename, "string", "undefined");
 
 		content.headers.add("Content-Disposition",
