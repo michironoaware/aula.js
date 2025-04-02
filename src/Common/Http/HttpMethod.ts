@@ -19,7 +19,7 @@ export class HttpMethod
 	 * Creates a new {@link HttpMethod} with the specified name.
 	 * @param name The name of the HTTP method.
 	 * */
-	constructor(name: string)
+	public constructor(name: string)
 	{
 		this.#_name = name;
 	}
