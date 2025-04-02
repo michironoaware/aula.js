@@ -55,6 +55,8 @@ import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
 import { FileData } from "./Entities/Models/FileData.js";
 import { File } from "./Entities/Models/File.js";
 import { FileContent } from "./Entities/FileContent.js";
+import { MultipartFormDataContent } from "../../Common/Http/MultipartFormDataContent.js";
+import { ByteArrayContent } from "../../Common/Http/ByteArrayContent.js";
 
 export class RestClient
 {
@@ -758,5 +760,22 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return new FileContent(response.content);
+	}
+
+	public async uploadFile(name: string, content: Uint8Array, contentType: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(name, "string");
+		ThrowHelper.TypeError.throwIfNotType(content, Uint8Array);
+		ThrowHelper.TypeError.throwIfNotType(contentType, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.files());
+		const reqContent = new MultipartFormDataContent();
+		reqContent.add(new ByteArrayContent(content, contentType), "file", name);
+		request.content = reqContent;
+
+		const response = await this.#_httpClient.send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return new File(new FileData(JSON.parse(await response.content.readAsString())), this);
 	}
 }
