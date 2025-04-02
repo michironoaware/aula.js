@@ -51,6 +51,7 @@ import { AulaHttpStatusCode503Handler } from "./AulaHttpStatusCode503Handler.js"
 import { IGetBansQuery } from "./IGetBansQuery.js";
 import { UserBan } from "./Entities/UserBan.js";
 import { EntityFactory } from "./Entities/EntityFactory.js";
+import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
 
 export class RestClient
 {
