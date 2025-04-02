@@ -119,7 +119,7 @@ export class RestClient
 	{
 		ThrowHelper.TypeError.throwIfNotType(value, "string");
 		this.#_httpClient.defaultRequestHeaders.delete("Authorization");
-		this.#_httpClient.defaultRequestHeaders.append("Authorization", `Bearer ${value}`);
+		this.#_httpClient.defaultRequestHeaders.add("Authorization", `Bearer ${value}`);
 		return this;
 	}
 
