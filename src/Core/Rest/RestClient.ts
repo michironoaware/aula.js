@@ -54,6 +54,7 @@ import { EntityFactory } from "./Entities/EntityFactory.js";
 import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
 import { FileData } from "./Entities/Models/FileData.js";
 import { File } from "./Entities/Models/File.js";
+import { FileContent } from "./Entities/FileContent.js";
 
 export class RestClient
 {
@@ -740,5 +741,22 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return new File(new FileData(JSON.parse(await response.content.readAsString())), this);
+	}
+
+	public async getFileContent(fileId: string)
+	{
+		ThrowHelper.TypeError.throwIfNotType(fileId, "string");
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.fileContent({ route: { fileId } }));
+
+		const response = await this.#_httpClient.send(request);
+		if (response.statusCode == HttpStatusCode.NotFound)
+		{
+			return null;
+		}
+
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return new FileContent(response.content);
 	}
 }
