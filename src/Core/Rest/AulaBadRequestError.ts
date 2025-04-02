@@ -1,17 +1,15 @@
 ﻿import { AulaRestError } from "./AulaRestError.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { HttpRequestError } from "../../Common/Http/HttpRequestError.js";
-import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
+import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
 
 export class AulaBadRequestError extends AulaRestError
 {
 	public constructor(
-		title: string,
-		detail: string,
-		status: HttpStatusCode,
+		problemDetails: ProblemDetails,
 		innerError?: HttpRequestError)
 	{
-		super(`The request was improperly formatted, or the server couldn't understand it`, title, detail, status, innerError);
+		super(`The request was improperly formatted, or the server couldn't understand it`, problemDetails, innerError);
 		SealedClassError.throwIfNotEqual(AulaBadRequestError, new.target);
 	}
 }

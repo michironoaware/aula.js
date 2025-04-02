@@ -1,51 +1,51 @@
 ﻿import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { HttpRequestError } from "../../Common/Http/HttpRequestError.js";
-import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
+import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
 
 export class AulaRestError extends Error
 {
-	readonly #_title: string;
-	readonly #_detail: string;
-	readonly #_status: HttpStatusCode;
+	readonly #_problemDetails: ProblemDetails;
 	readonly #_innerError: HttpRequestError | null;
 
 	public constructor(
 		message: string,
-		title: string,
-		detail: string,
-		status: HttpStatusCode,
+		problemDetails: ProblemDetails,
 		innerError?: HttpRequestError)
 	{
-		super(`${message}.\nTitle: ${title}\nDetail: ${detail}\nStatus: ${status}`);
 		ThrowHelper.TypeError.throwIfNotAnyType(message, "string");
-		ThrowHelper.TypeError.throwIfNotType(title, "string");
-		ThrowHelper.TypeError.throwIfNotType(detail, "string");
-		ThrowHelper.TypeError.throwIfNotType(status, "number");
+		ThrowHelper.TypeError.throwIfNotType(problemDetails, ProblemDetails);
 		ThrowHelper.TypeError.throwIfNotAnyType(innerError, HttpRequestError, "undefined");
 
-		this.#_title = title;
-		this.#_detail = detail;
-		this.#_status = status;
+		let errorString = null;
+		if (problemDetails.errors.size > 0)
+		{
+			errorString =
+				Array.from(problemDetails.errors)
+				     .map(v =>
+				     {
+					     const propertyName = v[0];
+					     const propertyErrors = v[1];
+					     return ` - - "${propertyName}":\n - - - ${propertyErrors.join("\n - - - ")}`;
+				     }).join("\n");
+		}
+
+		super(`\n${message}` +
+		      `\n - Title: ${problemDetails.title}` +
+		      `\n - Detail: ${problemDetails.detail}` +
+		      `\n - Status: ${problemDetails.status}` +
+		      (errorString != null ? `\n - Errors:\n${errorString}` : ""));
+
+		this.#_problemDetails = problemDetails;
 		this.#_innerError = innerError ?? null;
+	}
+
+	public get problemDetails()
+	{
+		return this.#_problemDetails;
 	}
 
 	public get innerError()
 	{
 		return this.#_innerError;
-	}
-
-	public get title()
-	{
-		return this.#_title;
-	}
-
-	public get detail()
-	{
-		return this.#_detail;
-	}
-
-	public get status()
-	{
-		return this.#_status;
 	}
 }

@@ -1,17 +1,15 @@
 ﻿import { AulaRestError } from "./AulaRestError.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { HttpRequestError } from "../../Common/Http/HttpRequestError.js";
-import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
+import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
 
 export class AulaNotFoundError extends AulaRestError
 {
 	public constructor(
-		title: string,
-		detail: string,
-		status: HttpStatusCode,
+		problemDetails: ProblemDetails,
 		innerError?: HttpRequestError)
 	{
-		super(`The resource doesn't exist`, title, detail, status, innerError);
+		super(`The resource doesn't exist`, problemDetails, innerError);
 		SealedClassError.throwIfNotEqual(AulaNotFoundError, new.target);
 	}
 }
