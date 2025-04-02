@@ -6,6 +6,8 @@ import { ThrowHelper } from "../ThrowHelper.js";
  * */
 export class ReadonlyMapWrapper<TKey, TValue> implements ReadonlyMap<TKey, TValue>
 {
+	static #s_empty = new ReadonlyMapWrapper(new Map());
+
 	readonly #_underlyingMap: ReadonlyMap<TKey, TValue>;
 
 	/**
@@ -18,6 +20,11 @@ export class ReadonlyMapWrapper<TKey, TValue> implements ReadonlyMap<TKey, TValu
 		ThrowHelper.TypeError.throwIfNullable(underlyingMap);
 
 		this.#_underlyingMap = underlyingMap;
+	}
+
+	public static get empty()
+	{
+		return this.#s_empty;
 	}
 
 	/**
