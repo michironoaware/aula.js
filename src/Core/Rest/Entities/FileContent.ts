@@ -16,11 +16,11 @@ export class FileContent
 
 	public async readAsStream()
 	{
-		return this.#_httpContent.readAsStream();
+		return await this.#_httpContent.readAsStream();
 	}
 
 	public async readAsByteArray()
 	{
-		return this.#_httpContent.readAsByteArray();
+		return await this.#_httpContent.readAsByteArray();
 	}
 }
