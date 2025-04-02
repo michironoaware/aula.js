@@ -52,6 +52,8 @@ import { IGetBansQuery } from "./IGetBansQuery.js";
 import { UserBan } from "./Entities/UserBan.js";
 import { EntityFactory } from "./Entities/EntityFactory.js";
 import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
+import { FileData } from "./Entities/Models/FileData.js";
+import { File } from "./Entities/Models/File.js";
 
 export class RestClient
 {
@@ -712,5 +714,16 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return new GetCurrentUserBanStatusResponse(JSON.parse(await response.content.readAsString()));
+	}
+
+	public async getFiles()
+	{
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.files());
+
+		const response = await this.#_httpClient.send(request);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse(await response.content.readAsString())
+		           .map((f: any) => new File(new FileData(f), this)) as File[];
 	}
 }
