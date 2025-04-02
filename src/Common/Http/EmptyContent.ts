@@ -15,7 +15,7 @@ export class EmptyContent extends HttpContent
 				controller.close();
 			}
 		});
-	static #s_emptyByteArray: Uint8Array = new Uint8Array(new ArrayBuffer());
+	static #s_emptyByteArray: Uint8Array = new Uint8Array(0);
 	readonly #_headers: HeaderMap = new HeaderMap();
 
 	/**
