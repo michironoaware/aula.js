@@ -57,6 +57,7 @@ import { File } from "./Entities/File.js";
 import { FileContent } from "./Entities/FileContent.js";
 import { MultipartFormDataContent } from "../../Common/Http/MultipartFormDataContent.js";
 import { ByteArrayContent } from "../../Common/Http/ByteArrayContent.js";
+import { IGetFilesQuery } from "./IGetFilesQuery.js";
 
 export class RestClient
 {
@@ -704,9 +705,11 @@ export class RestClient
 		return new GetCurrentUserBanStatusResponse(JSON.parse(await response.content.readAsString()));
 	}
 
-	public async getFiles()
+	public async getFiles(query: IGetFilesQuery = {})
 	{
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.files());
+		ThrowHelper.TypeError.throwIfNullable(query);
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.files({ query }));
 
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
