@@ -78,6 +78,12 @@ export class MultipartContent extends HttpContent
 	public async readAsStream()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
+
+		if (this.#_contents.length == 0)
+		{
+			return new Blob().stream();
+		}
+
 		const contents: { headers: HeaderMap, bodyBytes: Promise<Uint8Array> }[] =
 			this.#_contents.map(c =>
 			{
