@@ -88,7 +88,7 @@ export class MultipartContent extends HttpContent
 		const boundary = MultipartContent.#s_boundaryPrefix + this.#_boundary;
 
 		const parts: (string | Uint8Array)[] = [
-			`Content-type: multipart/${this.#_subType}; boundary="${boundary}"`,
+			`Content-Type: multipart/${this.#_subType}; boundary="${boundary}"`,
 			MultipartContent.#s_crlf,
 			MultipartContent.#s_crlf,
 			boundary,
