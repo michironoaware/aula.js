@@ -93,7 +93,7 @@ export class MultipartContent extends HttpContent
 			const headerFields = Array.from(content.headers).map(h =>
 			{
 				const headerName = h[0];
-				const headerValues = h[1].map(v => `${v}`).join("; ");
+				const headerValues = h[1].join("; ");
 				return `${headerName}: ${headerValues}${MultipartContent.#s_crlf}`;
 			});
 
