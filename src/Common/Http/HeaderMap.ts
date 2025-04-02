@@ -96,12 +96,13 @@ export class HeaderMap implements ReadonlyMap<string, string[]>
 		ThrowHelper.TypeError.throwIfNotType(name, "string");
 		ThrowHelper.TypeError.throwIfNotType(value, "string");
 
-		if (this.#_underlyingMap.has(name.toLowerCase()))
+		const lowerCaseName = name.toLowerCase();
+		if (this.#_underlyingMap.has(lowerCaseName))
 		{
 			throw new InvalidOperationError(`The key ${name} is already defined in the map`);
 		}
 
-		this.#_underlyingMap.set(name, [ value ]);
+		this.#_underlyingMap.set(lowerCaseName, [ value ]);
 	}
 
 	/**
