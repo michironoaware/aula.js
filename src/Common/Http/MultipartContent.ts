@@ -11,7 +11,6 @@ export class MultipartContent extends HttpContent
 	static #s_crlf: string = "\r\n";
 	static #s_textEncoder: TextEncoder = new TextEncoder();
 
-	readonly #_subType: string;
 	readonly #_boundary: string;
 	readonly #_contents: HttpContent[] = [];
 	readonly #_headers: HeaderMap = new HeaderMap();
@@ -26,7 +25,7 @@ export class MultipartContent extends HttpContent
 		boundary = boundary ? boundary : MultipartContent.#generateBoundary();
 		MultipartContent.#throwIfInvalidBoundary(boundary);
 
-		this.#_subType = subType;
+		this.#_headers.add("content-type", `multipart/form-data; boundary=${MultipartContent.#s_boundaryPrefix}${boundary}`);
 		this.#_boundary = boundary;
 	}
 
@@ -63,11 +62,6 @@ export class MultipartContent extends HttpContent
 		return Array.from(randomBytes, b => this.#s_allowedBoundaryChars[b % this.#s_allowedBoundaryChars.length]).join("");
 	}
 
-	static #generateMultipartFields(subType: string, boundary: string)
-	{
-		this.#s_textEncoder.encode(`Content-type: multipart/${subType}; boundary="${boundary}"`);
-	}
-
 	public add(content: HttpContent)
 	{
 		ThrowHelper.TypeError.throwIfNotType(content, HttpContent);
@@ -92,14 +86,7 @@ export class MultipartContent extends HttpContent
 		await Promise.all(contents.map(c => c.bodyBytes));
 
 		const boundary = MultipartContent.#s_boundaryPrefix + this.#_boundary;
-
-		const parts: (string | Uint8Array)[] = [
-			`Content-Type: multipart/${this.#_subType}; boundary="${boundary}"`,
-			MultipartContent.#s_crlf,
-			MultipartContent.#s_crlf,
-			boundary,
-		];
-
+		const parts: (string | Uint8Array)[] = [ boundary ];
 		for (const content of contents)
 		{
 			const headerFields = Array.from(content.headers).map(h =>
