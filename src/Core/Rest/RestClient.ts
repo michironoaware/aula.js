@@ -726,4 +726,19 @@ export class RestClient
 		return JSON.parse(await response.content.readAsString())
 		           .map((f: any) => new File(new FileData(f), this)) as File[];
 	}
+
+	public async getFile(fileId: string)
+	{
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.file({ route: { fileId } }));
+
+		const response = await this.#_httpClient.send(request);
+		if (response.statusCode == HttpStatusCode.NotFound)
+		{
+			return null;
+		}
+
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return new File(new FileData(JSON.parse(await response.content.readAsString())), this);
+	}
 }
