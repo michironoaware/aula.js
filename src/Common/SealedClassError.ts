@@ -10,9 +10,6 @@ export class SealedClassError extends Error
 
 	public static throwIfNotEqual(type: Function, target: Function)
 	{
-		ThrowHelper.TypeError.throwIfNotType(type, "function");
-		ThrowHelper.TypeError.throwIfNotType(target, "function");
-
 		if (target !== type)
 		{
 			throw new SealedClassError();
