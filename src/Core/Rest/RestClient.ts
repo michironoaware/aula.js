@@ -53,7 +53,7 @@ import { UserBan } from "./Entities/UserBan.js";
 import { EntityFactory } from "./Entities/EntityFactory.js";
 import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
 import { FileData } from "./Entities/Models/FileData.js";
-import { File } from "./Entities/Models/File.js";
+import { File } from "./Entities/File.js";
 import { FileContent } from "./Entities/FileContent.js";
 import { MultipartFormDataContent } from "../../Common/Http/MultipartFormDataContent.js";
 import { ByteArrayContent } from "../../Common/Http/ByteArrayContent.js";
