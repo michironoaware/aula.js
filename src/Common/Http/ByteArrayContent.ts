@@ -7,7 +7,7 @@ import { ThrowHelper } from "../ThrowHelper.js";
  * */
 export class ByteArrayContent extends HttpContent
 {
-	static readonly #s_textDecoder: TextDecoder = new TextDecoder(undefined, { fatal: true });
+	static readonly #s_textDecoder: TextDecoder = new TextDecoder("utf8", { fatal: true });
 	readonly #_headers: HeaderMap = new HeaderMap();
 	readonly #_byteArray: Uint8Array;
 

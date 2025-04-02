@@ -7,7 +7,7 @@ import { UInt8Stream } from "../IO/UInt8Stream.js";
  * */
 export abstract class HttpContent implements IDisposable
 {
-	static #s_textDecoder = new TextDecoder(undefined, { fatal: true });
+	static #s_textDecoder = new TextDecoder("utf8", { fatal: true });
 
 	/**
 	 * Gets the HTTP content headers as defined in {@link https://www.rfc-editor.org/rfc/rfc2616 RFC 2616}.
