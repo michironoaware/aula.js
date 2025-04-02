@@ -35,7 +35,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 		for (const header of received.headers)
 		{
 			const headerName = header[0];
-			const headerValues = header[1].split(",");
+			const headerValues = header[1].split(";");
 			for (const headerValue of headerValues)
 			{
 				response.headers.append(headerName, headerValue);
