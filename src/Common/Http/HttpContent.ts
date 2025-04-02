@@ -15,7 +15,7 @@ export abstract class HttpContent implements IDisposable
 	public abstract get headers(): HeaderMap;
 
 	/**
-	 * Serializes the HTTP content and returns a stream that represents the content.
+	 * Serializes the HTTP content and returns a stream that represents the content as an asynchronous operation.
 	 * */
 	public abstract readAsStream(): Promise<ReadableStream<Uint8Array>>;
 
