@@ -25,8 +25,8 @@ export abstract class HttpContent implements IDisposable
 	public async readAsByteArray(): Promise<Uint8Array>
 	{
 		const contentReader = (await this.readAsStream()).getReader();
-		const stringBytes = new UInt8Stream(256);
-		const stringWriter = stringBytes.getWriter();
+		const bytes = new UInt8Stream(256);
+		const byteArrayWriter = bytes.getWriter();
 
 		while (true)
 		{
@@ -34,14 +34,14 @@ export abstract class HttpContent implements IDisposable
 
 			if (done)
 			{
-				await stringWriter.close();
+				await byteArrayWriter.close();
 				break;
 			}
 
-			await stringWriter.write(value);
+			await byteArrayWriter.write(value);
 		}
 
-		return stringBytes.written;
+		return bytes.written;
 	}
 
 	/**
