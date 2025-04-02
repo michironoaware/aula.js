@@ -1,12 +1,14 @@
 ﻿import { MultipartContent } from "./MultipartContent.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HttpContent } from "./HttpContent.js";
+import { SealedClassError } from "../SealedClassError.js";
 
 export class MultipartFormDataContent extends MultipartContent
 {
 	public constructor(boundary?: string)
 	{
 		super("form-data", boundary);
+		SealedClassError.throwIfNotEqual(MultipartFormDataContent, new.target);
 	}
 
 	public add(content: HttpContent, name?: string, filename?: string)
