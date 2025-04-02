@@ -31,13 +31,14 @@ export abstract class HttpContent implements IDisposable
 		while (true)
 		{
 			const { done, value } = await contentReader.read();
-			await stringWriter.write(value);
 
 			if (done)
 			{
 				await stringWriter.close();
 				break;
 			}
+
+			await stringWriter.write(value);
 		}
 
 		return stringBytes.written;
