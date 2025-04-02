@@ -15,10 +15,18 @@ export class MultipartFormDataContent extends MultipartContent
 		ThrowHelper.TypeError.throwIfNotAnyType(name, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(filename, "string", "undefined");
 
-		content.headers.add("Content-Disposition",
-			`form-data`
-			+ (name ? `; name="${name}"` : "")
-			+ (filename ? `; filename="${filename}"` : ""));
+		content.headers.add("content-disposition", "form-data");
+
+		if (name !== undefined)
+		{
+			content.headers.append("content-disposition", `name="${name}"`);
+		}
+
+		if (filename !== undefined)
+		{
+			content.headers.append("content-disposition", `filename="${filename}"`);
+		}
+
 		super.add(content);
 	}
 }
