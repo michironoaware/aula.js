@@ -165,14 +165,13 @@ export class RestClient
 		return new User(userData, this);
 	}
 
-	public async modifyCurrentUser(userId: string, body: IModifyCurrentUserRequestBody)
+	public async modifyCurrentUser(body: IModifyCurrentUserRequestBody)
 	{
-		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNullable(body);
 		ThrowHelper.TypeError.throwIfNotAnyType(body.displayName, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
 
-		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.user({ route: { userId } }));
+		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.currentUser());
 		request.content = new JsonContent(
 			{
 				displayName: body.displayName,
