@@ -6,6 +6,7 @@ import { InvalidOperationError } from "../InvalidOperationError.js";
 import { SealedClassError } from "../SealedClassError.js";
 import { IDisposable } from "../IDisposable.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
+import { CancellationToken } from "../Threading/CancellationToken.js";
 
 /**
  * Provides a class for sending HTTP requests and receiving HTTP responses from a resource identified by a URI.
@@ -59,9 +60,10 @@ export class HttpClient implements IDisposable
 	/**
 	 * Send an HTTP request as an asynchronous operation.
 	 * */
-	public async send(message: HttpRequestMessage)
+	public async send(message: HttpRequestMessage, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 
 		if (!(message.requestUri instanceof URL))
@@ -115,7 +117,7 @@ export class HttpClient implements IDisposable
 			}
 		});
 
-		const response = await this.#_handler.send(message);
+		const response = await this.#_handler.send(message, cancellationToken);
 
 		message.dispose();
 		return response;
