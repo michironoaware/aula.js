@@ -10,6 +10,10 @@ import { BanData } from "./Models/BanData.js";
 import { BanType } from "./BanType.js";
 import { Ban } from "./Ban.js";
 import { UserBan } from "./UserBan.js";
+import { RoomData } from "./Models/RoomData.js";
+import { Room } from "./Room.js";
+import { RoomType } from "./RoomType.js";
+import { TextRoom } from "./TextRoom.js";
 
 /**
  * Adding a static `create` method to base entity types is not possible
@@ -50,6 +54,17 @@ export namespace EntityFactory
 				return new UserBan(data, restClient);
 			default:
 				throw new InvalidOperationError("Unexpected ban type.");
+		}
+	}
+
+	export function createRoom(data: RoomData, restClient: RestClient): Room
+	{
+		switch (data.type)
+		{
+			case RoomType.Text:
+				return new TextRoom(data, restClient);
+			default:
+				return new Room(data, restClient);
 		}
 	}
 }
