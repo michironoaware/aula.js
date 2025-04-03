@@ -11,12 +11,12 @@ import { MessageType } from "./MessageType.js";
 import { RoomType } from "./RoomType.js";
 import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
 
-export class StandardRoom extends Room
+export class TextRoom extends Room
 {
 	public constructor(data: RoomData, restClient: RestClient)
 	{
 		super(data, restClient);
-		SealedClassError.throwIfNotEqual(StandardRoom, new.target);
+		SealedClassError.throwIfNotEqual(TextRoom, new.target);
 
 		if (data.type !== RoomType.Text)
 		{
