@@ -15,12 +15,12 @@ export class CancellationToken
 		this.#_source = source;
 	}
 
-	public get IsCancellationRequested()
+	public get isCancellationRequested()
 	{
 		return this.#_source.IsCancellationRequested;
 	}
 
-	public ThrowIfCancellationRequested()
+	public throwIfCancellationRequested()
 	{
 		if (this.#_source.IsCancellationRequested)
 		{
