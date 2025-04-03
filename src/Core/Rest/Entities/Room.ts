@@ -3,10 +3,6 @@ import { RoomData } from "./Models/RoomData.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { IModifyRoomRequestBody } from "../IModifyRoomRequestBody.js";
 import { TypeHelper } from "../../../Common/TypeHelper.js";
-import { Message } from "./Message.js";
-import { IGetMessagesQuery } from "../IGetMessagesQuery.js";
-import { ISendMessageRequestBody } from "../ISendMessageRequestBody.js";
-import { MessageType } from "./MessageType.js";
 import { ArrayHelper } from "../../../Common/ArrayHelper.js";
 import { RoomType } from "./RoomType.js";
 
@@ -126,46 +122,5 @@ export abstract class Room
 	public async getUsers()
 	{
 		return await this.restClient.getRoomUsers(this.id);
-	}
-
-	public async startTyping()
-	{
-		return await this.restClient.startTyping(this.id);
-	}
-
-	public async stopTyping()
-	{
-		return await this.restClient.stopTyping(this.id);
-	}
-
-	public async getMessage(message: Message | string)
-	{
-		ThrowHelper.TypeError.throwIfNotAnyType(message, Message, "string");
-
-		const messageId = TypeHelper.isType(message, Message) ? message.id : message;
-		return await this.restClient.getMessage(this.id, messageId);
-	}
-
-	public async getMessages(query: IGetMessagesQuery = {})
-	{
-		ThrowHelper.TypeError.throwIfNullable(query);
-		return await this.restClient.getMessages(this.id, query);
-	}
-
-	public async sendMessage(message: ISendMessageRequestBody | string)
-	{
-		ThrowHelper.TypeError.throwIfNotAnyType(message, "object", "string");
-
-		let body: ISendMessageRequestBody;
-		if (TypeHelper.isType(message, "string"))
-		{
-			body = { type: MessageType.Standard, content: message };
-		}
-		else
-		{
-			body = message;
-		}
-
-		return await this.restClient.sendMessage(this.id, body);
 	}
 }
