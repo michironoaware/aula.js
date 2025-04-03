@@ -6,7 +6,7 @@ import { TypeHelper } from "../../../Common/TypeHelper.js";
 import { ArrayHelper } from "../../../Common/ArrayHelper.js";
 import { RoomType } from "./RoomType.js";
 
-export abstract class Room
+export class Room
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: RoomData;
