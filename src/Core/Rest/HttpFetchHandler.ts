@@ -5,7 +5,6 @@ import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { StreamContent } from "../../Common/Http/StreamContent.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 
 export class HttpFetchHandler extends HttpMessageHandler
