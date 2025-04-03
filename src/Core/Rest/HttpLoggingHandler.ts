@@ -7,6 +7,7 @@ import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { HttpMethod } from "../../Common/Http/HttpMethod.js";
 import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { Func } from "../../Common/Func.js";
+import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 
 export class HttpLoggingHandler extends DelegatingHandler
 {
@@ -31,12 +32,13 @@ export class HttpLoggingHandler extends DelegatingHandler
 		this.#_headerLogging = headerLogging;
 	}
 
-	public async send(message: HttpRequestMessage)
+	public async send(message: HttpRequestMessage, cancellationToken: CancellationToken)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 
-		const response = await super.send(message);
+		const response = await super.send(message, cancellationToken);
 
 		let text =
 			`${HttpMethod.name} to ${message.requestUri} ` +
