@@ -4,6 +4,7 @@ import { SealedClassError } from "../../../../Common/SealedClassError.js";
 export class RoomData
 {
 	readonly #_id: string;
+	readonly #_type: number;
 	readonly #_name: string;
 	readonly #_description: string | null;
 	readonly #_isEntrance: boolean;
@@ -15,6 +16,7 @@ export class RoomData
 	{
 		SealedClassError.throwIfNotEqual(RoomData, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
+		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.name, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.description, "string");
@@ -30,6 +32,7 @@ export class RoomData
 		}
 
 		this.#_id = data.id;
+		this.#_type = data.type;
 		this.#_name = data.name;
 		this.#_description = data.description;
 		this.#_isEntrance = data.isEntrance;
@@ -41,6 +44,11 @@ export class RoomData
 	public get id()
 	{
 		return this.#_id;
+	}
+
+	public get type()
+	{
+		return this.#_type;
 	}
 
 	public get name()
