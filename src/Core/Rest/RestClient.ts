@@ -248,6 +248,7 @@ export class RestClient
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.rooms());
 		request.content = new JsonContent(
 			{
+				type: body.type,
 				name: body.name,
 				description: body.description,
 				isEntrance: body.isEntrance,
