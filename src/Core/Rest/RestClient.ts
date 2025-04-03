@@ -241,8 +241,8 @@ export class RestClient
 	{
 		ThrowHelper.TypeError.throwIfNullable(body);
 		ThrowHelper.TypeError.throwIfNotType(body.type, "number");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.name, "string", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.name, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.rooms());
