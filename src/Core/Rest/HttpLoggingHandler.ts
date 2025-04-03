@@ -33,6 +33,7 @@ export class HttpLoggingHandler extends DelegatingHandler
 
 	public async send(message: HttpRequestMessage)
 	{
+		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
 		ObjectDisposedError.throwIf(this.#_disposed);
 
 		const response = await super.send(message);

@@ -30,6 +30,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 	public async send(message: HttpRequestMessage, cancellationToken: CancellationToken)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 
 		while (true)
