@@ -5,7 +5,7 @@ import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 /**
  * Represents a ban within Aula.
  * */
-export abstract class Ban
+export class Ban
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: BanData;
@@ -15,9 +15,7 @@ export abstract class Ban
 	 * Initializes a new instance of {@link Ban}.
 	 * @param data A DTO containing the entity data.
 	 * @param restClient The {@link RestClient} that is initializing this instance.
-	 * @privateRemarks 	This constructor needs to be public to prevent a TS2345 warning when using {@link TypeHelper} methods.
 	 * */
-	// noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
 	public constructor(data: BanData, restClient: RestClient)
 	{
 		ThrowHelper.TypeError.throwIfNotType(data, BanData);
