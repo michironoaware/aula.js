@@ -1,7 +1,6 @@
 ﻿import { RestClient } from "../RestClient.js";
 import { RoomData } from "./Models/RoomData.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { IModifyRoomRequestBody } from "../IModifyRoomRequestBody.js";
 import { TypeHelper } from "../../../Common/TypeHelper.js";
 import { Message } from "./Message.js";
@@ -11,15 +10,18 @@ import { MessageType } from "./MessageType.js";
 import { ArrayHelper } from "../../../Common/ArrayHelper.js";
 import { RoomType } from "./RoomType.js";
 
-export class Room
+export abstract class Room
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: RoomData;
 	#_creationDate: Date | null = null;
 
+	/**
+	 * @privateRemarks This constructor needs to be public to prevent a TS2345 warning when using {@link TypeHelper} methods.
+	 * */
+	// noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
 	public constructor(data: RoomData, restClient: RestClient)
 	{
-		SealedClassError.throwIfNotEqual(Room, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, RoomData);
 		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
