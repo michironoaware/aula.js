@@ -6,6 +6,7 @@ import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { HttpResponseMessage } from "../../Common/Http/HttpResponseMessage.js";
 import { Delay } from "../../Common/Threading/Delay.js";
+import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 
 export class AulaHttpStatusCode503Handler extends DelegatingHandler
 {
@@ -15,7 +16,7 @@ export class AulaHttpStatusCode503Handler extends DelegatingHandler
 		SealedClassError.throwIfNotEqual(AulaHttpStatusCode503Handler, new.target);
 	}
 
-	public async send(message: HttpRequestMessage)
+	public async send(message: HttpRequestMessage, cancellationToken: CancellationToken)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
 
@@ -37,7 +38,7 @@ export class AulaHttpStatusCode503Handler extends DelegatingHandler
 				retryDelayMilliseconds *= 2;
 			}
 
-			response = await super.send(message);
+			response = await super.send(message, cancellationToken);
 		} while (response.statusCode === HttpStatusCode.InternalServerError);
 
 		return response;

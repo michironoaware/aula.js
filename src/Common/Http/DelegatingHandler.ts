@@ -1,6 +1,7 @@
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HttpMessageHandler } from "./HttpMessageHandler.js";
 import { HttpRequestMessage } from "./HttpRequestMessage.js";
+import { CancellationToken } from "../Threading/CancellationToken.js";
 
 /**
  * A type for HTTP handlers that delegate the processing of HTTP response messages to another handler, called the inner handler.
@@ -31,8 +32,8 @@ export abstract class DelegatingHandler extends HttpMessageHandler
 		return this.#_innerHandler;
 	}
 
-	public async send(message: HttpRequestMessage)
+	public async send(message: HttpRequestMessage, cancellationToken: CancellationToken)
 	{
-		return await this.#_innerHandler.send(message);
+		return await this.#_innerHandler.send(message, cancellationToken);
 	}
 }

@@ -11,6 +11,7 @@ import { Delay } from "../../Common/Threading/Delay.js";
 import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { Func } from "../../Common/Func.js";
+import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 
 export class AulaRouteRateLimiterHandler extends DelegatingHandler
 {
@@ -35,7 +36,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 		return this.#_allowConcurrentRequests;
 	}
 
-	public async send(message: HttpRequestMessage)
+	public async send(message: HttpRequestMessage, cancellationToken: CancellationToken)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
 		ThrowHelper.TypeError.throwIfNotType(message.requestUri, URL);
@@ -85,7 +86,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 				continue;
 			}
 
-			const response = await super.send(message);
+			const response = await super.send(message, cancellationToken);
 
 			const requestLimitHeaderValues = response.headers.get("X-RateLimit-Route-Limit");
 			const windowMillisecondsHeaderValues = response.headers.get("X-RateLimit-Route-WindowMilliseconds");

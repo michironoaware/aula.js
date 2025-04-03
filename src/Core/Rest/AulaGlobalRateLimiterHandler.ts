@@ -9,6 +9,7 @@ import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError.js";
 import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { Func } from "../../Common/Func.js";
+import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 
 export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 {
@@ -26,7 +27,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		SealedClassError.throwIfNotEqual(AulaGlobalRateLimiterHandler, new.target);
 	}
 
-	public async send(message: HttpRequestMessage)
+	public async send(message: HttpRequestMessage, cancellationToken: CancellationToken)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
 		ObjectDisposedError.throwIf(this.#_disposed);
@@ -45,7 +46,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 				this.#_requestAvailableEvent.set();
 			}
 
-			const response = await super.send(message);
+			const response = await super.send(message, cancellationToken);
 
 			const requestLimitHeaderValues = response.headers.get("X-RateLimit-Global-Limit");
 			const windowMillisecondsHeaderValues = response.headers.get("X-RateLimit-Global-WindowMilliseconds");
