@@ -255,7 +255,7 @@ export class RestClient
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		return new Room(new RoomData(JSON.parse(await response.content.readAsString())), this);
+		return EntityFactory.createRoom(new RoomData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	public async getRooms(query: IGetRoomsQuery = {})
@@ -268,7 +268,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse(await response.content.readAsString())
-		           .map((d: any) => new Room(new RoomData(d), this)) as Room[];
+		           .map((d: any) => EntityFactory.createRoom(new RoomData(d), this)) as Room[];
 	}
 
 	public async getRoom(roomId: string)
@@ -285,7 +285,7 @@ export class RestClient
 
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		return new Room(new RoomData(JSON.parse(await response.content.readAsString())), this);
+		return EntityFactory.createRoom(new RoomData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	public async modifyRoom(roomId: string, body: IModifyRoomRequestBody)
@@ -307,7 +307,7 @@ export class RestClient
 		const response = await this.#_httpClient.send(request);
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		return new Room(new RoomData(JSON.parse(await response.content.readAsString())), this);
+		return EntityFactory.createRoom(new RoomData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	public async removeRoom(roomId: string)
@@ -345,7 +345,7 @@ export class RestClient
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse((await response.content.readAsString()))
-		           .map((d: any) => new Room(new RoomData(d), this)) as Room[];
+		           .map((d: any) => EntityFactory.createRoom(new RoomData(d), this)) as Room[];
 	}
 
 	public async setRoomConnections(roomId: string, body: ISetRoomConnectionsRequestBody)
