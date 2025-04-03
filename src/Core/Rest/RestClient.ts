@@ -240,6 +240,7 @@ export class RestClient
 	public async createRoom(body: ICreateRoomRequestBody)
 	{
 		ThrowHelper.TypeError.throwIfNullable(body);
+		ThrowHelper.TypeError.throwIfNotType(body.type, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.name, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "undefined");
