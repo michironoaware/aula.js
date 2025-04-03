@@ -17,12 +17,12 @@ export class CancellationToken
 
 	public get isCancellationRequested()
 	{
-		return this.#_source.IsCancellationRequested;
+		return this.#_source.isCancellationRequested;
 	}
 
 	public throwIfCancellationRequested()
 	{
-		if (this.#_source.IsCancellationRequested)
+		if (this.#_source.isCancellationRequested)
 		{
 			throw new OperationCanceledError();
 		}

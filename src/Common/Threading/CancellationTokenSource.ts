@@ -11,7 +11,7 @@ export class CancellationTokenSource
 		SealedClassError.throwIfNotEqual(CancellationTokenSource, new.target);
 	}
 
-	public get IsCancellationRequested()
+	public get isCancellationRequested()
 	{
 		return this.#_cancellationRequested;
 	}
