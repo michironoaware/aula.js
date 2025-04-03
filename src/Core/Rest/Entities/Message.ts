@@ -3,16 +3,12 @@ import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { MessageData } from "./Models/MessageData.js";
 import { MessageAuthorType } from "./MessageAuthorType.js";
 
-export abstract class Message
+export class Message
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: MessageData;
 	#_creationDate: Date | null = null;
 
-	/**
-	 * @privateRemarks This constructor needs to be public to prevent a TS2345 warning when using {@link TypeHelper} methods.
-	 * */
-	// noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
 	public constructor(data: MessageData, restClient: RestClient)
 	{
 		ThrowHelper.TypeError.throwIfNotType(data, MessageData);
