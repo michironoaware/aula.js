@@ -1,5 +1,5 @@
 ﻿import { SealedClassError } from "../SealedClassError.js";
-import { CancellationTokenSource } from "./CancellationTokenSource.js";
+import { CancellationTokenSource, ICancellationTokenSourceEvents } from "./CancellationTokenSource.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { OperationCanceledError } from "./OperationCanceledError.js";
 
@@ -27,4 +27,15 @@ export class CancellationToken
 			throw new OperationCanceledError();
 		}
 	}
+
+	public on<TEvent extends keyof ICancellationTokenEvents>(
+		event: TEvent,
+		listener: ICancellationTokenEvents[TEvent])
+	{
+		return this.#_source.on(event, listener);
+	}
+}
+
+export interface ICancellationTokenEvents extends ICancellationTokenSourceEvents
+{
 }
