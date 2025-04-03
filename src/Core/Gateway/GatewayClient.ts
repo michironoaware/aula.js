@@ -55,7 +55,7 @@ export class GatewayClient implements IDisposable
 	static readonly #s_textEncoder: TextEncoder = new TextEncoder();
 	readonly #_restClient: RestClient;
 	readonly #_webSocket: ClientWebSocket;
-	readonly #_eventEmitter: EventEmitter<ReceivableEvents> = new EventEmitter();
+	readonly #_eventEmitter: EventEmitter<IGatewayClientEvents> = new EventEmitter();
 	#_pendingPayloads: Channel<PayloadSendRequest> | null = null;
 	#_disconnectPromiseSource: PromiseCompletionSource<void> | null = null;
 	#_address: URL | null = null;
@@ -235,9 +235,9 @@ export class GatewayClient implements IDisposable
 		this.#_disposed = true;
 	}
 
-	public on<TEvent extends keyof ReceivableEvents>(
+	public on<TEvent extends keyof IGatewayClientEvents>(
 		event: TEvent,
-		listener: ReceivableEvents[TEvent])
+		listener: IGatewayClientEvents[TEvent])
 	{
 		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
@@ -246,9 +246,9 @@ export class GatewayClient implements IDisposable
 		return this.#_eventEmitter.on(event, listener);
 	}
 
-	public remove<TEvent extends keyof ReceivableEvents>(
+	public remove<TEvent extends keyof IGatewayClientEvents>(
 		event: TEvent,
-		listener: ReceivableEvents[TEvent])
+		listener: IGatewayClientEvents[TEvent])
 	{
 		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
@@ -529,7 +529,7 @@ class GatewayReceivedMessage
 	}
 }
 
-export interface ReceivableEvents
+export interface IGatewayClientEvents
 {
 	Ready: Func<[ ReadyEvent ]>;
 	Disconnected: Func;
