@@ -1,5 +1,4 @@
 ﻿import { RestClient } from "../RestClient.js";
-import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
 import { MessageData } from "./Models/MessageData.js";
 import { MessageType } from "./MessageType.js";
 import { Message } from "./Message.js";
@@ -53,7 +52,7 @@ export namespace EntityFactory
 			case BanType.Id:
 				return new UserBan(data, restClient);
 			default:
-				throw new InvalidOperationError("Unexpected ban type.");
+				return new Ban(data, restClient);
 		}
 	}
 
