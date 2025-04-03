@@ -1,6 +1,6 @@
 ﻿export const RoomType =
 {
-	Standard: 0
+	Text: 0
 }
 
 Object.freeze(RoomType);
