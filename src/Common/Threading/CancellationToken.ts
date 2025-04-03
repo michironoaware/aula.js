@@ -6,6 +6,7 @@ import { OperationCanceledError } from "./OperationCanceledError.js";
 export class CancellationToken
 {
 	readonly #_source: CancellationTokenSource;
+	static readonly #s_neverCancelledToken: CancellationToken = new CancellationToken(new CancellationTokenSource());
 
 	public constructor(source: CancellationTokenSource)
 	{
@@ -13,6 +14,11 @@ export class CancellationToken
 		ThrowHelper.TypeError.throwIfNotType(source, CancellationTokenSource);
 
 		this.#_source = source;
+	}
+
+	public static get none()
+	{
+		return this.#s_neverCancelledToken;
 	}
 
 	public get isCancellationRequested()
