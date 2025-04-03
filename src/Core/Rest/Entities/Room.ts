@@ -9,6 +9,7 @@ import { IGetMessagesQuery } from "../IGetMessagesQuery.js";
 import { ISendMessageRequestBody } from "../ISendMessageRequestBody.js";
 import { MessageType } from "./MessageType.js";
 import { ArrayHelper } from "../../../Common/ArrayHelper.js";
+import { RoomType } from "./RoomType.js";
 
 export class Room
 {
@@ -34,6 +35,11 @@ export class Room
 	public get id()
 	{
 		return this.#_data.id;
+	}
+
+	public get type()
+	{
+		return this.#_data.type as RoomType;
 	}
 
 	public get name()
