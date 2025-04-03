@@ -55,10 +55,10 @@ export class HttpLoggingHandler extends DelegatingHandler
 
 				if (!this.#_sensitiveLogging && header[0] === "authorization")
 				{
-					headerValue = "***";
+					headerValue = headerValue.map(() => "***");
 				}
 
-				text += `    ${headerName}: ${headerValue}\n`;
+				text += `    ${headerName}: ${headerValue.join("; ")}\n`;
 			}
 
 			text += `- Response headers:\n`;
