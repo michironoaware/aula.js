@@ -38,7 +38,7 @@ export namespace EntityFactory
 			case MessageType.UserLeave:
 				return new UserLeaveMessage(data, restClient);
 			default:
-				throw new InvalidOperationError("Unexpected message type.");
+				return new Message(data, restClient);
 		}
 	}
 
