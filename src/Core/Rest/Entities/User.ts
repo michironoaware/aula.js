@@ -91,7 +91,7 @@ export class User
 
 	public async setPermissions(permissions: Permissions)
 	{
-		ThrowHelper.TypeError.throwIfNotType(permissions, "number");
+		ThrowHelper.TypeError.throwIfNotType(permissions, "bigint");
 		return await this.restClient.setUserPermissions(this.id, { permissions });
 	}
 
