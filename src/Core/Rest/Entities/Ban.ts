@@ -66,11 +66,6 @@ export class Ban
 	}
 
 	/**
-	 * Gets the latest version of this entity, or null if it no longer exists.
-	 * */
-	public abstract getLatest(): Promise<Ban | null>;
-
-	/**
 	 * Gets the user that created the ban, or null if it no longer exists or the creator was not a user.
 	 * */
 	public async getExecutor()
