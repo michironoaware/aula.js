@@ -244,6 +244,7 @@ export class RestClient
 		ThrowHelper.TypeError.throwIfNotAnyType(body.name, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.backgroundAudioId, "string", "undefined");
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.rooms());
 		request.content = new JsonContent(
@@ -252,6 +253,7 @@ export class RestClient
 				name: body.name,
 				description: body.description,
 				isEntrance: body.isEntrance,
+				backgroundAudioId: body.backgroundAudioId,
 			} as ICreateRoomRequestBody);
 
 		const response = await this.#_httpClient.send(request);
