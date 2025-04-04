@@ -21,9 +21,9 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 	#_availableRequestEventId: NodeJS.Timeout | number | null = null;
 	#_disposed: boolean = false;
 
-	public constructor(innerHandler: HttpMessageHandler)
+	public constructor(innerHandler: HttpMessageHandler, disposeInnerHandler: boolean)
 	{
-		super(innerHandler);
+		super(innerHandler, disposeInnerHandler);
 		SealedClassError.throwIfNotEqual(AulaGlobalRateLimiterHandler, new.target);
 	}
 
@@ -125,6 +125,8 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 
 	public dispose()
 	{
+		super.dispose();
+
 		if (this.#_disposed)
 		{
 			return;

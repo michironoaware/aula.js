@@ -10,9 +10,9 @@ import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 
 export class AulaHttpStatusCode503Handler extends DelegatingHandler
 {
-	public constructor(innerHandler: HttpMessageHandler)
+	public constructor(innerHandler: HttpMessageHandler, disposeInnerHandler: boolean)
 	{
-		super(innerHandler);
+		super(innerHandler, disposeInnerHandler);
 		SealedClassError.throwIfNotEqual(AulaHttpStatusCode503Handler, new.target);
 	}
 
@@ -42,9 +42,5 @@ export class AulaHttpStatusCode503Handler extends DelegatingHandler
 		} while (response.statusCode === HttpStatusCode.InternalServerError);
 
 		return response;
-	}
-
-	public dispose()
-	{
 	}
 }

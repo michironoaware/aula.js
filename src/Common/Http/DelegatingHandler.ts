@@ -9,19 +9,23 @@ import { CancellationToken } from "../Threading/CancellationToken.js";
 export abstract class DelegatingHandler extends HttpMessageHandler
 {
 	readonly #_innerHandler: HttpMessageHandler;
+	readonly #_disposeInnerHandler: boolean;
 
 	/**
 	 * Initializes a new instance of the {@link DelegatingHandler} class with a specific inner handler.
 	 * @param innerHandler The inner handler to delegate the processing of HTTP response messages.
+	 * @param disposeInnerHandler Whether the delegating handler should dispose the innerHandler when disposing.
 	 * @privateRemarks This constructor needs to be public to prevent a TS2345 warning when using {@link TypeHelper} methods.
 	 * */
 	// noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
-	public constructor(innerHandler: HttpMessageHandler)
+	public constructor(innerHandler: HttpMessageHandler, disposeInnerHandler: boolean)
 	{
 		super();
 		ThrowHelper.TypeError.throwIfNotType(innerHandler, HttpMessageHandler);
+		ThrowHelper.TypeError.throwIfNotType(disposeInnerHandler, "boolean");
 
 		this.#_innerHandler = innerHandler;
+		this.#_disposeInnerHandler = disposeInnerHandler;
 	}
 
 	/**
@@ -35,5 +39,13 @@ export abstract class DelegatingHandler extends HttpMessageHandler
 	public async send(message: HttpRequestMessage, cancellationToken: CancellationToken)
 	{
 		return await this.#_innerHandler.send(message, cancellationToken);
+	}
+
+	public dispose()
+	{
+		if (this.#_disposeInnerHandler)
+		{
+			this.#_innerHandler.dispose();
+		}
 	}
 }

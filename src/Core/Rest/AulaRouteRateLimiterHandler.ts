@@ -22,9 +22,9 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 	readonly #_rateLimits: Map<string, RouteRateLimit> = new Map();
 	#_disposed: boolean = false;
 
-	public constructor(innerHandler: HttpMessageHandler, allowConcurrentRequests: boolean)
+	public constructor(innerHandler: HttpMessageHandler, disposeInnerHandler: boolean, allowConcurrentRequests: boolean)
 	{
-		super(innerHandler);
+		super(innerHandler, disposeInnerHandler);
 		SealedClassError.throwIfNotEqual(AulaRouteRateLimiterHandler, new.target);
 		ThrowHelper.TypeError.throwIfNotType(allowConcurrentRequests, "boolean");
 
@@ -162,6 +162,8 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 
 	public dispose()
 	{
+		super.dispose();
+
 		if (this.#_disposed)
 		{
 			return;
