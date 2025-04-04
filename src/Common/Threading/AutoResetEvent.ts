@@ -32,7 +32,11 @@ export class AutoResetEvent implements IDisposable
 		}
 
 		const promiseSource = new PromiseCompletionSource<void>();
-		cancellationToken.on("Cancelled", () => promiseSource.reject(new OperationCanceledError()));
+		if (cancellationToken !== CancellationToken.none)
+		{
+			cancellationToken.on("Cancelled", () => promiseSource.reject(new OperationCanceledError()));
+		}
+
 		this.#_queue.push(promiseSource);
 		return promiseSource.promise;
 	}
