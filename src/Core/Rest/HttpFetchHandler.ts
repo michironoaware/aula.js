@@ -6,6 +6,7 @@ import { StreamContent } from "../../Common/Http/StreamContent.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
+import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError.js";
 
 export class HttpFetchHandler extends HttpMessageHandler
 {
@@ -28,14 +29,28 @@ export class HttpFetchHandler extends HttpMessageHandler
 			cancellationToken.on("Cancelled", () => abortController.abort());
 		}
 
-		const received = await fetch(message.requestUri,
+		let received: Response | null = null;
+		try
+		{
+			received = await fetch(message.requestUri,
+				{
+					method: message.method.name,
+					headers: Array.from(message.headers).map(v => [ v[0], v[1].join(";") ]),
+					body: await message.content?.readAsStream(),
+					duplex: "half",
+					abort: abortSignal,
+				} as RequestInit);
+		}
+		catch (error)
+		{
+			if (!(error instanceof DOMException) ||
+			    error.name !== "AbortError")
 			{
-				method: message.method.name,
-				headers: Array.from(message.headers).map(v => [ v[0], v[1].join(";") ]),
-				body: await message.content?.readAsStream(),
-				duplex: "half",
-				abort: abortSignal,
-			} as RequestInit);
+				throw error;
+			}
+
+			throw new OperationCanceledError();
+		}
 
 		const response = new HttpResponseMessage(received.status as HttpStatusCode);
 		response.content = received.body ? new StreamContent(received.body) : response.content;
