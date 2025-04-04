@@ -81,7 +81,6 @@ export class GatewayClient implements IDisposable
 
 	public get rest()
 	{
-		ObjectDisposedError.throwIf(this.#_disposed);
 		return this.#_restClient;
 	}
 
