@@ -53,7 +53,12 @@ export class HttpFetchHandler extends HttpMessageHandler
 		}
 
 		const response = new HttpResponseMessage(received.status as HttpStatusCode);
-		response.content = received.body ? new StreamContent(received.body) : response.content;
+
+		if (received.body)
+		{
+			response.content = new StreamContent(received.body);
+		}
+
 		for (const header of received.headers)
 		{
 			const headerName = header[0];
