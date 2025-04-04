@@ -5,6 +5,8 @@ import { SealedClassError } from "../SealedClassError.js";
 import { IDisposable } from "../IDisposable.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
 import { PromiseCompletionSource } from "./PromiseCompletionSource.js";
+import { OperationCanceledError } from "./OperationCanceledError.js";
+import { CancellationToken } from "./CancellationToken.js";
 
 export class Semaphore implements IDisposable
 {
@@ -26,9 +28,10 @@ export class Semaphore implements IDisposable
 		this.#_maximumCount = maximumCount;
 	}
 
-	public async waitOne()
+	public async waitOne(cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		if (this.#_availableCount > 0)
 		{
@@ -37,6 +40,11 @@ export class Semaphore implements IDisposable
 		}
 
 		const promiseSource = new PromiseCompletionSource<void>();
+		if (cancellationToken !== CancellationToken.none)
+		{
+			cancellationToken.on("Cancelled", () => promiseSource.reject(new OperationCanceledError()));
+		}
+
 		this.#_queue.push(promiseSource);
 		return promiseSource.promise;
 	}
