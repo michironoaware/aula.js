@@ -78,7 +78,7 @@ export class RestClient implements IDisposable
 			new AulaHttpStatusCode503Handler(
 				new AulaGlobalRateLimiterHandler(
 					new AulaRouteRateLimiterHandler(
-						new HttpFetchHandler(), true))));
+						new HttpFetchHandler(), true))), true);
 
 		this.#_disposeHttpClient = options.disposeHttpClient ?? (options.httpClient === undefined);
 	}
