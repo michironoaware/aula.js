@@ -22,7 +22,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 
 		let abortSignal: AbortSignal | null = null;
-		if (cancellationToken != CancellationToken.none)
+		if (cancellationToken !== CancellationToken.none)
 		{
 			const abortController = new AbortController();
 			abortSignal = abortController.signal;
