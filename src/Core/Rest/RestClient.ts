@@ -154,6 +154,7 @@ export class RestClient implements IDisposable
 	{
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUser());
 
@@ -169,6 +170,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNullable(query);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.users({ query }));
 
@@ -184,6 +186,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.user({ route: { userId } }));
 
@@ -205,6 +208,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.currentUser());
 		request.content = new JsonContent(
@@ -225,6 +229,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(body.roomId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.currentUserRoom());
 		request.content = new JsonContent(
@@ -245,6 +250,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(body.roomId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userRoom({ route: { userId } }));
 		request.content = new JsonContent(
@@ -268,6 +274,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(body.permissions, "number");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userPermissions({ route: { userId } }));
 		request.content = new JsonContent(
@@ -291,6 +298,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotAnyType(body.backgroundAudioId, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.rooms());
 		request.content = new JsonContent(
@@ -313,6 +321,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNullable(query);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.rooms({ query }));
 
@@ -328,6 +337,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.room({ route: { roomId } }));
 
@@ -352,6 +362,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotAnyType(body.backgroundAudioId, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.room({ route: { roomId } }));
 		request.content = new JsonContent(
@@ -373,6 +384,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.room({ route: { roomId } }));
 
@@ -388,6 +400,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotAnyType(targetId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnection({ route: { roomId, targetId } }));
 
@@ -402,6 +415,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomConnections({ route: { roomId } }));
 
@@ -422,6 +436,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(body.roomIds, "iterable");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const roomIds = [ ...body.roomIds ];
 		for (const roomId of roomIds)
@@ -444,6 +459,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotAnyType(targetId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomConnection({ route: { roomId, targetId } }));
 
@@ -458,6 +474,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomUsers({ route: { roomId } }));
 
@@ -473,6 +490,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.startTyping({ route: { roomId } }));
 
@@ -487,6 +505,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.stopTyping({ route: { roomId } }));
 
@@ -505,6 +524,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotAnyType((body as ISendUnknownMessageRequestBody).content, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomMessages({ route: { roomId } }));
 		request.content = new JsonContent(
@@ -526,6 +546,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotAnyType(messageId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessage({ route: { roomId, messageId } }));
 
@@ -545,6 +566,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessages({ route: { roomId }, query }));
 
@@ -561,6 +583,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotAnyType(messageId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomMessage({ route: { roomId, messageId } }));
 
@@ -579,6 +602,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.register());
 		request.content = new JsonContent(
@@ -602,6 +626,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.logIn());
 		request.content = new JsonContent(
@@ -621,6 +646,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNullable(query);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.confirmEmail({ query }));
 
@@ -635,6 +661,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNullable(query);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword({ query }));
 
@@ -651,6 +678,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(body.newPassword, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetPassword());
 		request.content = new JsonContent(
@@ -672,6 +700,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetToken());
 		request.content = new JsonContent(
@@ -692,6 +721,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(body.displayName, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.bots());
 		request.content = new JsonContent(
@@ -710,6 +740,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.bot({ route: { userId } }));
 
@@ -724,6 +755,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetBotToken({ route: { userId } }));
 
@@ -740,6 +772,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotAnyType(body.reason, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userBan({ route: { userId } }));
 		request.content = new JsonContent(
@@ -763,6 +796,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.userBan({ route: { userId } }));
 
@@ -777,6 +811,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNullable(query);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.bans({ query }));
 
@@ -792,6 +827,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.userBan({ route: { userId } }));
 
@@ -810,6 +846,7 @@ export class RestClient implements IDisposable
 	{
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUserBanStatus());
 
@@ -824,6 +861,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNullable(query);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.files({ query }));
 
@@ -838,6 +876,7 @@ export class RestClient implements IDisposable
 	{
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.file({ route: { fileId } }));
 
@@ -857,6 +896,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(fileId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.fileContent({ route: { fileId } }));
 
@@ -882,6 +922,7 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(contentType, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.files());
 		const reqContent = new MultipartFormDataContent();
