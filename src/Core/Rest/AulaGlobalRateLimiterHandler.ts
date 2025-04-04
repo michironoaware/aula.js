@@ -134,7 +134,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 
 		try
 		{
-			clearTimeout(this.#_availableRequestEventId ?? undefined);
+			(this.#_availableRequestEventId as NodeJS.Timeout).unref();
 		}
 		catch (error)
 		{
