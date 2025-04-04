@@ -172,7 +172,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 
 		for (const semaphore of this.#_routeSemaphores)
 		{
-			this.dispose();
+			semaphore[1].dispose();
 		}
 
 		this.#_routeSemaphores.clear();
