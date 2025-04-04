@@ -55,6 +55,7 @@ export class GatewayClient implements IDisposable
 	static readonly #s_textEncoder: TextEncoder = new TextEncoder();
 	readonly #_restClient: RestClient;
 	readonly #_webSocket: ClientWebSocket;
+	readonly #_disposeRestClient: boolean;
 	readonly #_eventEmitter: EventEmitter<IGatewayClientEvents> = new EventEmitter();
 	#_pendingPayloads: Channel<PayloadSendRequest> | null = null;
 	#_disconnectPromiseSource: PromiseCompletionSource<void> | null = null;
@@ -64,15 +65,18 @@ export class GatewayClient implements IDisposable
 	public constructor(options: {
 		restClient?: RestClient,
 		webSocketType?: new () => ClientWebSocket,
+		disposeRestClient?: boolean,
 	} = {})
 	{
 		SealedClassError.throwIfNotEqual(GatewayClient, new.target);
 		ThrowHelper.TypeError.throwIfNullable(options);
 		ThrowHelper.TypeError.throwIfNotAnyType(options.restClient, RestClient, "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(options.webSocketType, "function", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(options.disposeRestClient, "boolean", "undefined");
 
 		this.#_restClient = options.restClient ?? new RestClient();
 		this.#_webSocket = new (options.webSocketType ?? CommonClientWebSocket)();
+		this.#_disposeRestClient = options.disposeRestClient ?? (options.restClient === undefined);
 	}
 
 	public get rest()
@@ -231,6 +235,11 @@ export class GatewayClient implements IDisposable
 
 		this.#_eventEmitter.dispose();
 		this.#_webSocket.dispose();
+
+		if (this.#_disposeRestClient)
+		{
+			this.#_restClient.dispose();
+		}
 
 		this.#_disposed = true;
 	}
