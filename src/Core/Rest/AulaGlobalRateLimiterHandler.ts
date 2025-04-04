@@ -132,8 +132,6 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			return;
 		}
 
-		this.#_eventEmitter.dispose();
-		this.#_requestAvailableEvent.dispose();
 		try
 		{
 			clearTimeout(this.#_availableRequestEventId ?? undefined);
@@ -145,6 +143,9 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 				throw error;
 			}
 		}
+
+		this.#_eventEmitter.dispose();
+		this.#_requestAvailableEvent.dispose();
 
 		this.#_disposed = true;
 	}
