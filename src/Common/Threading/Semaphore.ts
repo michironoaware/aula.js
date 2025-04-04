@@ -62,8 +62,14 @@ export class Semaphore implements IDisposable
 				throw new SemaphoreFullError();
 			}
 
+			const dequeued = this.#_queue.shift();
+			if (dequeued !== undefined)
+			{
+				dequeued.resolve();
+				continue;
+			}
+
 			this.#_availableCount += 1;
-			this.#_queue.shift()?.resolve();
 		}
 	}
 
