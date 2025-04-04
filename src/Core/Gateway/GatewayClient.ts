@@ -48,6 +48,7 @@ import { PresenceOption } from "./PresenceOption.js";
 import { Func } from "../../Common/Func.js";
 import { BigIntJsonReplacer } from "../../Common/Json/BigIntJsonReplacer.js";
 import { EntityFactory } from "../Rest/Entities/EntityFactory.js";
+import { TypeHelper } from "../../Common/TypeHelper.js";
 
 export class GatewayClient implements IDisposable
 {
@@ -77,6 +78,11 @@ export class GatewayClient implements IDisposable
 		this.#_restClient = options.restClient ?? new RestClient();
 		this.#_webSocket = new (options.webSocketType ?? CommonClientWebSocket)();
 		this.#_disposeRestClient = options.disposeRestClient ?? (options.restClient === undefined);
+
+		if (!TypeHelper.isType(this.#_webSocket, ClientWebSocket))
+		{
+			throw new InvalidOperationError(`options.webSocketType must inherit from ${ClientWebSocket.name}.`);
+		}
 	}
 
 	public get rest()
