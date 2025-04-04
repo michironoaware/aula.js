@@ -12,8 +12,8 @@ import { HeaderMap } from "./HeaderMap.js";
 export class HttpResponseMessage
 {
 	#_statusCode: HttpStatusCode;
-	#_content: HttpContent = new EmptyContent();
-	#_headers: HeaderMap = new HeaderMap();
+	#_content: HttpContent | null = null;
+	#_headers: HeaderMap | null = null;
 
 	/**
 	 * Initializes a new instance of the {@link HttpResponseMessage} class with the specified status code, content and headers.
@@ -46,7 +46,7 @@ export class HttpResponseMessage
 	 * */
 	public get content()
 	{
-		return this.#_content;
+		return this.#_content ??= new EmptyContent();
 	}
 
 	public set content(value: HttpContent)
@@ -60,7 +60,7 @@ export class HttpResponseMessage
 	 * */
 	public get headers()
 	{
-		return this.#_headers;
+		return this.#_headers ??= new HeaderMap();
 	}
 
 	/**
