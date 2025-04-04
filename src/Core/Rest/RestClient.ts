@@ -59,22 +59,28 @@ import { MultipartFormDataContent } from "../../Common/Http/MultipartFormDataCon
 import { ByteArrayContent } from "../../Common/Http/ByteArrayContent.js";
 import { IGetFilesQuery } from "./IGetFilesQuery.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
+import { IDisposable } from "../../Common/IDisposable.js";
 
-export class RestClient
+export class RestClient implements IDisposable
 {
 	readonly #_httpClient: HttpClient;
+	readonly #_disposeHttpClient: boolean;
+	#_disposed: boolean = false;
 
-	public constructor(options: { httpClient?: HttpClient } = {})
+	public constructor(options: { httpClient?: HttpClient, disposeHttpClient?: boolean } = {})
 	{
 		SealedClassError.throwIfNotEqual(RestClient, new.target);
 		ThrowHelper.TypeError.throwIfNullable(options);
 		ThrowHelper.TypeError.throwIfNotAnyType(options.httpClient, HttpClient, "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(options.disposeHttpClient, "boolean", "undefined");
 
 		this.#_httpClient = options.httpClient ?? new HttpClient(
 			new AulaHttpStatusCode503Handler(
 				new AulaGlobalRateLimiterHandler(
 					new AulaRouteRateLimiterHandler(
 						new HttpFetchHandler(), true))));
+
+		this.#_disposeHttpClient = options.disposeHttpClient ?? (options.httpClient === undefined);
 	}
 
 	static async #ensureSuccessStatusCode(response: HttpResponseMessage)
@@ -123,6 +129,21 @@ export class RestClient
 		this.#_httpClient.defaultRequestHeaders.delete("Authorization");
 		this.#_httpClient.defaultRequestHeaders.add("Authorization", `Bearer ${value}`);
 		return this;
+	}
+
+	public dispose()
+	{
+		if (this.#_disposed)
+		{
+			return;
+		}
+
+		if (this.#_disposeHttpClient)
+		{
+			this.#_httpClient.dispose();
+		}
+
+		this.#_disposed = true;
 	}
 
 	public async getCurrentUser(cancellationToken: CancellationToken = CancellationToken.none)
