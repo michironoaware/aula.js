@@ -35,7 +35,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 
 		while (true)
 		{
-			await this.#_requestAvailableEvent.waitOne();
+			await this.#_requestAvailableEvent.waitOne(cancellationToken);
 
 			if (this.#_remainingRequests === this.#_requestLimit)
 			{
