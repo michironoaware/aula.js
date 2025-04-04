@@ -7,15 +7,6 @@ import { SealedClassError } from "../SealedClassError.js";
  * */
 export class EmptyContent extends HttpContent
 {
-	static #s_emptyStream: ReadableStream<Uint8Array> = new ReadableStream(
-		{
-			start(controller)
-			{
-				// Close the stream immediately
-				controller.close();
-			}
-		});
-	static #s_emptyByteArray: Uint8Array = new Uint8Array(0);
 	readonly #_headers: HeaderMap = new HeaderMap();
 
 	/**
@@ -34,12 +25,13 @@ export class EmptyContent extends HttpContent
 
 	public readAsStream()
 	{
-		return Promise.resolve(EmptyContent.#s_emptyStream);
+		const stream = new ReadableStream({ start: (controller) => controller.close() });
+		return Promise.resolve(stream);
 	}
 
 	public readAsByteArray(): Promise<Uint8Array>
 	{
-		return Promise.resolve(EmptyContent.#s_emptyByteArray);
+		return Promise.resolve(new Uint8Array(0));
 	}
 
 	public readAsString()
