@@ -1,16 +1,13 @@
-﻿import { SealedClassError } from "../SealedClassError.js";
-import { CancellationTokenSource, ICancellationTokenSourceEvents } from "./CancellationTokenSource.js";
+﻿import { CancellationTokenSource, ICancellationTokenSourceEvents } from "./CancellationTokenSource.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { OperationCanceledError } from "./OperationCanceledError.js";
 
 export class CancellationToken
 {
 	readonly #_source: CancellationTokenSource;
-	static readonly #s_neverCancelledToken: CancellationToken = new CancellationToken(new CancellationTokenSource());
 
 	public constructor(source: CancellationTokenSource)
 	{
-		SealedClassError.throwIfNotEqual(CancellationToken, new.target);
 		ThrowHelper.TypeError.throwIfNotType(source, CancellationTokenSource);
 
 		this.#_source = source;
@@ -18,7 +15,7 @@ export class CancellationToken
 
 	public static get none()
 	{
-		return this.#s_neverCancelledToken;
+		return NeverCancelledToken.instance;
 	}
 
 	public get isCancellationRequested()
@@ -39,6 +36,34 @@ export class CancellationToken
 		listener: ICancellationTokenEvents[TEvent])
 	{
 		return this.#_source.on(event, listener);
+	}
+}
+
+/**
+ * Special {@link CancellationToken} that never attaches {@link ICancellationTokenEvents.Cancelled}
+ * events to avoid memory issues caused by attaching listeners
+ * to a token that never emits events and is never garbage collected.
+ * @package
+ * */
+class NeverCancelledToken extends CancellationToken
+{
+	static readonly #s_instance: CancellationToken = new NeverCancelledToken(new CancellationTokenSource());
+
+	public static get instance()
+	{
+		return this.#s_instance;
+	}
+
+	public on<TEvent extends keyof ICancellationTokenEvents>(
+		event: TEvent,
+		listener: ICancellationTokenEvents[TEvent])
+	{
+		if (event === "Cancelled")
+		{
+			return;
+		}
+
+		super.on(event, listener);
 	}
 }
 
