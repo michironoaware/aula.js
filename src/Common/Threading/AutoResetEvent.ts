@@ -2,11 +2,11 @@
 import { SealedClassError } from "../SealedClassError.js";
 import { IDisposable } from "../IDisposable.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
-import { Func } from "../Func.js";
+import { PromiseCompletionSource } from "./PromiseCompletionSource.js";
 
 export class AutoResetEvent implements IDisposable
 {
-	readonly #_queue: Func[] = [];
+	readonly #_queue: PromiseCompletionSource<void>[] = [];
 	#_signaled: boolean;
 	#_disposed: boolean = false;
 
@@ -21,25 +21,16 @@ export class AutoResetEvent implements IDisposable
 	public async waitOne()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
-		return new Promise<void>(resolve =>
+
+		if (this.#_signaled)
 		{
-			const tryGetLock = () =>
-			{
-				ObjectDisposedError.throwIf(this.#_disposed);
+			this.#_signaled = false;
+			return Promise.resolve();
+		}
 
-				if (this.#_signaled)
-				{
-					this.#_signaled = false;
-					resolve();
-				}
-				else
-				{
-					this.#_queue.push(tryGetLock);
-				}
-			};
-
-			tryGetLock();
-		});
+		const promiseSource = new PromiseCompletionSource<void>();
+		this.#_queue.push(promiseSource);
+		return promiseSource.promise;
 	}
 
 	public set()
@@ -52,7 +43,7 @@ export class AutoResetEvent implements IDisposable
 		}
 
 		this.#_signaled = true;
-		this.#_queue.shift()?.();
+		this.#_queue.shift()?.resolve();
 	}
 
 	public reset()
@@ -68,9 +59,9 @@ export class AutoResetEvent implements IDisposable
 			return;
 		}
 
-		for (const tryGetLock of this.#_queue)
+		for (const promiseSource of this.#_queue)
 		{
-			tryGetLock();
+			promiseSource.resolve();
 		}
 
 		this.#_disposed = true;
