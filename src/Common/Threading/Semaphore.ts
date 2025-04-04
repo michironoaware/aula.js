@@ -4,11 +4,11 @@ import { SemaphoreFullError } from "./SemaphoreFullError.js";
 import { SealedClassError } from "../SealedClassError.js";
 import { IDisposable } from "../IDisposable.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
-import { Func } from "../Func.js";
+import { PromiseCompletionSource } from "./PromiseCompletionSource.js";
 
 export class Semaphore implements IDisposable
 {
-	readonly #_queue: Func[] = [];
+	readonly #_queue: PromiseCompletionSource<void>[] = [];
 	readonly #_maximumCount: number;
 	#_availableCount: number;
 	#_disposed: boolean = false;
@@ -29,25 +29,16 @@ export class Semaphore implements IDisposable
 	public async waitOne()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
-		return new Promise<void>((resolve, reject) =>
+
+		if (this.#_availableCount > 0)
 		{
-			const tryGetLock = () =>
-			{
-				ObjectDisposedError.throwIf(this.#_disposed);
+			this.#_availableCount--;
+			return Promise.resolve();
+		}
 
-				if (this.#_availableCount > 0)
-				{
-					this.#_availableCount--;
-					resolve();
-				}
-				else
-				{
-					this.#_queue.push(tryGetLock);
-				}
-			};
-
-			tryGetLock();
-		});
+		const promiseSource = new PromiseCompletionSource<void>();
+		this.#_queue.push(promiseSource);
+		return promiseSource.promise;
 	}
 
 	public release(releaseCount: number = 1)
@@ -64,7 +55,7 @@ export class Semaphore implements IDisposable
 			}
 
 			this.#_availableCount += 1;
-			this.#_queue.shift()?.();
+			this.#_queue.shift()?.resolve();
 		}
 	}
 
@@ -75,9 +66,9 @@ export class Semaphore implements IDisposable
 			return;
 		}
 
-		for (const tryGetLock of this.#_queue)
+		for (const promiseSource of this.#_queue)
 		{
-			tryGetLock();
+			promiseSource.resolve();
 		}
 
 		this.#_disposed = true;
