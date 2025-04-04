@@ -3,6 +3,8 @@ import { SealedClassError } from "../SealedClassError.js";
 import { IDisposable } from "../IDisposable.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
 import { PromiseCompletionSource } from "./PromiseCompletionSource.js";
+import { CancellationToken } from "./CancellationToken.js";
+import { OperationCanceledError } from "./OperationCanceledError.js";
 
 export class AutoResetEvent implements IDisposable
 {
@@ -18,9 +20,10 @@ export class AutoResetEvent implements IDisposable
 		this.#_signaled = initialState;
 	}
 
-	public async waitOne()
+	public async waitOne(cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
 
 		if (this.#_signaled)
 		{
@@ -29,6 +32,7 @@ export class AutoResetEvent implements IDisposable
 		}
 
 		const promiseSource = new PromiseCompletionSource<void>();
+		cancellationToken.on("Cancelled", () => promiseSource.reject(new OperationCanceledError()));
 		this.#_queue.push(promiseSource);
 		return promiseSource.promise;
 	}
