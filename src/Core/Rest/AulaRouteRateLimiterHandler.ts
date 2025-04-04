@@ -12,6 +12,7 @@ import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { Func } from "../../Common/Func.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
+import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError.js";
 
 export class AulaRouteRateLimiterHandler extends DelegatingHandler
 {
@@ -54,7 +55,19 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 
 		if (routeSemaphore !== undefined)
 		{
-			await routeSemaphore.waitOne(cancellationToken);
+			try
+			{
+				await routeSemaphore.waitOne(cancellationToken);
+			}
+			catch (error)
+			{
+				if (error instanceof OperationCanceledError)
+				{
+					routeSemaphore.release();
+				}
+
+				throw error;
+			}
 		}
 
 		while (true)
