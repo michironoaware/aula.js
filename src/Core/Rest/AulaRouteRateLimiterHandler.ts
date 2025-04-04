@@ -54,7 +54,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 
 		if (routeSemaphore !== undefined)
 		{
-			await routeSemaphore.waitOne();
+			await routeSemaphore.waitOne(cancellationToken);
 		}
 
 		while (true)
