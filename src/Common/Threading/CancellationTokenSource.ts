@@ -45,7 +45,7 @@ export class CancellationTokenSource
 
 		// If operation is already cancelled call listener immediately.
 		if (this.#_cancellationRequested &&
-		    event == "Cancelled")
+		    event === "Cancelled")
 		{
 			listener();
 			return;
