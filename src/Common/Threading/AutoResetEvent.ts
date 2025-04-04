@@ -50,8 +50,14 @@ export class AutoResetEvent implements IDisposable
 			return;
 		}
 
+		const dequeued = this.#_queue.shift();
+		if (dequeued !== undefined)
+		{
+			dequeued.resolve();
+			return;
+		}
+
 		this.#_signaled = true;
-		this.#_queue.shift()?.resolve();
 	}
 
 	public reset()
