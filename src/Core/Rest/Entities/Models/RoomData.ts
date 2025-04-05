@@ -26,10 +26,7 @@ export class RoomData
 		ThrowHelper.TypeError.throwIfNotType(data.creationDate, "string");
 
 		const connectedRoomIds = Object.freeze([ ...data.connectedRoomIds ]);
-		for (const roomId of connectedRoomIds)
-		{
-			ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		}
+		ThrowHelper.TypeError.throwIfNotTypeArray(connectedRoomIds, "string");
 
 		this.#_id = data.id;
 		this.#_type = data.type;
