@@ -1,5 +1,4 @@
 ﻿import { MessageType } from "../MessageType.js";
-import { MessageFlags } from "../MessageFlags.js";
 import { MessageAuthorType } from "../MessageAuthorType.js";
 import { MessageUserLeaveData } from "./MessageUserLeaveData.js";
 import { MessageUserJoinData } from "./MessageUserJoinData.js";
@@ -16,7 +15,7 @@ export class MessageData
 {
 	readonly #_id: string;
 	readonly #_type: MessageType;
-	readonly #_flags: MessageFlags;
+	readonly #_flags: string;
 	readonly #_authorType: MessageAuthorType;
 	readonly #_authorId: string | null;
 	readonly #_roomId: string;
@@ -36,7 +35,7 @@ export class MessageData
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
-		ThrowHelper.TypeError.throwIfNotType(data.flags, "number");
+		ThrowHelper.TypeError.throwIfNotType(data.flags, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.authorType, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.authorId, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(data.roomId, "string");
@@ -96,7 +95,7 @@ export class MessageData
 	}
 
 	/**
-	 * The flag bit fields of the message.
+	 * The flag bit fields of the message as a string.
 	 * */
 	public get flags()
 	{
