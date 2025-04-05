@@ -8,6 +8,10 @@ import { TypeHelper } from "../../../../Common/TypeHelper.js";
 import { SealedClassError } from "../../../../Common/SealedClassError.js";
 import { ValueOutOfRangeError } from "../../../../Common/ValueOutOfRangeError.js";
 
+/**
+ * Provides a strongly typed DTO class for the API v1 MessageData JSON schema.
+ * @package
+ * */
 export class MessageData
 {
 	readonly #_id: string;
@@ -21,6 +25,11 @@ export class MessageData
 	readonly #_leaveData: MessageUserLeaveData | null;
 	readonly #_creationDate: string;
 
+	/**
+	 * Initializes a new instance of {@link MessageData}.
+	 * @param data An object that conforms to the API v1 MessageData JSON schema
+	 *             from where the data will be extracted.
+	 * */
 	public constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(MessageData, new.target);
@@ -70,51 +79,82 @@ export class MessageData
 		this.#_creationDate = data.creationDate;
 	}
 
+	/**
+	 * The id of the message.
+	 * */
 	public get id()
 	{
 		return this.#_id;
 	}
 
+	/**
+	 * The type of the message.
+	 * */
 	public get type()
 	{
 		return this.#_type;
 	}
 
+	/**
+	 * The flag bit fields of the message.
+	 * */
 	public get flags()
 	{
 		return this.#_flags;
 	}
 
+	/**
+	 * The type of author of the message.
+	 * */
 	public get authorType()
 	{
 		return this.#_authorType;
 	}
 
+	/**
+	 * The id of the author of the message.
+	 * */
 	public get authorId()
 	{
 		return this.#_authorId;
 	}
 
+	/**
+	 * The id of the room where the message was sent.
+	 * */
 	public get roomId()
 	{
 		return this.#_roomId;
 	}
 
+	/**
+	 * The text content of the message.
+	 * */
 	public get text()
 	{
 		return this.#_text;
 	}
 
+	/**
+	 * Additional data available only for {@link MessageType.UserJoin} messages.
+	 * */
 	public get joinData()
 	{
 		return this.#_joinData;
 	}
 
+	/**
+	 * Additional data available only for {@link MessageType.UserLeave} messages.
+	 * */
 	public get leaveData()
 	{
 		return this.#_leaveData;
 	}
 
+	/**
+	 * Gets the creation date of the message,
+	 * expressed as a {@link https://en.wikipedia.org/wiki/ISO_8601 ISO 8601} string.
+	 * */
 	public get creationDate()
 	{
 		return this.#_creationDate;
