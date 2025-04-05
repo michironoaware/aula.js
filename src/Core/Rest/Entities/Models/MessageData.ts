@@ -16,7 +16,7 @@ export class MessageData
 	readonly #_authorType: MessageAuthorType;
 	readonly #_authorId: string | null;
 	readonly #_roomId: string;
-	readonly #_content: string | null;
+	readonly #_text: string | null;
 	readonly #_joinData: MessageUserJoinData | null;
 	readonly #_leaveData: MessageUserLeaveData | null;
 	readonly #_creationDate: string;
@@ -31,7 +31,7 @@ export class MessageData
 		ThrowHelper.TypeError.throwIfNotType(data.authorType, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.authorId, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(data.roomId, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.content, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.text, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(data.creationDate, "string");
 
 		switch (data.authorType)
@@ -44,7 +44,7 @@ export class MessageData
 		switch (data.type)
 		{
 			case MessageType.Standard:
-				ThrowHelper.TypeError.throwIfNullable(data.content);
+				ThrowHelper.TypeError.throwIfNullable(data.text);
 				break;
 			case MessageType.UserJoin:
 				ThrowHelper.TypeError.throwIfNullable(data.joinData);
@@ -64,7 +64,7 @@ export class MessageData
 		this.#_authorType = data.authorType;
 		this.#_authorId = data.authorId ?? null;
 		this.#_roomId = data.roomId;
-		this.#_content = data.content ?? null;
+		this.#_text = data.text ?? null;
 		this.#_joinData = TypeHelper.isNullable(data.joinData) ? null : new MessageUserJoinData(data.joinData);
 		this.#_leaveData = TypeHelper.isNullable(data.leaveData) ? null : new MessageUserLeaveData(data.leaveData);
 		this.#_creationDate = data.creationDate;
@@ -100,9 +100,9 @@ export class MessageData
 		return this.#_roomId;
 	}
 
-	public get content()
+	public get text()
 	{
-		return this.#_content;
+		return this.#_text;
 	}
 
 	public get joinData()

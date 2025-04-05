@@ -22,9 +22,9 @@ export class StandardMessage extends Message
 		this.#_data = data;
 	}
 
-	public get content()
+	public get text()
 	{
-		return this.#_data.content!;
+		return this.#_data.text!;
 	}
 
 	public async getLatest()
