@@ -42,7 +42,7 @@ export class Ban
 	}
 
 	/**
-	 * Gets the ID of the user that created the ban.
+	 * Gets the ID of the user who created the ban.
 	 * */
 	get executorId()
 	{
@@ -66,7 +66,7 @@ export class Ban
 	}
 
 	/**
-	 * Gets the user that created the ban, or null if it no longer exists or the creator was not a user.
+	 * Gets the user who created the ban, or null if it no longer exists or the creator was not a user.
 	 * */
 	public async getExecutor()
 	{

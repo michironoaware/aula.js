@@ -51,7 +51,7 @@ export class BanData
 	}
 
 	/**
-	 * Gets the ID of the user that created the ban.
+	 * Gets the ID of the user who created the ban.
 	 * */
 	public get executorId()
 	{
