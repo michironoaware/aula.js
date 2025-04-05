@@ -98,5 +98,4 @@ export class UserData
 	{
 		return this.#_currentRoomId;
 	}
-
 }
