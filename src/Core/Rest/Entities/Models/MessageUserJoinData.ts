@@ -8,6 +8,7 @@ import { SealedClassError } from "../../../../Common/SealedClassError.js";
 export class MessageUserJoinData
 {
 	readonly #_userId: string;
+	readonly #_previousRoomId: string | null;
 
 	/**
 	 * Initializes a new instance of {@link MessageUserJoinData}.
@@ -19,8 +20,10 @@ export class MessageUserJoinData
 		SealedClassError.throwIfNotEqual(MessageUserJoinData, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.previousRoomId, "string", "nullable");
 
 		this.#_userId = data.userId;
+		this.#_previousRoomId = data.previousRoomId ?? null;
 	}
 
 	/**
@@ -29,5 +32,13 @@ export class MessageUserJoinData
 	public get userId()
 	{
 		return this.#_userId;
+	}
+
+	/**
+	 * The id of the previous room where the user was.
+	 * */
+	public get previousRoomId()
+	{
+		return this.#_previousRoomId;
 	}
 }
