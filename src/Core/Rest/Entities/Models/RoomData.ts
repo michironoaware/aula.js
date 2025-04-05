@@ -6,7 +6,7 @@ export class RoomData
 	readonly #_id: string;
 	readonly #_type: number;
 	readonly #_name: string;
-	readonly #_description: string | null;
+	readonly #_description: string;
 	readonly #_isEntrance: boolean;
 	readonly #_backgroundAudioId: string | null;
 	readonly #_connectedRoomIds: ReadonlyArray<string>;
