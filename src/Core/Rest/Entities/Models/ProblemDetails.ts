@@ -3,6 +3,10 @@ import { HttpStatusCode } from "../../../../Common/Http/HttpStatusCode.js";
 import { TypeHelper } from "../../../../Common/TypeHelper.js";
 import { ReadonlyMapWrapper } from "../../../../Common/Collections/ReadonlyMapWrapper.js";
 
+/**
+ * Represents a standardized structure for problem details returned by an API.
+ * This (partially) aligns with {@link https://www.rfc-editor.org/rfc/rfc9457 RFC 9457}.
+ */
 export class ProblemDetails
 {
 	readonly #_title: string;
@@ -11,6 +15,11 @@ export class ProblemDetails
 	readonly #_errors: Map<string, string[]> | null = null;
 	#_errorsView: ReadonlyMapWrapper<string, string[]> | null = null;
 
+	/**
+	 * Initializes a new instance of {@link ProblemDetails}.
+	 * @param data An object that conforms to the problem details JSON schema
+	 *             from where the data will be extracted.
+	 * */
 	public constructor(data: any)
 	{
 		ThrowHelper.TypeError.throwIfNullable(data);
@@ -39,22 +48,34 @@ export class ProblemDetails
 			}
 		}
 	}
-	
+
+	/**
+	 * A short, human-readable summary of the problem type.
+	 * */
 	public get title()
 	{
 		return this.#_title;
 	}
-	
+
+	/**
+	 * A human-readable explanation specific to this occurrence of the problem.
+	 * */
 	public get detail()
 	{
 		return this.#_detail;
 	}
-	
+
+	/**
+	 * The HTTP status code.
+	 * */
 	public get status()
 	{
 		return this.#_status;
 	}
-	
+
+	/**
+	 * Gets the validation errors.
+	 * */
 	public get errors()
 	{
 		return this.#_errorsView ??= this.#_errors != null ? new ReadonlyMapWrapper(this.#_errors) : ReadonlyMapWrapper.empty;
