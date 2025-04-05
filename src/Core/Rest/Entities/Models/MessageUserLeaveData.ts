@@ -1,11 +1,20 @@
 ﻿import { ThrowHelper } from "../../../../Common/ThrowHelper.js";
 import { SealedClassError } from "../../../../Common/SealedClassError.js";
 
+/**
+ * Provides a strongly typed DTO class for the API v1 MessageUserLeaveData JSON schema.
+ * @package
+ * */
 export class MessageUserLeaveData
 {
 	readonly #_userId: string;
 	readonly #_roomId: string | null;
 
+	/**
+	 * Initializes a new instance of {@link MessageUserLeaveData}.
+	 * @param data An object that conforms to the API v1 MessageUserLeaveData JSON schema
+	 *             from where the data will be extracted.
+	 * */
 	public constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(MessageUserLeaveData, new.target);
@@ -17,11 +26,17 @@ export class MessageUserLeaveData
 		this.#_roomId = data.roomId ?? null;
 	}
 
+	/**
+	 * The id of the user who left the room.
+	 * */
 	public get userId()
 	{
 		return this.#_userId;
 	}
 
+	/**
+	 * The id of the room the user went to.
+	 * */
 	public get roomId()
 	{
 		return this.#_roomId;
