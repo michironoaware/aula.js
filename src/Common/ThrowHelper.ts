@@ -61,7 +61,7 @@ export namespace ThrowHelper
 			}
 		}
 
-		export function throwIfNotTypeArray<T extends TypeResolvable>(object: unknown[], type: T): asserts object is ResolvedType<T>[]
+		export function throwIfNotTypeArray<T extends TypeResolvable>(object: unknown, type: T): asserts object is ResolvedType<T>[]
 		{
 			if (!TypeHelper.isTypeArray(object, type))
 			{
