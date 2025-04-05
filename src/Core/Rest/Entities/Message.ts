@@ -2,12 +2,14 @@
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { MessageData } from "./Models/MessageData.js";
 import { MessageAuthorType } from "./MessageAuthorType.js";
+import { MessageFlags } from "./MessageFlags.js";
 
 export class Message
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: MessageData;
 	#_creationDate: Date | null = null;
+	#_flags: MessageFlags | null = null;
 
 	public constructor(data: MessageData, restClient: RestClient)
 	{
@@ -35,7 +37,7 @@ export class Message
 
 	public get flags()
 	{
-		return this.#_data.flags;
+		return this.#_flags ??= BigInt(this.#_data.flags);
 	}
 
 	public get authorType()
