@@ -100,7 +100,7 @@ export class GatewayClient implements IDisposable
 		return this.#_pendingPayloads;
 	}
 
-	public setIntents(intents: Intents | 0)
+	public setIntents(intents: Intents)
 	{
 		ThrowHelper.TypeError.throwIfNotType(intents, "number");
 		ObjectDisposedError.throwIf(this.#_disposed);
@@ -111,7 +111,7 @@ export class GatewayClient implements IDisposable
 		}
 
 		this.#_webSocket.headers.delete("X-Intents");
-		this.#_webSocket.headers.append("X-Intents", intents.toString());
+		this.#_webSocket.headers.append("X-Intents", `${intents}`);
 		return this;
 	}
 

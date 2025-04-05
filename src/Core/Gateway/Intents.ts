@@ -1,7 +1,16 @@
-﻿export enum Intents
+﻿export const Intents: {
+	Users: 1n,
+	Rooms: 2n,
+	Messages: 4n,
+	Moderation: 8n,
+} =
 {
-	Users = 1 << 0,
-	Rooms = 1 << 1,
-	Messages = 1 << 2,
-	Moderation = 1 << 3,
+	Users: 1n,
+	Rooms: 2n,
+	Messages: 4n,
+	Moderation: 8n,
 }
+
+Object.freeze(Intents);
+
+export type Intents = typeof Intents[keyof typeof Intents] | bigint;
