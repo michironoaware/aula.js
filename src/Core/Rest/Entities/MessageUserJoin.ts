@@ -28,8 +28,18 @@ export class MessageUserJoin
 		return this.#_data.userId;
 	}
 
+	public get previousRoomId()
+	{
+		return this.#_data.previousRoomId;
+	}
+
 	public async getUser()
 	{
 		return await this.restClient.getUser(this.userId);
+	}
+
+	public async getPreviousRoom()
+	{
+		return this.previousRoomId !== null ? await this.restClient.getRoom(this.previousRoomId) : null;
 	}
 }
