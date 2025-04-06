@@ -23,7 +23,7 @@ import { TextRoom } from "./TextRoom.js";
 export namespace EntityFactory
 {
 	/**
-	 * Initializes a new instance of a concrete {@link Message} subclass, given the input parameters.
+	 * Initializes a new instance of a {@link Message}, given the input parameters.
 	 * @package
 	 * */
 	export function createMessage(data: MessageData, restClient: RestClient): Message
@@ -42,7 +42,7 @@ export namespace EntityFactory
 	}
 
 	/**
-	 * Initializes a new instance of a concrete {@link Ban} subclass, given the input parameters.
+	 * Initializes a new instance of a {@link Ban}, given the input parameters.
 	 * @package
 	 * */
 	export function createBan(data: BanData, restClient: RestClient): Ban
@@ -56,6 +56,10 @@ export namespace EntityFactory
 		}
 	}
 
+	/**
+	 * Initializes a new instance of a {@link Room}, given the input parameters.
+	 * @package
+	 * */
 	export function createRoom(data: RoomData, restClient: RestClient): Room
 	{
 		switch (data.type)
