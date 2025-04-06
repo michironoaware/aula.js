@@ -146,7 +146,10 @@ export class CommonClientWebSocket extends ClientWebSocket
 		}
 	}
 
-	public async send(buffer: Uint8Array, messageType: Exclude<WebSocketMessageType, WebSocketMessageType.Close>, endOfMessage: boolean)
+	public async send(
+		buffer: Uint8Array,
+		messageType: Exclude<WebSocketMessageType, typeof WebSocketMessageType.Close>,
+		endOfMessage: boolean)
 	{
 		ThrowHelper.TypeError.throwIfNotType(buffer, Uint8Array);
 		ThrowHelper.TypeError.throwIfNotType(messageType, WebSocketMessageType);
