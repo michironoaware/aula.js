@@ -5,4 +5,4 @@
 
 Object.freeze(MessageFlags);
 
-export type MessageFlags = typeof MessageFlags[keyof typeof MessageFlags];
+export type MessageFlags = typeof MessageFlags[keyof typeof MessageFlags] | bigint;
