@@ -1,20 +1,24 @@
 ﻿/**
  * Indicates the message type.
  * */
-export enum WebSocketMessageType
+export const WebSocketMessageType =
 {
 	/**
 	 * The message is clear text.
 	 * */
-	Text,
+	Text: 0,
 
 	/**
 	 * The message is in binary format.
 	 */
-	Binary,
+	Binary: 1,
 
 	/**
 	 * A {@link WebSocket.receive} has completed because a close message was received.
 	 * */
-	Close
-}
+	Close: 2,
+} as const;
+
+Object.freeze(WebSocketMessageType);
+
+export type WebSocketMessageType = typeof WebSocketMessageType[keyof typeof WebSocketMessageType];
