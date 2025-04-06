@@ -15,9 +15,9 @@ import { RoomType } from "./RoomType.js";
 import { TextRoom } from "./TextRoom.js";
 
 /**
- * Adding a static `create` method to base entity types is not possible
- * Due to some environments not supporting circular dependencies.
- * This namespace serves as a place for these methods.
+ * @privateRemarks Adding a static `create` method to base entity types is not possible
+ *                 Due to some environments not supporting circular dependencies.
+ *                 This namespace serves as a place for these methods.
  * @package
  */
 export namespace EntityFactory
