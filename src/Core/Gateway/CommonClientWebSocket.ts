@@ -273,7 +273,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 		}
 	}
 
-	#throwIfNotOpen(): asserts this is { state: WebSocketState.Open }
+	#throwIfNotOpen(): asserts this is { state: typeof WebSocketState.Open }
 	{
 		if (this.#_underlyingWebSocket === null || this.state !== WebSocketState.Open)
 		{
