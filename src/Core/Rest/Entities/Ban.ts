@@ -15,6 +15,7 @@ export class Ban
 	 * Initializes a new instance of {@link Ban}.
 	 * @param data A DTO containing the entity data.
 	 * @param restClient The {@link RestClient} that is initializing this instance.
+	 * @package
 	 * */
 	public constructor(data: BanData, restClient: RestClient)
 	{
