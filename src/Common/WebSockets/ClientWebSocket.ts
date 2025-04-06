@@ -39,18 +39,13 @@ export abstract class ClientWebSocket implements IDisposable
 				return;
 			}
 
-			const validStatesText = validStates
-				.map(s => `"${WebSocketState[s]}"`)
-				.join(", ");
-			const currentStateText = `"${WebSocketState[currentState]}"`;
-			throw new WebSocketError(`WebSocket is on an invalid state. Expected ${validStatesText} but got ${currentStateText}`);
+			const validStatesText = validStates.join(", ");
+			throw new WebSocketError(`WebSocket is on an invalid state. Expected ${validStatesText} but got ${currentState}`);
 		}
 
 		if (currentState !== validStates)
 		{
-			const validStateText = `"${WebSocketState[validStates]}"`;
-			const currentStateText = `"${WebSocketState[currentState]}"`;
-			throw new WebSocketError(`WebSocket is on an invalid state. Expected ${validStateText} but got "${currentStateText}"`);
+			throw new WebSocketError(`WebSocket is on an invalid state. Expected ${validStates} but got "${currentState}"`);
 		}
 	}
 
