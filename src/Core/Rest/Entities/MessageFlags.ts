@@ -1,7 +1,7 @@
 ﻿export const MessageFlags =
 {
-	HideAuthor: 1n << 0n,
-}
+	HideAuthor: 1n,
+} as const;
 
 Object.freeze(MessageFlags);
 
