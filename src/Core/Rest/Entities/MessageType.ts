@@ -1,12 +1,9 @@
-﻿export const MessageType: {
+﻿export const MessageType =
+	{
 	Standard: 0,
 	UserJoin: 1,
 	UserLeave: 2,
-} = {
-	Standard: 0,
-	UserJoin: 1,
-	UserLeave: 2,
-};
+	} as const;
 
 Object.freeze(MessageType);
 

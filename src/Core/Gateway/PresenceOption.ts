@@ -1,11 +1,8 @@
-﻿export const PresenceOption: {
-	Invisible: 0,
-	Online: 1,
-} =
+﻿export const PresenceOption =
 {
 	Invisible: 0,
 	Online: 1,
-}
+} as const;
 
 Object.freeze(PresenceOption);
 

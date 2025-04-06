@@ -1,9 +1,7 @@
-﻿export const BanType: {
-	Id: 0,
-} =
+﻿export const BanType =
 {
 	Id: 0,
-}
+} as const;
 
 Object.freeze(BanType);
 
