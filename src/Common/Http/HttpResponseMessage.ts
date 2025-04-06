@@ -28,13 +28,16 @@ export class HttpResponseMessage
 	}
 
 	/**
-	 * Gets or sets the status code of the HTTP response.
+	 * Gets the status code of the HTTP response.
 	 * */
 	public get statusCode()
 	{
 		return this.#_statusCode;
 	}
 
+	/**
+	 * Sets the status code of the HTTP response.
+	 * */
 	public set statusCode(value: HttpStatusCode)
 	{
 		ThrowHelper.TypeError.throwIfNotType(value, "number");
@@ -42,13 +45,16 @@ export class HttpResponseMessage
 	}
 
 	/**
-	 * Gets or sets the content of a HTTP response message.
+	 * Gets the content of a HTTP response message.
 	 * */
 	public get content()
 	{
 		return this.#_content ??= new EmptyContent();
 	}
 
+	/**
+	 * Sets the content of a HTTP response message.
+	 * */
 	public set content(value: HttpContent)
 	{
 		ThrowHelper.TypeError.throwIfNotType(value, HttpContent);

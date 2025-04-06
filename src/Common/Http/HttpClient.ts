@@ -36,13 +36,16 @@ export class HttpClient implements IDisposable
 	}
 
 	/**
-	 * Gets or sets the base address of Uniform Resource Identifier (URI) of the Internet resource used when sending requests.
+	 * Gets the base address of Uniform Resource Identifier (URI) of the Internet resource used when sending requests.
 	 * */
 	public get baseAddress()
 	{
 		return this.#_baseAddress;
 	}
 
+	/**
+	 * Sets the base address of Uniform Resource Identifier (URI) of the Internet resource used when sending requests.
+	 * */
 	public set baseAddress(value: URL | null)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(value, URL, "null");

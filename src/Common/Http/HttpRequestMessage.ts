@@ -37,13 +37,16 @@ export class HttpRequestMessage implements IDisposable
 	}
 
 	/**
-	 * Gets or sets the HTTP method used by the HTTP request message.
+	 * Gets the HTTP method used by the HTTP request message.
 	 * */
 	public get method()
 	{
 		return this.#_method;
 	}
 
+	/**
+	 * Sets the HTTP method used by the HTTP request message.
+	 * */
 	public set method(value: HttpMethod)
 	{
 		ThrowHelper.TypeError.throwIfNotType(value, HttpMethod);
@@ -52,13 +55,16 @@ export class HttpRequestMessage implements IDisposable
 	}
 
 	/**
-	 * Gets or sets the Uri used for the HTTP request.
+	 * Gets the Uri used for the HTTP request.
 	 * */
 	public get requestUri()
 	{
 		return this.#_requestUri;
 	}
 
+	/**
+	 * Sets the Uri used for the HTTP request.
+	 * */
 	public set requestUri(value: URL | string)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(value, URL, "string");
@@ -75,7 +81,7 @@ export class HttpRequestMessage implements IDisposable
 	}
 
 	/**
-	 * Gets or sets the contents of the HTTP message.
+	 * Gets the contents of the HTTP message.
 	 * */
 	public get content()
 	{
@@ -83,6 +89,9 @@ export class HttpRequestMessage implements IDisposable
 		return this.#_content;
 	}
 
+	/**
+	 * Sets the contents of the HTTP message.
+	 * */
 	public set content(value: HttpContent | null)
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
