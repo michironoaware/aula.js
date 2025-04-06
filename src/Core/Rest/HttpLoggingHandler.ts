@@ -18,10 +18,11 @@ export class HttpLoggingHandler extends DelegatingHandler
 
 	public constructor(
 		innerHandler: HttpMessageHandler, logFunc: Func<[ string ]>,
+		disposeInnerHandler: boolean,
 		sensitiveLogging: boolean = false,
 		headerLogging: boolean = false)
 	{
-		super(innerHandler);
+		super(innerHandler, disposeInnerHandler);
 		SealedClassError.throwIfNotEqual(HttpLoggingHandler, new.target);
 		ThrowHelper.TypeError.throwIfNotType(logFunc, "function");
 		ThrowHelper.TypeError.throwIfNotType(sensitiveLogging, "boolean");
