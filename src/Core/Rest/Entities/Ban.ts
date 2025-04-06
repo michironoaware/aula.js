@@ -42,7 +42,7 @@ export class Ban
 	}
 
 	/**
-	 * Gets the ID of the user who created the ban.
+	 * Gets the id of the user who created the ban.
 	 * */
 	get executorId()
 	{
