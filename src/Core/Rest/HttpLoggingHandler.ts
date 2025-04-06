@@ -5,7 +5,6 @@ import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { HttpMethod } from "../../Common/Http/HttpMethod.js";
-import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { Func } from "../../Common/Func.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 
@@ -44,7 +43,7 @@ export class HttpLoggingHandler extends DelegatingHandler
 		let text =
 			`${HttpMethod.name} to ${message.requestUri} ` +
 			`${response.isSuccessStatusCode ? "Succeeded" : "Failed"} ` +
-			`with status code ${response.statusCode} ${HttpStatusCode[response.statusCode] ?? ""}.`;
+			`with status code ${response.statusCode}.`;
 
 		if (this.#_headerLogging)
 		{
