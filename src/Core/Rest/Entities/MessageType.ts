@@ -7,4 +7,4 @@
 
 Object.freeze(MessageType);
 
-export type MessageType = typeof MessageType[keyof typeof MessageType];
+export type MessageType = typeof MessageType[keyof typeof MessageType] | number;

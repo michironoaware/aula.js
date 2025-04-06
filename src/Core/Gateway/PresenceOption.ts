@@ -6,4 +6,4 @@
 
 Object.freeze(PresenceOption);
 
-export type PresenceOption = typeof PresenceOption[keyof typeof PresenceOption];
+export type PresenceOption = typeof PresenceOption[keyof typeof PresenceOption] | number;

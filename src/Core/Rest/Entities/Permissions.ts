@@ -13,4 +13,4 @@ export const Permissions =
 
 Object.freeze(Permissions);
 
-export type Permissions = typeof Permissions[keyof typeof Permissions];
+export type Permissions = typeof Permissions[keyof typeof Permissions] | bigint;

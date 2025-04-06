@@ -6,4 +6,4 @@
 
 Object.freeze(MessageAuthorType);
 
-export type MessageAuthorType = typeof MessageAuthorType[keyof typeof MessageAuthorType]; 
+export type MessageAuthorType = typeof MessageAuthorType[keyof typeof MessageAuthorType] | number; 

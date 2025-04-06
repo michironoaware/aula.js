@@ -83,4 +83,4 @@ export const WebSocketCloseCode =
 
 Object.freeze(WebSocketCloseCode);
 
-export type WebSocketCloseCode = typeof WebSocketCloseCode[keyof typeof WebSocketCloseCode];
+export type WebSocketCloseCode = typeof WebSocketCloseCode[keyof typeof WebSocketCloseCode] | number;

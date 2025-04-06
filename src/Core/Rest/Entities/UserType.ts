@@ -6,4 +6,4 @@ export const UserType =
 
 Object.freeze(UserType);
 
-export type UserType = typeof UserType[keyof typeof UserType];
+export type UserType = typeof UserType[keyof typeof UserType] | number;

@@ -28,4 +28,4 @@
 
 Object.freeze(WebSocketState);
 
-export type WebSocketState = typeof WebSocketState[keyof typeof WebSocketState];
+export type WebSocketState = typeof WebSocketState[keyof typeof WebSocketState] | number;

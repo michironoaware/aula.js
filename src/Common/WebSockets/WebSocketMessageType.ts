@@ -21,4 +21,4 @@ export const WebSocketMessageType =
 
 Object.freeze(WebSocketMessageType);
 
-export type WebSocketMessageType = typeof WebSocketMessageType[keyof typeof WebSocketMessageType];
+export type WebSocketMessageType = typeof WebSocketMessageType[keyof typeof WebSocketMessageType] | number;

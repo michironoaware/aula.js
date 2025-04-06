@@ -5,4 +5,4 @@
 
 Object.freeze(RoomType);
 
-export type RoomType = typeof RoomType[keyof typeof RoomType];
+export type RoomType = typeof RoomType[keyof typeof RoomType] | number;

@@ -6,4 +6,4 @@ export const Presence =
 
 Object.freeze(Presence);
 
-export type Presence = typeof Presence[keyof typeof Presence];
+export type Presence = typeof Presence[keyof typeof Presence] | number;

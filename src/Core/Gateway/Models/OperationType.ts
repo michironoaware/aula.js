@@ -11,4 +11,4 @@ export const OperationType =
 
 Object.freeze(OperationType);
 
-export type OperationType = typeof OperationType[keyof typeof OperationType];
+export type OperationType = typeof OperationType[keyof typeof OperationType] | number;

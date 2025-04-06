@@ -83,4 +83,4 @@ export const EventType =
 
 Object.freeze(EventType);
 
-export type EventType = typeof EventType[keyof typeof EventType];
+export type EventType = typeof EventType[keyof typeof EventType] | string;

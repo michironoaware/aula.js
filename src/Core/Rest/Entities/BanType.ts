@@ -5,4 +5,4 @@
 
 Object.freeze(BanType);
 
-export type BanType = typeof BanType[keyof typeof BanType];
+export type BanType = typeof BanType[keyof typeof BanType] | number;

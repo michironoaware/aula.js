@@ -56,4 +56,4 @@ export const HttpStatusCode =
 
 Object.freeze(HttpStatusCode);
 
-export type HttpStatusCode = typeof HttpStatusCode[keyof typeof HttpStatusCode];
+export type HttpStatusCode = typeof HttpStatusCode[keyof typeof HttpStatusCode] | number;
