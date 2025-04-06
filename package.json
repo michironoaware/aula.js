@@ -8,6 +8,7 @@
 	"keywords": [],
 	"devDependencies": {
 		"@types/node": "^22.13.10",
+		"typedoc": "^0.28.1",
 		"typescript": "^5.7.3"
 	}
 }
