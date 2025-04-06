@@ -14,7 +14,7 @@ import { UserData } from "../../Rest/Entities/Models/UserData.js";
 export class GatewayPayload
 {
 	readonly #_operation: OperationType;
-	readonly #_event: keyof typeof EventType | null;
+	readonly #_event: EventType | null;
 	readonly #_data: ReadyEventData | BanData | MessageData | UserTypingEventData | RoomConnectionEventData | RoomData |
 	                 UserCurrentRoomUpdatedEventData | UserData | null = null;
 
@@ -37,33 +37,33 @@ export class GatewayPayload
 
 				switch (this.#_event)
 				{
-					case EventType[EventType.Ready]:
+					case EventType.Ready:
 						this.#_data = new ReadyEventData(payloadData.data);
-					case EventType[EventType.BanCreated]:
-					case EventType[EventType.BanRemoved]:
+					case EventType.BanCreated:
+					case EventType.BanRemoved:
 						this.#_data = new BanData(payloadData.data);
 						break;
-					case EventType[EventType.MessageCreated]:
-					case EventType[EventType.MessageRemoved]:
+					case EventType.MessageCreated:
+					case EventType.MessageRemoved:
 						this.#_data = new MessageData(payloadData.data);
 						break;
-					case EventType[EventType.UserStartedTyping]:
-					case EventType[EventType.UserStoppedTyping]:
+					case EventType.UserStartedTyping:
+					case EventType.UserStoppedTyping:
 						this.#_data = new UserTypingEventData(payloadData.data);
 						break;
-					case EventType[EventType.RoomConnectionCreated]:
-					case EventType[EventType.RoomConnectionRemoved]:
+					case EventType.RoomConnectionCreated:
+					case EventType.RoomConnectionRemoved:
 						this.#_data = new RoomConnectionEventData(payloadData.data);
 						break;
-					case EventType[EventType.RoomCreated]:
-					case EventType[EventType.RoomUpdated]:
-					case EventType[EventType.RoomRemoved]:
+					case EventType.RoomCreated:
+					case EventType.RoomUpdated:
+					case EventType.RoomRemoved:
 						this.#_data = new RoomData(payloadData.data);
 						break;
-					case EventType[EventType.UserCurrentRoomUpdated]:
+					case EventType.UserCurrentRoomUpdated:
 						this.#_data = new UserCurrentRoomUpdatedEventData(payloadData.data);
 						break;
-					case EventType[EventType.UserUpdated]:
+					case EventType.UserUpdated:
 						this.#_data = new UserData(payloadData.data);
 						break;
 					default:
