@@ -40,11 +40,6 @@ export class MessageUserLeave
 
 	public async getRoom()
 	{
-		if (this.roomId === null)
-		{
-			return null;
-		}
-
-		return await this.restClient.getRoom(this.roomId);
+		this.roomId !== null ? await this.restClient.getRoom(this.roomId) : null;
 	}
 }
