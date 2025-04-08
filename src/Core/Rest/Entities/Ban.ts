@@ -35,7 +35,7 @@ export class Ban
 	}
 
 	/**
-	 * Gets the type of ban
+	 * Gets the type of ban.
 	 * */
 	get type()
 	{
