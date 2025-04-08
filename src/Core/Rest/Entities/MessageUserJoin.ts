@@ -35,7 +35,7 @@ export class MessageUserJoin
 
 	public async getUser()
 	{
-		return await this.restClient.getUser(this.userId);
+		return (await this.restClient.getUser(this.userId))!;
 	}
 
 	public async getPreviousRoom()
