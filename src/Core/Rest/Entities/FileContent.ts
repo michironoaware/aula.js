@@ -3,6 +3,7 @@ import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { IDisposable } from "../../../Common/IDisposable.js";
 import { ObjectDisposedError } from "../../../Common/ObjectDisposedError.js";
+import { RestClient } from "../RestClient.js";
 
 /**
  * Represents the contents of a file hosted in Aula.
@@ -10,19 +11,31 @@ import { ObjectDisposedError } from "../../../Common/ObjectDisposedError.js";
 export class FileContent implements IDisposable
 {
 	readonly #_httpContent: HttpContent;
+	readonly #_restClient: RestClient;
 	#_disposed: boolean = false;
 
 	/**
 	 * Initializes a new instance of {@link FileContent}.
 	 * @param httpContent The {@link HttpContent} holding the contents of the file.
+	 * @param restClient The {@link RestClient} that is initializing this instance.
 	 * @package
 	 * */
-	public constructor(httpContent: HttpContent)
+	public constructor(httpContent: HttpContent, restClient: RestClient)
 	{
 		SealedClassError.throwIfNotEqual(FileContent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(httpContent, HttpContent);
+		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
 
 		this.#_httpContent = httpContent;
+		this.#_restClient = restClient;
+	}
+
+	/**
+	 * Gets the {@link RestClient} that initialized this instance.
+	 * */
+	public get restClient()
+	{
+		return this.#_restClient;
 	}
 
 	/**

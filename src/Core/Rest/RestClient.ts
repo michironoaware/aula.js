@@ -907,7 +907,7 @@ export class RestClient implements IDisposable
 
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		return new FileContent(response.content);
+		return new FileContent(response.content, this);
 	}
 
 	public async uploadFile(
