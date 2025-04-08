@@ -1,5 +1,11 @@
-﻿export const RoomType =
+﻿/**
+ * Enumerates the types of rooms.
+ * */
+export const RoomType =
 {
+	/**
+	 * A text room.
+	 * */
 	Text: 0
 } as const;
 
