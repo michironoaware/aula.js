@@ -72,11 +72,6 @@ export class Ban
 	 * */
 	public async getExecutor()
 	{
-		if (this.executorId === null)
-		{
-			return null;
-		}
-
-		return await this.restClient.getUser(this.executorId);
+		return this.executorId !== null ? await this.restClient.getUser(this.executorId) : null;
 	}
 }
