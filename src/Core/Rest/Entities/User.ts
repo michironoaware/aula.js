@@ -7,12 +7,21 @@ import { Room } from "./Room.js";
 import { TypeHelper } from "../../../Common/TypeHelper.js";
 import { UnreachableError } from "../../../Common/UnreachableError.js";
 
+/**
+ * Represents a user within Aula.
+ * */
 export class User
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: UserData;
 	#_permissions: Permissions | null = null;
 
+	/**
+	 * Initializes a new instance of {@link User}.
+	 * @param data A DTO containing the entity data.
+	 * @param restClient The {@link RestClient} that is initializing this instance.
+	 * @package
+	 * */
 	public constructor(data: UserData, restClient: RestClient)
 	{
 		SealedClassError.throwIfNotEqual(User, new.target);
@@ -23,46 +32,75 @@ export class User
 		this.#_data = data;
 	}
 
+	/**
+	 * Gets the {@link RestClient} that initialized this instance.
+	 * */
 	public get restClient()
 	{
 		return this.#_restClient;
 	}
 
+	/**
+	 * Gets the id of the user.
+	 * */
 	public get id()
 	{
 		return this.#_data.id;
 	}
 
+	/**
+	 * Gets the display name of the user.
+	 * */
 	public get displayName()
 	{
 		return this.#_data.displayName;
 	}
 
+	/**
+	 * Gets the description of the user.
+	 * */
 	public get description()
 	{
 		return this.#_data.description;
 	}
 
+	/**
+	 * Gets the type of the user.
+	 * */
 	public get type()
 	{
 		return this.#_data.type;
 	}
 
+	/**
+	 * Gets the connection state of the user.
+	 * */
 	public get presence()
 	{
 		return this.#_data.presence;
 	}
 
+	/**
+	 * Gets the permissions of the user.
+	 * */
 	public get permissions()
 	{
 		return this.#_permissions ??= BigInt(this.#_data.permissions);
 	}
 
+	/**
+	 * Gets the id of the room the user currently resides in,
+	 * or `null` if the user is not in any room.
+	 * */
 	public get currentRoomId()
 	{
 		return this.#_data.currentRoomId;
 	}
 
+	/**
+	 * Gets the latest version of the user.
+	 * @returns A promise that resolves to a {@link User}.
+	 * */
 	public async getLatest()
 	{
 		const user = await this.restClient.getUser(this.id);
@@ -74,6 +112,11 @@ export class User
 		return user;
 	}
 
+	/**
+	 * Gets the room where the user currently resides in.
+	 * @returns A promise that resolves to a {@link Room},
+	 * or `null` if the user is not in any room or the room no longer exists.
+	 * */
 	public async getCurrentRoom()
 	{
 		if (this.currentRoomId === null)
@@ -84,7 +127,11 @@ export class User
 		return await this.restClient.getRoom(this.currentRoomId);
 	}
 
-
+	/**
+	 * Relocates the user to the specified room.
+	 * @param room The id of the room, or `null` if the user should not be relocated.
+	 * @returns A promise that resolves once the operation is complete.
+	 * */
 	public async setCurrentRoom(room: Room | string | null)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string", "null");
@@ -93,18 +140,32 @@ export class User
 		return await this.restClient.setUserRoom(this.id, { roomId });
 	}
 
+	/**
+	 * Overwrites the permissions of the user.
+	 * @param permissions The new permissions of the user.
+	 * @returns A promise that resolves once the operation is complete.
+	 * */
 	public async setPermissions(permissions: Permissions)
 	{
 		ThrowHelper.TypeError.throwIfNotType(permissions, "bigint");
 		return await this.restClient.setUserPermissions(this.id, { permissions });
 	}
 
+	/**
+	 * Bans the user from the application.
+	 * @param reason A text that provides context about why the action was performed.
+	 * @returns A promise that resolves to a {@link UserBan}, or `null` if the user is already banned.
+	 * */
 	public async ban(reason?: string)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(reason, "string", "undefined");
 		return await this.restClient.banUser(this.id, { reason });
 	}
 
+	/**
+	 * Unbans the user from the application.
+	 * @returns A promise that resolves once the operation is complete.
+	 * */
 	public async unban()
 	{
 		return await this.restClient.unbanUser(this.id);
