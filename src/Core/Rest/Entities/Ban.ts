@@ -67,8 +67,8 @@ export class Ban
 	}
 
 	/**
-	 * Gets the user who created the ban, or null if the executor was not a user.
-	 * @returns A promise that resolves to a new {@link User} instance, or `null` if the ban was not created by a user.
+	 * Gets the user who created the ban.
+	 * @returns A promise that resolves to a new {@link User} instance, or `null` if the executor is not a user.
 	 * */
 	public async getExecutor()
 	{
