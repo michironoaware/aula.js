@@ -2,6 +2,7 @@
 import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { RestClient } from "../RestClient.js";
+import { UnreachableError } from "../../../Common/UnreachableError.js";
 
 export class MessageUserLeave
 {
@@ -35,7 +36,13 @@ export class MessageUserLeave
 
 	public async getUser()
 	{
-		return await this.restClient.getUser(this.userId);
+		const user = await this.restClient.getUser(this.userId);
+		if (user === null)
+		{
+			throw new UnreachableError("User expected to exist, but the server sent nothing.");
+		}
+
+		return user;
 	}
 
 	public async getRoom()
