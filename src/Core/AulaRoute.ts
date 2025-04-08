@@ -8,7 +8,7 @@ export namespace AulaRoute
 		return "users/@me";
 	}
 
-	export function users(args?: { query?: { type?: number, count?: number, after?: string } })
+	export function users(args?: { query?: { type?: number | null, count?: number | null, after?: string | null } })
 	{
 		if (!TypeHelper.isNullable(args?.query))
 		{
@@ -56,7 +56,7 @@ export namespace AulaRoute
 		return `users/${args.route.userId}/permissions`;
 	}
 
-	export function rooms(args?: { query?: { count?: number, after?: string } })
+	export function rooms(args?: { query?: { count?: number | null, after?: string | null } })
 	{
 		if (!TypeHelper.isNullable(args?.query))
 		{
@@ -125,7 +125,11 @@ export namespace AulaRoute
 		return `rooms/${args.route.roomId}/stop-typing`;
 	}
 
-	export function roomMessages(args: { route: { roomId: string }, query?: { count?: number, before?: string, after?: string } })
+	export function roomMessages(
+		args: {
+			route: { roomId: string },
+			query?: { count?: number | null, before?: string | null, after?: string | null }
+		})
 	{
 		ThrowHelper.TypeError.throwIfNullable(args);
 		ThrowHelper.TypeError.throwIfNullable(args.route);
@@ -154,7 +158,7 @@ export namespace AulaRoute
 		return `rooms/${args.route.roomId}/messages/${args.route.messageId}`;
 	}
 
-	export function bans(args?: { query?: { type?: number, count?: number, after?: string } })
+	export function bans(args?: { query?: { type?: number | null, count?: number | null, after?: string | null } })
 	{
 		if (!TypeHelper.isNullable(args?.query))
 		{
@@ -194,7 +198,7 @@ export namespace AulaRoute
 		return "identity/log-in";
 	}
 
-	export function confirmEmail(args: { query: { email: string, token?: string } })
+	export function confirmEmail(args: { query: { email: string, token?: string | null } })
 	{
 		ThrowHelper.TypeError.throwIfNullable(args);
 		ThrowHelper.TypeError.throwIfNullable(args.query);
@@ -247,7 +251,7 @@ export namespace AulaRoute
 		return `bots/${args.route.userId}/reset-token`;
 	}
 
-	export function files(args?: { query?: { after?: string, count?: number } })
+	export function files(args?: { query?: { after?: string | null, count?: number | null } })
 	{
 		if (!TypeHelper.isNullable(args?.query))
 		{
