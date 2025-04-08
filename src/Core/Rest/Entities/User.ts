@@ -84,11 +84,11 @@ export class User
 	}
 
 
-	public async setCurrentRoom(room: Room | string)
+	public async setCurrentRoom(room: Room | string | null)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string", "null");
 
-		const roomId = TypeHelper.isType(room, Room) ? room.id : room;
+		const roomId = TypeHelper.isType(room, Room) ? room.id : room ?? undefined;
 		return await this.restClient.setUserRoom(this.id, { roomId });
 	}
 
