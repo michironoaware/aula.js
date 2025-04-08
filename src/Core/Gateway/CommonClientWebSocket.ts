@@ -10,7 +10,7 @@ import { PromiseCompletionSource } from "../../Common/Threading/PromiseCompletio
 import { NotSupportedError } from "../../Common/NotSupportedError.js";
 import { WebSocketCloseCode } from "../../Common/WebSockets/WebSocketCloseCode.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
-import { BigIntJsonReplacer } from "../../Common/Json/BigIntJsonReplacer.js";
+import { JsonReplacer } from "../../Common/Json/JsonReplacer.js";
 
 export class CommonClientWebSocket extends ClientWebSocket
 {
@@ -54,7 +54,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 			headersAsKeyValuePairObject[header[0]] = header[1].join(";");
 		}
 
-		const headersAsBase64Url = btoa(JSON.stringify(headersAsKeyValuePairObject, BigIntJsonReplacer))
+		const headersAsBase64Url = btoa(JSON.stringify(headersAsKeyValuePairObject, JsonReplacer))
 			.replace(/\+/g, "-")
 			.replace(/\//g, "_")
 			.replace(/=+$/, "");

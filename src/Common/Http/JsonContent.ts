@@ -1,6 +1,6 @@
 ﻿import { StringContent } from "./StringContent.js";
 import { SealedClassError } from "../SealedClassError.js";
-import { BigIntJsonReplacer } from "../Json/BigIntJsonReplacer.js";
+import { JsonReplacer } from "../Json/JsonReplacer.js";
 
 /**
  * Provides HTTP content based on JSON.
@@ -13,7 +13,7 @@ export class JsonContent extends StringContent
 	 * */
 	public constructor(value: unknown)
 	{
-		super(JSON.stringify(value, BigIntJsonReplacer), "application/json");
+		super(JSON.stringify(value, JsonReplacer), "application/json");
 		SealedClassError.throwIfNotEqual(JsonContent, new.target);
 	}
 }

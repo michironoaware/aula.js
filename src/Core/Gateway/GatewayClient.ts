@@ -46,9 +46,9 @@ import { UserData } from "../Rest/Entities/Models/UserData.js";
 import { User } from "../Rest/Entities/User.js";
 import { PresenceOption } from "./PresenceOption.js";
 import { Func } from "../../Common/Func.js";
-import { BigIntJsonReplacer } from "../../Common/Json/BigIntJsonReplacer.js";
 import { EntityFactory } from "../Rest/Entities/EntityFactory.js";
 import { TypeHelper } from "../../Common/TypeHelper.js";
+import { JsonReplacer } from "../../Common/Json/JsonReplacer.js";
 
 export class GatewayClient implements IDisposable
 {
@@ -285,7 +285,7 @@ export class GatewayClient implements IDisposable
 			};
 		const sendPromiseSource = new PromiseCompletionSource<void>();
 		const sendRequest = new PayloadSendRequest(
-			GatewayClient.#s_textEncoder.encode(JSON.stringify(payload, BigIntJsonReplacer)),
+			GatewayClient.#s_textEncoder.encode(JSON.stringify(payload, JsonReplacer)),
 			sendPromiseSource);
 
 		await this.#pendingPayloads.writer.waitToWrite();
