@@ -2,7 +2,6 @@
 import { RestClient } from "../RestClient.js";
 import { Room } from "./Room.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { Message } from "./Message.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { TypeHelper } from "../../../Common/TypeHelper.js";
 import { IGetMessagesQuery } from "../IGetMessagesQuery.js";
