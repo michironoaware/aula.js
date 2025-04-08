@@ -34,11 +34,9 @@ export class TextRoom extends Room
 		return await this.restClient.stopTyping(this.id);
 	}
 
-	public async getMessage(message: Message | string)
+	public async getMessage(messageId: string)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(message, Message, "string");
-
-		const messageId = TypeHelper.isType(message, Message) ? message.id : message;
+		ThrowHelper.TypeError.throwIfNotType(messageId, "string");
 		return await this.restClient.getMessage(this.id, messageId);
 	}
 
