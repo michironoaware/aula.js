@@ -64,4 +64,13 @@ export class TextRoom extends Room
 
 		return await this.restClient.sendMessage(this.id, body);
 	}
+
+	/**
+	 * Gets the latest version of the room.
+	 * @returns A promise that resolves to a {@link TextRoom}, or `null` if the room no longer exists.
+	 * */
+	public async getLatest()
+	{
+		return await super.getLatest() as TextRoom | null;
+	}
 }
