@@ -48,7 +48,7 @@ export class RoomData
 	}
 
 	/**
-	 * The id of the room.
+	 * Gets the id of the room.
 	 * */
 	public get id()
 	{
@@ -56,7 +56,7 @@ export class RoomData
 	}
 
 	/**
-	 * The type of the room.
+	 * Gets the type of the room.
 	 * */
 	public get type()
 	{
@@ -64,7 +64,7 @@ export class RoomData
 	}
 
 	/**
-	 * The name of the room.
+	 * Gets the name of the room.
 	 * */
 	public get name()
 	{
@@ -72,7 +72,7 @@ export class RoomData
 	}
 
 	/**
-	 * The description of the room.
+	 * Gets the description of the room.
 	 * */
 	public get description()
 	{
@@ -80,7 +80,7 @@ export class RoomData
 	}
 
 	/**
-	 * Whether a user can enter this room without coming from any other room.
+	 * Gets whether a user can enter this room without coming from any other room.
 	 * */
 	public get isEntrance()
 	{
@@ -88,7 +88,7 @@ export class RoomData
 	}
 
 	/**
-	 * The file id of the background audio associated with this room.
+	 * Gets the file id of the background audio associated with this room.
 	 * */
 	public get backgroundAudioId()
 	{
@@ -96,7 +96,7 @@ export class RoomData
 	}
 
 	/**
-	 * A collection of ids of the rooms that a user can travel to from this room.
+	 * Gets the collection of ids of the rooms that a user can travel to from this room.
 	 * */
 	public get connectedRoomIds()
 	{

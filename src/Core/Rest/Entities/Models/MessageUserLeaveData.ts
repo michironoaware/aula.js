@@ -27,7 +27,7 @@ export class MessageUserLeaveData
 	}
 
 	/**
-	 * The id of the user who left the room.
+	 * Gets the id of the user who left the room.
 	 * */
 	public get userId()
 	{
@@ -35,7 +35,7 @@ export class MessageUserLeaveData
 	}
 
 	/**
-	 * The id of the room the user went to.
+	 * Gets the id of the room the user went to.
 	 * */
 	public get roomId()
 	{

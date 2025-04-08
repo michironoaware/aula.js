@@ -1,5 +1,5 @@
 ﻿/**
- * The name of the events that can be dispatched in a gateway session.
+ * Enumerates the names of the events that can be dispatched in a gateway session.
  */
 export const EventType =
 {

@@ -50,7 +50,7 @@ export class ProblemDetails
 	}
 
 	/**
-	 * A short, human-readable summary of the problem type.
+	 * Gets the short, human-readable summary of the problem type.
 	 * */
 	public get title()
 	{
@@ -58,7 +58,7 @@ export class ProblemDetails
 	}
 
 	/**
-	 * A human-readable explanation specific to this occurrence of the problem.
+	 * Gets the human-readable explanation specific to this occurrence of the problem.
 	 * */
 	public get detail()
 	{
@@ -66,7 +66,7 @@ export class ProblemDetails
 	}
 
 	/**
-	 * The HTTP status code.
+	 * Gets the HTTP status code.
 	 * */
 	public get status()
 	{

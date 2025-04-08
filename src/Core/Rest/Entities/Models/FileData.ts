@@ -48,7 +48,7 @@ export class FileData
 	}
 
 	/**
-	 * The media type of the file content as defined in {@link https://www.rfc-editor.org/rfc/rfc6838 RFC 6836}.
+	 * Gets the media type of the file content as defined in {@link https://www.rfc-editor.org/rfc/rfc6838 RFC 6836}.
 	 * */
 	public get contentType()
 	{
@@ -56,7 +56,7 @@ export class FileData
 	}
 
 	/**
-	 * The size of the file content in bytes.
+	 * Gets the size of the file content in bytes.
 	 * */
 	public get contentSize()
 	{

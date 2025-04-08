@@ -1,5 +1,5 @@
 ﻿/**
- * The operation type of gateway payloads.
+ * Enumerates the operation types of gateway payloads.
  * */
 export const OperationType =
 {

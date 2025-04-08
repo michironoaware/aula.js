@@ -24,7 +24,7 @@ export class WebSocketReceiveResult
 	}
 
 	/**
-	 * The type of the current message.
+	 * Gets the type of the current message.
 	 * */
 	public get messageType()
 	{
@@ -32,7 +32,7 @@ export class WebSocketReceiveResult
 	}
 
 	/**
-	 * Whether the message has been received completely.
+	 * Gets whether the message has been received completely.
 	 * */
 	public get endOfMessage()
 	{
@@ -40,7 +40,7 @@ export class WebSocketReceiveResult
 	}
 
 	/**
-	 * The number of bytes that the {@link WebSocket} received.
+	 * Gets the number of bytes that the {@link WebSocket} received.
 	 * */
 	public get count()
 	{

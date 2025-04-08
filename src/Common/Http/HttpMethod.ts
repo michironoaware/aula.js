@@ -49,7 +49,7 @@ export class HttpMethod
 	}
 
 	/**
-	 * Gets the HTTP PATCH protocol method.
+	 * Represents the HTTP PATCH protocol method.
 	 * */
 	public static get Patch()
 	{
@@ -91,7 +91,7 @@ export class HttpMethod
 	}
 
 	/**
-	 * Gets the HTTP CONNECT protocol method.
+	 * Represents the HTTP CONNECT protocol method.
 	 * */
 	public static get Connect()
 	{
@@ -99,7 +99,7 @@ export class HttpMethod
 	}
 
 	/**
-	 * The name of this {@link HttpMethod}.
+	 * Gets the name of this {@link HttpMethod}.
 	 * */
 	public get name()
 	{

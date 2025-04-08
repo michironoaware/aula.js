@@ -44,7 +44,7 @@ export class UserData
 	}
 
 	/**
-	 * The id of the user.
+	 * Gets the id of the user.
 	 * */
 	public get id()
 	{
@@ -52,7 +52,7 @@ export class UserData
 	}
 
 	/**
-	 * The display name of the user.
+	 * Gets the display name of the user.
 	 * */
 	public get displayName()
 	{
@@ -60,7 +60,7 @@ export class UserData
 	}
 
 	/**
-	 * The description of the user.
+	 * Gets the description of the user.
 	 * */
 	public get description()
 	{
@@ -68,7 +68,7 @@ export class UserData
 	}
 
 	/**
-	 * The type of user.
+	 * Gets the type of user.
 	 * */
 	public get type()
 	{
@@ -76,7 +76,7 @@ export class UserData
 	}
 
 	/**
-	 * The connection state of the user.
+	 * Gets the connection state of the user.
 	 * */
 	public get presence()
 	{
@@ -84,7 +84,7 @@ export class UserData
 	}
 
 	/**
-	 * The permission bit fields of the user as a string.
+	 * Gets the permission bit fields of the user as a string.
 	 * */
 	public get permissions()
 	{
@@ -92,7 +92,7 @@ export class UserData
 	}
 
 	/**
-	 * The id of the room where the user is located.
+	 * Gets the id of the room where the user is located.
 	 * */
 	public get currentRoomId()
 	{

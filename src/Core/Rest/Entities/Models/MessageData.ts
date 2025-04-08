@@ -79,7 +79,7 @@ export class MessageData
 	}
 
 	/**
-	 * The id of the message.
+	 * Gets the id of the message.
 	 * */
 	public get id()
 	{
@@ -87,7 +87,7 @@ export class MessageData
 	}
 
 	/**
-	 * The type of the message.
+	 * Gets the type of the message.
 	 * */
 	public get type()
 	{
@@ -95,7 +95,7 @@ export class MessageData
 	}
 
 	/**
-	 * The flag bit fields of the message as a string.
+	 * Gets the flag bit fields of the message as a string.
 	 * */
 	public get flags()
 	{
@@ -103,7 +103,7 @@ export class MessageData
 	}
 
 	/**
-	 * The type of author of the message.
+	 * Gets the type of author of the message.
 	 * */
 	public get authorType()
 	{
@@ -111,7 +111,7 @@ export class MessageData
 	}
 
 	/**
-	 * The id of the author of the message.
+	 * Gets the id of the author of the message.
 	 * */
 	public get authorId()
 	{
@@ -119,7 +119,7 @@ export class MessageData
 	}
 
 	/**
-	 * The id of the room where the message was sent.
+	 * Gets the id of the room where the message was sent.
 	 * */
 	public get roomId()
 	{
@@ -127,7 +127,7 @@ export class MessageData
 	}
 
 	/**
-	 * The text content of the message.
+	 * Gets the text content of the message.
 	 * */
 	public get text()
 	{
@@ -135,7 +135,7 @@ export class MessageData
 	}
 
 	/**
-	 * Additional data available only for {@link MessageType.UserJoin} messages.
+	 * Gets additional data available only for {@link MessageType.UserJoin} messages.
 	 * */
 	public get joinData()
 	{
@@ -143,7 +143,7 @@ export class MessageData
 	}
 
 	/**
-	 * Additional data available only for {@link MessageType.UserLeave} messages.
+	 * Gets additional data available only for {@link MessageType.UserLeave} messages.
 	 * */
 	public get leaveData()
 	{

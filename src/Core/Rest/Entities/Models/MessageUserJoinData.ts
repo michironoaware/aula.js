@@ -27,7 +27,7 @@ export class MessageUserJoinData
 	}
 
 	/**
-	 * The id of the user who joined the room.
+	 * Gets the id of the user who joined the room.
 	 * */
 	public get userId()
 	{
@@ -35,7 +35,7 @@ export class MessageUserJoinData
 	}
 
 	/**
-	 * The id of the previous room where the user was.
+	 * Gets the id of the previous room where the user was.
 	 * */
 	public get previousRoomId()
 	{
