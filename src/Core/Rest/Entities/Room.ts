@@ -123,7 +123,7 @@ export class Room
 
 	/**
 	 * Removes the room.
-	 * @returns A promise that resolves when the operation is completed.
+	 * @returns A promise that resolves once the operation is complete.
 	 * */
 	public async remove()
 	{
@@ -142,7 +142,7 @@ export class Room
 	/**
 	 * Sets the collection of rooms that a user can travel to from this room.
 	 * @param rooms A collection containing the id of the rooms.
-	 * @returns A promise that resolves when the operation is completed.
+	 * @returns A promise that resolves once the operation is complete.
 	 * */
 	public async setConnectedRooms(rooms: Iterable<Room | string>)
 	{
@@ -160,7 +160,7 @@ export class Room
 	/**
 	 * Adds a room to the collection of rooms that a user can travel to from this room.
 	 * @param room The id of the room to add to the collection.
-	 * @returns A promise that resolves when the operation is completed.
+	 * @returns A promise that resolves once the operation is complete.
 	 * */
 	public async addRoomConnection(room: Room | string)
 	{
@@ -173,7 +173,7 @@ export class Room
 	/**
 	 * Removes a room to the collection of rooms that a user can travel to from this room.
 	 * @param room The id of the room to remove from the collection.
-	 * @returns A promise that resolves when the operation is completed.
+	 * @returns A promise that resolves once the operation is complete.
 	 * */
 	public async removeRoomConnection(room: Room | string)
 	{

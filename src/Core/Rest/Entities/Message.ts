@@ -134,7 +134,7 @@ export class Message
 
 	/**
 	 * Removes the message from the room where it was sent.
-	 * @returns A promise that resolves when the operation is completed.
+	 * @returns A promise that resolves once the operation is complete.
 	 * */
 	public async remove()
 	{
