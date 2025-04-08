@@ -45,7 +45,8 @@ export class MessageUserJoin
 	}
 
 	/**
-	 * Gets the id of the room where the user comes from.
+	 * Gets the id of the room where the user comes from,
+	 * or `null` if the user did not come from any room.
 	 * */
 	public get previousRoomId()
 	{
@@ -53,7 +54,7 @@ export class MessageUserJoin
 	}
 
 	/**
-	 * Gets the user that joined the room.
+	 * Gets the user who joined the room.
 	 * @returns A promise that resolves to a {@link User}.
 	 * */
 	public async getUser()
@@ -69,7 +70,8 @@ export class MessageUserJoin
 
 	/**
 	 * Gets the room where the user comes from.
-	 * @returns A promise that resolves to a {@link Room}, or `null` if the room no longer exists.
+	 * @returns A promise that resolves to a {@link Room},
+	 * or `null` if the user did not come from any room or the room no longer exists.
 	 * */
 	public async getPreviousRoom()
 	{
