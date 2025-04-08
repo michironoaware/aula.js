@@ -8,47 +8,47 @@ export const Permissions =
 	/**
 	 * Grants the user privileges over the entire application.
 	 * */
-	Administrator: 1n << 0n,
+	Administrator: 1n,
 
 	/**
 	 * Allows to create, modify and remove rooms.
 	 * */
-	ManageRooms: 1n << 1n,
+	ManageRooms: 2n,
 
 	/**
 	 * Allows retrieving previously sent messages.
 	 * */
-	ReadMessages: 1n << 2n,
+	ReadMessages: 4n,
 
 	/**
 	 * Allows to send messages.
 	 * */
-	SendMessages: 1n << 3n,
+	SendMessages: 8n,
 
 	/**
 	 * Allows to delete messages sent by other users.
 	 * */
-	ManageMessages: 1n << 4n,
+	ManageMessages: 16n,
 
 	/**
 	 * Allows the user to set their current room.
 	 * */
-	SetOwnCurrentRoom: 1n << 5n,
+	SetOwnCurrentRoom: 32n,
 
 	/**
 	 * Allows to set the current room of any user.
 	 * */
-	SetCurrentRoom: 1n << 6n,
+	SetCurrentRoom: 64n,
 
 	/**
 	 * Allows to ban users from the application.
 	 * */
-	BanUsers: 1n << 7n,
+	BanUsers: 128n,
 
 	/**
 	 * Allows to upload files to the application.
 	 * */
-	UploadFiles: 1n << 8n,
+	UploadFiles: 256n,
 } as const;
 
 Object.freeze(Permissions);
