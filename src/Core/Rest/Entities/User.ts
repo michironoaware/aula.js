@@ -5,6 +5,7 @@ import { Permissions } from "./Permissions.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { Room } from "./Room.js";
 import { TypeHelper } from "../../../Common/TypeHelper.js";
+import { UnreachableError } from "../../../Common/UnreachableError.js";
 
 export class User
 {
