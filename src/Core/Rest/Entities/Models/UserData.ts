@@ -11,7 +11,7 @@ export class UserData
 {
 	readonly #_id: string;
 	readonly #_displayName: string;
-	readonly #_description: string | null;
+	readonly #_description: string;
 	readonly #_type: UserType;
 	readonly #_presence: Presence;
 	readonly #_permissions: string;
@@ -28,7 +28,7 @@ export class UserData
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.displayName, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.description, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.description, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.presence, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.permissions, "string");
@@ -36,7 +36,7 @@ export class UserData
 
 		this.#_id = data.id;
 		this.#_displayName = data.displayName;
-		this.#_description = data.description ?? null;
+		this.#_description = data.description;
 		this.#_type = data.type;
 		this.#_presence = data.presence;
 		this.#_permissions = data.permissions;
