@@ -44,6 +44,11 @@ export const Permissions =
 	 * Allows to ban users from the application.
 	 * */
 	BanUsers: 1n << 7n,
+
+	/**
+	 * Allows to upload files to the application.
+	 * */
+	UploadFiles: 1n << 8n,
 }
 
 Object.freeze(Permissions);
