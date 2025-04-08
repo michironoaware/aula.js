@@ -3,6 +3,7 @@ import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { MessageData } from "./Models/MessageData.js";
 import { MessageAuthorType } from "./MessageAuthorType.js";
 import { MessageFlags } from "./MessageFlags.js";
+import { UnreachableError } from "../../../Common/UnreachableError.js";
 
 /**
  * Represents a message within Aula.
@@ -113,7 +114,13 @@ export class Message
 			return null;
 		}
 
-		return await this.restClient.getUser(this.authorId);
+		const author = await this.restClient.getUser(this.authorId);
+		if (author === null)
+		{
+			throw new UnreachableError("User expected to exist, but the server sent nothing.");
+		}
+
+		return author;
 	}
 
 	/**
