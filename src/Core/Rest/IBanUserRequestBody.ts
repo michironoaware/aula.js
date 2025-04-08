@@ -1,4 +1,4 @@
 ﻿export interface IBanUserRequestBody
 {
-	readonly reason?: string;
+	readonly reason?: string | null;
 }

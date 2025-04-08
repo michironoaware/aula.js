@@ -1,6 +1,6 @@
 ﻿export interface IGetBansQuery
 {
-	readonly type?: number;
-	readonly count?: number;
-	readonly after?: string;
+	readonly type?: number | null;
+	readonly count?: number | null;
+	readonly after?: string | null;
 }

@@ -14,7 +14,7 @@ export interface ISendUnknownMessageRequestBody
 	/**
 	 * The flags of the message being sent.
 	 */
-	readonly flags?: MessageFlags;
+	readonly flags?: MessageFlags | null;
 
 	/**
 	 * The text content of the message being sent.

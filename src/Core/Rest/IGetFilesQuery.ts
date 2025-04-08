@@ -1,5 +1,5 @@
 export interface IGetFilesQuery
 {
-	readonly count?: number;
-	readonly after?: string;
+	readonly count?: number | null;
+	readonly after?: string | null;
 }

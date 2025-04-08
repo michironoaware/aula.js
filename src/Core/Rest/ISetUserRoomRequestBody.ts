@@ -1,4 +1,4 @@
 ﻿export interface ISetUserRoomRequestBody
 {
-	readonly roomId?: string;
+	readonly roomId?: string | null;
 }

@@ -1,7 +1,7 @@
 ﻿export interface IModifyRoomRequestBody
 {
-	readonly name?: string;
-	readonly description?: string;
-	readonly isEntrance?: boolean;
-	readonly backgroundAudioId?: string;
+	readonly name?: string | null;
+	readonly description?: string | null;
+	readonly isEntrance?: boolean | null;
+	readonly backgroundAudioId?: string | null;
 }

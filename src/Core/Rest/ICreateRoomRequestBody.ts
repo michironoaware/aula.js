@@ -5,6 +5,6 @@ export interface ICreateRoomRequestBody
 	readonly type: RoomType;
 	readonly name: string;
 	readonly description: string;
-	readonly isEntrance?: boolean;
+	readonly isEntrance?: boolean | null;
 	readonly backgroundAudioId?: string;
 }

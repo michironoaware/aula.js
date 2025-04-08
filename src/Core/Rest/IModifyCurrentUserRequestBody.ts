@@ -1,5 +1,5 @@
 ﻿export interface IModifyCurrentUserRequestBody
 {
-	readonly displayName?: string;
-	readonly description?: string;
+	readonly displayName?: string | null;
+	readonly description?: string | null;
 }

@@ -2,7 +2,7 @@
 
 export interface IGetUsersQuery
 {
-	readonly type?: UserType;
-	readonly count?: number;
-	readonly after?: string;
+	readonly type?: UserType | null;
+	readonly count?: number | null;
+	readonly after?: string | null;
 }
