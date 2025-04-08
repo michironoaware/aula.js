@@ -246,7 +246,7 @@ export class RestClient implements IDisposable
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotType(body.roomId, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.roomId, "string", "undefined");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
