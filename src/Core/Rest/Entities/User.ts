@@ -83,9 +83,6 @@ export class User
 		return await this.restClient.getRoom(this.currentRoomId);
 	}
 
-	public async setCurrentRoom(room: Room): Promise<void>;
-
-	public async setCurrentRoom(roomId: string): Promise<void>;
 
 	public async setCurrentRoom(room: Room | string)
 	{
