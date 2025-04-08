@@ -81,7 +81,7 @@ export class Room
 		return await this.restClient.removeRoom(this.id);
 	}
 
-	public async getConnections()
+	public async getConnectedRooms()
 	{
 		return await this.restClient.getRoomConnections(this.id);
 	}
