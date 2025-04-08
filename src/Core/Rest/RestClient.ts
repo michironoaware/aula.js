@@ -161,8 +161,7 @@ export class RestClient implements IDisposable
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		const userData = new UserData(JSON.parse(await response.content.readAsString()));
-		return new User(userData, this);
+		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	public async getUsers(query: IGetUsersQuery = {}, cancellationToken: CancellationToken = CancellationToken.none)
