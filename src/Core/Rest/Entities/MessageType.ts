@@ -1,8 +1,22 @@
-﻿export const MessageType =
+﻿/**
+ * Enumerates the message types.
+ * */
+export const MessageType =
 	{
-	Standard: 0,
-	UserJoin: 1,
-	UserLeave: 2,
+		/**
+		 * A text message.
+		 * */
+		Standard: 0,
+
+		/**
+		 * Sent when a user joins the room.
+		 * */
+		UserJoin: 1,
+
+		/**
+		 * Sent when a user leaves the room.
+		 * */
+		UserLeave: 2,
 	} as const;
 
 Object.freeze(MessageType);
