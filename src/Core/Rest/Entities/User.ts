@@ -64,7 +64,13 @@ export class User
 
 	public async getLatest()
 	{
-		return await this.restClient.getUser(this.id);
+		const user = await this.restClient.getUser(this.id);
+		if (user === null)
+		{
+			throw new UnreachableError("User expected to exist, but the server sent nothing.");
+		}
+
+		return user;
 	}
 
 	public async getCurrentRoom()
