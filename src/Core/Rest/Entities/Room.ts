@@ -12,10 +12,6 @@ export class Room
 	readonly #_data: RoomData;
 	#_creationDate: Date | null = null;
 
-	/**
-	 * @privateRemarks This constructor needs to be public to prevent a TS2345 warning when using {@link TypeHelper} methods.
-	 * */
-	// noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
 	public constructor(data: RoomData, restClient: RestClient)
 	{
 		ThrowHelper.TypeError.throwIfNotType(data, RoomData);
