@@ -104,8 +104,7 @@ export class Message
 
 	/**
 	 * Gets the author of the message.
-	 * @returns A promise that resolves to a {@link User},
-	 * or `null` if the author is not a user or no longer exists.
+	 * @returns A promise that resolves to a {@link User}, or `null` if the author is not a user.
 	 * */
 	public async getAuthor()
 	{
