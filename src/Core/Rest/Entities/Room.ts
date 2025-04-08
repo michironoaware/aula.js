@@ -86,7 +86,7 @@ export class Room
 		return await this.restClient.getRoomConnections(this.id);
 	}
 
-	public async setConnections(rooms: Iterable<Room | string>)
+	public async setConnectedRooms(rooms: Iterable<Room | string>)
 	{
 		ThrowHelper.TypeError.throwIfNotType(rooms, "iterable");
 
@@ -99,7 +99,7 @@ export class Room
 		return await this.restClient.setRoomConnections(this.id, { roomIds });
 	}
 
-	public async addConnection(room: Room | string)
+	public async addRoomConnection(room: Room | string)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string");
 
@@ -107,7 +107,7 @@ export class Room
 		return await this.restClient.addRoomConnection(this.id, roomId);
 	}
 
-	public async removeConnection(room: Room | string)
+	public async removeRoomConnection(room: Room | string)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string");
 
