@@ -46,7 +46,7 @@ export class MessageUserLeave
 
 	/**
 	 * Gets the id of the room where the user moved to,
-	 * or `null` if the user was not reallocated.
+	 * or `null` if the user was not relocated.
 	 * */
 	public get roomId()
 	{
@@ -71,7 +71,7 @@ export class MessageUserLeave
 	/**
 	 * Gets the id of the room where the user moved to.
 	 * @returns A promise that resolves to a {@link Room},
-	 * or `null` if the user was not reallocated or the room no longer exists.
+	 * or `null` if the user was not relocated or the room no longer exists.
 	 * */
 	public async getRoom()
 	{
