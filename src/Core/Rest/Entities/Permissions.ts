@@ -49,7 +49,7 @@ export const Permissions =
 	 * Allows to upload files to the application.
 	 * */
 	UploadFiles: 1n << 8n,
-}
+} as const;
 
 Object.freeze(Permissions);
 
