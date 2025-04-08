@@ -2,11 +2,21 @@
 import { HttpRequestError } from "../../Common/Http/HttpRequestError.js";
 import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
 
+/**
+ * Represents an error that occurred during a request to the Aula REST API.
+ * */
 export class AulaRestError extends Error
 {
 	readonly #_problemDetails: ProblemDetails;
 	readonly #_innerError: HttpRequestError | null;
 
+	/**
+	 * Initializes a new instance of {@link AulaRestError}.
+	 * @param message The message of the error.
+	 * @param problemDetails The problem details of the request error.
+	 * @param innerError the {@link HttpRequestError} related to the error.
+	 * @package
+	 * */
 	public constructor(
 		message: string,
 		problemDetails: ProblemDetails,
@@ -39,11 +49,17 @@ export class AulaRestError extends Error
 		this.#_innerError = innerError ?? null;
 	}
 
+	/**
+	 * Gets the problem details of the error.
+	 * */
 	public get problemDetails()
 	{
 		return this.#_problemDetails;
 	}
 
+	/**
+	 * Gets the inner error.
+	 * */
 	public get innerError()
 	{
 		return this.#_innerError;
