@@ -203,8 +203,8 @@ export class RestClient implements IDisposable
 	public async modifyCurrentUser(body: IModifyCurrentUserRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotAnyType(body.displayName, "string", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.displayName, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
@@ -246,7 +246,7 @@ export class RestClient implements IDisposable
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotAnyType(body.roomId, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.roomId, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
@@ -293,8 +293,8 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(body.type, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.name, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.backgroundAudioId, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.backgroundAudioId, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
@@ -355,10 +355,10 @@ export class RestClient implements IDisposable
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotAnyType(body.name, "string", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.backgroundAudioId, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.name, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.backgroundAudioId, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
@@ -519,8 +519,8 @@ export class RestClient implements IDisposable
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNullable(body);
 		ThrowHelper.TypeError.throwIfNotType(body.type, MessageType);
-		ThrowHelper.TypeError.throwIfNotAnyType(body.flags, "number", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType((body as ISendUnknownMessageRequestBody).content, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.flags, "number", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType((body as ISendUnknownMessageRequestBody).content, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
@@ -596,7 +596,7 @@ export class RestClient implements IDisposable
 	{
 		ThrowHelper.TypeError.throwIfNullable(body);
 		ThrowHelper.TypeError.throwIfNotType(body.userName, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.displayName, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.displayName, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(body.email, "string");
 		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
@@ -768,7 +768,7 @@ export class RestClient implements IDisposable
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotAnyType(body.reason, "string", "undefined");
+		ThrowHelper.TypeError.throwIfNotAnyType(body.reason, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
