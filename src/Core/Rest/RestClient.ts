@@ -852,7 +852,7 @@ export class RestClient implements IDisposable
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		return new GetCurrentUserBanStatusResponse(JSON.parse(await response.content.readAsString()));
+		return new GetCurrentUserBanStatusResponse(JSON.parse(await response.content.readAsString()), this);
 	}
 
 	public async getFiles(query: IGetFilesQuery = {}, cancellationToken: CancellationToken = CancellationToken.none)
