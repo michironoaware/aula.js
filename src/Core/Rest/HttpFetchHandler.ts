@@ -8,6 +8,9 @@ import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError.js";
 
+/**
+ * A {@link HttpMessageHandler} implementation that sends HTTP requests using the Fetch API.
+ * */
 export class HttpFetchHandler extends HttpMessageHandler
 {
 	constructor()
