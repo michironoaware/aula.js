@@ -11,6 +11,9 @@ import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { Func } from "../../Common/Func.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 
+/**
+ * A {@link DelegatingHandler} that implements a global rate-limiting mechanism for Aula servers.
+ * */
 export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 {
 	readonly #_eventEmitter: EventEmitter<AulaGlobalRateLimiterHandlerEvents> = new EventEmitter();
