@@ -11,6 +11,7 @@ export class CreateBotResponse
 {
 	readonly #_user: User;
 	readonly #_token: string;
+	readonly #_restClient: RestClient;
 
 	/**
 	 * Initializes a new instance of {@link CreateBotResponse}.
@@ -29,6 +30,15 @@ export class CreateBotResponse
 
 		this.#_user = new User(new UserData(data.user), restClient);
 		this.#_token = data.token;
+		this.#_restClient = restClient;
+	}
+
+	/**
+	 * Gets the {@link RestClient} that initialized this instance.
+	 * */
+	public get restClient()
+	{
+		return this.#_restClient;
 	}
 
 	/**
