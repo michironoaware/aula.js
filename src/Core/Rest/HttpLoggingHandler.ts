@@ -8,6 +8,9 @@ import { HttpMethod } from "../../Common/Http/HttpMethod.js";
 import { Func } from "../../Common/Func.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 
+/**
+ * A {@link DelegatingHandler} that logs HTTP request and response information.
+ * */
 export class HttpLoggingHandler extends DelegatingHandler
 {
 	readonly #_log: Func<[ string ]>;
@@ -15,6 +18,14 @@ export class HttpLoggingHandler extends DelegatingHandler
 	readonly #_headerLogging: boolean;
 	#_disposed: boolean = false;
 
+	/**
+	 * Initializes a new instance of {@link HttpLoggingHandler}.
+	 * @param innerHandler - The inner {@link HttpMessageHandler} to delegate requests to.
+	 * @param disposeInnerHandler - Whether to dispose the inner handler when this handler is disposed.
+	 * @param logFunc - A function that handles log output.
+	 * @param sensitiveLogging - Whether to include sensitive data (e.g., `Authorization` headers) in logs.
+	 * @param headerLogging - Whether to include request and response headers in logs.
+	 */
 	public constructor(
 		innerHandler: HttpMessageHandler,
 		disposeInnerHandler: boolean,
