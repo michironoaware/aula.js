@@ -8,6 +8,13 @@ import { HttpResponseMessage } from "../../Common/Http/HttpResponseMessage.js";
 import { Delay } from "../../Common/Threading/Delay.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 
+/**
+ * A {@link DelegatingHandler} that implements a retry mechanism for handling HTTP 503 status codes.
+ *
+ * This handler attempts to send an HTTP request and, if the response has an HTTP 503 status code,
+ * the handler will automatically retry sending the request with an exponentially increasing delay. The retry logic
+ * continues until a response with a status code different from HTTP 503 is received.
+ * */
 export class AulaHttpStatusCode503Handler extends DelegatingHandler
 {
 	public constructor(innerHandler: HttpMessageHandler, disposeInnerHandler: boolean)
