@@ -14,6 +14,9 @@ import { Func } from "../../Common/Func.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError.js";
 
+/**
+ * A {@link DelegatingHandler} that implements a per route rate-limiting mechanism for Aula servers.
+ * */
 export class AulaRouteRateLimiterHandler extends DelegatingHandler
 {
 	readonly #_eventEmitter: EventEmitter<AulaRouteRateLimiterHandlerEvents> = new EventEmitter();
@@ -31,6 +34,9 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 		this.#_allowConcurrentRequests = allowConcurrentRequests;
 	}
 
+	/**
+	 * Gets whether the handler allows sending multiple requests concurrently to the same route.
+	 * */
 	public get allowConcurrentRequests()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
