@@ -637,7 +637,7 @@ export class RestClient implements IDisposable
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		return new LogInResponse(JSON.parse(await response.content.readAsString()));
+		return new LogInResponse(JSON.parse(await response.content.readAsString()), this);
 	}
 
 	public async confirmEmail(query: IConfirmEmailQuery, cancellationToken: CancellationToken = CancellationToken.none)
@@ -761,7 +761,7 @@ export class RestClient implements IDisposable
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		return new ResetBotTokenResponse(JSON.parse(await response.content.readAsString()));
+		return new ResetBotTokenResponse(JSON.parse(await response.content.readAsString()), this);
 	}
 
 	public async banUser(userId: string, body: IBanUserRequestBody = {}, cancellationToken: CancellationToken = CancellationToken.none)
