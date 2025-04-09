@@ -166,6 +166,40 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 		}
 	}
 
+	/**
+	 * Registers a listener for a specific event.
+	 * @param event The name of the event to subscribe to.
+	 * @param listener The callback function to invoke when the event occurs.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 */
+	public on<TEvent extends keyof AulaRouteRateLimiterHandlerEvents>(
+		event: TEvent,
+		listener: AulaRouteRateLimiterHandlerEvents[TEvent])
+	{
+		ThrowHelper.TypeError.throwIfNullable(event);
+		ThrowHelper.TypeError.throwIfNotType(listener, "function");
+		ObjectDisposedError.throwIf(this.#_disposed);
+
+		return this.#_eventEmitter.on(event, listener);
+	}
+
+	/**
+	 * Removes an already registered listener.
+	 * @param event The name of the event that the listener is listening to.
+	 * @param listener The callback function of the listener.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 */
+	public remove<TEvent extends keyof AulaRouteRateLimiterHandlerEvents>(
+		event: TEvent,
+		listener: AulaRouteRateLimiterHandlerEvents[TEvent])
+	{
+		ThrowHelper.TypeError.throwIfNullable(event);
+		ThrowHelper.TypeError.throwIfNotType(listener, "function");
+		ObjectDisposedError.throwIf(this.#_disposed);
+
+		return this.#_eventEmitter.remove(event, listener);
+	}
+
 	public dispose()
 	{
 		super.dispose();
