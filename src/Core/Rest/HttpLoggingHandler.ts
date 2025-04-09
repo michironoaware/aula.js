@@ -16,8 +16,9 @@ export class HttpLoggingHandler extends DelegatingHandler
 	#_disposed: boolean = false;
 
 	public constructor(
-		innerHandler: HttpMessageHandler, logFunc: Func<[ string ]>,
+		innerHandler: HttpMessageHandler,
 		disposeInnerHandler: boolean,
+		logFunc: Func<[ string ]>,
 		sensitiveLogging: boolean = false,
 		headerLogging: boolean = false)
 	{
