@@ -104,6 +104,12 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		}
 	}
 
+	/**
+	 * Registers a listener for a specific event.
+	 * @param event The name of the event to subscribe to.
+	 * @param listener The callback function to invoke when the event occurs.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 */
 	public on<TEvent extends keyof AulaGlobalRateLimiterHandlerEvents>(
 		event: TEvent,
 		listener: AulaGlobalRateLimiterHandlerEvents[TEvent])
@@ -115,6 +121,12 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		return this.#_eventEmitter.on(event, listener);
 	}
 
+	/**
+	 * Removes an already registered listener.
+	 * @param event The name of the event that the listener is listening to.
+	 * @param listener The callback function of the listener.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 */
 	public remove<TEvent extends keyof AulaGlobalRateLimiterHandlerEvents>(
 		event: TEvent,
 		listener: AulaGlobalRateLimiterHandlerEvents[TEvent])
