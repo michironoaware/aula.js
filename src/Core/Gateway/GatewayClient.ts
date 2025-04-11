@@ -126,7 +126,7 @@ export class GatewayClient implements IDisposable
 		}
 
 		this.#_address = new URL(`${uri.href}${uri.href.endsWith("/") ? "" : "/"}api/v1/gateway`);
-		this.#_restClient.setBaseAddress(uri);
+		this.#_restClient.withBaseAddress(uri);
 
 		return this;
 	}
@@ -143,7 +143,7 @@ export class GatewayClient implements IDisposable
 
 		this.#_webSocket.headers.delete("Authorization");
 		this.#_webSocket.headers.append("Authorization", `Bearer ${token}`);
-		this.#_restClient.setToken(token);
+		this.#_restClient.withToken(token);
 		return this;
 	}
 
