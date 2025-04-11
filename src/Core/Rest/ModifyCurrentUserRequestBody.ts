@@ -75,4 +75,12 @@ export class ModifyCurrentUserRequestBody
 		this.description = description;
 		return this;
 	}
+
+	public toJSON()
+	{
+		return {
+			displayName: this.#_displayName,
+			description: this.#_description
+		};
+	}
 }
