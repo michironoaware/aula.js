@@ -17,7 +17,6 @@ import { JsonContent } from "../../Common/Http/JsonContent.js";
 import { ISetUserPermissionsRequestBody } from "./ISetUserPermissionsRequestBody.js";
 import { RoomData } from "./Entities/Models/RoomData.js";
 import { Room } from "./Entities/Room.js";
-import { IModifyRoomRequestBody } from "./IModifyRoomRequestBody.js";
 import { ISetRoomConnectionsRequestBody } from "./ISetRoomConnectionsRequestBody.js";
 import { MessageData } from "./Entities/Models/MessageData.js";
 import { Message } from "./Entities/Message.js";
@@ -62,6 +61,7 @@ import { ModifyCurrentUserRequestBody } from "./ModifyCurrentUserRequestBody.js"
 import { SetUserRoomRequestBody } from "./SetUserRoomRequestBody.js";
 import { CreateRoomRequestBody } from "./CreateRoomRequestBody.js";
 import { GetRoomsQuery } from "./GetRoomsQuery.js";
+import { ModifyRoomRequestBody } from "./ModifyRoomRequestBody.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -327,26 +327,16 @@ export class RestClient implements IDisposable
 		return EntityFactory.createRoom(new RoomData(JSON.parse(await response.content.readAsString())), this);
 	}
 
-	public async modifyRoom(roomId: string, body: IModifyRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	public async modifyRoom(roomId: string, body: ModifyRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotAnyType(body.name, "string", "nullable");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "nullable");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "nullable");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.backgroundAudioId, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotType(body, ModifyRoomRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.room({ route: { roomId } }));
-		request.content = new JsonContent(
-			{
-				name: body.name,
-				description: body.description,
-				isEntrance: body.isEntrance,
-				backgroundAudioId: body.backgroundAudioId,
-			} as IModifyRoomRequestBody);
+		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
