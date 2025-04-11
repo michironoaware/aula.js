@@ -15,7 +15,6 @@ import { GetUsersQuery } from "./GetUsersQuery.js";
 import { UserData } from "./Entities/Models/UserData.js";
 import { JsonContent } from "../../Common/Http/JsonContent.js";
 import { ISetUserPermissionsRequestBody } from "./ISetUserPermissionsRequestBody.js";
-import { ICreateRoomRequestBody } from "./ICreateRoomRequestBody.js";
 import { RoomData } from "./Entities/Models/RoomData.js";
 import { Room } from "./Entities/Room.js";
 import { IGetRoomsQuery } from "./IGetRoomsQuery.js";
@@ -62,6 +61,7 @@ import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { RestClientOptions } from "./RestClientOptions.js";
 import { ModifyCurrentUserRequestBody } from "./ModifyCurrentUserRequestBody.js";
 import { SetUserRoomRequestBody } from "./SetUserRoomRequestBody.js";
+import { CreateRoomRequestBody } from "./CreateRoomRequestBody.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -275,27 +275,15 @@ export class RestClient implements IDisposable
 		return;
 	}
 
-	public async createRoom(body: ICreateRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	public async createRoom(body: CreateRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotType(body.type, "number");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.name, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.isEntrance, "boolean", "nullable");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.backgroundAudioId, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotType(body, CreateRoomRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.rooms());
-		request.content = new JsonContent(
-			{
-				type: body.type,
-				name: body.name,
-				description: body.description,
-				isEntrance: body.isEntrance,
-				backgroundAudioId: body.backgroundAudioId,
-			} as ICreateRoomRequestBody);
+		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
