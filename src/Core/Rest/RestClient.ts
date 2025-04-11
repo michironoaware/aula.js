@@ -13,7 +13,6 @@ import { AulaRoute } from "../AulaRoute.js";
 import { User } from "./Entities/User.js";
 import { GetUsersQuery } from "./GetUsersQuery.js";
 import { UserData } from "./Entities/Models/UserData.js";
-import { IModifyCurrentUserRequestBody } from "./IModifyCurrentUserRequestBody.js";
 import { JsonContent } from "../../Common/Http/JsonContent.js";
 import { ISetUserRoomRequestBody } from "./ISetUserRoomRequestBody.js";
 import { ISetUserPermissionsRequestBody } from "./ISetUserPermissionsRequestBody.js";
@@ -62,6 +61,7 @@ import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 import { IDisposable } from "../../Common/IDisposable.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { RestClientOptions } from "./RestClientOptions.js";
+import { ModifyCurrentUserRequestBody } from "./ModifyCurrentUserRequestBody.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -202,21 +202,15 @@ export class RestClient implements IDisposable
 		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
 	}
 
-	public async modifyCurrentUser(body: IModifyCurrentUserRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	public async modifyCurrentUser(body: ModifyCurrentUserRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotAnyType(body.displayName, "string", "nullable");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.description, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotType(body, ModifyCurrentUserRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.currentUser());
-		request.content = new JsonContent(
-			{
-				displayName: body.displayName,
-				description: body.description,
-			} as IModifyCurrentUserRequestBody);
+		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
