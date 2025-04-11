@@ -115,7 +115,7 @@ export class RestClient implements IDisposable
 		}
 	}
 
-	public setBaseAddress(uri: URL)
+	public withBaseAddress(uri: URL)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(uri, URL);
 		ObjectDisposedError.throwIf(this.#_disposed);
@@ -124,7 +124,7 @@ export class RestClient implements IDisposable
 		return this;
 	}
 
-	public setToken(value: string)
+	public withToken(value: string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(value, "string");
 		ObjectDisposedError.throwIf(this.#_disposed);
