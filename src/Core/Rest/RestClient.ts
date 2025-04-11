@@ -11,7 +11,7 @@ import { HttpMethod } from "../../Common/Http/HttpMethod.js";
 import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
 import { AulaRoute } from "../AulaRoute.js";
 import { User } from "./Entities/User.js";
-import { GetUsersQuery } from "./IGetUsersQuery.js";
+import { GetUsersQuery } from "./GetUsersQuery.js";
 import { UserData } from "./Entities/Models/UserData.js";
 import { IModifyCurrentUserRequestBody } from "./IModifyCurrentUserRequestBody.js";
 import { JsonContent } from "../../Common/Http/JsonContent.js";
