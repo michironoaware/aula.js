@@ -11,7 +11,7 @@ import { HttpMethod } from "../../Common/Http/HttpMethod.js";
 import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
 import { AulaRoute } from "../AulaRoute.js";
 import { User } from "./Entities/User.js";
-import { IGetUsersQuery } from "./IGetUsersQuery.js";
+import { GetUsersQuery } from "./IGetUsersQuery.js";
 import { UserData } from "./Entities/Models/UserData.js";
 import { IModifyCurrentUserRequestBody } from "./IModifyCurrentUserRequestBody.js";
 import { JsonContent } from "../../Common/Http/JsonContent.js";
@@ -63,6 +63,9 @@ import { IDisposable } from "../../Common/IDisposable.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { RestClientOptions } from "./RestClientOptions.js";
 
+/**
+ * Provides a client to interact with the Aula REST API.
+ * */
 export class RestClient implements IDisposable
 {
 	readonly #_httpClient: HttpClient;
@@ -163,9 +166,9 @@ export class RestClient implements IDisposable
 		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
 	}
 
-	public async getUsers(query: IGetUsersQuery = {}, cancellationToken: CancellationToken = CancellationToken.none)
+	public async getUsers(query: GetUsersQuery = GetUsersQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(query);
+		ThrowHelper.TypeError.throwIfNotType(query, GetUsersQuery);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
