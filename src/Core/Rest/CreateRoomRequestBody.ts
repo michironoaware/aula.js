@@ -16,6 +16,7 @@ export class CreateRoomRequestBody
 
 	/**
 	 * Initializes a new instance of {@link CreateRoomRequestBody}.
+	 * @param requiredFields The required fields of the request body.
 	 */
 	public constructor(requiredFields: ICreateRoomRequestBodyRequiredFields)
 	{
