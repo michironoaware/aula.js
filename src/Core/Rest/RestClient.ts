@@ -17,7 +17,6 @@ import { JsonContent } from "../../Common/Http/JsonContent.js";
 import { ISetUserPermissionsRequestBody } from "./ISetUserPermissionsRequestBody.js";
 import { RoomData } from "./Entities/Models/RoomData.js";
 import { Room } from "./Entities/Room.js";
-import { IGetRoomsQuery } from "./IGetRoomsQuery.js";
 import { IModifyRoomRequestBody } from "./IModifyRoomRequestBody.js";
 import { ISetRoomConnectionsRequestBody } from "./ISetRoomConnectionsRequestBody.js";
 import { MessageData } from "./Entities/Models/MessageData.js";
@@ -62,6 +61,7 @@ import { RestClientOptions } from "./RestClientOptions.js";
 import { ModifyCurrentUserRequestBody } from "./ModifyCurrentUserRequestBody.js";
 import { SetUserRoomRequestBody } from "./SetUserRoomRequestBody.js";
 import { CreateRoomRequestBody } from "./CreateRoomRequestBody.js";
+import { GetRoomsQuery } from "./GetRoomsQuery.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -291,9 +291,9 @@ export class RestClient implements IDisposable
 		return EntityFactory.createRoom(new RoomData(JSON.parse(await response.content.readAsString())), this);
 	}
 
-	public async getRooms(query: IGetRoomsQuery = {}, cancellationToken: CancellationToken = CancellationToken.none)
+	public async getRooms(query: GetRoomsQuery = GetRoomsQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(query);
+		ThrowHelper.TypeError.throwIfNotType(query, GetRoomsQuery);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
