@@ -61,6 +61,7 @@ import { IGetFilesQuery } from "./IGetFilesQuery.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 import { IDisposable } from "../../Common/IDisposable.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
+import { RestClientOptions } from "./RestClientOptions.js";
 
 export class RestClient implements IDisposable
 {
@@ -68,12 +69,10 @@ export class RestClient implements IDisposable
 	readonly #_disposeHttpClient: boolean;
 	#_disposed: boolean = false;
 
-	public constructor(options: { httpClient?: HttpClient, disposeHttpClient?: boolean } = {})
+	public constructor(options: RestClientOptions = RestClientOptions.default)
 	{
 		SealedClassError.throwIfNotEqual(RestClient, new.target);
-		ThrowHelper.TypeError.throwIfNullable(options);
-		ThrowHelper.TypeError.throwIfNotAnyType(options.httpClient, HttpClient, "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(options.disposeHttpClient, "boolean", "undefined");
+		ThrowHelper.TypeError.throwIfNotType(options, RestClientOptions);
 
 		this.#_httpClient = options.httpClient ?? new HttpClient(
 			new AulaHttpStatusCode503Handler(
@@ -81,7 +80,7 @@ export class RestClient implements IDisposable
 					new AulaRouteRateLimiterHandler(
 						new HttpFetchHandler(), true, true), true), true), true);
 
-		this.#_disposeHttpClient = options.disposeHttpClient ?? (options.httpClient === undefined);
+		this.#_disposeHttpClient = options.disposeHttpClient;
 	}
 
 	static async #ensureSuccessStatusCode(response: HttpResponseMessage)
