@@ -17,7 +17,7 @@ export class CreateRoomRequestBody
 	/**
 	 * Initializes a new instance of {@link CreateRoomRequestBody}.
 	 */
-	public constructor(requiredFields: { type: RoomType, name: string, description: string })
+	public constructor(requiredFields: ICreateRoomRequestBodyRequiredFields)
 	{
 		SealedClassError.throwIfNotEqual(CreateRoomRequestBody, new.target);
 		ThrowHelper.TypeError.throwIfNullable(requiredFields);
@@ -185,4 +185,25 @@ export class CreateRoomRequestBody
 			backgroundAudioId: this.#_backgroundAudioId
 		};
 	}
+}
+
+/**
+ * The required fields of a {@link CreateRoomRequestBody}.
+ * */
+interface ICreateRoomRequestBodyRequiredFields
+{
+	/**
+	 * The type of room to create.
+	 * */
+	type: RoomType;
+
+	/**
+	 * The name of the room to create.
+	 * */
+	name: string;
+
+	/**
+	 * The description of the room to create.
+	 * */
+	description: string;
 }
