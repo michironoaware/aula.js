@@ -8,27 +8,18 @@ import { RoomType } from "./Entities/RoomType.js";
  */
 export class CreateRoomRequestBody
 {
-	#_type: RoomType;
-	#_name: string;
-	#_description: string;
+	#_type: RoomType | null = null;
+	#_name: string | null = null;
+	#_description: string | null = null;
 	#_isEntrance: boolean | null = null;
 	#_backgroundAudioId: string | null = null;
 
 	/**
 	 * Initializes a new instance of {@link CreateRoomRequestBody}.
-	 * @param requiredFields The required fields of the request body.
 	 */
-	public constructor(requiredFields: ICreateRoomRequestBodyRequiredFields)
+	public constructor()
 	{
 		SealedClassError.throwIfNotEqual(CreateRoomRequestBody, new.target);
-		ThrowHelper.TypeError.throwIfNullable(requiredFields);
-		ThrowHelper.TypeError.throwIfNotType(requiredFields.type, "number");
-		ThrowHelper.TypeError.throwIfNotType(requiredFields.name, "string");
-		ThrowHelper.TypeError.throwIfNotType(requiredFields.description, "string");
-
-		this.#_type = requiredFields.type;
-		this.#_name = requiredFields.name;
-		this.#_description = requiredFields.description;
 	}
 
 	/**
@@ -43,9 +34,9 @@ export class CreateRoomRequestBody
 	 * Sets the type of the room to create.
 	 * @param type The room type.
 	 */
-	public set type(type: RoomType)
+	public set type(type: RoomType | null)
 	{
-		ThrowHelper.TypeError.throwIfNotType(type, "number");
+		ThrowHelper.TypeError.throwIfNotAnyType(type, "number", "null");
 		this.#_type = type;
 	}
 
@@ -61,9 +52,9 @@ export class CreateRoomRequestBody
 	 * Sets the name of the room to create.
 	 * @param name The room name.
 	 */
-	public set name(name: string)
+	public set name(name: string | null)
 	{
-		ThrowHelper.TypeError.throwIfNotType(name, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(name, "string", "null");
 		this.#_name = name;
 	}
 
@@ -79,9 +70,9 @@ export class CreateRoomRequestBody
 	 * Sets the description of the room to create.
 	 * @param description The room description.
 	 */
-	public set description(description: string)
+	public set description(description: string | null)
 	{
-		ThrowHelper.TypeError.throwIfNotType(description, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(description, "string", "null");
 		this.#_description = description;
 	}
 
@@ -126,7 +117,7 @@ export class CreateRoomRequestBody
 	 * @param type The room type.
 	 * @returns The current {@link CreateRoomRequestBody} instance.
 	 */
-	public withType(type: RoomType)
+	public withType(type: RoomType | null)
 	{
 		this.type = type;
 		return this;
@@ -137,7 +128,7 @@ export class CreateRoomRequestBody
 	 * @param name The room name.
 	 * @returns The current {@link CreateRoomRequestBody} instance.
 	 */
-	public withName(name: string)
+	public withName(name: string | null)
 	{
 		this.name = name;
 		return this;
@@ -148,7 +139,7 @@ export class CreateRoomRequestBody
 	 * @param description The room description.
 	 * @returns The current {@link CreateRoomRequestBody} instance.
 	 */
-	public withDescription(description: string)
+	public withDescription(description: string | null)
 	{
 		this.description = description;
 		return this;
@@ -186,25 +177,4 @@ export class CreateRoomRequestBody
 			backgroundAudioId: this.#_backgroundAudioId
 		};
 	}
-}
-
-/**
- * The required fields of a {@link CreateRoomRequestBody}.
- * */
-interface ICreateRoomRequestBodyRequiredFields
-{
-	/**
-	 * The type of room to create.
-	 * */
-	type: RoomType;
-
-	/**
-	 * The name of the room to create.
-	 * */
-	name: string;
-
-	/**
-	 * The description of the room to create.
-	 * */
-	description: string;
 }
