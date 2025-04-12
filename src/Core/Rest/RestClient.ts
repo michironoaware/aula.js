@@ -230,8 +230,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async setUserRoom(userId: string, body: SetUserRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
@@ -247,8 +245,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async setUserPermissions(
@@ -271,8 +267,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async createRoom(body: CreateRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
@@ -355,8 +349,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async addRoomConnection(roomId: string, targetId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -371,8 +363,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async getRoomConnections(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -414,8 +404,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async removeRoomConnection(roomId: string, targetId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -430,8 +418,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async getRoomUsers(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -461,8 +447,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async stopTyping(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -476,8 +460,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async sendMessage(roomId: string, body: ISendMessageRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
@@ -554,8 +536,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async register(body: IRegisterRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
@@ -580,8 +560,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async logIn(body: ILogInRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
@@ -617,8 +595,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async forgotPassword(query: IForgotPasswordQuery, cancellationToken: CancellationToken = CancellationToken.none)
@@ -632,8 +608,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async resetPassword(body: IResetPasswordRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
@@ -654,8 +628,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async resetToken(body: ILogInRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
@@ -676,8 +648,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async createBot(body: ICreateBotRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
@@ -711,8 +681,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async resetBotToken(userId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -767,8 +735,6 @@ export class RestClient implements IDisposable
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
-
-		return;
 	}
 
 	public async getBans(query: IGetBansQuery = {}, cancellationToken: CancellationToken = CancellationToken.none)
