@@ -17,7 +17,6 @@ import { JsonContent } from "../../Common/Http/JsonContent.js";
 import { ISetUserPermissionsRequestBody } from "./ISetUserPermissionsRequestBody.js";
 import { RoomData } from "./Entities/Models/RoomData.js";
 import { Room } from "./Entities/Room.js";
-import { ISetRoomConnectionsRequestBody } from "./ISetRoomConnectionsRequestBody.js";
 import { MessageData } from "./Entities/Models/MessageData.js";
 import { Message } from "./Entities/Message.js";
 import { IGetMessagesQuery } from "./IGetMessagesQuery.js";
@@ -62,6 +61,7 @@ import { SetUserRoomRequestBody } from "./SetUserRoomRequestBody.js";
 import { CreateRoomRequestBody } from "./CreateRoomRequestBody.js";
 import { GetRoomsQuery } from "./GetRoomsQuery.js";
 import { ModifyRoomRequestBody } from "./ModifyRoomRequestBody.js";
+import { SetRoomConnectionsRequestBody } from "./SetRoomConnectionsRequestBody.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -383,24 +383,16 @@ export class RestClient implements IDisposable
 
 	public async setRoomConnections(
 		roomId: string,
-		body: ISetRoomConnectionsRequestBody,
+		body: SetRoomConnectionsRequestBody,
 		cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotType(body.roomIds, "iterable");
+		ThrowHelper.TypeError.throwIfNotType(body, SetRoomConnectionsRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const roomIds = [ ...body.roomIds ];
-		for (const roomId of roomIds)
-		{
-			ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		}
-
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnections({ route: { roomId } }));
-		request.content = new JsonContent({ roomIds } as ISetRoomConnectionsRequestBody);
+		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
