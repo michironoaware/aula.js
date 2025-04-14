@@ -1,7 +1,7 @@
 ﻿import { ThrowHelper } from "../../../../Common/ThrowHelper.js";
 import { HttpStatusCode } from "../../../../Common/Http/HttpStatusCode.js";
 import { TypeHelper } from "../../../../Common/TypeHelper.js";
-import { ReadonlyMapWrapper } from "../../../../Common/Collections/ReadonlyMapWrapper.js";
+import { ReadonlyDictionary } from "../../../../Common/Collections/ReadonlyDictionary.js";
 
 /**
  * Represents a standardized structure for problem details returned by an API.
@@ -13,7 +13,7 @@ export class ProblemDetails
 	readonly #_detail: string;
 	readonly #_status: HttpStatusCode;
 	readonly #_errors: Map<string, string[]> | null = null;
-	#_errorsView: ReadonlyMapWrapper<string, string[]> | null = null;
+	#_errorsView: ReadonlyDictionary<string, string[]> | null = null;
 
 	/**
 	 * Initializes a new instance of {@link ProblemDetails}.
@@ -78,6 +78,6 @@ export class ProblemDetails
 	 * */
 	public get errors()
 	{
-		return this.#_errorsView ??= this.#_errors != null ? new ReadonlyMapWrapper(this.#_errors) : ReadonlyMapWrapper.empty;
+		return this.#_errorsView ??= this.#_errors != null ? new ReadonlyDictionary(this.#_errors) : ReadonlyDictionary.empty;
 	}
 }

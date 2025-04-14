@@ -4,9 +4,9 @@ import { ThrowHelper } from "../ThrowHelper.js";
 /**
  * Represents a read-only collection of key/value pairs.
  * */
-export class ReadonlyMapWrapper<TKey, TValue> implements ReadonlyMap<TKey, TValue>
+export class ReadonlyDictionary<TKey, TValue> implements ReadonlyMap<TKey, TValue>
 {
-	static #s_empty = new ReadonlyMapWrapper(new Map());
+	static #s_empty = new ReadonlyDictionary(new Map());
 
 	readonly #_underlyingMap: ReadonlyMap<TKey, TValue>;
 
@@ -16,7 +16,7 @@ export class ReadonlyMapWrapper<TKey, TValue> implements ReadonlyMap<TKey, TValu
 	 * */
 	public constructor(underlyingMap: ReadonlyMap<TKey, TValue>)
 	{
-		SealedClassError.throwIfNotEqual(ReadonlyMapWrapper, new.target);
+		SealedClassError.throwIfNotEqual(ReadonlyDictionary, new.target);
 		ThrowHelper.TypeError.throwIfNullable(underlyingMap);
 
 		this.#_underlyingMap = underlyingMap;
