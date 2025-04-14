@@ -87,5 +87,4 @@ export class ReadonlyDictionary<TKey, TValue>
 	{
 		return this.#_underlyingMap.entries();
 	}
-
 }
