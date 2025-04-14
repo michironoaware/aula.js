@@ -7,6 +7,8 @@ import { ThrowHelper } from "../ThrowHelper.js";
  * */
 export class ReadOnlyCollection<T> implements Iterable<T>
 {
+	static #s_empty: ReadOnlyCollection<unknown> | null = null;
+
 	readonly #_underlyingCollection: readonly T[];
 
 	/**
@@ -19,6 +21,11 @@ export class ReadOnlyCollection<T> implements Iterable<T>
 		ThrowHelper.TypeError.throwIfNullable(underlyingArray);
 
 		this.#_underlyingCollection = underlyingArray;
+	}
+
+	public static get empty()
+	{
+		return this.#s_empty ??= new ReadOnlyCollection<unknown>([]);
 	}
 
 	/**
