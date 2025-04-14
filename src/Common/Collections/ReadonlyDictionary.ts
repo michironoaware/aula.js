@@ -4,7 +4,7 @@ import { ThrowHelper } from "../ThrowHelper.js";
 /**
  * Represents a read-only collection of key/value pairs.
  * */
-export class ReadonlyDictionary<TKey, TValue> implements ReadonlyMap<TKey, TValue>
+export class ReadonlyDictionary<TKey, TValue>
 {
 	static #s_empty = new ReadonlyDictionary(new Map());
 
@@ -78,7 +78,7 @@ export class ReadonlyDictionary<TKey, TValue> implements ReadonlyMap<TKey, TValu
 	/**
 	 * Gets an iterator for the collection values.
 	 * */
-	public values()
+	public values(): Iterator<TValue>
 	{
 		return this.#_underlyingMap.values();
 	}
@@ -86,7 +86,7 @@ export class ReadonlyDictionary<TKey, TValue> implements ReadonlyMap<TKey, TValu
 	/**
 	 * Gets an iterator for the collection entries.
 	 * */
-	public [Symbol.iterator]()
+	public [Symbol.iterator](): Iterator<[ TKey, TValue ]>
 	{
 		return this.#_underlyingMap.entries();
 	}
