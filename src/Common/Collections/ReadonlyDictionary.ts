@@ -6,7 +6,7 @@ import { ThrowHelper } from "../ThrowHelper.js";
  * */
 export class ReadonlyDictionary<TKey, TValue>
 {
-	static #s_empty: ReadonlyDictionary<any, any> | null = null;
+	static #s_empty: ReadonlyDictionary<unknown, unknown> | null = null;
 
 	readonly #_underlyingMap: ReadonlyMap<TKey, TValue>;
 
@@ -24,7 +24,7 @@ export class ReadonlyDictionary<TKey, TValue>
 
 	public static get empty()
 	{
-		return this.#s_empty ??= new ReadonlyDictionary(new Map());
+		return this.#s_empty ??= new ReadonlyDictionary<unknown, unknown>(new Map());
 	}
 
 	/**
