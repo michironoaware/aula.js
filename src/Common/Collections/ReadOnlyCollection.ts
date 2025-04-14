@@ -31,7 +31,7 @@ export class ReadOnlyCollection<T> implements Iterable<T>
 	/**
 	 * Gets the length of the collection.
 	 * */
-	get length()
+	public get length()
 	{
 		return this.#_underlyingCollection.length;
 	}
