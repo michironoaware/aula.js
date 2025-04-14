@@ -83,9 +83,6 @@ export class ReadonlyDictionary<TKey, TValue>
 		return this.#_underlyingMap.values();
 	}
 
-	/**
-	 * Gets an iterator for the collection entries.
-	 * */
 	public [Symbol.iterator](): Iterator<[ TKey, TValue ]>
 	{
 		return this.#_underlyingMap.entries();
