@@ -36,14 +36,6 @@ export class ReadonlyDictionary<TKey, TValue>
 	}
 
 	/**
-	 * Executes the provided function for each entry in the map.
-	 * */
-	public forEach(callbackfn: (value: TValue, key: TKey, map: ReadonlyMap<TKey, TValue>) => void, thisArg?: any)
-	{
-		this.#_underlyingMap.forEach((value, key) => callbackfn(value, key, this), thisArg);
-	}
-
-	/**
 	 * Gets an item with the specified {@link key}.
 	 * */
 	public get(key: TKey)
