@@ -62,7 +62,7 @@ export class ReadonlyDictionary<TKey, TValue>
 	/**
 	 * Gets an iterator for the collection entries.
 	 * */
-	public entries()
+	public entries(): Iterator<[ TKey, TValue ]>
 	{
 		return this.#_underlyingMap.entries();
 	}
@@ -70,7 +70,7 @@ export class ReadonlyDictionary<TKey, TValue>
 	/**
 	 * Gets an iterator for the collection keys.
 	 * */
-	public keys()
+	public keys(): Iterator<TKey>
 	{
 		return this.#_underlyingMap.keys();
 	}
