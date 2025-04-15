@@ -18,7 +18,6 @@ import { RoomData } from "./Entities/Models/RoomData.js";
 import { Room } from "./Entities/Room.js";
 import { MessageData } from "./Entities/Models/MessageData.js";
 import { Message } from "./Entities/Message.js";
-import { IConfirmEmailQuery } from "./IConfirmEmailQuery.js";
 import { IForgotPasswordQuery } from "./IForgotPasswordQuery.js";
 import { IResetPasswordRequestBody } from "./IResetPasswordRequestBody.js";
 import { LogInResponse } from "./LogInResponse.js";
@@ -60,6 +59,7 @@ import { SendMessageRequestBody } from "./SendMessageRequestBody.js";
 import { GetMessagesQuery } from "./GetMessagesQuery.js";
 import { RegisterRequestBody } from "./RegisterRequestBody.js";
 import { LogInRequestBody } from "./LogInRequestBody.js";
+import { ConfirmEmailQuery } from "./ConfirmEmailQuery.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -549,10 +549,11 @@ export class RestClient implements IDisposable
 		return new LogInResponse(JSON.parse(await response.content.readAsString()), this);
 	}
 
-	public async confirmEmail(query: IConfirmEmailQuery, cancellationToken: CancellationToken = CancellationToken.none)
+	public async confirmEmail(query: ConfirmEmailQuery, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(query);
+		ThrowHelper.TypeError.throwIfNotType(query, ConfirmEmailQuery);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ThrowHelper.TypeError.throwIf(query.email === null, "The 'email' query option is required but was not provided.");
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
