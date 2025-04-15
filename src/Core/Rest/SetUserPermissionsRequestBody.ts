@@ -1,6 +1,7 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { Permissions } from "./Entities/Permissions.js";
+import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 
 /**
  * Represents the request body used to override a user's permissions.
@@ -45,5 +46,11 @@ export class SetUserPermissionsRequestBody
 	{
 		this.permissions = permissions;
 		return this;
+	}
+
+	public toJSON()
+	{
+		InvalidOperationError.throwIf(this.#_permissions === null, "The permissions must be provided first.");
+		return { permissions: this.#_permissions };
 	}
 }
