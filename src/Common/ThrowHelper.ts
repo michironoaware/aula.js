@@ -71,16 +71,6 @@ export namespace ThrowHelper
 				throw new TypeErrorConstructor("Object is not an array or an item is of an unexpected type");
 			}
 		}
-
-		export function throwIfNotTypesArray<T extends TypeResolvable[]>(object: unknown[], ...types: T)
-			: asserts object is ResolvedType<T[number]>[]
-		{
-			throwIfNotType(object, "array");
-			for (const item of object)
-			{
-				throwIfNotAnyType(item, ...types);
-			}
-		}
 	}
 
 	export namespace ReferenceError
