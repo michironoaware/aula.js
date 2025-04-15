@@ -1,5 +1,6 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 
 /**
  * Represents the request body used to override the connected rooms of a room.
@@ -54,6 +55,7 @@ export class SetRoomConnectionsRequestBody
 
 	public toJSON()
 	{
+		InvalidOperationError.throwIf(this.#_roomIds === null, "The room ids must be provided first.");
 		return { roomIds: this.#_roomIds };
 	}
 }
