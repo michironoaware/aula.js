@@ -21,7 +21,6 @@ import { Message } from "./Entities/Message.js";
 import { IConfirmEmailQuery } from "./IConfirmEmailQuery.js";
 import { IForgotPasswordQuery } from "./IForgotPasswordQuery.js";
 import { IResetPasswordRequestBody } from "./IResetPasswordRequestBody.js";
-import { ILogInRequestBody } from "./ILogInRequestBody.js";
 import { LogInResponse } from "./LogInResponse.js";
 import { ICreateBotRequestBody } from "./ICreateBotRequestBody.js";
 import { CreateBotResponse } from "./CreateBotResponse.js";
@@ -60,6 +59,7 @@ import { SetUserPermissionsRequestBody } from "./SetUserPermissionsRequestBody.j
 import { SendMessageRequestBody } from "./SendMessageRequestBody.js";
 import { GetMessagesQuery } from "./GetMessagesQuery.js";
 import { RegisterRequestBody } from "./RegisterRequestBody.js";
+import { LogInRequestBody } from "./LogInRequestBody.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -533,21 +533,15 @@ export class RestClient implements IDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
-	public async logIn(body: ILogInRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	public async logIn(body: LogInRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotType(body.userName, "string");
-		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
+		ThrowHelper.TypeError.throwIfNotType(body, LogInRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.logIn());
-		request.content = new JsonContent(
-			{
-				userName: body.userName,
-				password: body.password,
-			} as ILogInRequestBody);
+		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -601,21 +595,15 @@ export class RestClient implements IDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
-	public async resetToken(body: ILogInRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	public async resetToken(body: LogInRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotType(body.userName, "string");
-		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
+		ThrowHelper.TypeError.throwIfNotType(body, LogInRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetToken());
-		request.content = new JsonContent(
-			{
-				userName: body.userName,
-				password: body.password,
-			} as ILogInRequestBody);
+		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
