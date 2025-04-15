@@ -172,7 +172,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.users({ query }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.users(undefined, query));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -188,7 +188,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.user({ route: { userId } }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.user({ userId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		if (response.statusCode === HttpStatusCode.NotFound)
@@ -239,7 +239,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userRoom({ route: { userId } }));
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userRoom({ userId }));
 		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
@@ -256,7 +256,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userPermissions({ route: { userId } }));
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userPermissions({ userId }));
 		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
@@ -286,7 +286,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.rooms({ query }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.rooms(undefined, query));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -302,7 +302,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.room({ route: { roomId } }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.room({ roomId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		if (response.statusCode === HttpStatusCode.NotFound)
@@ -323,7 +323,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.room({ route: { roomId } }));
+		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.room({ roomId }));
 		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
@@ -339,7 +339,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.room({ route: { roomId } }));
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.room({ roomId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -353,7 +353,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnection({ route: { roomId, targetId } }));
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnection({ roomId, targetId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -366,7 +366,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomConnections({ route: { roomId } }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomConnections({ roomId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -385,7 +385,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnections({ route: { roomId } }));
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnections({ roomId }));
 		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
@@ -400,7 +400,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomConnection({ route: { roomId, targetId } }));
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomConnection({ roomId, targetId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -413,7 +413,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomUsers({ route: { roomId } }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomUsers({ roomId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -429,7 +429,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.startTyping({ route: { roomId } }));
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.startTyping({ roomId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -442,7 +442,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.stopTyping({ route: { roomId } }));
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.stopTyping({ roomId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -455,7 +455,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomMessages({ route: { roomId } }));
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomMessages({ roomId }));
 		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
@@ -472,7 +472,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessage({ route: { roomId, messageId } }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessage({ roomId, messageId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		if (response.statusCode === HttpStatusCode.NotFound)
@@ -496,7 +496,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessages({ route: { roomId }, query }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessages({ roomId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -513,7 +513,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomMessage({ route: { roomId, messageId } }));
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomMessage({ roomId, messageId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -556,7 +556,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.confirmEmail({ query }));
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.confirmEmail(undefined, query));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -569,7 +569,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword({ query }));
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword(undefined, query));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -636,7 +636,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.bot({ route: { userId } }));
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.bot({ userId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -649,7 +649,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetBotToken({ route: { userId } }));
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetBotToken({ userId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -666,7 +666,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userBan({ route: { userId } }));
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userBan({ userId }));
 		request.content = new JsonContent(
 			{
 				reason: body.reason,
@@ -690,7 +690,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.userBan({ route: { userId } }));
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.userBan({ userId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -703,7 +703,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.bans({ query }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.bans(undefined, query));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -719,7 +719,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.userBan({ route: { userId } }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.userBan({ userId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		if (response.statusCode === HttpStatusCode.NotFound)
@@ -753,7 +753,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.files({ query }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.files(undefined, query));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -768,7 +768,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.file({ route: { fileId } }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.file({ fileId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		if (response.statusCode == HttpStatusCode.NotFound)
@@ -788,7 +788,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.fileContent({ route: { fileId } }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.fileContent({ fileId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		if (response.statusCode == HttpStatusCode.NotFound)
