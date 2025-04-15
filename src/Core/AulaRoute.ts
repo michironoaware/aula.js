@@ -187,8 +187,8 @@ export namespace AulaRoute
 	export function confirmEmail(route: undefined, query: { email: string, token?: string | null })
 	{
 		ThrowHelper.TypeError.throwIfNullable(query);
-		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
 		ThrowHelper.TypeError.throwIfNotAnyType(query.email, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType(query.token, "string", "nullable");
 
 		return `identity/confirm-email?email=${query.email}` +
 		       (query?.token ? `&token=${query.token}` : "");
