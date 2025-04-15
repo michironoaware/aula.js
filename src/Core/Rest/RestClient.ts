@@ -63,6 +63,7 @@ import { GetMessagesQuery } from "./GetMessagesQuery.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
+ * @sealed
  * */
 export class RestClient implements IDisposable
 {

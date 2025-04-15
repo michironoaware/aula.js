@@ -10,6 +10,7 @@ import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 
 /**
  * A {@link DelegatingHandler} that logs HTTP request and response information.
+ * @sealed
  * */
 export class HttpLoggingHandler extends DelegatingHandler
 {

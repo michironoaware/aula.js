@@ -13,6 +13,7 @@ import { InvalidOperationError } from "../../../Common/InvalidOperationError.js"
 /**
  * Represents a text room within Aula.
  * A text room allows communication between users through text messages.
+ * @sealed
  * */
 export class TextRoom extends Room
 {

@@ -12,6 +12,9 @@ import { WebSocketCloseCode } from "../../Common/WebSockets/WebSocketCloseCode.j
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { JsonReplacer } from "../../Common/Json/JsonReplacer.js";
 
+/**
+ * @sealed
+ * */
 export class CommonClientWebSocket extends ClientWebSocket
 {
 	static readonly #s_closeReceivedResult: WebSocketReceiveResult = new WebSocketReceiveResult(WebSocketMessageType.Close, true, 0);
@@ -290,7 +293,6 @@ class WebSocketMessage
 
 	public constructor(data: Uint8Array, messageType: WebSocketMessageType, bytesRead: number)
 	{
-		SealedClassError.throwIfNotEqual(WebSocketMessage, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, Uint8Array);
 		ThrowHelper.TypeError.throwIfNotType(messageType, WebSocketMessageType);
 		ThrowHelper.TypeError.throwIfNotType(bytesRead, "number");
@@ -329,7 +331,6 @@ class WebSocketReceive
 
 	public constructor(buffer: Uint8Array, promiseSource: PromiseCompletionSource<WebSocketReceiveResult>)
 	{
-		SealedClassError.throwIfNotEqual(WebSocketReceive, new.target);
 		ThrowHelper.TypeError.throwIfNotType(buffer, Uint8Array);
 		ThrowHelper.TypeError.throwIfNotType(promiseSource, PromiseCompletionSource);
 

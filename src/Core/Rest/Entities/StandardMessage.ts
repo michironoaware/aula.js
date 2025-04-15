@@ -7,6 +7,7 @@ import { InvalidOperationError } from "../../../Common/InvalidOperationError.js"
 
 /**
  * Represents a text message within Aula.
+ * @sealed
  * */
 export class StandardMessage extends Message
 {

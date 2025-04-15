@@ -3,6 +3,9 @@ import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { GatewayClient } from "./GatewayClient.js";
 
+/**
+ * @sealed
+ * */
 export class UserStoppedTypingEvent
 {
 	readonly #_data: UserTypingEventData;

@@ -3,6 +3,9 @@ import { ThrowHelper } from "../ThrowHelper.js";
 import { HttpContent } from "./HttpContent.js";
 import { SealedClassError } from "../SealedClassError.js";
 
+/**
+ * @sealed
+ * */
 export class MultipartFormDataContent extends MultipartContent
 {
 	public constructor(boundary?: string)

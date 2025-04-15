@@ -3,6 +3,7 @@ import { ThrowHelper } from "../../../../Common/ThrowHelper.js";
 
 /**
  * Provides a strongly typed DTO class for the API v1 FileData JSON schema.
+ * @sealed
  * @package
  * */
 export class FileData

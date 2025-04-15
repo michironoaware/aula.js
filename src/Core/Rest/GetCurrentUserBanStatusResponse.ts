@@ -4,6 +4,7 @@ import { RestClient } from "./RestClient.js";
 
 /**
  * Holds information about the current user's ban status.
+ * @sealed
  * */
 export class GetCurrentUserBanStatusResponse
 {

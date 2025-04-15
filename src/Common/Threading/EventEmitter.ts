@@ -6,6 +6,9 @@ import { ObjectDisposedError } from "../ObjectDisposedError.js";
 import { AsNonBlocking } from "./AsNonBlocking.js";
 import { Func } from "../Func.js";
 
+/**
+ * @sealed
+ * */
 export class EventEmitter<TEventMap extends Record<keyof TEventMap, Func<[ ...any[] ]>>> implements IDisposable
 {
 	readonly #_listeners: Map<keyof TEventMap, TEventMap[keyof TEventMap][]> = new Map();

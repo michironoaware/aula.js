@@ -11,6 +11,9 @@ import { RoomData } from "../../Rest/Entities/Models/RoomData.js";
 import { UserCurrentRoomUpdatedEventData } from "./UserCurrentRoomUpdatedEventData.js";
 import { UserData } from "../../Rest/Entities/Models/UserData.js";
 
+/**
+ * @sealed
+ * */
 export class GatewayPayload
 {
 	readonly #_operation: OperationType;

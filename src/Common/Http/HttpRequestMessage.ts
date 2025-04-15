@@ -10,6 +10,7 @@ import { SealedClassError } from "../SealedClassError.js";
  * Represents an HTTP request message.
  * @remarks The {@link HttpRequestMessage} class contains headers, the HTTP verb, and potentially data.
  *          An {@link HttpRequestMessage} instance should not be modified and/or reused after being sent.
+ * @sealed
  * */
 export class HttpRequestMessage implements IDisposable
 {

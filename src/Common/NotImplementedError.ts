@@ -1,5 +1,8 @@
 ﻿import { SealedClassError } from "./SealedClassError.js";
 
+/**
+ * @sealed
+ * */
 export class NotImplementedError extends Error
 {
 	public constructor()

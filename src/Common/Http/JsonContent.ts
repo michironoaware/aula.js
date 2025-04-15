@@ -4,6 +4,7 @@ import { JsonReplacer } from "../Json/JsonReplacer.js";
 
 /**
  * Provides HTTP content based on JSON.
+ * @sealed
  * */
 export class JsonContent extends StringContent
 {

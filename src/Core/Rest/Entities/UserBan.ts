@@ -7,6 +7,7 @@ import { BanType } from "./BanType.js";
 
 /**
  * Represents a user ban within Aula.
+ * @sealed
  * */
 export class UserBan extends Ban
 {

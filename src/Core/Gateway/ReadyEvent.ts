@@ -3,6 +3,9 @@ import { ReadyEventData } from "./Models/ReadyEventData.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { GatewayClient } from "./GatewayClient.js";
 
+/**
+ * @sealed
+ * */
 export class ReadyEvent
 {
 	readonly #_data: ReadyEventData;

@@ -2,6 +2,9 @@
 import { SealedClassError } from "./SealedClassError.js";
 import { InvalidOperationError } from "./InvalidOperationError.js";
 
+/**
+ * @sealed
+ * */
 export class ObjectDisposedError extends InvalidOperationError
 {
 	public constructor()

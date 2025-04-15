@@ -3,6 +3,9 @@ import { GatewayClient } from "./GatewayClient.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 
+/**
+ * @sealed
+ * */
 export class UserUpdatedEvent
 {
 	readonly #_user: User;

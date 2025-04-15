@@ -10,6 +10,7 @@ import { OperationCanceledError } from "../../Common/Threading/OperationCanceled
 
 /**
  * A {@link HttpMessageHandler} implementation that sends HTTP requests using the Fetch API.
+ * @sealed
  * */
 export class HttpFetchHandler extends HttpMessageHandler
 {

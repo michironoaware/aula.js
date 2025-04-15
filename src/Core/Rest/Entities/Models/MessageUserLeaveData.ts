@@ -3,6 +3,7 @@ import { SealedClassError } from "../../../../Common/SealedClassError.js";
 
 /**
  * Provides a strongly typed DTO class for the API v1 MessageUserLeaveData JSON schema.
+ * @sealed
  * @package
  * */
 export class MessageUserLeaveData

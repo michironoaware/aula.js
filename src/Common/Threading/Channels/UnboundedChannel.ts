@@ -4,6 +4,9 @@ import { UnboundedChannelCore } from "./UnboundedChannelCore.js";
 import { UnboundedChannelReader } from "./UnboundedChannelReader.js";
 import { UnboundedChannelWriter } from "./UnboundedChannelWriter.js";
 
+/**
+ * @sealed
+ * */
 export class UnboundedChannel<T> extends Channel<T>
 {
 	readonly #_writer: UnboundedChannelWriter<T>;

@@ -50,6 +50,9 @@ import { EntityFactory } from "../Rest/Entities/EntityFactory.js";
 import { TypeHelper } from "../../Common/TypeHelper.js";
 import { JsonReplacer } from "../../Common/Json/JsonReplacer.js";
 
+/**
+ * @sealed
+ * */
 export class GatewayClient implements IDisposable
 {
 	static readonly #s_textDecoder: TextDecoder = new TextDecoder("utf8", { fatal: true });
@@ -498,7 +501,6 @@ class PayloadSendRequest
 
 	public constructor(payloadBytes: Uint8Array, requestPromiseSource: PromiseCompletionSource<void>)
 	{
-		SealedClassError.throwIfNotEqual(PayloadSendRequest, new.target);
 		ThrowHelper.TypeError.throwIfNotType(payloadBytes, Uint8Array);
 		ThrowHelper.TypeError.throwIfNotType(requestPromiseSource, PromiseCompletionSource);
 
@@ -524,7 +526,6 @@ class GatewayReceivedMessage
 
 	public constructor(content: Uint8Array, type: WebSocketMessageType)
 	{
-		SealedClassError.throwIfNotEqual(GatewayReceivedMessage, new.target);
 		ThrowHelper.TypeError.throwIfNotType(content, Uint8Array);
 		ThrowHelper.TypeError.throwIfNotType(type, WebSocketMessageType);
 

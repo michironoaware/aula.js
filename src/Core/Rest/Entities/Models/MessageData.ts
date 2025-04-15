@@ -9,6 +9,7 @@ import { ValueOutOfRangeError } from "../../../../Common/ValueOutOfRangeError.js
 
 /**
  * Provides a strongly typed DTO class for the API v1 MessageData JSON schema.
+ * @sealed
  * @package
  * */
 export class MessageData

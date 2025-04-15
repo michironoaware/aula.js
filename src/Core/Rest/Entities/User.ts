@@ -9,6 +9,7 @@ import { UnreachableError } from "../../../Common/UnreachableError.js";
 
 /**
  * Represents a user within Aula.
+ * @sealed
  * */
 export class User
 {

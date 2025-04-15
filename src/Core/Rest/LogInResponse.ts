@@ -4,6 +4,7 @@ import { RestClient } from "./RestClient.js";
 
 /**
  * Represents the result of a successful log-in operation.
+ * @sealed
  * */
 export class LogInResponse
 {

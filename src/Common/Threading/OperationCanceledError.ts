@@ -1,5 +1,8 @@
 ﻿import { SealedClassError } from "../SealedClassError.js";
 
+/**
+ * @sealed
+ * */
 export class OperationCanceledError extends Error
 {
 	readonly #_innerError: Error | null;

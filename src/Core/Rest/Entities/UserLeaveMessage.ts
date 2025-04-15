@@ -6,6 +6,9 @@ import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { MessageType } from "./MessageType.js";
 import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
 
+/**
+ * @sealed
+ * */
 export class UserLeaveMessage extends Message
 {
 	readonly #_data: MessageData;

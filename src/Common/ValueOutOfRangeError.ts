@@ -1,6 +1,9 @@
 ﻿import { SealedClassError } from "./SealedClassError.js";
 import { ThrowHelper } from "./ThrowHelper.js";
 
+/**
+ * @sealed
+ * */
 export class ValueOutOfRangeError extends Error
 {
 	public constructor(message: string)

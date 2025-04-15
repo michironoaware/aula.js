@@ -4,6 +4,9 @@ import { EventEmitter } from "./EventEmitter.js";
 import { Func } from "../Func.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 
+/**
+ * @sealed
+ * */
 export class CancellationTokenSource
 {
 	#_cancellationRequested: boolean = false;

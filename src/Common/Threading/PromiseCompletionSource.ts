@@ -1,6 +1,9 @@
 ﻿import { SealedClassError } from "../SealedClassError.js";
 import { Func } from "../Func.js";
 
+/**
+ * @sealed
+ * */
 export class PromiseCompletionSource<TResolve>
 {
 	readonly #_promise: Promise<TResolve>;

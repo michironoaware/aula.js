@@ -4,6 +4,7 @@ import { SealedClassError } from "../SealedClassError.js";
 
 /**
  * A base class for exceptions thrown by the {@link HttpClient} and {@link HttpMessageHandler} classes.
+ * @sealed
  * */
 export class HttpRequestError extends Error
 {

@@ -8,6 +8,9 @@ import { PromiseCompletionSource } from "./PromiseCompletionSource.js";
 import { OperationCanceledError } from "./OperationCanceledError.js";
 import { CancellationToken } from "./CancellationToken.js";
 
+/**
+ * @sealed
+ * */
 export class Semaphore implements IDisposable
 {
 	readonly #_queue: PromiseCompletionSource<void>[] = [];

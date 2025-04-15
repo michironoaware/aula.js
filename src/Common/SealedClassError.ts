@@ -1,5 +1,6 @@
-﻿import { ThrowHelper } from "./ThrowHelper.js";
-
+﻿/**
+ * @sealed
+ * */
 export class SealedClassError extends Error
 {
 	public constructor()

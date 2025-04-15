@@ -1,6 +1,9 @@
 ﻿import { SealedClassError } from "../../SealedClassError.js";
 import { ThrowHelper } from "../../ThrowHelper.js";
 
+/**
+ * @sealed
+ * */
 export class ReadAttemptResult<TItem>
 {
 	static #s_failed: ReadAttemptResult<unknown> | null = null;

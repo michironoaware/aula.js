@@ -6,6 +6,9 @@ import { PromiseCompletionSource } from "./PromiseCompletionSource.js";
 import { CancellationToken } from "./CancellationToken.js";
 import { OperationCanceledError } from "./OperationCanceledError.js";
 
+/**
+ * @sealed
+ * */
 export class AutoResetEvent implements IDisposable
 {
 	readonly #_queue: PromiseCompletionSource<void>[] = [];

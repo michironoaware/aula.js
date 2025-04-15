@@ -1,6 +1,9 @@
 ﻿import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 
+/**
+ * @sealed
+ * */
 export class UserCurrentRoomUpdatedEventData
 {
 	readonly #_userId: string;

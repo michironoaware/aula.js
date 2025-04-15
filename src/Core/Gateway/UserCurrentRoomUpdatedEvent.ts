@@ -3,6 +3,9 @@ import { UserCurrentRoomUpdatedEventData } from "./Models/UserCurrentRoomUpdated
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { GatewayClient } from "./GatewayClient.js";
 
+/**
+ * @sealed
+ * */
 export class UserCurrentRoomUpdatedEvent
 {
 	readonly #_data: UserCurrentRoomUpdatedEventData;

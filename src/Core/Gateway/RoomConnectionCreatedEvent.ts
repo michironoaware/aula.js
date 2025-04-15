@@ -3,6 +3,9 @@ import { RoomConnectionEventData } from "./Models/RoomConnectionEventData.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { GatewayClient } from "./GatewayClient.js";
 
+/**
+ * @sealed
+ * */
 export class RoomConnectionCreatedEvent
 {
 	readonly #_data: RoomConnectionEventData;

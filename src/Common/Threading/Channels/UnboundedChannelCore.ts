@@ -4,6 +4,9 @@ import { PromiseCompletionSource } from "../PromiseCompletionSource.js";
 import { ThrowHelper } from "../../ThrowHelper.js";
 import { ReadAttemptResult } from "./ReadAttemptResult.js";
 
+/**
+ * @sealed
+ * */
 export class UnboundedChannelCore<T>
 {
 	readonly #_items: T[] = [];

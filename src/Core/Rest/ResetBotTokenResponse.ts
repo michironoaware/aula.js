@@ -4,6 +4,7 @@ import { RestClient } from "./RestClient.js";
 
 /**
  * Represents the result of a successful bot token reset operation.
+ * @sealed
  * */
 export class ResetBotTokenResponse
 {

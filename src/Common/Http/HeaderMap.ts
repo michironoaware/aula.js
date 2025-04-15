@@ -4,6 +4,7 @@ import { InvalidOperationError } from "../InvalidOperationError.js";
 
 /**
  * Represents a wrapper for the request and response headers.
+ * @sealed
  * */
 export class HeaderMap implements ReadonlyMap<string, string[]>
 {

@@ -1,5 +1,8 @@
 ﻿import { SealedClassError } from "../SealedClassError.js";
 
+/**
+ * @sealed
+ * */
 export class SemaphoreFullError extends Error
 {
 	public constructor()

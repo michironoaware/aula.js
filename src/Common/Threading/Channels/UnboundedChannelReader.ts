@@ -3,6 +3,9 @@ import { SealedClassError } from "../../SealedClassError.js";
 import { UnboundedChannelCore } from "./UnboundedChannelCore.js";
 import { ThrowHelper } from "../../ThrowHelper.js";
 
+/**
+ * @sealed
+ * */
 export class UnboundedChannelReader<T> extends ChannelReader<T>
 {
 	readonly #_core: UnboundedChannelCore<T>;

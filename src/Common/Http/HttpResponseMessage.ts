@@ -8,6 +8,7 @@ import { HeaderMap } from "./HeaderMap.js";
 
 /**
  * Represents a HTTP response message.
+ * @sealed
  * */
 export class HttpResponseMessage
 {

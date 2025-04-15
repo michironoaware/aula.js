@@ -6,6 +6,7 @@ import { ObjectDisposedError } from "../ObjectDisposedError.js";
 
 /**
  * Provides HTTP content based on a stream.
+ * @sealed
  * */
 export class StreamContent extends HttpContent
 {

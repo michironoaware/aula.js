@@ -5,6 +5,7 @@ import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
 
 /**
  * The error that occurs when a request was improperly formatted, or the server couldn't understand it.
+ * @sealed
  * */
 export class AulaBadRequestError extends AulaRestError
 {

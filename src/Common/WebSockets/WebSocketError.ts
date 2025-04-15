@@ -3,6 +3,7 @@ import { SealedClassError } from "../SealedClassError.js";
 
 /**
  * Represents an error that occurred when performing an operation on a WebSocket connection.
+ * @sealed
  * */
 export class WebSocketError extends Error
 {

@@ -4,6 +4,7 @@ import { SealedClassError } from "../SealedClassError.js";
 
 /**
  * Represents an empty HTTP body without headers.
+ * @sealed
  * */
 export class EmptyContent extends HttpContent
 {

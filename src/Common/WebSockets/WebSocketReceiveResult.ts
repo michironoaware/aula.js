@@ -4,6 +4,7 @@ import { ThrowHelper } from "../ThrowHelper.js";
 
 /**
  * Represents the result of performing a single {@link WebSocket.receive} operation on a {@link WebSocket}.
+ * @sealed
  * */
 export class WebSocketReceiveResult
 {
