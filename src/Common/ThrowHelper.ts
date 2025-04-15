@@ -13,6 +13,14 @@ export namespace ThrowHelper
 		import TypeResolvable = TypeHelper.TypeResolvable;
 		import ResolvedType = TypeHelper.ResolvedType;
 
+		export function throwIf(condition: boolean, message: string): asserts condition is false
+		{
+			if (condition)
+			{
+				throw new TypeErrorConstructor(message);
+			}
+		}
+
 		export function throwIfNullable<T>(object: T): asserts object is NonNullable<T>
 		{
 			if (TypeHelper.isNullable(object))
