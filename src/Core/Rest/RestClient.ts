@@ -19,9 +19,6 @@ import { Room } from "./Entities/Room.js";
 import { MessageData } from "./Entities/Models/MessageData.js";
 import { Message } from "./Entities/Message.js";
 import { IGetMessagesQuery } from "./IGetMessagesQuery.js";
-import { MessageType } from "./Entities/MessageType.js";
-import { ISendMessageRequestBody } from "./ISendMessageRequestBody.js";
-import { ISendUnknownMessageRequestBody } from "./ISendUnknownMessageRequestBody.js";
 import { IConfirmEmailQuery } from "./IConfirmEmailQuery.js";
 import { IForgotPasswordQuery } from "./IForgotPasswordQuery.js";
 import { IResetPasswordRequestBody } from "./IResetPasswordRequestBody.js";
@@ -62,6 +59,7 @@ import { GetRoomsQuery } from "./GetRoomsQuery.js";
 import { ModifyRoomRequestBody } from "./ModifyRoomRequestBody.js";
 import { SetRoomConnectionsRequestBody } from "./SetRoomConnectionsRequestBody.js";
 import { SetUserPermissionsRequestBody } from "./SetUserPermissionsRequestBody.js";
+import { SendMessageRequestBody } from "./SendMessageRequestBody.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -449,24 +447,15 @@ export class RestClient implements IDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
-	public async sendMessage(roomId: string, body: ISendMessageRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	public async sendMessage(roomId: string, body: SendMessageRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotType(body.type, MessageType);
-		ThrowHelper.TypeError.throwIfNotAnyType(body.flags, "number", "nullable");
-		ThrowHelper.TypeError.throwIfNotAnyType((body as ISendUnknownMessageRequestBody).content, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotType(body, SendMessageRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomMessages({ route: { roomId } }));
-		request.content = new JsonContent(
-			{
-				type: body.type,
-				flags: body.flags,
-				content: body.content,
-			} as ISendUnknownMessageRequestBody);
+		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
