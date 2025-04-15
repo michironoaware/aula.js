@@ -1,6 +1,7 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { RoomType } from "./Entities/RoomType.js";
+import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 
 /**
  * Represents the request body used to create a new room.
@@ -169,6 +170,10 @@ export class CreateRoomRequestBody
 
 	public toJSON()
 	{
+		InvalidOperationError.throwIf(this.#_type === null, "A type for the room must be provided first.");
+		InvalidOperationError.throwIf(this.#_name === null, "A name for the room must be provided first.");
+		InvalidOperationError.throwIf(this.#_description === null, "A description for the room must be provided first.");
+
 		return {
 			type: this.#_type,
 			name: this.#_name,
