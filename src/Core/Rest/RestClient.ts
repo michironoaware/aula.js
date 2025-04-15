@@ -21,7 +21,6 @@ import { Message } from "./Entities/Message.js";
 import { IConfirmEmailQuery } from "./IConfirmEmailQuery.js";
 import { IForgotPasswordQuery } from "./IForgotPasswordQuery.js";
 import { IResetPasswordRequestBody } from "./IResetPasswordRequestBody.js";
-import { IRegisterRequestBody } from "./IRegisterRequestBody.js";
 import { ILogInRequestBody } from "./ILogInRequestBody.js";
 import { LogInResponse } from "./LogInResponse.js";
 import { ICreateBotRequestBody } from "./ICreateBotRequestBody.js";
@@ -60,6 +59,7 @@ import { SetRoomConnectionsRequestBody } from "./SetRoomConnectionsRequestBody.j
 import { SetUserPermissionsRequestBody } from "./SetUserPermissionsRequestBody.js";
 import { SendMessageRequestBody } from "./SendMessageRequestBody.js";
 import { GetMessagesQuery } from "./GetMessagesQuery.js";
+import { RegisterRequestBody } from "./RegisterRequestBody.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -519,25 +519,15 @@ export class RestClient implements IDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
-	public async register(body: IRegisterRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	public async register(body: RegisterRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotType(body.userName, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(body.displayName, "string", "nullable");
-		ThrowHelper.TypeError.throwIfNotType(body.email, "string");
-		ThrowHelper.TypeError.throwIfNotType(body.password, "string");
+		ThrowHelper.TypeError.throwIfNotType(body, RegisterRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.register());
-		request.content = new JsonContent(
-			{
-				userName: body.userName,
-				displayName: body.displayName,
-				email: body.email,
-				password: body.password,
-			} as IRegisterRequestBody);
+		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
