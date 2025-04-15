@@ -18,7 +18,6 @@ import { RoomData } from "./Entities/Models/RoomData.js";
 import { Room } from "./Entities/Room.js";
 import { MessageData } from "./Entities/Models/MessageData.js";
 import { Message } from "./Entities/Message.js";
-import { IForgotPasswordQuery } from "./IForgotPasswordQuery.js";
 import { IResetPasswordRequestBody } from "./IResetPasswordRequestBody.js";
 import { LogInResponse } from "./LogInResponse.js";
 import { ICreateBotRequestBody } from "./ICreateBotRequestBody.js";
@@ -60,6 +59,7 @@ import { GetMessagesQuery } from "./GetMessagesQuery.js";
 import { RegisterRequestBody } from "./RegisterRequestBody.js";
 import { LogInRequestBody } from "./LogInRequestBody.js";
 import { ConfirmEmailQuery } from "./ConfirmEmailQuery.js";
+import { ForgotPasswordQuery } from "./ForgotPasswordQuery.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -563,9 +563,9 @@ export class RestClient implements IDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
-	public async forgotPassword(query: IForgotPasswordQuery, cancellationToken: CancellationToken = CancellationToken.none)
+	public async forgotPassword(query: ForgotPasswordQuery, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(query);
+		ThrowHelper.TypeError.throwIfNotType(query, ForgotPasswordQuery);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
