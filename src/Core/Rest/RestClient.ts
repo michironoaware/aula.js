@@ -14,7 +14,6 @@ import { User } from "./Entities/User.js";
 import { GetUsersQuery } from "./GetUsersQuery.js";
 import { UserData } from "./Entities/Models/UserData.js";
 import { JsonContent } from "../../Common/Http/JsonContent.js";
-import { ISetUserPermissionsRequestBody } from "./ISetUserPermissionsRequestBody.js";
 import { RoomData } from "./Entities/Models/RoomData.js";
 import { Room } from "./Entities/Room.js";
 import { MessageData } from "./Entities/Models/MessageData.js";
@@ -62,6 +61,7 @@ import { CreateRoomRequestBody } from "./CreateRoomRequestBody.js";
 import { GetRoomsQuery } from "./GetRoomsQuery.js";
 import { ModifyRoomRequestBody } from "./ModifyRoomRequestBody.js";
 import { SetRoomConnectionsRequestBody } from "./SetRoomConnectionsRequestBody.js";
+import { SetUserPermissionsRequestBody } from "./SetUserPermissionsRequestBody.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -249,21 +249,16 @@ export class RestClient implements IDisposable
 
 	public async setUserPermissions(
 		userId: string,
-		body: ISetUserPermissionsRequestBody,
+		body: SetUserPermissionsRequestBody,
 		cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNotType(userId, "string");
-		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotType(body.permissions, "number");
+		ThrowHelper.TypeError.throwIfNotType(body, SetUserPermissionsRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userPermissions({ route: { userId } }));
-		request.content = new JsonContent(
-			{
-				permissions: body.permissions,
-			} as ISetUserPermissionsRequestBody);
+		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
