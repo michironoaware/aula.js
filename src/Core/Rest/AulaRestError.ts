@@ -35,7 +35,7 @@ export class AulaRestError extends Error
 				     {
 					     const propertyName = v[0];
 					     const propertyErrors = v[1];
-					     return ` - - "${propertyName}":\n - - - ${propertyErrors.join("\n - - - ")}`;
+					     return ` -- "${propertyName}":\n ---- ${propertyErrors.join("\n - - - ")}`;
 				     }).join("\n");
 		}
 
