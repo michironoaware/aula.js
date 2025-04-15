@@ -184,22 +184,32 @@ export namespace AulaRoute
 		return "identity/log-in";
 	}
 
-	export function confirmEmail(route: undefined, query: { email: string, token?: string | null })
+	export function confirmEmail(route: undefined, query?: { email?: string | null, token?: string | null })
 	{
 		ThrowHelper.TypeError.throwIfNullable(query);
-		ThrowHelper.TypeError.throwIfNotAnyType(query.email, "string", "nullable");
-		ThrowHelper.TypeError.throwIfNotAnyType(query.token, "string", "nullable");
+		if (!TypeHelper.isNullable(query))
+		{
+			ThrowHelper.TypeError.throwIfNotAnyType(query.email, "string", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.token, "string", "nullable");
+		}
 
-		return `identity/confirm-email?email=${query.email}` +
-		       (query?.token ? `&token=${query.token}` : "");
+		return `identity/confirm-email` +
+		       (!TypeHelper.isNullable(query) ? "?" : "") +
+		       (query?.email ? `email=${query.email}&` : "") +
+		       (query?.token ? `token=${query.token}` : "");
 	}
 
-	export function forgotPassword(route: undefined, query: { email: string })
+	export function forgotPassword(route: undefined, query?: { email?: string | null })
 	{
 		ThrowHelper.TypeError.throwIfNullable(query);
-		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
+		if (!TypeHelper.isNullable(query))
+		{
+			ThrowHelper.TypeError.throwIfNotType(query.email, "string");
+		}
 
-		return `identity/forgot-password?email=${query.email}`;
+		return `identity/forgot-password` +
+		       (!TypeHelper.isNullable(query) ? "?" : "") +
+		       (query?.email ? `email=${query.email}` : "");
 	}
 
 	export function resetPassword()
