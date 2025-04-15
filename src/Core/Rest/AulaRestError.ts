@@ -22,7 +22,7 @@ export class AulaRestError extends Error
 		problemDetails: ProblemDetails,
 		innerError?: HttpRequestError)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(message, "string");
+		ThrowHelper.TypeError.throwIfNotType(message, "string");
 		ThrowHelper.TypeError.throwIfNotType(problemDetails, ProblemDetails);
 		ThrowHelper.TypeError.throwIfNotAnyType(innerError, HttpRequestError, "undefined");
 
