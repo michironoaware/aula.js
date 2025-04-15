@@ -3,6 +3,9 @@
 const TypeErrorConstructor = TypeError;
 const ReferenceErrorConstructor = ReferenceError;
 
+/**
+ * @package
+ * */
 export namespace ThrowHelper
 {
 	export namespace TypeError
