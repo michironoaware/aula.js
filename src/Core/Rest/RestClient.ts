@@ -118,7 +118,7 @@ export class RestClient implements IDisposable
 
 	public withBaseAddress(uri: URL)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(uri, URL);
+		ThrowHelper.TypeError.throwIfNotType(uri, URL);
 		ObjectDisposedError.throwIf(this.#_disposed);
 
 		this.#_httpClient.baseAddress = new URL(`${uri.href}${uri.href.endsWith("/") ? "" : "/"}api/v1/`);
@@ -347,7 +347,7 @@ export class RestClient implements IDisposable
 	public async addRoomConnection(roomId: string, targetId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(targetId, "string");
+		ThrowHelper.TypeError.throwIfNotType(targetId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
@@ -394,7 +394,7 @@ export class RestClient implements IDisposable
 	public async removeRoomConnection(roomId: string, targetId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(targetId, "string");
+		ThrowHelper.TypeError.throwIfNotType(targetId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
@@ -466,7 +466,7 @@ export class RestClient implements IDisposable
 	public async getMessage(roomId: string, messageId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(messageId, "string");
+		ThrowHelper.TypeError.throwIfNotType(messageId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
@@ -507,7 +507,7 @@ export class RestClient implements IDisposable
 	public async removeMessage(roomId: string, messageId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(messageId, "string");
+		ThrowHelper.TypeError.throwIfNotType(messageId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
