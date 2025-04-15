@@ -13,7 +13,7 @@ export class ProblemDetails
 	readonly #_detail: string;
 	readonly #_status: HttpStatusCode;
 	readonly #_errors: Map<string, string[]> | null = null;
-	#_errorsView: ReadonlyDictionary<string, string[]> | null = null;
+	#_errorsView: ReadonlyDictionary<string, string[]> = ReadonlyDictionary.empty;
 
 	/**
 	 * Initializes a new instance of {@link ProblemDetails}.
@@ -78,6 +78,12 @@ export class ProblemDetails
 	 * */
 	public get errors()
 	{
-		return this.#_errorsView ??= this.#_errors != null ? new ReadonlyDictionary(this.#_errors) : ReadonlyDictionary.empty;
+		if (this.#_errors !== null &&
+		    this.#_errorsView === ReadonlyDictionary.empty)
+		{
+			this.#_errorsView = new ReadonlyDictionary(this.#_errors);
+		}
+
+		return this.#_errorsView;
 	}
 }
