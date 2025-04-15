@@ -8,7 +8,7 @@ import { ThrowHelper } from "../../Common/ThrowHelper.js";
  */
 export class GetUsersQuery
 {
-	static readonly #_default: GetUsersQuery = new GetUsersQuery();
+	static #_default: GetUsersQuery | null = null;
 
 	#_type: UserType | null = null;
 	#_count: number | null = null;
@@ -27,7 +27,7 @@ export class GetUsersQuery
 	 */
 	public static get default()
 	{
-		return this.#_default;
+		return this.#_default ??= new GetUsersQuery();
 	}
 
 	/**

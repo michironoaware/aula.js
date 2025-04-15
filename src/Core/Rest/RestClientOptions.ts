@@ -8,7 +8,7 @@ import { ThrowHelper } from "../../Common/ThrowHelper.js";
  */
 export class RestClientOptions
 {
-	static readonly #_default: RestClientOptions = new RestClientOptions();
+	static #_default: RestClientOptions | null = null;
 
 	#_httpClient: HttpClient | null = null;
 	#_disposeHttpClient: boolean = true;
@@ -26,7 +26,7 @@ export class RestClientOptions
 	 */
 	public static get default()
 	{
-		return this.#_default;
+		return this.#_default ??= new RestClientOptions();
 	}
 
 	/**

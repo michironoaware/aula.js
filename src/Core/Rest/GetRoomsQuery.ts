@@ -7,7 +7,7 @@ import { ThrowHelper } from "../../Common/ThrowHelper.js";
  */
 export class GetRoomsQuery
 {
-	static readonly #_default: GetRoomsQuery = new GetRoomsQuery();
+	static #_default: GetRoomsQuery | null = null;
 
 	#_count: number | null = null;
 	#_after: string | null = null;
@@ -25,7 +25,7 @@ export class GetRoomsQuery
 	 */
 	public static get default()
 	{
-		return this.#_default;
+		return this.#_default ??= new GetRoomsQuery();
 	}
 
 	/**
