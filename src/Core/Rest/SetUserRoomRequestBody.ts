@@ -1,5 +1,6 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
+import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 
 /**
  * Represents the request body used to set the user's room.
@@ -48,6 +49,7 @@ export class SetUserRoomRequestBody
 
 	public toJSON()
 	{
+		InvalidOperationError.throwIf(this.#_roomId === null, "The room id must be provided first.");
 		return { roomId: this.#_roomId };
 	}
 }
