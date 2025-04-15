@@ -8,29 +8,28 @@ export namespace AulaRoute
 		return "users/@me";
 	}
 
-	export function users(args?: { query?: { type?: number | null, count?: number | null, after?: string | null } })
+	export function users(route?: undefined, query?: { type?: number | null, count?: number | null, after?: string | null })
 	{
-		if (!TypeHelper.isNullable(args?.query))
+		if (!TypeHelper.isNullable(query))
 		{
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.type, "number", "nullable");
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.count, "number", "nullable");
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.after, "string", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.type, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "nullable");
 		}
 
 		return "users" +
-		       (!TypeHelper.isNullable(args?.query) ? "?" : "") +
-		       (args?.query?.type ? `type=${args.query.type}` : "") +
-		       (args?.query?.count ? `&count=${args.query.count}` : "") +
-		       (args?.query?.after ? `&after=${args.query.after}` : "");
+		       (!TypeHelper.isNullable(query) ? "?" : "") +
+		       (query?.type ? `type=${query.type}` : "") +
+		       (query?.count ? `&count=${query.count}` : "") +
+		       (query?.after ? `&after=${query.after}` : "");
 	}
 
-	export function user(args: { route: { userId: string } })
+	export function user(route: { userId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.userId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.userId, "string");
 
-		return `users/${args.route.userId}`;
+		return `users/${route.userId}`;
 	}
 
 	export function currentUserRoom()
@@ -38,149 +37,136 @@ export namespace AulaRoute
 		return "users/@me/current-room";
 	}
 
-	export function userRoom(args: { route: { userId: string } })
+	export function userRoom(route: { userId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.userId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.userId, "string");
 
-		return `users/${args.route.userId}/current-room`;
+		return `users/${route.userId}/current-room`;
 	}
 
-	export function userPermissions(args: { route: { userId: string } })
+	export function userPermissions(route: { userId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.userId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.userId, "string");
 
-		return `users/${args.route.userId}/permissions`;
+		return `users/${route.userId}/permissions`;
 	}
 
-	export function rooms(args?: { query?: { count?: number | null, after?: string | null } })
+	export function rooms(route?: undefined, query?: { count?: number | null, after?: string | null })
 	{
-		if (!TypeHelper.isNullable(args?.query))
+		if (!TypeHelper.isNullable(query))
 		{
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.count, "number", "nullable");
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.after, "string", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "nullable");
 		}
 
 		return "rooms" +
-		       (!TypeHelper.isNullable(args?.query) ? "?" : "") +
-		       (args?.query?.count ? `count=${args.query.count}` : "") +
-		       (args?.query?.after ? `&after=${args.query.after}` : "");
+		       (!TypeHelper.isNullable(query) ? "?" : "") +
+		       (query?.count ? `count=${query.count}` : "") +
+		       (query?.after ? `&after=${query.after}` : "");
 	}
 
-	export function room(args: { route: { roomId: string } })
+	export function room(route: { roomId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.roomId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.roomId, "string");
 
-		return `rooms/${args.route.roomId}`;
+		return `rooms/${route.roomId}`;
 	}
 
-	export function roomConnections(args: { route: { roomId: string } })
+	export function roomConnections(route: { roomId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.roomId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.roomId, "string");
 
-		return `rooms/${args.route.roomId}/connections`;
+		return `rooms/${route.roomId}/connections`;
 	}
 
-	export function roomConnection(args: { route: { roomId: string, targetId: string } })
+	export function roomConnection(route: { roomId: string, targetId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(args.route.targetId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(route.targetId, "string");
 
-		return `rooms/${args.route.roomId}/connections/${args.route.targetId}`;
+		return `rooms/${route.roomId}/connections/${route.targetId}`;
 	}
 
-	export function roomUsers(args: { route: { roomId: string } })
+	export function roomUsers(route: { roomId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.roomId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.roomId, "string");
 
-		return `rooms/${args.route.roomId}/users`;
+		return `rooms/${route.roomId}/users`;
 	}
 
-	export function startTyping(args: { route: { roomId: string } })
+	export function startTyping(route: { roomId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.roomId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.roomId, "string");
 
-		return `rooms/${args.route.roomId}/start-typing`;
+		return `rooms/${route.roomId}/start-typing`;
 	}
 
-	export function stopTyping(args: { route: { roomId: string } })
+	export function stopTyping(route: { roomId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.roomId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.roomId, "string");
 
-		return `rooms/${args.route.roomId}/stop-typing`;
+		return `rooms/${route.roomId}/stop-typing`;
 	}
 
 	export function roomMessages(
-		args: {
-			route: { roomId: string },
-			query?: { count?: number | null, before?: string | null, after?: string | null }
-		})
+		route: { roomId: string },
+		query?: { count?: number | null, before?: string | null, after?: string | null })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.roomId, "string");
-		if (!TypeHelper.isNullable(args.query))
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.roomId, "string");
+		if (!TypeHelper.isNullable(query))
 		{
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.count, "number", "nullable");
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.before, "string", "nullable");
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.after, "string", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.before, "string", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "nullable");
 		}
 
-		return `rooms/${args.route.roomId}/messages` +
-		       (!TypeHelper.isNullable(args?.query) ? "?" : "") +
-		       (args.query?.count ? `count=${args.query.count}` : "") +
-		       (args.query?.before ? `&before=${args.query.before}` : "") +
-		       (args.query?.after ? `&after=${args.query.after}` : "");
+		return `rooms/${route.roomId}/messages` +
+		       (!TypeHelper.isNullable(query) ? "?" : "") +
+		       (query?.count ? `count=${query.count}` : "") +
+		       (query?.before ? `&before=${query.before}` : "") +
+		       (query?.after ? `&after=${query.after}` : "");
 	}
 
-	export function roomMessage(args: { route: { roomId: string, messageId: string } })
+	export function roomMessage(route: { roomId: string, messageId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(args.route.messageId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(route.messageId, "string");
 
-		return `rooms/${args.route.roomId}/messages/${args.route.messageId}`;
+		return `rooms/${route.roomId}/messages/${route.messageId}`;
 	}
 
-	export function bans(args?: { query?: { type?: number | null, count?: number | null, after?: string | null } })
+	export function bans(route?: undefined, query?: { type?: number | null, count?: number | null, after?: string | null })
 	{
-		if (!TypeHelper.isNullable(args?.query))
+		if (!TypeHelper.isNullable(query))
 		{
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.type, "number", "nullable");
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.count, "number", "nullable");
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.after, "string", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.type, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "nullable");
 		}
 
 		return "bans/users" +
-		       (!TypeHelper.isNullable(args?.query) ? "?" : "") +
-		       (args?.query?.type ? `type=${args.query.type}` : "") +
-		       (args?.query?.count ? `&count=${args.query.count}` : "") +
-		       (args?.query?.after ? `&after=${args.query.after}` : "");
+		       (!TypeHelper.isNullable(query) ? "?" : "") +
+		       (query?.type ? `type=${query.type}` : "") +
+		       (query?.count ? `&count=${query.count}` : "") +
+		       (query?.after ? `&after=${query.after}` : "");
 	}
 
-	export function userBan(args: { route: { userId: string } })
+	export function userBan(route: { userId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.userId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.userId, "string");
 
-		return `bans/users/${args.route.userId}`;
+		return `bans/users/${route.userId}`;
 	}
 
 	export function currentUserBanStatus()
@@ -198,24 +184,22 @@ export namespace AulaRoute
 		return "identity/log-in";
 	}
 
-	export function confirmEmail(args: { query: { email: string, token?: string | null } })
+	export function confirmEmail(route: undefined, query: { email: string, token?: string | null })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.query);
-		ThrowHelper.TypeError.throwIfNotType(args.query.email, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(args.query.email, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNullable(query);
+		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(query.email, "string", "nullable");
 
-		return `identity/confirm-email?email=${args.query.email}` +
-		       (args.query?.token ? `&token=${args.query.token}` : "");
+		return `identity/confirm-email?email=${query.email}` +
+		       (query?.token ? `&token=${query.token}` : "");
 	}
 
-	export function forgotPassword(args: { query: { email: string } })
+	export function forgotPassword(route: undefined, query: { email: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.query);
-		ThrowHelper.TypeError.throwIfNotType(args.query.email, "string");
+		ThrowHelper.TypeError.throwIfNullable(query);
+		ThrowHelper.TypeError.throwIfNotType(query.email, "string");
 
-		return `identity/forgot-password?email=${args.query.email}`;
+		return `identity/forgot-password?email=${query.email}`;
 	}
 
 	export function resetPassword()
@@ -233,49 +217,46 @@ export namespace AulaRoute
 		return "bots";
 	}
 
-	export function bot(args: { route: { userId: string } })
+	export function bot(route: { userId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.userId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.userId, "string");
 
-		return `bots/${args.route.userId}`;
+		return `bots/${route.userId}`;
 	}
 
-	export function resetBotToken(args: { route: { userId: string } })
+	export function resetBotToken(route: { userId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.userId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.userId, "string");
 
-		return `bots/${args.route.userId}/reset-token`;
+		return `bots/${route.userId}/reset-token`;
 	}
 
-	export function files(args?: { query?: { after?: string | null, count?: number | null } })
+	export function files(route?: undefined, query?: { after?: string | null, count?: number | null })
 	{
-		if (!TypeHelper.isNullable(args?.query))
+		if (!TypeHelper.isNullable(query))
 		{
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.count, "number", "nullable");
-			ThrowHelper.TypeError.throwIfNotAnyType(args.query.after, "string", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.count, "number", "nullable");
+			ThrowHelper.TypeError.throwIfNotAnyType(query.after, "string", "nullable");
 		}
 
 		return "files" +
-		       (!TypeHelper.isNullable(args?.query) ? "?" : "") +
-		       (args?.query?.count ? `count=${args.query.count}` : "") +
-		       (args?.query?.after ? `&after=${args.query.after}` : "");
+		       (!TypeHelper.isNullable(query) ? "?" : "") +
+		       (query?.count ? `count=${query.count}` : "") +
+		       (query?.after ? `&after=${query.after}` : "");
 	}
 
-	export function file(args: { route: { fileId: string } })
+	export function file(route: { fileId: string })
 	{
-		ThrowHelper.TypeError.throwIfNullable(args);
-		ThrowHelper.TypeError.throwIfNullable(args.route);
-		ThrowHelper.TypeError.throwIfNotType(args.route.fileId, "string");
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.fileId, "string");
 
-		return `files/${args.route.fileId}`;
+		return `files/${route.fileId}`;
 	}
 
-	export function fileContent(args: { route: { fileId: string } })
+	export function fileContent(route: { fileId: string })
 	{
-		return `files/${args.route.fileId}/content`;
+		return `files/${route.fileId}/content`;
 	}
 }
