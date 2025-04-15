@@ -18,7 +18,6 @@ import { RoomData } from "./Entities/Models/RoomData.js";
 import { Room } from "./Entities/Room.js";
 import { MessageData } from "./Entities/Models/MessageData.js";
 import { Message } from "./Entities/Message.js";
-import { IGetMessagesQuery } from "./IGetMessagesQuery.js";
 import { IConfirmEmailQuery } from "./IConfirmEmailQuery.js";
 import { IForgotPasswordQuery } from "./IForgotPasswordQuery.js";
 import { IResetPasswordRequestBody } from "./IResetPasswordRequestBody.js";
@@ -60,6 +59,7 @@ import { ModifyRoomRequestBody } from "./ModifyRoomRequestBody.js";
 import { SetRoomConnectionsRequestBody } from "./SetRoomConnectionsRequestBody.js";
 import { SetUserPermissionsRequestBody } from "./SetUserPermissionsRequestBody.js";
 import { SendMessageRequestBody } from "./SendMessageRequestBody.js";
+import { GetMessagesQuery } from "./GetMessagesQuery.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -484,9 +484,13 @@ export class RestClient implements IDisposable
 		return EntityFactory.createMessage(new MessageData(JSON.parse((await response.content.readAsString()))), this);
 	}
 
-	public async getMessages(roomId: string, query: IGetMessagesQuery = {}, cancellationToken: CancellationToken = CancellationToken.none)
+	public async getMessages(
+		roomId: string,
+		query: GetMessagesQuery = GetMessagesQuery.default,
+		cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(query, GetMessagesQuery);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
