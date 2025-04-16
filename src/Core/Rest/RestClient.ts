@@ -19,7 +19,6 @@ import { Room } from "./Entities/Room.js";
 import { MessageData } from "./Entities/Models/MessageData.js";
 import { Message } from "./Entities/Message.js";
 import { LogInResponse } from "./LogInResponse.js";
-import { ICreateBotRequestBody } from "./ICreateBotRequestBody.js";
 import { CreateBotResponse } from "./CreateBotResponse.js";
 import { ResetBotTokenResponse } from "./ResetBotTokenResponse.js";
 import { IBanUserRequestBody } from "./IBanUserRequestBody.js";
@@ -60,6 +59,7 @@ import { LogInRequestBody } from "./LogInRequestBody.js";
 import { ConfirmEmailQuery } from "./ConfirmEmailQuery.js";
 import { ForgotPasswordQuery } from "./ForgotPasswordQuery.js";
 import { ResetPasswordRequestBody } from "./ResetPasswordRequestBody.js";
+import { CreateBotRequestBody } from "./CreateBotRequestBody.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -604,19 +604,15 @@ export class RestClient implements IDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
-	public async createBot(body: ICreateBotRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	public async createBot(body: CreateBotRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotType(body.displayName, "string");
+		ThrowHelper.TypeError.throwIfNotType(body, CreateBotRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.bots());
-		request.content = new JsonContent(
-			{
-				displayName: body.displayName,
-			} as ICreateBotRequestBody);
+		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
