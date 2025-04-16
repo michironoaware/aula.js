@@ -126,13 +126,13 @@ export class RestClient implements IDisposable
 		return this;
 	}
 
-	public withToken(value: string)
+	public withToken(token: string)
 	{
-		ThrowHelper.TypeError.throwIfNotType(value, "string");
+		ThrowHelper.TypeError.throwIfNotType(token, "string");
 		ObjectDisposedError.throwIf(this.#_disposed);
 
 		this.#_httpClient.defaultRequestHeaders.delete("Authorization");
-		this.#_httpClient.defaultRequestHeaders.add("Authorization", `Bearer ${value}`);
+		this.#_httpClient.defaultRequestHeaders.add("Authorization", `Bearer ${token}`);
 		return this;
 	}
 
