@@ -9,6 +9,7 @@ export class WebSocketError extends Error
 {
 	/**
 	 * Initializes a new instance of {@link WebSocketError}.
+	 * @param message The error message.
 	 * */
 	public constructor(message: string)
 	{
