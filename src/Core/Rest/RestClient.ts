@@ -251,6 +251,7 @@ export class RestClient implements IDisposable
 		body: SetUserPermissionsRequestBody,
 		cancellationToken: CancellationToken = CancellationToken.none)
 	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNotType(body, SetUserPermissionsRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
@@ -450,6 +451,7 @@ export class RestClient implements IDisposable
 
 	public async sendMessage(roomId: string, body: SendMessageRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		ThrowHelper.TypeError.throwIfNotType(body, SendMessageRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
