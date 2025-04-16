@@ -30,7 +30,6 @@ import { HttpFetchHandler } from "./HttpFetchHandler.js";
 import { AulaRestError } from "./AulaRestError.js";
 import { AulaRouteRateLimiterHandler } from "./AulaRouteRateLimiterHandler.js";
 import { AulaHttpStatusCode503Handler } from "./AulaHttpStatusCode503Handler.js";
-import { IGetBansQuery } from "./IGetBansQuery.js";
 import { UserBan } from "./Entities/UserBan.js";
 import { EntityFactory } from "./Entities/EntityFactory.js";
 import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
@@ -60,6 +59,7 @@ import { ForgotPasswordQuery } from "./ForgotPasswordQuery.js";
 import { ResetPasswordRequestBody } from "./ResetPasswordRequestBody.js";
 import { CreateBotRequestBody } from "./CreateBotRequestBody.js";
 import { BanUserRequestBody } from "./BanUserRequestBody.js";
+import { GetBansQuery } from "./GetBansQuery.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -688,9 +688,9 @@ export class RestClient implements IDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
-	public async getBans(query: IGetBansQuery = {}, cancellationToken: CancellationToken = CancellationToken.none)
+	public async getBans(query: GetBansQuery = GetBansQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(query);
+		ThrowHelper.TypeError.throwIfNotType(query, GetBansQuery);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
