@@ -2,6 +2,7 @@
 
 /**
  * Thrown when a private constructor is called outside its class.
+ * @package
  * */
 export class PrivateConstructorError extends Error
 {
