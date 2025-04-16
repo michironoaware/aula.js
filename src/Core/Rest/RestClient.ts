@@ -38,7 +38,6 @@ import { File } from "./Entities/File.js";
 import { FileContent } from "./Entities/FileContent.js";
 import { MultipartFormDataContent } from "../../Common/Http/MultipartFormDataContent.js";
 import { ByteArrayContent } from "../../Common/Http/ByteArrayContent.js";
-import { IGetFilesQuery } from "./IGetFilesQuery.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 import { IDisposable } from "../../Common/IDisposable.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
@@ -60,6 +59,7 @@ import { ResetPasswordRequestBody } from "./ResetPasswordRequestBody.js";
 import { CreateBotRequestBody } from "./CreateBotRequestBody.js";
 import { BanUserRequestBody } from "./BanUserRequestBody.js";
 import { GetBansQuery } from "./GetBansQuery.js";
+import { GetFilesQuery } from "./GetFilesQuery.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -738,9 +738,9 @@ export class RestClient implements IDisposable
 		return new GetCurrentUserBanStatusResponse(JSON.parse(await response.content.readAsString()), this);
 	}
 
-	public async getFiles(query: IGetFilesQuery = {}, cancellationToken: CancellationToken = CancellationToken.none)
+	public async getFiles(query: GetFilesQuery = GetFilesQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(query);
+		ThrowHelper.TypeError.throwIfNotType(query, GetFilesQuery);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
