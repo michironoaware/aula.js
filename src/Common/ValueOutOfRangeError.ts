@@ -2,10 +2,14 @@
 import { ThrowHelper } from "./ThrowHelper.js";
 
 /**
+ * Thrown when a value is out of the expected range.
  * @sealed
  * */
 export class ValueOutOfRangeError extends Error
 {
+	/**
+	 * Initializes a new instance of {@link ValueOutOfRangeError}.
+	 * */
 	public constructor(message: string)
 	{
 		super(message);
@@ -13,6 +17,11 @@ export class ValueOutOfRangeError extends Error
 		ThrowHelper.TypeError.throwIfNotType(message, "string");
 	}
 
+	/**
+	 * Throws a {@link ValueOutOfRangeError} if {@link value} is equal to {@link other}.
+	 * @param value The value to compare against {@link other}.
+	 * @param other The other value.
+	 * */
 	public static throwIfEqual(value: number, other: number)
 	{
 		ThrowHelper.TypeError.throwIfNotType(value, "number");
@@ -24,6 +33,11 @@ export class ValueOutOfRangeError extends Error
 		}
 	}
 
+	/**
+	 * Throws a {@link ValueOutOfRangeError} if {@link value} is greater than {@link other}.
+	 * @param value The value to compare against {@link other}.
+	 * @param other The other value.
+	 * */
 	public static throwIfGreaterThan(value: number, other: number)
 	{
 		ThrowHelper.TypeError.throwIfNotType(value, "number");
@@ -35,6 +49,11 @@ export class ValueOutOfRangeError extends Error
 		}
 	}
 
+	/**
+	 * Throws a {@link ValueOutOfRangeError} if {@link value} is greater than or equal to {@link other}.
+	 * @param value The value to compare against {@link other}.
+	 * @param other The other value.
+	 * */
 	public static throwIfGreaterThanOrEqual(value: number, other: number)
 	{
 		ThrowHelper.TypeError.throwIfNotType(value, "number");
@@ -46,6 +65,11 @@ export class ValueOutOfRangeError extends Error
 		}
 	}
 
+	/**
+	 * Throws a {@link ValueOutOfRangeError} if {@link value} is less than {@link other}.
+	 * @param value The value to compare against {@link other}.
+	 * @param other The other value.
+	 * */
 	public static throwIfLessThan(value: number, other: number)
 	{
 		ThrowHelper.TypeError.throwIfNotType(value, "number");
@@ -57,6 +81,11 @@ export class ValueOutOfRangeError extends Error
 		}
 	}
 
+	/**
+	 * Throws a {@link ValueOutOfRangeError} if {@link value} is less than or equal to {@link other}.
+	 * @param value The value to compare against {@link other}.
+	 * @param other The other value.
+	 * */
 	public static throwIfLessThanOrEqual(value: number, other: number)
 	{
 		ThrowHelper.TypeError.throwIfNotType(value, "number");
@@ -68,6 +97,11 @@ export class ValueOutOfRangeError extends Error
 		}
 	}
 
+	/**
+	 * Throws a {@link ValueOutOfRangeError} if {@link value} is not equal to {@link other}.
+	 * @param value The value to compare against {@link other}.
+	 * @param other The other value.
+	 * */
 	public static throwIfNotEqual(value: number, other: number)
 	{
 		ThrowHelper.TypeError.throwIfNotType(value, "number");
