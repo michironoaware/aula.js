@@ -1,7 +1,13 @@
 import { ThrowHelper } from "./ThrowHelper.js";
 
+/**
+ * The exception that is thrown when a method call is invalid for the object's current state.
+ * */
 export class InvalidOperationError extends Error
 {
+	/**
+	 * Initializes a new instance of {@link InvalidOperationError}.
+	 * */
 	public constructor(message: string)
 	{
 		super(message);
