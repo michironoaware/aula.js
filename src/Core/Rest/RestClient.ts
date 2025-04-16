@@ -21,7 +21,6 @@ import { Message } from "./Entities/Message.js";
 import { LogInResponse } from "./LogInResponse.js";
 import { CreateBotResponse } from "./CreateBotResponse.js";
 import { ResetBotTokenResponse } from "./ResetBotTokenResponse.js";
-import { IBanUserRequestBody } from "./IBanUserRequestBody.js";
 import { BanData } from "./Entities/Models/BanData.js";
 import { Ban } from "./Entities/Ban.js";
 import { GetCurrentUserBanStatusResponse } from "./GetCurrentUserBanStatusResponse.js";
@@ -60,6 +59,7 @@ import { ConfirmEmailQuery } from "./ConfirmEmailQuery.js";
 import { ForgotPasswordQuery } from "./ForgotPasswordQuery.js";
 import { ResetPasswordRequestBody } from "./ResetPasswordRequestBody.js";
 import { CreateBotRequestBody } from "./CreateBotRequestBody.js";
+import { BanUserRequestBody } from "./BanUserRequestBody.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -648,20 +648,19 @@ export class RestClient implements IDisposable
 		return new ResetBotTokenResponse(JSON.parse(await response.content.readAsString()), this);
 	}
 
-	public async banUser(userId: string, body: IBanUserRequestBody = {}, cancellationToken: CancellationToken = CancellationToken.none)
+	public async banUser(
+		userId: string,
+		body: BanUserRequestBody = BanUserRequestBody.default,
+		cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
-		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotAnyType(body.reason, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotType(body, BanUserRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userBan({ userId }));
-		request.content = new JsonContent(
-			{
-				reason: body.reason,
-			} as IBanUserRequestBody);
+		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		if (response.statusCode === HttpStatusCode.Conflict)
