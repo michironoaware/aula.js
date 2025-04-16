@@ -18,7 +18,6 @@ import { RoomData } from "./Entities/Models/RoomData.js";
 import { Room } from "./Entities/Room.js";
 import { MessageData } from "./Entities/Models/MessageData.js";
 import { Message } from "./Entities/Message.js";
-import { IResetPasswordRequestBody } from "./IResetPasswordRequestBody.js";
 import { LogInResponse } from "./LogInResponse.js";
 import { ICreateBotRequestBody } from "./ICreateBotRequestBody.js";
 import { CreateBotResponse } from "./CreateBotResponse.js";
@@ -60,6 +59,7 @@ import { RegisterRequestBody } from "./RegisterRequestBody.js";
 import { LogInRequestBody } from "./LogInRequestBody.js";
 import { ConfirmEmailQuery } from "./ConfirmEmailQuery.js";
 import { ForgotPasswordQuery } from "./ForgotPasswordQuery.js";
+import { ResetPasswordRequestBody } from "./ResetPasswordRequestBody.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -576,21 +576,15 @@ export class RestClient implements IDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
-	public async resetPassword(body: IResetPasswordRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	public async resetPassword(body: ResetPasswordRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNullable(body);
-		ThrowHelper.TypeError.throwIfNotType(body.code, "string");
-		ThrowHelper.TypeError.throwIfNotType(body.newPassword, "string");
+		ThrowHelper.TypeError.throwIfNotType(body, ResetPasswordRequestBody);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetPassword());
-		request.content = new JsonContent(
-			{
-				code: body.code,
-				newPassword: body.newPassword,
-			} as IResetPasswordRequestBody);
+		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
