@@ -7,6 +7,9 @@ import { SealedClassError } from "../SealedClassError.js";
  * */
 export class WebSocketError extends Error
 {
+	/**
+	 * Initializes a new instance of {@link WebSocketError}.
+	 * */
 	public constructor(message: string)
 	{
 		super(message);
