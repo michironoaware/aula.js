@@ -61,7 +61,7 @@ export class RestClientOptions
 	 */
 	public set disposeHttpClient(disposeHttpClient: boolean)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(disposeHttpClient, "boolean", "null");
+		ThrowHelper.TypeError.throwIfNotType(disposeHttpClient, "boolean");
 		this.#_disposeHttpClient = disposeHttpClient;
 	}
 
