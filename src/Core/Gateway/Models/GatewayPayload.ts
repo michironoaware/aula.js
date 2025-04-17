@@ -10,6 +10,7 @@ import { RoomConnectionEventData } from "./RoomConnectionEventData.js";
 import { RoomData } from "../../Rest/Entities/Models/RoomData.js";
 import { UserCurrentRoomUpdatedEventData } from "./UserCurrentRoomUpdatedEventData.js";
 import { UserData } from "../../Rest/Entities/Models/UserData.js";
+import { UserPresenceUpdatedEventData } from "./UserPresenceUpdatedEventData.js";
 
 /**
  * @sealed
@@ -19,7 +20,7 @@ export class GatewayPayload
 	readonly #_operation: OperationType;
 	readonly #_event: EventType | null;
 	readonly #_data: ReadyEventData | BanData | MessageData | UserTypingEventData | RoomConnectionEventData | RoomData |
-	                 UserCurrentRoomUpdatedEventData | UserData | null = null;
+	                 UserCurrentRoomUpdatedEventData | UserData | UserPresenceUpdatedEventData | null = null;
 
 	public constructor(payloadData: any)
 	{
@@ -69,6 +70,9 @@ export class GatewayPayload
 						break;
 					case EventType.UserUpdated:
 						this.#_data = new UserData(payloadData.data);
+						break;
+					case EventType.UserPresenceUpdated:
+						this.#_data = new UserPresenceUpdatedEventData(payloadData.data);
 						break;
 					default:
 						break;
