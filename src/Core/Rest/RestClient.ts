@@ -100,7 +100,19 @@ export class RestClient implements IDisposable
 				throw error;
 			}
 
-			const problemDetails = new ProblemDetails(JSON.parse(await response.content.readAsString()));
+			let problemDetails: ProblemDetails | undefined;
+			try
+			{
+				problemDetails = new ProblemDetails(JSON.parse(await response.content.readAsString()));
+			}
+			catch (error)
+			{
+				if (!(error instanceof SyntaxError))
+				{
+					throw error;
+				}
+			}
+
 			switch (response.statusCode)
 			{
 				case HttpStatusCode.Unauthorized:
