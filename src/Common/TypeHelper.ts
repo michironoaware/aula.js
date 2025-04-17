@@ -33,7 +33,7 @@
 
 			// For checking whether a numeric value is defined in the enum's members
 			// does not work with flag enums
-			(typeof type === "object" && type[object as any] !== undefined)
+			(typeof type === "object" && Object.values(type).includes(object as string | number))
 		);
 	}
 
