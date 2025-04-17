@@ -309,72 +309,72 @@ export class GatewayClient implements IDisposable
 					case EventType.Ready:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, ReadyEventData);
 						await this.#_eventEmitter.emit(
-							"Ready", new ReadyEvent(payload.data, this));
+							payload.event, new ReadyEvent(payload.data, this));
 						break;
 					case EventType.BanCreated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
 						await this.#_eventEmitter.emit(
-							"BanCreated", new BanCreatedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
+							payload.event, new BanCreatedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
 						break;
 					case EventType.BanRemoved:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
 						await this.#_eventEmitter.emit(
-							"BanRemoved", new BanRemovedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
+							payload.event, new BanRemovedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
 						break;
 					case EventType.MessageCreated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
 						await this.#_eventEmitter.emit(
-							"MessageCreated", new MessageCreatedEvent(EntityFactory.createMessage(payload.data, this.#_restClient), this));
+							payload.event, new MessageCreatedEvent(EntityFactory.createMessage(payload.data, this.#_restClient), this));
 						break;
 					case EventType.MessageRemoved:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
 						await this.#_eventEmitter.emit(
-							"MessageRemoved", new MessageRemovedEvent(EntityFactory.createMessage(payload.data, this.#_restClient), this));
+							payload.event, new MessageRemovedEvent(EntityFactory.createMessage(payload.data, this.#_restClient), this));
 						break;
 					case EventType.UserStartedTyping:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserTypingEventData);
 						await this.#_eventEmitter.emit(
-							"UserStartedTyping", new UserStartedTypingEvent(payload.data, this));
+							payload.event, new UserStartedTypingEvent(payload.data, this));
 						break;
 					case EventType.UserStoppedTyping:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserTypingEventData);
 						await this.#_eventEmitter.emit(
-							"UserStoppedTyping", new UserStoppedTypingEvent(payload.data, this));
+							payload.event, new UserStoppedTypingEvent(payload.data, this));
 						break;
 					case EventType.RoomConnectionCreated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomConnectionEventData);
 						await this.#_eventEmitter.emit(
-							"RoomConnectionCreated", new RoomConnectionCreatedEvent(payload.data, this));
+							payload.event, new RoomConnectionCreatedEvent(payload.data, this));
 						break;
 					case EventType.RoomConnectionRemoved:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomConnectionEventData);
 						await this.#_eventEmitter.emit(
-							"RoomConnectionRemoved", new RoomConnectionRemovedEvent(payload.data, this));
+							payload.event, new RoomConnectionRemovedEvent(payload.data, this));
 						break;
 					case EventType.RoomCreated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomData);
 						await this.#_eventEmitter.emit(
-							"RoomCreated", new RoomCreatedEvent(new Room(payload.data, this.#_restClient), this));
+							payload.event, new RoomCreatedEvent(new Room(payload.data, this.#_restClient), this));
 						break;
 					case EventType.RoomUpdated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomData);
 						await this.#_eventEmitter.emit(
-							"RoomUpdated", new RoomUpdatedEvent(new Room(payload.data, this.#_restClient), this));
+							payload.event, new RoomUpdatedEvent(new Room(payload.data, this.#_restClient), this));
 						break;
 					case EventType.RoomRemoved:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomData);
 						await this.#_eventEmitter.emit(
-							"RoomRemoved", new RoomRemovedEvent(new Room(payload.data, this.#_restClient), this));
+							payload.event, new RoomRemovedEvent(new Room(payload.data, this.#_restClient), this));
 						break;
 					case EventType.UserCurrentRoomUpdated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserCurrentRoomUpdatedEventData);
 						await this.#_eventEmitter.emit(
-							"UserCurrentRoomUpdated", new UserCurrentRoomUpdatedEvent(payload.data, this));
+							payload.event, new UserCurrentRoomUpdatedEvent(payload.data, this));
 						break;
 					case EventType.UserUpdated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserData);
 						await this.#_eventEmitter.emit(
-							"UserUpdated", new UserUpdatedEvent(new User(payload.data, this.#_restClient), this));
+							payload.event, new UserUpdatedEvent(new User(payload.data, this.#_restClient), this));
 						break;
 					default:
 						break;
