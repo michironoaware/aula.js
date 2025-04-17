@@ -105,7 +105,7 @@ export class GatewayClient implements IDisposable
 
 	public withIntents(intents: Intents)
 	{
-		ThrowHelper.TypeError.throwIfNotType(intents, "number");
+		ThrowHelper.TypeError.throwIfNotType(intents, "bigint");
 		ObjectDisposedError.throwIf(this.#_disposed);
 
 		if (this.#_webSocket.state !== WebSocketState.Closed)
