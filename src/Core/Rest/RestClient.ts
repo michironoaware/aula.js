@@ -60,6 +60,9 @@ import { CreateBotRequestBody } from "./CreateBotRequestBody.js";
 import { BanUserRequestBody } from "./BanUserRequestBody.js";
 import { GetBansQuery } from "./GetBansQuery.js";
 import { GetFilesQuery } from "./GetFilesQuery.js";
+import { Permissions } from "./Entities/Permissions.js";
+import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError.js";
+import { UserUpdatedEvent } from "../Gateway/UserUpdatedEvent.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -71,6 +74,10 @@ export class RestClient implements IDisposable
 	readonly #_disposeHttpClient: boolean;
 	#_disposed: boolean = false;
 
+	/**
+	 * Initializes a new instance of {@link RestClient}.
+	 * @param options The configuration options for this client.
+	 * */
 	public constructor(options: RestClientOptions = RestClientOptions.default)
 	{
 		SealedClassError.throwIfNotEqual(RestClient, new.target);
@@ -129,6 +136,10 @@ export class RestClient implements IDisposable
 		}
 	}
 
+	/**
+	 * Sets the address of the Aula server where requests should be sent.
+	 * @param uri A URI that points to the desired server.
+	 * */
 	public withBaseAddress(uri: URL)
 	{
 		ThrowHelper.TypeError.throwIfNotType(uri, URL);
@@ -138,6 +149,10 @@ export class RestClient implements IDisposable
 		return this;
 	}
 
+	/**
+	 * Sets the authorization token used to authenticate.
+	 * @param token The token string.
+	 * */
 	public withToken(token: string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(token, "string");
@@ -163,6 +178,16 @@ export class RestClient implements IDisposable
 		this.#_disposed = true;
 	}
 
+	/**
+	 * Gets the user of the current requester's account.
+	 * Requires authentication.
+	 * @param cancellationToken A cancellation token to listen to.
+	 * @returns A promise that resolves to a {@link User} that represents the user.
+	 * @throws {TypeError} If an argument is not of the expected type.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
 	public async getCurrentUser(cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
@@ -177,6 +202,18 @@ export class RestClient implements IDisposable
 		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
 	}
 
+	/**
+	 * Gets a collection of users.
+	 * Requires authentication.
+	 * @param query The query options for retrieving users.
+	 * @param cancellationToken A cancellation token to listen to.
+	 * @returns A promise that resolves to a {@link User} array that contains the requested users.
+	 * @throws {TypeError} If an argument is not of the expected type.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
 	public async getUsers(query: GetUsersQuery = GetUsersQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(query, GetUsersQuery);
@@ -193,6 +230,17 @@ export class RestClient implements IDisposable
 		           .map((d: any) => new User(new UserData(d), this)) as User[];
 	}
 
+	/**
+	 * Gets a user.
+	 * Requires authentication.
+	 * @param userId The id of the user.
+	 * @param cancellationToken A cancellation token to listen to.
+	 * @returns A promise that resolves to a {@link User}, or `null` if the requested user does not exist.
+	 * @throws {TypeError} If an argument is not of the expected type.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
 	public async getUser(userId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
@@ -213,6 +261,19 @@ export class RestClient implements IDisposable
 		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
 	}
 
+	/**
+	 * Modify the requester's account settings.
+	 * Requires authentication.
+	 * Fires an {@link UserUpdatedEvent} gateway event.
+	 * @param body The request body.
+	 * @param cancellationToken A cancellation token to listen to.
+	 * @returns A promise that resolves to a {@link User} that represents the modified user.
+	 * @throws {TypeError} If an argument is not of the expected type.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
 	public async modifyCurrentUser(body: ModifyCurrentUserRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(body, ModifyCurrentUserRequestBody);
@@ -229,6 +290,20 @@ export class RestClient implements IDisposable
 		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
 	}
 
+	/**
+	 * Moves the requester's user to the specified room.
+	 * Requires authentication and the {@link Permissions.SetOwnCurrentRoom} permission.
+	 * Fires an {@link UserCurrentRoomUpdatedEvent} gateway event.
+	 * @param body The request body.
+	 * @param cancellationToken A cancellation token to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {TypeError} If an argument is not of the expected type.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user does not have the required permissions.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
 	public async setCurrentUserRoom(body: SetUserRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(body, SetUserRoomRequestBody);
@@ -243,6 +318,22 @@ export class RestClient implements IDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
+	/**
+	 * Moves the specified user to a specific room.
+	 * Requires authentication and the {@link Permissions.SetCurrentRoom} permission.
+	 * Fires an {@link UserCurrentRoomUpdatedEvent} gateway event.
+	 * @param userId the id of the user to move.
+	 * @param body The request body.
+	 * @param cancellationToken A cancellation token to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {TypeError} If an argument is not of the expected type.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user does not have the required permissions.
+	 * @throws {AulaNotFoundError}  If the specified user does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
 	public async setUserRoom(userId: string, body: SetUserRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
@@ -258,6 +349,22 @@ export class RestClient implements IDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
+	/**
+	 * Sets the permissions of a user.
+	 * Requires authentication and the {@link Permissions.Administrator} permission.
+	 * Fires an {@link UserUpdatedEvent} gateway event.
+	 * @param userId the id of the user.
+	 * @param body The request body.
+	 * @param cancellationToken A cancellation token to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {TypeError} If an argument is not of the expected type.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user does not have the required permissions.
+	 * @throws {AulaNotFoundError}  If the specified user does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
 	public async setUserPermissions(
 		userId: string,
 		body: SetUserPermissionsRequestBody,
@@ -276,6 +383,20 @@ export class RestClient implements IDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
+	/**
+	 * Creates a room.
+	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
+	 * Fires a {@link RoomCreatedEvent} gateway event.
+	 * @param body The request body.
+	 * @param cancellationToken A cancellation token to listen to.
+	 * @returns A promise that resolves to a {@link Room} that represents the created room.
+	 * @throws {TypeError} If an argument is not of the expected type.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user does not have the required permissions.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
 	public async createRoom(body: CreateRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(body, CreateRoomRequestBody);
