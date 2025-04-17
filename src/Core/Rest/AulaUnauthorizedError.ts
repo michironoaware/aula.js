@@ -15,7 +15,7 @@ export class AulaUnauthorizedError extends AulaRestError
 	 * @package
 	 * */
 	public constructor(
-		problemDetails: ProblemDetails,
+		problemDetails?: ProblemDetails,
 		innerError?: HttpRequestError)
 	{
 		super("The 'Authorization' header was missing or invalid", problemDetails, innerError);

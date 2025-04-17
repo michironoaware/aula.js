@@ -7,7 +7,7 @@ import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
  * */
 export class AulaRestError extends Error
 {
-	readonly #_problemDetails: ProblemDetails;
+	readonly #_problemDetails: ProblemDetails | null;
 	readonly #_innerError: HttpRequestError | null;
 
 	/**
@@ -19,33 +19,41 @@ export class AulaRestError extends Error
 	 * */
 	public constructor(
 		message: string,
-		problemDetails: ProblemDetails,
+		problemDetails?: ProblemDetails,
 		innerError?: HttpRequestError)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, "string");
-		ThrowHelper.TypeError.throwIfNotType(problemDetails, ProblemDetails);
+		ThrowHelper.TypeError.throwIfNotAnyType(problemDetails, ProblemDetails, "undefined");
 		ThrowHelper.TypeError.throwIfNotAnyType(innerError, HttpRequestError, "undefined");
 
-		let errorString = null;
-		if (problemDetails.errors.size > 0)
+		if (problemDetails)
 		{
-			errorString =
-				Array.from(problemDetails.errors)
-				     .map(v =>
-				     {
-					     const propertyName = v[0];
-					     const propertyErrors = v[1];
-					     return ` -- "${propertyName}":\n ---- ${propertyErrors.join("\n - - - ")}`;
-				     }).join("\n");
+			let errorString = null;
+			if (problemDetails.errors.size > 0)
+			{
+				errorString =
+					Array.from(problemDetails.errors)
+					     .map(v =>
+					     {
+						     const propertyName = v[0];
+						     const propertyErrors = v[1];
+						     return ` -- "${propertyName}":\n ---- ${propertyErrors.join("\n - - - ")}`;
+					     }).join("\n");
+			}
+
+			super(`\n${message}` +
+			      `\n - Title: ${problemDetails.title}` +
+			      `\n - Detail: ${problemDetails.detail}` +
+			      `\n - Status: ${problemDetails.status}` +
+			      (errorString != null ? `\n - Errors:\n${errorString}` : ""));
+
+		}
+		else
+		{
+			super(message);
 		}
 
-		super(`\n${message}` +
-		      `\n - Title: ${problemDetails.title}` +
-		      `\n - Detail: ${problemDetails.detail}` +
-		      `\n - Status: ${problemDetails.status}` +
-		      (errorString != null ? `\n - Errors:\n${errorString}` : ""));
-
-		this.#_problemDetails = problemDetails;
+		this.#_problemDetails = problemDetails ?? null;
 		this.#_innerError = innerError ?? null;
 	}
 

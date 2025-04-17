@@ -15,7 +15,7 @@ export class AulaForbiddenError extends AulaRestError
 	 * @package
 	 * */
 	public constructor(
-		problemDetails: ProblemDetails,
+		problemDetails?: ProblemDetails,
 		innerError?: HttpRequestError)
 	{
 		super("You did not have permission to access the resource", problemDetails, innerError);

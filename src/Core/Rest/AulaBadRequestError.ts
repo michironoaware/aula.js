@@ -16,7 +16,7 @@ export class AulaBadRequestError extends AulaRestError
 	 * @package
 	 * */
 	public constructor(
-		problemDetails: ProblemDetails,
+		problemDetails?: ProblemDetails,
 		innerError?: HttpRequestError)
 	{
 		super("The request was improperly formatted, or the server couldn't understand it", problemDetails, innerError);

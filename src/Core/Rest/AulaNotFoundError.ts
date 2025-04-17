@@ -15,7 +15,7 @@ export class AulaNotFoundError extends AulaRestError
 	 * @package
 	 * */
 	public constructor(
-		problemDetails: ProblemDetails,
+		problemDetails?: ProblemDetails,
 		innerError?: HttpRequestError)
 	{
 		super("The resource doesn't exist", problemDetails, innerError);
