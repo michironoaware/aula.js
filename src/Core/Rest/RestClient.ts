@@ -140,7 +140,7 @@ export class RestClient implements IDisposable
 	 * Sets the address of the Aula server where requests should be sent.
 	 * @param uri A URI that points to the desired server.
 	 * */
-	public withBaseAddress(uri: URL)
+	public withAddress(uri: URL)
 	{
 		ThrowHelper.TypeError.throwIfNotType(uri, URL);
 		ObjectDisposedError.throwIf(this.#_disposed);

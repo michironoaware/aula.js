@@ -103,7 +103,7 @@ export class GatewayClient implements IDisposable
 		return this.#_pendingPayloads;
 	}
 
-	public setIntents(intents: Intents)
+	public withIntents(intents: Intents)
 	{
 		ThrowHelper.TypeError.throwIfNotType(intents, "number");
 		ObjectDisposedError.throwIf(this.#_disposed);
@@ -118,7 +118,7 @@ export class GatewayClient implements IDisposable
 		return this;
 	}
 
-	public setBaseAddress(uri: URL)
+	public withAddress(uri: URL)
 	{
 		ThrowHelper.TypeError.throwIfNotType(uri, URL);
 		ObjectDisposedError.throwIf(this.#_disposed);
@@ -129,12 +129,12 @@ export class GatewayClient implements IDisposable
 		}
 
 		this.#_address = new URL(`${uri.href}${uri.href.endsWith("/") ? "" : "/"}api/v1/gateway`);
-		this.#_restClient.withBaseAddress(uri);
+		this.#_restClient.withAddress(uri);
 
 		return this;
 	}
 
-	public setToken(token: string)
+	public withToken(token: string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(token, "string");
 		ObjectDisposedError.throwIf(this.#_disposed);
