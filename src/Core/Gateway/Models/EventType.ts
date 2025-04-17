@@ -45,6 +45,11 @@ export const EventType =
 	UserCurrentRoomUpdated: "UserCurrentRoomUpdated",
 
 	/**
+	 * A user presence has been updated.
+	 * */
+	UserPresenceUpdated: "UserPresenceUpdated",
+
+	/**
 	 * A new message has been sent.
 	 */
 	MessageCreated: "MessageCreated",
