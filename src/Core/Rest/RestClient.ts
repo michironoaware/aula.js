@@ -150,7 +150,7 @@ export class RestClient implements IDisposable
 	}
 
 	/**
-	 * Sets the authorization token used to authenticate.
+	 * Sets the authorization token used to authenticate and make requests.
 	 * @param token The token string.
 	 * */
 	public withToken(token: string)
