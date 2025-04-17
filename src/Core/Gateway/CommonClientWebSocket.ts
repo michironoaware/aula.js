@@ -71,7 +71,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 		{
 			this.#_state = WebSocketState.Open;
 			connectPromiseSource.resolve();
-		});
+		}, { passive: true });
 
 		this.#_underlyingWebSocket.addEventListener("message", (event) =>
 		{
@@ -95,7 +95,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 
 			this.#_messageQueue.push(new WebSocketMessage(data, messageType, 0));
 			this.#processPendingReceives();
-		});
+		}, { passive: true });
 
 		this.#_underlyingWebSocket.addEventListener("error", () =>
 		{
@@ -112,7 +112,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 			}
 
 			connectPromiseSource.reject(new WebSocketError("A WebSocket error occurred"));
-		});
+		}, { passive: true });
 
 		this.#_underlyingWebSocket.addEventListener("close", () =>
 		{
@@ -127,7 +127,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 					pendingReceive.promiseSource.resolve(CommonClientWebSocket.#s_closeReceivedResult);
 				}
 			}
-		});
+		}, { passive: true });
 
 		return connectPromiseSource.promise;
 	}
