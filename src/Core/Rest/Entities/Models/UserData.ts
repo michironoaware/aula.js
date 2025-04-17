@@ -29,7 +29,7 @@ export class UserData
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.displayName, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.description, "string");
+		ThrowHelper.TypeError.throwIfNotType(data.description, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.presence, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.permissions, "string");
