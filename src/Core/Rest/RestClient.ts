@@ -949,4 +949,12 @@ export class RestClient implements IDisposable
 
 		return new File(new FileData(JSON.parse(await response.content.readAsString())), this);
 	}
+
+	#throwIfNullToken()
+	{
+		if (!this.#_httpClient.defaultRequestHeaders.has("Authorization"))
+		{
+			throw new AulaUnauthorizedError();
+		}
+	}
 }
