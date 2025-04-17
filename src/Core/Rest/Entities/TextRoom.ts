@@ -4,11 +4,11 @@ import { Room } from "./Room.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { TypeHelper } from "../../../Common/TypeHelper.js";
-import { IGetMessagesQuery } from "../IGetMessagesQuery.js";
-import { ISendMessageRequestBody } from "../ISendMessageRequestBody.js";
 import { MessageType } from "./MessageType.js";
 import { RoomType } from "./RoomType.js";
 import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
+import { GetMessagesQuery } from "../GetMessagesQuery.js";
+import { SendMessageRequestBody } from "../SendMessageRequestBody.js";
 
 /**
  * Represents a text room within Aula.
@@ -69,7 +69,7 @@ export class TextRoom extends Room
 	 * @param query The parameters for retrieving messages.
 	 * @returns A promise that resolves to a {@link Message} array.
 	 * */
-	public async getMessages(query: IGetMessagesQuery = {})
+	public async getMessages(query: GetMessagesQuery = GetMessagesQuery.default)
 	{
 		ThrowHelper.TypeError.throwIfNullable(query);
 		return await this.restClient.getMessages(this.id, query);
@@ -80,14 +80,16 @@ export class TextRoom extends Room
 	 * @param message The request body for sending the message.
 	 * @returns A promise that resolves to a {@link Message} representing the message sent.
 	 * */
-	public async sendMessage(message: ISendMessageRequestBody | string)
+	public async sendMessage(message: SendMessageRequestBody | string)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(message, "object", "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(message, SendMessageRequestBody, "string");
 
-		let body: ISendMessageRequestBody;
+		let body: SendMessageRequestBody;
 		if (TypeHelper.isType(message, "string"))
 		{
-			body = { type: MessageType.Standard, content: message };
+			body = new SendMessageRequestBody()
+				.withType(MessageType.Standard)
+				.withText(message);
 		}
 		else
 		{

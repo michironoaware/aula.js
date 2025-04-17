@@ -1,10 +1,11 @@
 ﻿import { RestClient } from "../RestClient.js";
 import { RoomData } from "./Models/RoomData.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { IModifyRoomRequestBody } from "../IModifyRoomRequestBody.js";
 import { TypeHelper } from "../../../Common/TypeHelper.js";
 import { ArrayHelper } from "../../../Common/ArrayHelper.js";
 import { RoomType } from "./RoomType.js";
+import { ModifyRoomRequestBody } from "../ModifyRoomRequestBody.js";
+import { SetRoomConnectionsRequestBody } from "../SetRoomConnectionsRequestBody.js";
 
 /**
  * Represents a room within Aula.
@@ -117,7 +118,7 @@ export class Room
 	 * @param body An object containing the properties to update for the room.
 	 * @returns A promise that resolves to a new, updated {@link Room}.
 	 */
-	public async modify(body: IModifyRoomRequestBody)
+	public async modify(body: ModifyRoomRequestBody)
 	{
 		return await this.restClient.modifyRoom(this.id, body);
 	}
@@ -155,7 +156,7 @@ export class Room
 			ThrowHelper.TypeError.throwIfNotType(roomId, "string");
 		}
 
-		return await this.restClient.setRoomConnections(this.id, { roomIds });
+		return await this.restClient.setRoomConnections(this.id, new SetRoomConnectionsRequestBody().withRoomIds(roomIds));
 	}
 
 	/**

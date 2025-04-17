@@ -6,6 +6,9 @@ import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { Room } from "./Room.js";
 import { TypeHelper } from "../../../Common/TypeHelper.js";
 import { UnreachableError } from "../../../Common/UnreachableError.js";
+import { SetUserRoomRequestBody } from "../SetUserRoomRequestBody.js";
+import { SetUserPermissionsRequestBody } from "../SetUserPermissionsRequestBody.js";
+import { BanUserRequestBody } from "../BanUserRequestBody.js";
 
 /**
  * Represents a user within Aula.
@@ -137,8 +140,8 @@ export class User
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string", "null");
 
-		const roomId = TypeHelper.isType(room, Room) ? room.id : room ?? undefined;
-		return await this.restClient.setUserRoom(this.id, { roomId });
+		const roomId = TypeHelper.isType(room, Room) ? room.id : room ?? null;
+		return await this.restClient.setUserRoom(this.id, new SetUserRoomRequestBody().withRoomId(roomId));
 	}
 
 	/**
@@ -149,7 +152,7 @@ export class User
 	public async setPermissions(permissions: Permissions)
 	{
 		ThrowHelper.TypeError.throwIfNotType(permissions, "bigint");
-		return await this.restClient.setUserPermissions(this.id, { permissions });
+		return await this.restClient.setUserPermissions(this.id, new SetUserPermissionsRequestBody().withPermissions(permissions));
 	}
 
 	/**
@@ -160,7 +163,7 @@ export class User
 	public async ban(reason?: string)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(reason, "string", "undefined");
-		return await this.restClient.banUser(this.id, { reason });
+		return await this.restClient.banUser(this.id, new BanUserRequestBody().withReason(reason ?? null));
 	}
 
 	/**
