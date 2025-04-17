@@ -49,6 +49,8 @@ import { Func } from "../../Common/Func.js";
 import { EntityFactory } from "../Rest/Entities/EntityFactory.js";
 import { TypeHelper } from "../../Common/TypeHelper.js";
 import { JsonReplacer } from "../../Common/Json/JsonReplacer.js";
+import { UserPresenceUpdatedEventData } from "./Models/UserPresenceUpdatedEventData.js";
+import { UserPresenceUpdatedEvent } from "./UserPresenceUpdatedEvent.js";
 
 /**
  * @sealed
@@ -377,6 +379,11 @@ export class GatewayClient implements IDisposable
 						await this.#_eventEmitter.emit(
 							payload.event, new UserUpdatedEvent(new User(payload.data, this.#_restClient), this));
 						break;
+					case EventType.UserPresenceUpdated:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, UserPresenceUpdatedEventData);
+						await this.#_eventEmitter.emit(
+							payload.event, new UserPresenceUpdatedEvent(payload.data, this.#_restClient));
+						break;
 					default:
 						break;
 				}
@@ -563,4 +570,5 @@ export interface IGatewayClientEvents
 	RoomRemoved: Func<[ RoomRemovedEvent ]>;
 	UserUpdated: Func<[ UserUpdatedEvent ]>;
 	UserCurrentRoomUpdated: Func<[ UserCurrentRoomUpdatedEvent ]>;
+	UserPresenceUpdated: Func<[ UserPresenceUpdatedEvent ]>;
 }
