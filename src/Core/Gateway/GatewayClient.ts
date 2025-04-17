@@ -15,7 +15,6 @@ import { WebSocketState } from "../../Common/WebSockets/WebSocketState.js";
 import { Channel } from "../../Common/Threading/Channels/Channel.js";
 import { OperationType } from "./Models/OperationType.js";
 import { ReadyEventData } from "./Models/ReadyEventData.js";
-import { CommonClientWebSocket } from "./CommonClientWebSocket.js";
 import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 import { Intents } from "./Intents.js";
 import { EventType } from "./Models/EventType.js";
@@ -51,6 +50,7 @@ import { TypeHelper } from "../../Common/TypeHelper.js";
 import { JsonReplacer } from "../../Common/Json/JsonReplacer.js";
 import { UserPresenceUpdatedEventData } from "./Models/UserPresenceUpdatedEventData.js";
 import { UserPresenceUpdatedEvent } from "./UserPresenceUpdatedEvent.js";
+import { GatewayClientOptions } from "./GatewayClientOptions.js";
 
 /**
  * @sealed
@@ -68,25 +68,18 @@ export class GatewayClient implements IDisposable
 	#_address: URL | null = null;
 	#_disposed: boolean = false;
 
-	public constructor(options: {
-		restClient?: RestClient,
-		webSocketType?: new () => ClientWebSocket,
-		disposeRestClient?: boolean,
-	} = {})
+	public constructor(options: GatewayClientOptions = GatewayClientOptions.default)
 	{
 		SealedClassError.throwIfNotEqual(GatewayClient, new.target);
-		ThrowHelper.TypeError.throwIfNullable(options);
-		ThrowHelper.TypeError.throwIfNotAnyType(options.restClient, RestClient, "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(options.webSocketType, "function", "undefined");
-		ThrowHelper.TypeError.throwIfNotAnyType(options.disposeRestClient, "boolean", "undefined");
+		ThrowHelper.TypeError.throwIfNotType(options, GatewayClientOptions);
 
 		this.#_restClient = options.restClient ?? new RestClient();
-		this.#_webSocket = new (options.webSocketType ?? CommonClientWebSocket)();
-		this.#_disposeRestClient = options.disposeRestClient ?? (options.restClient === undefined);
+		this.#_disposeRestClient = options.disposeRestClient;
+		this.#_webSocket = new options.webSocketType();
 
 		if (!TypeHelper.isType(this.#_webSocket, ClientWebSocket))
 		{
-			throw new InvalidOperationError(`options.webSocketType must inherit from ${ClientWebSocket.name}.`);
+			throw new InvalidOperationError(`The websocket type must inherit from ${ClientWebSocket.name}.`);
 		}
 	}
 
