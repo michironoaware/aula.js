@@ -410,7 +410,7 @@ export class GatewayClient implements IDisposable
 			try
 			{
 				const messageText = GatewayClient.#s_textDecoder.decode(message.content);
-				this.#emitEventFromPayload(new GatewayPayload(JSON.parse(messageText))).then();
+				await this.#emitEventFromPayload(new GatewayPayload(JSON.parse(messageText)));
 			}
 			catch (error)
 			{
