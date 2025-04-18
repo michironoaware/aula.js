@@ -226,7 +226,6 @@ export class GatewayClient implements IDisposable
 			throw new InvalidOperationError("Client is not connected");
 		}
 
-		this.#pendingPayloads.writer.complete();
 		await this.#_webSocket.close(WebSocketCloseCode.NormalClosure);
 	}
 
