@@ -1,6 +1,5 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 
 /**
  * Represents the request body used to override the connected rooms of a room.
@@ -28,6 +27,7 @@ export class SetRoomConnectionsRequestBody
 
 	/**
 	 * Sets the id collection of rooms to connect to the room.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param roomIds The collection of room ids.
 	 * */
 	public set roomIds(roomIds: string[] | null)
@@ -44,6 +44,7 @@ export class SetRoomConnectionsRequestBody
 
 	/**
 	 * Sets the id collection of rooms to connect to the room.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param roomIds The collection of room ids.
 	 * @returns The current {@link SetRoomConnectionsRequestBody} instance.
 	 * */
@@ -55,7 +56,6 @@ export class SetRoomConnectionsRequestBody
 
 	public toJSON()
 	{
-		InvalidOperationError.throwIf(this.#_roomIds === null, "The room ids must be provided first.");
 		return { roomIds: this.#_roomIds };
 	}
 }

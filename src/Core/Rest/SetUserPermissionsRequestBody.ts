@@ -1,7 +1,6 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { Permissions } from "./Entities/Permissions.js";
-import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 
 /**
  * Represents the request body used to override a user's permissions.
@@ -29,6 +28,7 @@ export class SetUserPermissionsRequestBody
 
 	/**
 	 * Sets the new permissions for the user.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param permissions The permission bit flags.
 	 * */
 	public set permissions(permissions: Permissions | null)
@@ -39,6 +39,7 @@ export class SetUserPermissionsRequestBody
 
 	/**
 	 * Sets the new permissions for the user.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param permissions The permission bit flags.
 	 * @returns The current {@link SetUserPermissionsRequestBody} instance. 
 	 * */
@@ -50,7 +51,6 @@ export class SetUserPermissionsRequestBody
 
 	public toJSON()
 	{
-		InvalidOperationError.throwIf(this.#_permissions === null, "The permissions must be provided first.");
 		return { permissions: this.#_permissions };
 	}
 }

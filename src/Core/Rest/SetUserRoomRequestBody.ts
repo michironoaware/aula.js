@@ -1,6 +1,5 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 
 /**
  * Represents the request body used to set the user's room.
@@ -28,6 +27,7 @@ export class SetUserRoomRequestBody
 
 	/**
 	 * Sets the id of the room to which the user will be relocated.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param roomId the id of the room, or `null` to relocate the user to no room.
 	 * */
 	public set roomId(roomId: string | null)
@@ -38,6 +38,7 @@ export class SetUserRoomRequestBody
 
 	/**
 	 * Sets the id of the room to which the user will be relocated.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param roomId the id of the room, or `null` to relocate the user to no room.
 	 * @return The current {@link SetUserRoomRequestBody} instance.
 	 * */
@@ -49,7 +50,6 @@ export class SetUserRoomRequestBody
 
 	public toJSON()
 	{
-		InvalidOperationError.throwIf(this.#_roomId === null, "The room id must be provided first.");
 		return { roomId: this.#_roomId };
 	}
 }

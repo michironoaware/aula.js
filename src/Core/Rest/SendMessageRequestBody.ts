@@ -2,7 +2,6 @@
 import { MessageType } from "./Entities/MessageType.js";
 import { MessageFlags } from "./Entities/MessageFlags.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 
 /**
  * The request body used for sending a message.
@@ -32,6 +31,7 @@ export class SendMessageRequestBody
 
 	/**
 	 * Sets the type of the message being sent.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param type The message type.
 	 */
 	public set type(type: typeof MessageType.Standard | null)
@@ -50,6 +50,7 @@ export class SendMessageRequestBody
 
 	/**
 	 * Sets the flags of the message being sent.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param flags The message bit flags.
 	 */
 	public set flags(flags: MessageFlags | null)
@@ -78,6 +79,7 @@ export class SendMessageRequestBody
 
 	/**
 	 * Sets the type of the message being sent.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param type The message type.
 	 * @returns The current {@link SendMessageRequestBody}.
 	 */
@@ -89,6 +91,7 @@ export class SendMessageRequestBody
 
 	/**
 	 * Sets the flags of the message being sent.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param flags The message bit flags.
 	 * @returns The current {@link SendMessageRequestBody}.
 	 */
@@ -111,10 +114,6 @@ export class SendMessageRequestBody
 	
 	public toJSON()
 	{
-		InvalidOperationError.throwIf(this.#_type === null, "A type must be provided first");
-		InvalidOperationError.throwIf(this.#_type === MessageType.Standard && this.#_text === null,
-			`The message is of type ${MessageType.Standard} but no text was provided.`);
-		
 		return { type: this.#_type, flags: this.#_flags, text: this.#_text };
 	}
 }

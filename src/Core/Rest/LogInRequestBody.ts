@@ -1,6 +1,5 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 
 /**
  * Represents the request body of a user log-in request.
@@ -29,6 +28,7 @@ export class LogInRequestBody
 
 	/**
 	 * Sets the username for the user to log-in.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param userName the username string.
 	 * */
 	public set userName(userName: string | null)
@@ -47,6 +47,7 @@ export class LogInRequestBody
 
 	/**
 	 * Sets the password to log in the user with.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param password The password string.
 	 * */
 	public set password(password: string | null)
@@ -57,6 +58,7 @@ export class LogInRequestBody
 
 	/**
 	 * Sets the username for the user to log-in.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param userName the username string.
 	 * @returns The current {@link LogInRequestBody} instance.
 	 * */
@@ -68,6 +70,7 @@ export class LogInRequestBody
 
 	/**
 	 * Sets the password to log in the user with.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param password The password string.
 	 * @returns The current {@link LogInRequestBody} instance.
 	 * */
@@ -79,9 +82,6 @@ export class LogInRequestBody
 
 	public toJSON()
 	{
-		InvalidOperationError.throwIf(this.#_userName === null, "A username must be provided first.");
-		InvalidOperationError.throwIf(this.#_password === null, "A password must be provided first.");
-
 		return {
 			userName: this.#_userName,
 			password: this.#_password,

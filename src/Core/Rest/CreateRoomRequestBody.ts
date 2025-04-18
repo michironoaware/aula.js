@@ -1,7 +1,6 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { RoomType } from "./Entities/RoomType.js";
-import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 
 /**
  * Represents the request body used to create a new room.
@@ -33,6 +32,7 @@ export class CreateRoomRequestBody
 
 	/**
 	 * Sets the type of the room to create.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param type The room type.
 	 */
 	public set type(type: RoomType | null)
@@ -51,6 +51,7 @@ export class CreateRoomRequestBody
 
 	/**
 	 * Sets the name of the room to create.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param name The room name.
 	 */
 	public set name(name: string | null)
@@ -69,6 +70,7 @@ export class CreateRoomRequestBody
 
 	/**
 	 * Sets the description of the room to create.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param description The room description.
 	 */
 	public set description(description: string | null)
@@ -115,6 +117,7 @@ export class CreateRoomRequestBody
 
 	/**
 	 * Sets the type of the room to create.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param type The room type.
 	 * @returns The current {@link CreateRoomRequestBody} instance.
 	 */
@@ -126,6 +129,7 @@ export class CreateRoomRequestBody
 
 	/**
 	 * Sets the name of the room to create.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param name The room name.
 	 * @returns The current {@link CreateRoomRequestBody} instance.
 	 */
@@ -137,6 +141,7 @@ export class CreateRoomRequestBody
 
 	/**
 	 * Sets the description of the room to create.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param description The room description.
 	 * @returns The current {@link CreateRoomRequestBody} instance.
 	 */
@@ -170,10 +175,6 @@ export class CreateRoomRequestBody
 
 	public toJSON()
 	{
-		InvalidOperationError.throwIf(this.#_type === null, "A type for the room must be provided first.");
-		InvalidOperationError.throwIf(this.#_name === null, "A name for the room must be provided first.");
-		InvalidOperationError.throwIf(this.#_description === null, "A description for the room must be provided first.");
-
 		return {
 			type: this.#_type,
 			name: this.#_name,

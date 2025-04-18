@@ -1,6 +1,5 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 
 /**
  * Represents the request body of a password reset request.
@@ -29,6 +28,7 @@ export class ResetPasswordRequestBody
 
 	/**
 	 * Sets the code required to reset the password.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param code The code string.
 	 * */
 	public set code(code: string | null)
@@ -47,6 +47,7 @@ export class ResetPasswordRequestBody
 
 	/**
 	 * Sets the new password for the user.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param newPassword The password string.
 	 * */
 	public set newPassword(newPassword: string | null)
@@ -57,6 +58,7 @@ export class ResetPasswordRequestBody
 
 	/**
 	 * Sets the code required to reset the password.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param code The code string.
 	 * @returns The current {@link ResetPasswordRequestBody} instance.
 	 * */
@@ -68,6 +70,7 @@ export class ResetPasswordRequestBody
 
 	/**
 	 * Sets the new password for the user.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param newPassword The password string.
 	 * @returns The current {@link ResetPasswordRequestBody} instance.
 	 * */
@@ -79,8 +82,6 @@ export class ResetPasswordRequestBody
 
 	public toJSON()
 	{
-		InvalidOperationError.throwIf(this.#_code === null, "The password reset code must be provided first.");
-
 		return { code: this.#_code, newPassword: this.#_newPassword };
 	}
 }

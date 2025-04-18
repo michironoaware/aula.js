@@ -27,6 +27,7 @@ export class CreateBotRequestBody
 
 	/**
 	 * Sets the display name for the bot user to register.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param displayName the display name string.
 	 * */
 	public set displayName(displayName: string | null)
@@ -37,6 +38,7 @@ export class CreateBotRequestBody
 
 	/**
 	 * Sets the display name for the bot user to register.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param displayName the display name string.
 	 * @returns The current {@link CreateBotRequestBody} instance.
 	 * */

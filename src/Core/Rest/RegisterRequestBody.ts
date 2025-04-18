@@ -1,6 +1,5 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
 
 /**
  * Represents the request body of a user register request.
@@ -31,6 +30,7 @@ export class RegisterRequestBody
 
 	/**
 	 * Sets the username for the user to register.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param userName the username string.
 	 * */
 	public set userName(userName: string | null)
@@ -67,6 +67,7 @@ export class RegisterRequestBody
 
 	/**
 	 * Sets the email of the user to register.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param email The email of the user.
 	 * */
 	public set email(email: string | null)
@@ -85,6 +86,7 @@ export class RegisterRequestBody
 
 	/**
 	 * Sets the password to register the user with.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param password The password string.
 	 * */
 	public set password(password: string | null)
@@ -95,6 +97,7 @@ export class RegisterRequestBody
 
 	/**
 	 * Sets the username for the user to register.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param userName the username string.
 	 * @returns The current {@link RegisterRequestBody} instance.
 	 * */
@@ -117,6 +120,7 @@ export class RegisterRequestBody
 
 	/**
 	 * Sets the email of the user to register.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param email The email of the user.
 	 * @returns The current {@link RegisterRequestBody} instance.
 	 * */
@@ -128,6 +132,7 @@ export class RegisterRequestBody
 
 	/**
 	 * Sets the password to register the user with.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param password The password string.
 	 * @returns The current {@link RegisterRequestBody} instance.
 	 * */
@@ -139,10 +144,6 @@ export class RegisterRequestBody
 
 	public toJSON()
 	{
-		InvalidOperationError.throwIf(this.#_userName === null, "A username must be provided first");
-		InvalidOperationError.throwIf(this.#_email === null, "An email must be provided first");
-		InvalidOperationError.throwIf(this.#_password === null, "A password must be provided first");
-
 		return {
 			userName: this.#_userName,
 			displayName: this.#_displayName,
