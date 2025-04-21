@@ -8,7 +8,6 @@ import { ThrowHelper } from "../../Common/ThrowHelper.js";
 export class ForgotPasswordQuery
 {
 	#_email: string | null = null;
-	#_token: string | null = null;
 
 	/**
 	 * Initializes a new instance of {@link ForgotPasswordQuery}.
