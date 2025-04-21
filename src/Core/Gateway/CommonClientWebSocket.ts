@@ -11,6 +11,7 @@ import { NotSupportedError } from "../../Common/NotSupportedError.js";
 import { WebSocketCloseCode } from "../../Common/WebSockets/WebSocketCloseCode.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { JsonReplacer } from "../../Common/Json/JsonReplacer.js";
+import { WebEncoders } from "../../Common/WebEncoders.js";
 
 /**
  * @sealed
@@ -57,10 +58,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 			headersAsKeyValuePairObject[header[0]] = header[1].join(";");
 		}
 
-		const headersAsBase64Url = btoa(JSON.stringify(headersAsKeyValuePairObject, JsonReplacer))
-			.replace(/\+/g, "-")
-			.replace(/\//g, "_")
-			.replace(/=+$/, "");
+		const headersAsBase64Url = WebEncoders.ToBase64UrlString(JSON.stringify(headersAsKeyValuePairObject, JsonReplacer));
 
 		this.#_underlyingWebSocket = new WebSocket(uri, `h_${headersAsBase64Url}`);
 		this.#_underlyingWebSocket.binaryType = "arraybuffer";
