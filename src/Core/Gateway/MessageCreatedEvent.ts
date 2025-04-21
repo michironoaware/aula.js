@@ -4,6 +4,7 @@ import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 
 /**
+ * Emitted when a message has been sent.
  * @sealed
  * */
 export class MessageCreatedEvent
@@ -11,6 +12,9 @@ export class MessageCreatedEvent
 	readonly #_message: Message;
 	readonly #_gatewayClient: GatewayClient;
 
+	/**
+	 * @package
+	 * */
 	public constructor(message: Message, gatewayClient: GatewayClient)
 	{
 		SealedClassError.throwIfNotEqual(MessageCreatedEvent, new.target);
@@ -21,11 +25,17 @@ export class MessageCreatedEvent
 		this.#_gatewayClient = gatewayClient;
 	}
 
+	/**
+	 * Gets the message associated to the event.
+	 * */
 	public get message()
 	{
 		return this.#_message;
 	}
 
+	/**
+	 * Gets the {@link GatewayClient} that initialized this instance.
+	 * */
 	public get gatewayClient()
 	{
 		return this.#_gatewayClient;
