@@ -195,7 +195,6 @@ export class RestClient implements IDisposable
 	 * @returns A promise that resolves to a {@link User} that represents the user.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
