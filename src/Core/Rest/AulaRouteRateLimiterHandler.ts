@@ -152,7 +152,7 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
-					const eventEmission = await this.#_eventEmitter.emit("RateLimited", new RateLimitedEvent(resetTimestamp));
+					const eventEmission = await this.#_eventEmitter.emit("RateLimited", new RouteRateLimitedEvent(resetTimestamp));
 					const delay = await Delay(now - resetTimestamp);
 					await Promise.all([ eventEmission, delay ]);
 					continue;
@@ -284,7 +284,7 @@ class RouteRateLimit
 export interface AulaRouteRateLimiterHandlerEvents
 {
 	RequestDeferred: Func<[ RequestDeferredEvent ]>;
-	RateLimited: Func<[ RateLimitedEvent ]>;
+	RateLimited: Func<[ RouteRateLimitedEvent ]>;
 }
 
 export class RequestDeferredEvent
@@ -314,14 +314,14 @@ export class RequestDeferredEvent
 	}
 }
 
-export class RateLimitedEvent
+export class RouteRateLimitedEvent
 {
 	readonly #_resetTimestamp: number;
 	#_resetDate: Date | null = null;
 
 	public constructor(resetTimestamp: number)
 	{
-		SealedClassError.throwIfNotEqual(RateLimitedEvent, new.target);
+		SealedClassError.throwIfNotEqual(RouteRateLimitedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(resetTimestamp, "number");
 
 		this.#_resetTimestamp = resetTimestamp;

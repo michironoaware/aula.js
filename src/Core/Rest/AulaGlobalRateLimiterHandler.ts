@@ -95,7 +95,7 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 
 				if (response.statusCode === HttpStatusCode.TooManyRequests)
 				{
-					await this.#_eventEmitter.emit("RateLimited", new RateLimitedEvent(resetTimestamp));
+					await this.#_eventEmitter.emit("RateLimited", new GlobalRateLimitedEvent(resetTimestamp));
 					continue;
 				}
 			}
@@ -186,17 +186,17 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 
 export interface AulaGlobalRateLimiterHandlerEvents
 {
-	RateLimited: Func<[ RateLimitedEvent ]>;
+	RateLimited: Func<[ GlobalRateLimitedEvent ]>;
 }
 
-export class RateLimitedEvent
+export class GlobalRateLimitedEvent
 {
 	readonly #_resetIsoString: string;
 	#_resetDate: Date | null = null;
 
 	public constructor(resetIsoString: string)
 	{
-		SealedClassError.throwIfNotEqual(RateLimitedEvent, new.target);
+		SealedClassError.throwIfNotEqual(GlobalRateLimitedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(resetIsoString, "string");
 
 		this.#_resetIsoString = resetIsoString;
