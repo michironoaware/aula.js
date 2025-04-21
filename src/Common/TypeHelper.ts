@@ -55,7 +55,7 @@
 			return false;
 		}
 
-		for (let item of object)
+		for (const item of object)
 		{
 			if (!isType(item, type))
 			{
