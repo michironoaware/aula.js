@@ -70,12 +70,12 @@ export const EventType =
 	UserStoppedTyping: "UserStoppedTyping",
 
 	/**
-	 * A user has been banned.
+	 * A ban has been emitted.
 	 */
 	BanCreated: "BanCreated",
 
 	/**
-	 * A user has been unbanned.
+	 * A ban has been lifted.
 	 */
 	BanRemoved: "BanRemoved",
 
