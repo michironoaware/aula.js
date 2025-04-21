@@ -4,6 +4,7 @@ import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { MessageRemovedEventData } from "./Models/MessageRemovedEventData.js";
 
 /**
+ * Emitted when a message has been removed.
  * @sealed
  * */
 export class MessageRemovedEvent
@@ -11,6 +12,9 @@ export class MessageRemovedEvent
 	readonly #_data: MessageRemovedEventData;
 	readonly #_gatewayClient: GatewayClient;
 
+	/**
+	 * @package
+	 * */
 	public constructor(data: MessageRemovedEventData, gatewayClient: GatewayClient)
 	{
 		SealedClassError.throwIfNotEqual(MessageRemovedEvent, new.target);
@@ -21,11 +25,17 @@ export class MessageRemovedEvent
 		this.#_gatewayClient = gatewayClient;
 	}
 
+	/**
+	 * Gets the id of the associated message.
+	 * */
 	public get messageId()
 	{
 		return this.#_data.id;
 	}
 
+	/**
+	 * Gets the {@link GatewayClient} that initialized this instance.
+	 * */
 	public get gatewayClient()
 	{
 		return this.#_gatewayClient;
