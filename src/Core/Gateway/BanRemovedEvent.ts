@@ -4,6 +4,7 @@ import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 
 /**
+ * Emitted when a ban has been lifted.
  * @sealed
  * */
 export class BanRemovedEvent
@@ -21,11 +22,17 @@ export class BanRemovedEvent
 		this.#_gatewayClient = gatewayClient;
 	}
 
+	/**
+	 * Gets the ban associated to the event.
+	 * */
 	public get ban()
 	{
 		return this.#_ban;
 	}
 
+	/**
+	 * Gets the {@link GatewayClient} that initialized this instance.
+	 * */
 	public get gatewayClient()
 	{
 		return this.#_gatewayClient;
