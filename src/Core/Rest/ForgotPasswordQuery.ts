@@ -18,7 +18,7 @@ export class ForgotPasswordQuery
 	}
 
 	/**
-	 * Gets the email of the account to recover.
+	 * Gets the email of the account to recover, encoded in Base64url.
 	 * */
 	public get email()
 	{
@@ -27,7 +27,7 @@ export class ForgotPasswordQuery
 
 	/**
 	 * Sets the email of the account to recover.
-	 * @param email The email address.
+	 * @param email The email address, encoded in Base64url.
 	 * */
 	public set email(email: string | null)
 	{
@@ -37,7 +37,7 @@ export class ForgotPasswordQuery
 
 	/**
 	 * Sets the email of the account to recover.
-	 * @param email The email address.
+	 * @param email The email address, encoded in Base64url.
 	 * @returns The current {@link ForgotPasswordQuery} instance.
 	 * */
 	public withEmail(email: string | null)

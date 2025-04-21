@@ -19,7 +19,7 @@ export class ConfirmEmailQuery
 	}
 
 	/**
-	 * Gets the email to confirm.
+	 * Gets the email to confirm, encoded in Base64url.
 	 * */
 	public get email()
 	{
@@ -28,7 +28,7 @@ export class ConfirmEmailQuery
 
 	/**
 	 * Sets the email to confirm.
-	 * @param email The email address.
+	 * @param email The email address, encoded in Base64url.
 	 * */
 	public set email(email: string | null)
 	{
@@ -56,7 +56,7 @@ export class ConfirmEmailQuery
 
 	/**
 	 * Sets the email to confirm.
-	 * @param email The email address.
+	 * @param email The email address, encoded in Base64url.
 	 * @returns The current {@link ConfirmEmailQuery} instance.
 	 * */
 	public withEmail(email: string | null)
