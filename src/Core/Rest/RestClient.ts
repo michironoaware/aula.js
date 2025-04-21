@@ -154,18 +154,22 @@ export class RestClient implements IDisposable
 
 	/**
 	 * Sets the authorization token used to authenticate and make requests.
-	 * @param token The token string.
+	 * @param token The token string, or `null` to clear the current token.
 	 * @returns The current {@link RestClient} instance.
 	 * @throws {TypeError} If {@link token} is not a {@link string}.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * */
-	public withToken(token: string)
+	public withToken(token: string | null)
 	{
-		ThrowHelper.TypeError.throwIfNotType(token, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(token, "string", "null");
 		ObjectDisposedError.throwIf(this.#_disposed);
 
 		this.#_httpClient.defaultRequestHeaders.delete("Authorization");
-		this.#_httpClient.defaultRequestHeaders.add("Authorization", `Bearer ${token}`);
+		if (token !== null)
+		{
+			this.#_httpClient.defaultRequestHeaders.add("Authorization", `Bearer ${token}`);
+		}
+
 		return this;
 	}
 
