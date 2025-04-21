@@ -217,9 +217,9 @@ export namespace AulaRoute
 		return "identity/reset-password";
 	}
 
-	export function resetToken()
+	export function logOut()
 	{
-		return "identity/reset-token";
+		return "identity/log-out";
 	}
 
 	export function bots()

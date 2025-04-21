@@ -755,7 +755,7 @@ export class RestClient implements IDisposable
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetToken());
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.logOut());
 		request.content = new JsonContent(body);
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
