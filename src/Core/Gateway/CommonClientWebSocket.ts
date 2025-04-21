@@ -14,6 +14,7 @@ import { JsonReplacer } from "../../Common/Json/JsonReplacer.js";
 import { WebEncoders } from "../../Common/WebEncoders.js";
 
 /**
+ * A {@link ClientWebSocket} implementation that internally uses a {@link WebSocket}.
  * @sealed
  * */
 export class CommonClientWebSocket extends ClientWebSocket
@@ -27,6 +28,9 @@ export class CommonClientWebSocket extends ClientWebSocket
 	#_state: WebSocketState = WebSocketState.Closed;
 	#_disposed: boolean = false;
 
+	/**
+	 * Initializes a new instance of {@link CommonClientWebSocket}.
+	 * */
 	public constructor()
 	{
 		super();
