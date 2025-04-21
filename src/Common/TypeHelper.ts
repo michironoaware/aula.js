@@ -32,7 +32,7 @@
 			(typeof type === "function" && object instanceof type) ||
 
 			// For checking whether a numeric value is defined in the enum's members
-			// does not work with flag enums
+			// does not work as expected with flag enums
 			(typeof type === "object" && Object.values(type).includes(object as string | number))
 		);
 	}
