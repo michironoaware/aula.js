@@ -28,6 +28,7 @@ export class ConfirmEmailQuery
 
 	/**
 	 * Sets the email to confirm.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param email The email address, encoded in Base64url.
 	 * */
 	public set email(email: string | null)
@@ -56,6 +57,7 @@ export class ConfirmEmailQuery
 
 	/**
 	 * Sets the email to confirm.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param email The email address, encoded in Base64url.
 	 * @returns The current {@link ConfirmEmailQuery} instance.
 	 * */

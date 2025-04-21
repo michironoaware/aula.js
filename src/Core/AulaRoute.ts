@@ -1,6 +1,9 @@
 ﻿import { TypeHelper } from "../Common/TypeHelper.js";
 import { ThrowHelper } from "../Common/ThrowHelper.js";
 
+/**
+ * @package
+ * */
 export namespace AulaRoute
 {
 	export function currentUser()
@@ -83,13 +86,13 @@ export namespace AulaRoute
 		return `rooms/${route.roomId}/connections`;
 	}
 
-	export function roomConnection(route: { roomId: string, targetId: string })
+	export function roomConnection(route: { sourceId: string, targetId: string })
 	{
 		ThrowHelper.TypeError.throwIfNullable(route);
-		ThrowHelper.TypeError.throwIfNotType(route.roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(route.sourceId, "string");
 		ThrowHelper.TypeError.throwIfNotType(route.targetId, "string");
 
-		return `rooms/${route.roomId}/connections/${route.targetId}`;
+		return `rooms/${route.sourceId}/connections/${route.targetId}`;
 	}
 
 	export function roomUsers(route: { roomId: string })

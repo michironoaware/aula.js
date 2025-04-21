@@ -27,6 +27,7 @@ export class ForgotPasswordQuery
 
 	/**
 	 * Sets the email of the account to recover.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param email The email address, encoded in Base64url.
 	 * */
 	public set email(email: string | null)
@@ -37,6 +38,7 @@ export class ForgotPasswordQuery
 
 	/**
 	 * Sets the email of the account to recover.
+	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param email The email address, encoded in Base64url.
 	 * @returns The current {@link ForgotPasswordQuery} instance.
 	 * */

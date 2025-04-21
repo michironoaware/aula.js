@@ -4,7 +4,8 @@ import { HttpRequestError } from "../../Common/Http/HttpRequestError.js";
 import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
 
 /**
- * The error that occurs when an operation could not be completed because there was no permission to access the resource.
+ * The error that occurs when an operation could not be completed because
+ * there was no permission to access the resource or the user was banned.
  * */
 export class AulaForbiddenError extends AulaRestError
 {
