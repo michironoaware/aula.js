@@ -51,6 +51,7 @@ import { JsonReplacer } from "../../Common/Json/JsonReplacer.js";
 import { UserPresenceUpdatedEventData } from "./Models/UserPresenceUpdatedEventData.js";
 import { UserPresenceUpdatedEvent } from "./UserPresenceUpdatedEvent.js";
 import { GatewayClientOptions } from "./GatewayClientOptions.js";
+import { MessageRemovedEventData } from "./Models/MessageRemovedEventData.js";
 
 /**
  * @sealed
@@ -324,7 +325,7 @@ export class GatewayClient implements IDisposable
 					case EventType.MessageRemoved:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
 						await this.#_eventEmitter.emit(
-							payload.event, new MessageRemovedEvent(EntityFactory.createMessage(payload.data, this.#_restClient), this));
+							payload.event, new MessageRemovedEvent(new MessageRemovedEventData(payload.data), this));
 						break;
 					case EventType.UserStartedTyping:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserTypingEventData);
