@@ -3,6 +3,7 @@ import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { RestClient } from "../RestClient.js";
 import { UnreachableError } from "../../../Common/UnreachableError.js";
+import { CancellationToken } from "../../../Common/Threading/index.js";
 
 /**
  * Holds the additional data included in {@link MessageType.UserLeave} messages.
@@ -55,11 +56,13 @@ export class MessageUserLeave
 
 	/**
 	 * Gets the id of the user who left the room.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a {@link User}.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * */
-	public async getUser()
+	public async getUser(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		const user = await this.restClient.getUser(this.userId);
+		const user = await this.restClient.getUser(this.userId, cancellationToken);
 		if (user === null)
 		{
 			throw new UnreachableError("User expected to exist, but the server sent nothing.");
@@ -70,11 +73,13 @@ export class MessageUserLeave
 
 	/**
 	 * Gets the id of the room where the user moved to.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a {@link Room},
 	 * or `null` if the user was not relocated or the room no longer exists.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * */
-	public async getRoom()
+	public async getRoom(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		this.roomId !== null ? await this.restClient.getRoom(this.roomId) : null;
+		this.roomId !== null ? await this.restClient.getRoom(this.roomId, cancellationToken) : null;
 	}
 }
