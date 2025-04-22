@@ -4,6 +4,8 @@ import { RestClient } from "../Rest/RestClient.js";
 import { ClientWebSocket } from "../../Common/WebSockets/ClientWebSocket.js";
 import { CommonClientWebSocket } from "./CommonClientWebSocket.js";
 import { Intents } from "./Intents.js";
+import { PresenceOption } from "./PresenceOption.js";
+import { Permissions } from "../Rest/Entities/Permissions.js";
 
 /**
  * Represents configuration options for a {@link GatewayClient}.
@@ -19,6 +21,7 @@ export class GatewayClientOptions
 	#_token: string | null = null;
 	#_address: URL | null = null;
 	#_intents: Intents | null = null;
+	#_defaultPresence: PresenceOption | null = null;
 
 	/**
 	 * Initializes a new instance of {@link GatewayClientOptions}.
@@ -143,6 +146,23 @@ export class GatewayClientOptions
 	}
 
 	/**
+	 * Gets the presence to show once connected to the gateway.
+	 * */
+	public get defaultPresence()
+	{
+		return this.#_defaultPresence;
+	}
+
+	/**
+	 * Sets the presence to show once connected to the gateway.
+	 * */
+	public set defaultPresence(defaultPresence: PresenceOption | null)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(defaultPresence, PresenceOption, "null");
+		this.#_defaultPresence = defaultPresence;
+	}
+
+	/**
 	 * Sets the {@link RestClient} instance used to interact with the Aula REST API.
 	 * @param restClient The {@link RestClient} instance to use,
 	 *                   or `null` to let the GatewayClient instantiate and configure its own {@link RestClient}.
@@ -206,6 +226,20 @@ export class GatewayClientOptions
 	public withIntents(intents: Intents | null)
 	{
 		this.intents = intents;
+		return this;
+	}
+
+	/**
+	 * Sets the presence to show once connected to the gateway.
+	 * Requires the {@link Permissions.Administrator} permission,
+	 * otherwise the server will ignore the provided option.
+	 * If not provided with a default presence, the server will automatically fall back to {@link PresenceOption.Online}.
+	 * @param defaultPresence The selected presence option.
+	 * @returns The current {@link GatewayClientOptions} instance.
+	 * */
+	public withDefaultPresence(defaultPresence: PresenceOption | null)
+	{
+		this.defaultPresence = defaultPresence;
 		return this;
 	}
 }
