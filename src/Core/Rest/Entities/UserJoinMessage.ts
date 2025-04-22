@@ -7,6 +7,7 @@ import { MessageType } from "./MessageType.js";
 import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
 
 /**
+ * Represents a message announcing that a user has joined a room.
  * @sealed
  * */
 export class UserJoinMessage extends Message
@@ -14,6 +15,9 @@ export class UserJoinMessage extends Message
 	readonly #_data: MessageData;
 	#_userJoin: MessageUserJoin | null = null;
 
+	/**
+	 * @package
+	 * */
 	public constructor(data: MessageData, restClient: RestClient)
 	{
 		super(data, restClient);
@@ -27,6 +31,9 @@ export class UserJoinMessage extends Message
 		this.#_data = data;
 	}
 
+	/**
+	 * Gets the additional data included in this {@link MessageType.UserJoin} message.
+	 * */
 	public get userJoin()
 	{
 		return this.#_userJoin ??= new MessageUserJoin(this.#_data.joinData!, this.restClient);
