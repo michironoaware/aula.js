@@ -69,6 +69,14 @@ export class CancellationTokenSource
 
 		(this.#_eventEmitter ??= new EventEmitter()).on("Cancelled", listener);
 	}
+
+	/**
+	 * Detaches all listeners from this {@link CancellationTokenSource}.
+	 * */
+	public removeAllListeners()
+	{
+		this.#_eventEmitter?.removeAll();
+	}
 }
 
 export interface ICancellationTokenSourceEvents
