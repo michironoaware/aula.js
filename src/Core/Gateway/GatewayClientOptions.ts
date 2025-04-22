@@ -15,6 +15,7 @@ export class GatewayClientOptions
 	#_restClient: RestClient | null = null;
 	#_disposeRestClient: boolean = true;
 	#_webSocketType: new () => ClientWebSocket = CommonClientWebSocket;
+	#_token: string | null = null;
 
 	/**
 	 * Initializes a new instance of {@link GatewayClientOptions}.
@@ -87,6 +88,24 @@ export class GatewayClientOptions
 	}
 
 	/**
+	 * Gets the authorization token used to authenticate the connection.
+	 * @default null
+	 * */
+	public get token()
+	{
+		return this.#_token;
+	}
+
+	/**
+	 * Sets the authorization token used to authenticate the connection.
+	 * */
+	public set token(token: string | null)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(token, "string", "null");
+		this.#_token = token;
+	}
+
+	/**
 	 * Sets the {@link RestClient} instance used to interact with the Aula REST API.
 	 * @param restClient The {@link RestClient} instance to use,
 	 *                   or `null` to let the GatewayClient instantiate and configure its own {@link RestClient}.
@@ -119,4 +138,16 @@ export class GatewayClientOptions
 		this.webSocketType = webSocketType;
 		return this;
 	}
+
+	/**
+	 * Sets the authorization token used to authenticate the connection.
+	 * @param token The token string, or `null` to leave it blank.
+	 * @returns The current {@link GatewayClientOptions} instance.
+	 * */
+	public withToken(token: string | null)
+	{
+		this.token = token;
+		return this;
+	}
+
 }
