@@ -91,6 +91,11 @@ export class RestClient implements IAsyncDisposable
 
 		this.#_disposeHttpClient = options.disposeHttpClient;
 
+		if (options.address !== null)
+		{
+			this.withAddress(options.address);
+		}
+
 		if (options.token !== null)
 		{
 			this.withToken(options.token);
