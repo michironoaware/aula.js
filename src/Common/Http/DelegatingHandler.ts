@@ -41,11 +41,11 @@ export abstract class DelegatingHandler extends HttpMessageHandler
 		return await this.#_innerHandler.send(message, cancellationToken);
 	}
 
-	public [Symbol.dispose]()
+	public async [Symbol.asyncDispose]()
 	{
 		if (this.#_disposeInnerHandler)
 		{
-			this.#_innerHandler[Symbol.dispose]();
+			await this.#_innerHandler[Symbol.asyncDispose]();
 		}
 	}
 }

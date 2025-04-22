@@ -39,7 +39,6 @@ import { FileContent } from "./Entities/FileContent.js";
 import { MultipartFormDataContent } from "../../Common/Http/MultipartFormDataContent.js";
 import { ByteArrayContent } from "../../Common/Http/ByteArrayContent.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
-import { IDisposable } from "../../Common/IDisposable.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { RestClientOptions } from "./RestClientOptions.js";
 import { ModifyCurrentUserRequestBody } from "./ModifyCurrentUserRequestBody.js";
@@ -63,12 +62,13 @@ import { GetFilesQuery } from "./GetFilesQuery.js";
 import { Permissions } from "./Entities/Permissions.js";
 import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError.js";
 import { UserUpdatedEvent } from "../Gateway/UserUpdatedEvent.js";
+import { IAsyncDisposable } from "../../Common/IAsyncDisposable.js";
 
 /**
  * Provides a client to interact with the Aula REST API.
  * @sealed
  * */
-export class RestClient implements IDisposable
+export class RestClient implements IAsyncDisposable
 {
 	readonly #_httpClient: HttpClient;
 	readonly #_disposeHttpClient: boolean;
@@ -173,7 +173,7 @@ export class RestClient implements IDisposable
 		return this;
 	}
 
-	public [Symbol.dispose]()
+	public async [Symbol.asyncDispose]()
 	{
 		if (this.#_disposed)
 		{
@@ -182,7 +182,7 @@ export class RestClient implements IDisposable
 
 		if (this.#_disposeHttpClient)
 		{
-			this.#_httpClient[Symbol.dispose]();
+			await this.#_httpClient[Symbol.asyncDispose]();
 		}
 
 		this.#_disposed = true;

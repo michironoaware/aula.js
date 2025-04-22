@@ -86,8 +86,10 @@ export class HttpLoggingHandler extends DelegatingHandler
 		return response;
 	}
 
-	public [Symbol.dispose]()
+	public async [Symbol.asyncDispose]()
 	{
+		await super[Symbol.asyncDispose]();
+
 		if (this.#_disposed)
 		{
 			return;

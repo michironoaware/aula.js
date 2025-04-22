@@ -1,14 +1,14 @@
 ﻿import { HttpContent } from "../../../Common/Http/HttpContent.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { IDisposable } from "../../../Common/IDisposable.js";
 import { ObjectDisposedError } from "../../../Common/ObjectDisposedError.js";
 import { RestClient } from "../RestClient.js";
+import { IAsyncDisposable } from "../../../Common/IAsyncDisposable.js";
 
 /**
  * Represents the contents of a file hosted in Aula.
  * */
-export class FileContent implements IDisposable
+export class FileContent implements IAsyncDisposable
 {
 	readonly #_httpContent: HttpContent;
 	readonly #_restClient: RestClient;
@@ -60,14 +60,14 @@ export class FileContent implements IDisposable
 		return await this.#_httpContent.readAsByteArray();
 	}
 
-	public [Symbol.dispose]()
+	public async [Symbol.asyncDispose]()
 	{
 		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.#_httpContent[Symbol.dispose]();
+		await this.#_httpContent[Symbol.asyncDispose]();
 		this.#_disposed = true;
 	}
 }

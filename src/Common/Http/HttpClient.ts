@@ -4,15 +4,15 @@ import { HttpMessageHandler } from "./HttpMessageHandler.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { InvalidOperationError } from "../InvalidOperationError.js";
 import { SealedClassError } from "../SealedClassError.js";
-import { IDisposable } from "../IDisposable.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
 import { CancellationToken } from "../Threading/CancellationToken.js";
+import { IAsyncDisposable } from "../IAsyncDisposable.js";
 
 /**
  * Provides a class for sending HTTP requests and receiving HTTP responses from a resource identified by a URI.
  * @sealed
  * */
-export class HttpClient implements IDisposable
+export class HttpClient implements IAsyncDisposable
 {
 	readonly #_handler: HttpMessageHandler;
 	readonly #_disposeHandler: boolean;
@@ -123,11 +123,11 @@ export class HttpClient implements IDisposable
 
 		const response = await this.#_handler.send(message, cancellationToken);
 
-		message[Symbol.dispose]();
+		await message[Symbol.asyncDispose]();
 		return response;
 	}
 
-	public [Symbol.dispose]()
+	public async [Symbol.asyncDispose]()
 	{
 		if (this.#_disposed)
 		{
@@ -136,7 +136,7 @@ export class HttpClient implements IDisposable
 
 		if (this.#_disposeHandler)
 		{
-			this.#_handler[Symbol.dispose]();
+			await this.#_handler[Symbol.asyncDispose]();
 		}
 
 		this.#_disposed = true;

@@ -2,9 +2,9 @@ import { HttpMethod } from "./HttpMethod.js";
 import { HttpContent } from "./HttpContent.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "./HeaderMap.js";
-import { IDisposable } from "../IDisposable.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
 import { SealedClassError } from "../SealedClassError.js";
+import { IAsyncDisposable } from "../IAsyncDisposable.js";
 
 /**
  * Represents an HTTP request message.
@@ -12,7 +12,7 @@ import { SealedClassError } from "../SealedClassError.js";
  *          An {@link HttpRequestMessage} instance should not be modified and/or reused after being sent.
  * @sealed
  * */
-export class HttpRequestMessage implements IDisposable
+export class HttpRequestMessage implements IAsyncDisposable
 {
 	readonly #_headers: HeaderMap;
 	#_method: HttpMethod;
@@ -101,14 +101,14 @@ export class HttpRequestMessage implements IDisposable
 		this.#_content = value;
 	}
 
-	public [Symbol.dispose]()
+	public async [Symbol.asyncDispose]()
 	{
 		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.content?.[Symbol.dispose]();
+		await this.content?.[Symbol.asyncDispose]();
 		this.#_disposed = true;
 	}
 }

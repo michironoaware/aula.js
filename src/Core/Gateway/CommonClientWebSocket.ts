@@ -220,11 +220,11 @@ export class CommonClientWebSocket extends ClientWebSocket
 		return closePromiseSource.promise;
 	}
 
-	public [Symbol.dispose]()
+	public [Symbol.asyncDispose]()
 	{
 		if (this.#_disposed)
 		{
-			return;
+			return Promise.resolve();
 		}
 
 		this.#_underlyingWebSocket?.close(WebSocketCloseCode.NormalClosure);
@@ -239,6 +239,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 		}
 
 		this.#_disposed = true;
+		return Promise.resolve();
 	}
 
 	#writeMessage(buffer: Uint8Array): WebSocketReceiveResult

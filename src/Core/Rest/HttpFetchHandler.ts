@@ -76,7 +76,8 @@ export class HttpFetchHandler extends HttpMessageHandler
 		return response;
 	}
 
-	public [Symbol.dispose]()
+	public [Symbol.asyncDispose]()
 	{
+		return Promise.resolve();
 	}
 }

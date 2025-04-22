@@ -41,14 +41,14 @@ export class StreamContent extends HttpContent
 		return Promise.resolve(this.#_stream);
 	}
 
-	public [Symbol.dispose]()
+	public async [Symbol.asyncDispose]()
 	{
 		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.#_stream.cancel().then();
+		await this.#_stream.cancel();
 		this.#_disposed = true;
 	}
 }

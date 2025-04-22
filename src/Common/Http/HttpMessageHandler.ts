@@ -1,12 +1,12 @@
 import { HttpRequestMessage } from "./HttpRequestMessage.js";
 import { HttpResponseMessage } from "./HttpResponseMessage.js";
-import { IDisposable } from "../IDisposable.js";
 import { CancellationToken } from "../Threading/CancellationToken.js";
+import { IAsyncDisposable } from "../IAsyncDisposable.js";
 
 /**
  * A base type for HTTP message handlers. Responsible for processing HTTP messages.
  * */
-export abstract class HttpMessageHandler implements IDisposable
+export abstract class HttpMessageHandler implements IAsyncDisposable
 {
 	/**
 	 * Send an HTTP request as an asynchronous operation.
@@ -15,5 +15,5 @@ export abstract class HttpMessageHandler implements IDisposable
 	 * */
 	public abstract send(message: HttpRequestMessage, cancellationToken: CancellationToken): Promise<HttpResponseMessage>;
 
-	public abstract [Symbol.dispose](): void;
+	public abstract [Symbol.asyncDispose](): Promise<void>;
 }

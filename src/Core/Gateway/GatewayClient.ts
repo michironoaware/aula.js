@@ -4,7 +4,6 @@ import { ReadyEvent } from "./ReadyEvent.js";
 import { RestClient } from "../Rest/RestClient.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { ClientWebSocket } from "../../Common/WebSockets/ClientWebSocket.js";
-import { IDisposable } from "../../Common/IDisposable.js";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 import { WebSocketMessageType } from "../../Common/WebSockets/WebSocketMessageType.js";
 import { UInt8Stream } from "../../Common/IO/UInt8Stream.js";
@@ -52,12 +51,13 @@ import { UserPresenceUpdatedEventData } from "./Models/UserPresenceUpdatedEventD
 import { UserPresenceUpdatedEvent } from "./UserPresenceUpdatedEvent.js";
 import { GatewayClientOptions } from "./GatewayClientOptions.js";
 import { MessageRemovedEventData } from "./Models/MessageRemovedEventData.js";
+import { IAsyncDisposable } from "../../Common/IAsyncDisposable.js";
 
 /**
  * Provides a client to interact with the Aula Gateway API.
  * @sealed
  * */
-export class GatewayClient implements IDisposable
+export class GatewayClient implements IAsyncDisposable
 {
 	static readonly #s_textDecoder: TextDecoder = new TextDecoder("utf8", { fatal: true });
 	static readonly #s_textEncoder: TextEncoder = new TextEncoder();
@@ -295,7 +295,7 @@ export class GatewayClient implements IDisposable
 		await this.#_webSocket.close(WebSocketCloseCode.NormalClosure);
 	}
 
-	public [Symbol.dispose]()
+	public async [Symbol.asyncDispose]()
 	{
 		if (this.#_disposed)
 		{
@@ -303,11 +303,11 @@ export class GatewayClient implements IDisposable
 		}
 
 		this.#_eventEmitter[Symbol.dispose]();
-		this.#_webSocket[Symbol.dispose]();
+		await this.#_webSocket[Symbol.asyncDispose]();
 
 		if (this.#_disposeRestClient)
 		{
-			this.#_restClient[Symbol.dispose]();
+			await this.#_restClient[Symbol.asyncDispose]();
 		}
 
 		this.#_disposed = true;

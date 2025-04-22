@@ -138,9 +138,9 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		return this.#_eventEmitter.remove(event, listener);
 	}
 
-	public [Symbol.dispose]()
+	public async [Symbol.asyncDispose]()
 	{
-		super[Symbol.dispose]();
+		await super[Symbol.asyncDispose]();
 
 		if (this.#_disposed)
 		{

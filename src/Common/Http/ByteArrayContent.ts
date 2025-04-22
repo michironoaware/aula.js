@@ -46,7 +46,8 @@ export class ByteArrayContent extends HttpContent
 		return Promise.resolve(stream);
 	}
 
-	public [Symbol.dispose]()
+	public [Symbol.asyncDispose]()
 	{
+		return Promise.resolve();
 	}
 }

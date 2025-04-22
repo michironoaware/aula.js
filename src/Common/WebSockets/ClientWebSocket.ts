@@ -1,14 +1,14 @@
 ﻿import { WebSocketState } from "./WebSocketState.js";
 import { WebSocketReceiveResult } from "./WebSocketReceiveResult.js";
 import { WebSocketMessageType } from "./WebSocketMessageType.js";
-import { IDisposable } from "../IDisposable.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 import { HeaderMap } from "../Http/HeaderMap.js";
 import { WebSocketCloseCode } from "./WebSocketCloseCode.js";
 import { WebSocketError } from "./WebSocketError.js";
 import { TypeHelper } from "../TypeHelper.js";
+import { IAsyncDisposable } from "../IAsyncDisposable.js";
 
-export abstract class ClientWebSocket implements IDisposable
+export abstract class ClientWebSocket implements IAsyncDisposable
 {
 	public headers: HeaderMap = new HeaderMap();
 
@@ -73,5 +73,5 @@ export abstract class ClientWebSocket implements IDisposable
 	/**
 	 * @inheritDoc
 	 * */
-	public abstract [Symbol.dispose](): void;
+	public abstract [Symbol.asyncDispose](): Promise<void>;
 }

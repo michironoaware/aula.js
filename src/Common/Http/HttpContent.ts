@@ -1,11 +1,11 @@
 import { HeaderMap } from "./HeaderMap.js";
-import { IDisposable } from "../IDisposable.js";
 import { UInt8Stream } from "../IO/UInt8Stream.js";
+import { IAsyncDisposable } from "../IAsyncDisposable.js";
 
 /**
  * A base class representing an HTTP entity body and content headers.
  * */
-export abstract class HttpContent implements IDisposable
+export abstract class HttpContent implements IAsyncDisposable
 {
 	static #s_textDecoder = new TextDecoder("utf8", { fatal: true });
 
@@ -52,5 +52,5 @@ export abstract class HttpContent implements IDisposable
 		return HttpContent.#s_textDecoder.decode(await this.readAsByteArray());
 	}
 
-	public abstract [Symbol.dispose](): void;
+	public abstract [Symbol.asyncDispose](): Promise<void>;
 }
