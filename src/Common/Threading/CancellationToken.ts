@@ -29,6 +29,14 @@ export class CancellationToken
 	}
 
 	/**
+	 * Gets a cancellation token that is canceled.
+	 * */
+	public static get canceled()
+	{
+		return CancelledToken.instance;
+	}
+
+	/**
 	 * Gets whether cancellation has been requested for this token.
 	 * */
 	public get isCancellationRequested()
@@ -71,6 +79,27 @@ class NeverCancelledToken extends CancellationToken
 	public onCancelled(listener: ICancellationTokenEvents["Cancelled"])
 	{
 		return;
+	}
+}
+
+/**
+ * Special {@link CancellationToken} that never attaches {@link ICancellationTokenEvents.Cancelled}
+ * events to avoid memory issues caused by attaching listeners
+ * to a token that never emits events and is never garbage collected.
+ * @package
+ * */
+class CancelledToken extends CancellationToken
+{
+	static readonly #s_instance: CancellationToken = new CancelledToken(new CancellationTokenSource());
+
+	public static get instance()
+	{
+		return this.#s_instance;
+	}
+
+	public onCancelled(listener: ICancellationTokenEvents["Cancelled"])
+	{
+		listener();
 	}
 }
 
