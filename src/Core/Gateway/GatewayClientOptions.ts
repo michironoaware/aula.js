@@ -3,6 +3,7 @@ import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { RestClient } from "../Rest/RestClient.js";
 import { ClientWebSocket } from "../../Common/WebSockets/ClientWebSocket.js";
 import { CommonClientWebSocket } from "./CommonClientWebSocket.js";
+import { Intents } from "./Intents.js";
 
 /**
  * Represents configuration options for a {@link GatewayClient}.
@@ -17,6 +18,7 @@ export class GatewayClientOptions
 	#_webSocketType: new () => ClientWebSocket = CommonClientWebSocket;
 	#_token: string | null = null;
 	#_address: URL | null = null;
+	#_intents: Intents | null = null;
 
 	/**
 	 * Initializes a new instance of {@link GatewayClientOptions}.
@@ -124,6 +126,23 @@ export class GatewayClientOptions
 	}
 
 	/**
+	 * Gets the intents for the gateway connection.
+	 * */
+	public get intents()
+	{
+		return this.#_intents;
+	}
+
+	/**
+	 * Sets the intents for the gateway connection.
+	 * */
+	public set intents(intents: Intents | null)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(intents, "bigint", "null");
+		this.#_intents = intents;
+	}
+
+	/**
 	 * Sets the {@link RestClient} instance used to interact with the Aula REST API.
 	 * @param restClient The {@link RestClient} instance to use,
 	 *                   or `null` to let the GatewayClient instantiate and configure its own {@link RestClient}.
@@ -176,6 +195,17 @@ export class GatewayClientOptions
 	public withAddress(address: URL | null)
 	{
 		this.address = address;
+		return this;
+	}
+
+	/**
+	 * Sets the intents for the gateway connection.
+	 * @param intents The intent values, or `null` to leave it unspecified.
+	 * @returns The current {@link GatewayClientOptions} instance.
+	 * */
+	public withIntents(intents: Intents | null)
+	{
+		this.intents = intents;
 		return this;
 	}
 }
