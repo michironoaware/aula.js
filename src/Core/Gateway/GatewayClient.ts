@@ -54,6 +54,7 @@ import { GatewayClientOptions } from "./GatewayClientOptions.js";
 import { MessageRemovedEventData } from "./Models/MessageRemovedEventData.js";
 
 /**
+ * Provides a client to interact with the Aula Gateway API.
  * @sealed
  * */
 export class GatewayClient implements IDisposable
@@ -69,6 +70,10 @@ export class GatewayClient implements IDisposable
 	#_address: URL | null = null;
 	#_disposed: boolean = false;
 
+	/**
+	 * Initializes a new instance of {@link GatewayClient}.
+	 * @param options The configuration options for this client.
+	 * */
 	public constructor(options: GatewayClientOptions = GatewayClientOptions.default)
 	{
 		SealedClassError.throwIfNotEqual(GatewayClient, new.target);
@@ -84,6 +89,9 @@ export class GatewayClient implements IDisposable
 		}
 	}
 
+	/**
+	 * The underlying {@link RestClient} instance used by this {@link GatewayClient}.
+	 * */
 	public get rest()
 	{
 		return this.#_restClient;
@@ -99,6 +107,14 @@ export class GatewayClient implements IDisposable
 		return this.#_pendingPayloads;
 	}
 
+	/**
+	 * Sets the intents for the gateway connection.
+	 * @param intents The intent values.
+	 * @returns The current {@link GatewayClient} instance.
+	 * @throws {TypeError} If {@link intents} is not a {@link bigint}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {InvalidOperationError} If the {@link GatewayClient} is connected while updating the intents.
+	 * */
 	public withIntents(intents: Intents)
 	{
 		ThrowHelper.TypeError.throwIfNotType(intents, "bigint");
@@ -114,6 +130,14 @@ export class GatewayClient implements IDisposable
 		return this;
 	}
 
+	/**
+	 * Sets the address of the Aula server.
+	 * @param uri A URI that points to the desired server.
+	 * @returns The current {@link GatewayClient} instance.
+	 * @throws {TypeError} If {@link uri} is not a {@link URL}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {InvalidOperationError} If the {@link GatewayClient} is connected while updating the address.
+	 * */
 	public withAddress(uri: URL)
 	{
 		ThrowHelper.TypeError.throwIfNotType(uri, URL);
@@ -130,6 +154,14 @@ export class GatewayClient implements IDisposable
 		return this;
 	}
 
+	/**
+	 * Sets the authorization token used to authenticate the connection.
+	 * @param token The token string, or `null` to clear the current token.
+	 * @returns The current {@link GatewayClient} instance.
+	 * @throws {TypeError} If {@link token} is not a {@link string}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {InvalidOperationError} If the {@link GatewayClient} is connected while updating the token.
+	 * */
 	public withToken(token: string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(token, "string");
@@ -146,6 +178,16 @@ export class GatewayClient implements IDisposable
 		return this;
 	}
 
+	/**
+	 * Sets the presence to show once connected to the gateway.
+	 * Requires the {@link Permissions.Administrator} permission,
+	 * otherwise the server will ignore the provided option.
+	 * If not provided with a default presence, the server will automatically fall back to {@link PresenceOption.Online}.
+	 * @returns The current {@link GatewayClient} instance.
+	 * @throws {TypeError} If {@link presence} is not a {@link PresenceOption}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {InvalidOperationError} If the {@link GatewayClient} is connected while updating the default presence.
+	 * */
 	public setDefaultPresence(presence: PresenceOption)
 	{
 		ThrowHelper.TypeError.throwIfNotType(presence, PresenceOption);
@@ -161,6 +203,18 @@ export class GatewayClient implements IDisposable
 		return this;
 	}
 
+	/**
+	 * Connects to the server gateway.
+	 * @param sessionId The ID of the session.
+	 *                  If provided, an attempt will be made to resume the session;
+	 *                  otherwise, a new session will be created.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {TypeError} If {@link sessionId} is not a {@link string}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {InvalidOperationError} If the client is already connected.
+	 * @throws {InvalidOperationError} If the server address was not defined before connecting.
+	 * @throws {InvalidOperationError} If the intents have not been defined before connecting.
+	 * */
 	public async connect(sessionId?: string)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(sessionId, "string", "undefined");
@@ -208,6 +262,11 @@ export class GatewayClient implements IDisposable
 		});
 	}
 
+	/**
+	 * @returns A promise that resolves once the gateway connection closes.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {InvalidOperationError} The client is not connected.
+	 * */
 	public async waitForDisconnect()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
@@ -219,6 +278,12 @@ export class GatewayClient implements IDisposable
 		await this.#_disconnectPromiseSource.promise;
 	}
 
+	/**
+	 * Closes the current gateway connection.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {InvalidOperationError} If the client is not connected.
+	 * */
 	async disconnect()
 	{
 		ObjectDisposedError.throwIf(this.#_disposed);
@@ -248,6 +313,15 @@ export class GatewayClient implements IDisposable
 		this.#_disposed = true;
 	}
 
+	/**
+	 * Sets the provided {@link listener} to listen for {@link event} events.
+	 * Calling this method multiple times on the same {@link listener} will result in multiple calls to the same listener.
+	 * @param event The name of the event to listen to.
+	 * @param listener The function to call when the {@link event} is emitted.
+	 * @throws {TypeError} If {@link event} is `null`.
+	 * @throws {TypeError} If {@link listener} is not a {@link Function}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * */
 	public on<TEvent extends keyof IGatewayClientEvents>(
 		event: TEvent,
 		listener: IGatewayClientEvents[TEvent])
@@ -259,6 +333,14 @@ export class GatewayClient implements IDisposable
 		return this.#_eventEmitter.on(event, listener);
 	}
 
+	/**
+	 * Removes the first occurrence of the provided {@link listener} for the specified {@link event}.
+	 * @param event The name of the event to listen to.
+	 * @param listener The function to remove for the specified {@link event}.
+	 * @throws {TypeError} If {@link event} is `null`.
+	 * @throws {TypeError} If {@link listener} is not a {@link Function}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * */
 	public remove<TEvent extends keyof IGatewayClientEvents>(
 		event: TEvent,
 		listener: IGatewayClientEvents[TEvent])
@@ -270,11 +352,24 @@ export class GatewayClient implements IDisposable
 		return this.#_eventEmitter.remove(event, listener);
 	}
 
+	/**
+	 * Requests a presence update for the current user.
+	 * Requires the {@link Permissions.Administrator} permission,
+	 * otherwise the server will ignore the request.
+	 * @param presence The new presence to show.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {TypeError} If {@link presence} is not a {@link PresenceOption}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {InvalidOperationError} If the client is not connected.
+	 * */
 	public async updatePresence(presence: PresenceOption)
 	{
 		ThrowHelper.TypeError.throwIfNotType(presence, PresenceOption);
 		ObjectDisposedError.throwIf(this.#_disposed);
-		this.#throwIfWebSocketNotOpen();
+		if (this.#_webSocket.state !== WebSocketState.Open)
+		{
+			throw new InvalidOperationError("Client is not connected");
+		}
 
 		const payload =
 			{
