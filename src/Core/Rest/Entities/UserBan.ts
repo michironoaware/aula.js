@@ -42,6 +42,7 @@ export class UserBan extends Ban
 
 	/**
 	 * Gets the banned user.
+	 * @returns A promise that resolves once the operation is complete.
 	 * */
 	public async getTarget()
 	{
