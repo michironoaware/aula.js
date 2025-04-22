@@ -183,6 +183,7 @@ export class GatewayClient implements IAsyncDisposable
 	 * Requires the {@link Permissions.Administrator} permission,
 	 * otherwise the server will ignore the provided option.
 	 * If not provided with a default presence, the server will automatically fall back to {@link PresenceOption.Online}.
+	 * @param presence The selected presence option.
 	 * @returns The current {@link GatewayClient} instance.
 	 * @throws {TypeError} If {@link presence} is not a {@link PresenceOption}.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
