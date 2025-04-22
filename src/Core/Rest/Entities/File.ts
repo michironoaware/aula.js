@@ -2,6 +2,7 @@
 import { RestClient } from "../RestClient.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
+import { CancellationToken } from "../../../Common/Threading/index.js";
 
 /**
  * Represents a file within Aula.
@@ -70,10 +71,12 @@ export class File
 
 	/**
 	 * Gets the file content as an asynchronous operation.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A Promise that resolves to a new {@link FileContent} instance representing the contents of the file.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * */
-	public getContent()
+	public getContent(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return this.restClient.getFileContent(this.id);
+		return this.restClient.getFileContent(this.id, cancellationToken);
 	}
 }
