@@ -39,13 +39,4 @@ export class StandardMessage extends Message
 	{
 		return this.#_data.text!;
 	}
-
-	/**
-	 * Gets the latest version of the message.
-	 * @returns A promise that resolves to a {@link StandardMessage}, or `null` if the message no longer exists.
-	 * */
-	public async getLatest()
-	{
-		return await super.getLatest() as StandardMessage | null;
-	}
 }

@@ -95,15 +95,6 @@ export class Message
 	}
 
 	/**
-	 * Gets the latest version of the message.
-	 * @returns A promise that resolves to a {@link Message}, or `null` if the message no longer exists.
-	 * */
-	public async getLatest()
-	{
-		return await this.restClient.getMessage(this.roomId, this.id);
-	}
-
-	/**
 	 * Gets the author of the message.
 	 * @returns A promise that resolves to a {@link User}, or `null` if the author is not a user.
 	 * */
