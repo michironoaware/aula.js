@@ -41,7 +41,7 @@ export class SetUserPermissionsRequestBody
 	 * Sets the new permissions for the user.
 	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param permissions The permission bit flags.
-	 * @returns The current {@link SetUserPermissionsRequestBody} instance. 
+	 * @returns The current {@link SetUserPermissionsRequestBody} instance.
 	 * */
 	public withPermissions(permissions: Permissions | null)
 	{

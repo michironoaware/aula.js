@@ -111,7 +111,7 @@ export class SendMessageRequestBody
 		this.text = text;
 		return this;
 	}
-	
+
 	public toJSON()
 	{
 		return { type: this.#_type, flags: this.#_flags, text: this.#_text };

@@ -2,12 +2,12 @@
  * Enumerates the operation types of gateway payloads.
  * */
 export const OperationType =
-{
-	/**
-	 * An event dispatch.
-	 * */
-	Dispatch: 0,
-} as const;
+	{
+		/**
+		 * An event dispatch.
+		 * */
+		Dispatch: 0,
+	} as const;
 
 Object.freeze(OperationType);
 

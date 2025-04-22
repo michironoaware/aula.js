@@ -36,7 +36,7 @@ export class ByteArrayContent extends HttpContent
 	{
 		const byteArray = this.#_byteArray;
 		const stream = this.#_stream ??= new ReadableStream<Uint8Array>({
-			
+
 			start(controller)
 			{
 				controller.enqueue(byteArray);
