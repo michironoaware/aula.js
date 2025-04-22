@@ -4,6 +4,7 @@ import { SealedClassError } from "../../Common/SealedClassError.js";
 import { GatewayClient } from "./GatewayClient.js";
 
 /**
+ * Emitted when a connection between two rooms is created.
  * @sealed
  * */
 export class RoomConnectionCreatedEvent
@@ -11,6 +12,9 @@ export class RoomConnectionCreatedEvent
 	readonly #_data: RoomConnectionEventData;
 	readonly #_gatewayClient: GatewayClient;
 
+	/**
+	 * @package
+	 * */
 	public constructor(data: RoomConnectionEventData, gatewayClient: GatewayClient)
 	{
 		SealedClassError.throwIfNotEqual(RoomConnectionCreatedEvent, new.target);
@@ -21,16 +25,25 @@ export class RoomConnectionCreatedEvent
 		this.#_gatewayClient = gatewayClient;
 	}
 
+	/**
+	 * Gets the id of the room from which users must come.
+	 * */
 	public get sourceRoomId()
 	{
 		return this.#_data.sourceRoomId;
 	}
 
+	/**
+	 * Gets the id of the room users can go to.
+	 * */
 	public get targetRoomId()
 	{
 		return this.#_data.targetRoomId;
 	}
 
+	/**
+	 * Gets the {@link GatewayClient} that initialized this instance.
+	 * */
 	public get gatewayClient()
 	{
 		return this.#_gatewayClient;
