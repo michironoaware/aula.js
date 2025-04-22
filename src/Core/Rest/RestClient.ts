@@ -554,7 +554,7 @@ export class RestClient implements IDisposable
 	 * Enable users to move from one room to another.
 	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
 	 * Fires a {@link RoomConnectionCreatedEvent} gateway event.
-	 * @param sourceId The id of the room users must come from.
+	 * @param sourceId The id of the room from which users must come.
 	 * @param targetId The id of the room users will be able to go to.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves once the operation is complete.
