@@ -90,6 +90,11 @@ export class RestClient implements IAsyncDisposable
 						new HttpFetchHandler(), true, true), true), true), true);
 
 		this.#_disposeHttpClient = options.disposeHttpClient;
+
+		if (options.token !== null)
+		{
+			this.withToken(options.token);
+		}
 	}
 
 	static async #ensureSuccessStatusCode(response: HttpResponseMessage)
