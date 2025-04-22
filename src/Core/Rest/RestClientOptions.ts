@@ -13,6 +13,7 @@ export class RestClientOptions
 	#_httpClient: HttpClient | null = null;
 	#_disposeHttpClient: boolean = true;
 	#_token: string | null = null;
+	#_address: URL | null = null;
 
 	/**
 	 * Initializes a new instance of {@link RestClientOptions}.
@@ -85,6 +86,23 @@ export class RestClientOptions
 	}
 
 	/**
+	 * Gets the address of the Aula server where requests should be sent.
+	 * */
+	public get address()
+	{
+		return this.#_address;
+	}
+
+	/**
+	 * Sets the address of the Aula server where requests should be sent.
+	 * */
+	public set address(address: URL | null)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(address, URL, "null");
+		this.#_address = address;
+	}
+
+	/**
 	 * Sets the {@link HttpClient} instance used for making HTTP requests.
 	 * @param httpClient The {@link HttpClient} instance to use,
 	 *                   or `null` to let the RestClient instantiate and configure its own {@link HttpClient}.
@@ -115,6 +133,17 @@ export class RestClientOptions
 	public withToken(token: string | null)
 	{
 		this.token = token;
+		return this;
+	}
+
+	/**
+	 * Sets the address of the Aula server where requests should be sent.
+	 * @param address A URI that points to the desired server.
+	 * @returns The current {@link RestClientOptions} instance.
+	 * */
+	public withAddress(address: URL | null)
+	{
+		this.address = address;
 		return this;
 	}
 }
