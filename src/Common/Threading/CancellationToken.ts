@@ -2,10 +2,17 @@
 import { ThrowHelper } from "../ThrowHelper.js";
 import { OperationCanceledError } from "./OperationCanceledError.js";
 
+/**
+ * Propagates notification that operations should be canceled.
+ * */
 export class CancellationToken
 {
 	readonly #_source: CancellationTokenSource;
 
+	/**
+	 * Initializes a new instance of {@link CancellationToken}.
+	 * @param source The cancellation token source of the token.
+	 * */
 	public constructor(source: CancellationTokenSource)
 	{
 		ThrowHelper.TypeError.throwIfNotType(source, CancellationTokenSource);
@@ -13,16 +20,25 @@ export class CancellationToken
 		this.#_source = source;
 	}
 
+	/**
+	 * Gets a cancellation token that is never canceled.
+	 * */
 	public static get none()
 	{
 		return NeverCancelledToken.instance;
 	}
 
+	/**
+	 * Gets whether cancellation has been requested for this token.
+	 * */
 	public get isCancellationRequested()
 	{
 		return this.#_source.isCancellationRequested;
 	}
 
+	/**
+	 * Throws a {@link OperationCanceledError} if this token has had cancellation requested.
+	 * */
 	public throwIfCancellationRequested()
 	{
 		if (this.#_source.isCancellationRequested)
