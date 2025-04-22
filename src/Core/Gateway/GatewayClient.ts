@@ -382,7 +382,11 @@ export class GatewayClient implements IDisposable
 			GatewayClient.#s_textEncoder.encode(JSON.stringify(payload, JsonReplacer)),
 			sendPromiseSource);
 
-		await this.#pendingPayloads.writer.waitToWrite();
+		if (!await this.#pendingPayloads.writer.waitToWrite())
+		{
+			return;
+		}
+
 		await this.#pendingPayloads.writer.write(sendRequest);
 		await sendPromiseSource.promise;
 	}
