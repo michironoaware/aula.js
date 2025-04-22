@@ -7,6 +7,7 @@ import { MessageType } from "./MessageType.js";
 import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
 
 /**
+ * Represents a message announcing that a user has left a room.
  * @sealed
  * */
 export class UserLeaveMessage extends Message
@@ -14,6 +15,9 @@ export class UserLeaveMessage extends Message
 	readonly #_data: MessageData;
 	#_userLeave: MessageUserLeave | null = null;
 
+	/**
+	 * @package
+	 * */
 	public constructor(data: MessageData, restClient: RestClient)
 	{
 		super(data, restClient);
@@ -27,6 +31,9 @@ export class UserLeaveMessage extends Message
 		this.#_data = data;
 	}
 
+	/**
+	 * Gets the additional data included in this {@link MessageType.UserLeave} message.
+	 * */
 	public get userLeave()
 	{
 		return this.#_userLeave ??= new MessageUserLeave(this.#_data.leaveData!, this.restClient);
