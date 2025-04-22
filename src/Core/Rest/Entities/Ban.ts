@@ -1,6 +1,7 @@
 ﻿import { RestClient } from "../RestClient.js";
 import { BanData } from "./Models/BanData.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
+import { CancellationToken } from "../../../Common/Threading/index.js";
 
 /**
  * Represents a ban within Aula.
@@ -68,10 +69,12 @@ export class Ban
 
 	/**
 	 * Gets the user who created the ban.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a new {@link User} instance, or `null` if the executor is not a user.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * */
-	public async getExecutor()
+	public async getExecutor(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return this.executorId !== null ? await this.restClient.getUser(this.executorId) : null;
+		return this.executorId !== null ? await this.restClient.getUser(this.executorId, cancellationToken) : null;
 	}
 }
