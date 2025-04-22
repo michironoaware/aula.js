@@ -43,6 +43,13 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 		return this.#_allowConcurrentRequests;
 	}
 
+	/**
+	 * Send an HTTP request as an asynchronous operation.
+	 * @returns The promise object representing the asynchronous operation.
+	 * @throws {TypeError} If the {@link HttpRequestMessage.requestUri} of {@link message} is not a {@link URL}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @remarks The returned {@link Promise} will complete once the response has been received.
+	 * */
 	public async send(message: HttpRequestMessage, cancellationToken: CancellationToken)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
