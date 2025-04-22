@@ -16,6 +16,7 @@ export class GatewayClientOptions
 	#_disposeRestClient: boolean = true;
 	#_webSocketType: new () => ClientWebSocket = CommonClientWebSocket;
 	#_token: string | null = null;
+	#_address: URL | null = null;
 
 	/**
 	 * Initializes a new instance of {@link GatewayClientOptions}.
@@ -106,6 +107,23 @@ export class GatewayClientOptions
 	}
 
 	/**
+	 * Gets the address of the Aula server.
+	 * */
+	public get address()
+	{
+		return this.#_address;
+	}
+
+	/**
+	 * Sets the address of the Aula server.
+	 * */
+	public set address(address: URL | null)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(address, URL, "null");
+		this.#_address = address;
+	}
+
+	/**
 	 * Sets the {@link RestClient} instance used to interact with the Aula REST API.
 	 * @param restClient The {@link RestClient} instance to use,
 	 *                   or `null` to let the GatewayClient instantiate and configure its own {@link RestClient}.
@@ -150,4 +168,14 @@ export class GatewayClientOptions
 		return this;
 	}
 
+	/**
+	 * Sets the address of the Aula server.
+	 * @param address A URI that points to the desired server, or `null` to leave it unspecified.
+	 * @returns The current {@link GatewayClientOptions} instance.
+	 * */
+	public withAddress(address: URL | null)
+	{
+		this.address = address;
+		return this;
+	}
 }
