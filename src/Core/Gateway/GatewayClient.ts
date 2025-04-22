@@ -102,6 +102,11 @@ export class GatewayClient implements IAsyncDisposable
 		{
 			this.withIntents(options.intents);
 		}
+
+		if (options.defaultPresence !== null)
+		{
+			this.setDefaultPresence(options.defaultPresence);
+		}
 	}
 
 	/**
