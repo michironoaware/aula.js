@@ -4,6 +4,7 @@ import { RestClient } from "../RestClient.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
 import { BanType } from "./BanType.js";
+import { CancellationToken } from "../../../Common/Threading/index.js";
 
 /**
  * Represents a user ban within Aula.
@@ -42,10 +43,12 @@ export class UserBan extends Ban
 
 	/**
 	 * Gets the banned user.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * */
-	public async getTarget()
+	public async getTarget(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return await this.restClient.getUser(this.targetId);
+		return await this.restClient.getUser(this.targetId, cancellationToken);
 	}
 }
