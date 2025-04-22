@@ -1,7 +1,7 @@
-﻿import { ChannelReader } from "./ChannelReader.js";
-import { SealedClassError } from "../../SealedClassError.js";
-import { UnboundedChannelCore } from "./UnboundedChannelCore.js";
-import { ThrowHelper } from "../../ThrowHelper.js";
+﻿import { ChannelReader } from "./ChannelReader";
+import { SealedClassError } from "../../SealedClassError";
+import { UnboundedChannelCore } from "./UnboundedChannelCore";
+import { ThrowHelper } from "../../ThrowHelper";
 
 /**
  * @sealed

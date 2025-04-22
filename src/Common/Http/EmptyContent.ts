@@ -1,6 +1,6 @@
-﻿import { HttpContent } from "./HttpContent.js";
-import { HeaderMap } from "./HeaderMap.js";
-import { SealedClassError } from "../SealedClassError.js";
+﻿import { HttpContent } from "./HttpContent";
+import { HeaderMap } from "./HeaderMap";
+import { SealedClassError } from "../SealedClassError";
 
 /**
  * Represents an empty HTTP body without headers.

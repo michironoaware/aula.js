@@ -1,7 +1,7 @@
-﻿import { SealedClassError } from "../../Common/SealedClassError.js";
-import { MessageType } from "./Entities/MessageType.js";
-import { MessageFlags } from "./Entities/MessageFlags.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
+﻿import { SealedClassError } from "../../Common/SealedClassError";
+import { MessageType } from "./Entities/MessageType";
+import { MessageFlags } from "./Entities/MessageFlags";
+import { ThrowHelper } from "../../Common/ThrowHelper";
 
 /**
  * The request body used for sending a message.

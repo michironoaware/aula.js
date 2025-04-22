@@ -1,6 +1,6 @@
-﻿import { UserType } from "./Entities/UserType.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
+﻿import { UserType } from "./Entities/UserType";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
 
 /**
  * Represents the query options used to retrieve users.

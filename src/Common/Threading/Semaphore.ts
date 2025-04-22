@@ -1,12 +1,12 @@
-﻿import { ThrowHelper } from "../ThrowHelper.js";
-import { ValueOutOfRangeError } from "../ValueOutOfRangeError.js";
-import { SemaphoreFullError } from "./SemaphoreFullError.js";
-import { SealedClassError } from "../SealedClassError.js";
-import { IDisposable } from "../IDisposable.js";
-import { ObjectDisposedError } from "../ObjectDisposedError.js";
-import { PromiseCompletionSource } from "./PromiseCompletionSource.js";
-import { OperationCanceledError } from "./OperationCanceledError.js";
-import { CancellationToken } from "./CancellationToken.js";
+﻿import { ThrowHelper } from "../ThrowHelper";
+import { ValueOutOfRangeError } from "../ValueOutOfRangeError";
+import { SemaphoreFullError } from "./SemaphoreFullError";
+import { SealedClassError } from "../SealedClassError";
+import { IDisposable } from "../IDisposable";
+import { ObjectDisposedError } from "../ObjectDisposedError";
+import { PromiseCompletionSource } from "./PromiseCompletionSource";
+import { OperationCanceledError } from "./OperationCanceledError";
+import { CancellationToken } from "./CancellationToken";
 
 /**
  * @sealed

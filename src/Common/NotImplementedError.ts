@@ -1,4 +1,4 @@
-﻿import { SealedClassError } from "./SealedClassError.js";
+﻿import { SealedClassError } from "./SealedClassError";
 
 /**
  * The exception that is thrown when a requested method or operation is not implemented.

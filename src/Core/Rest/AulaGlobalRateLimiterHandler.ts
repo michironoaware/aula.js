@@ -1,15 +1,15 @@
-﻿import { DelegatingHandler } from "../../Common/Http/DelegatingHandler.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { EventEmitter } from "../../Common/Threading/EventEmitter.js";
-import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler.js";
-import { AutoResetEvent } from "../../Common/Threading/AutoResetEvent.js";
-import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError.js";
-import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
-import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
-import { Func } from "../../Common/Func.js";
-import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
+﻿import { DelegatingHandler } from "../../Common/Http/DelegatingHandler";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { EventEmitter } from "../../Common/Threading/EventEmitter";
+import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler";
+import { AutoResetEvent } from "../../Common/Threading/AutoResetEvent";
+import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError";
+import { HttpStatusCode } from "../../Common/Http/HttpStatusCode";
+import { ObjectDisposedError } from "../../Common/ObjectDisposedError";
+import { Func } from "../../Common/Func";
+import { CancellationToken } from "../../Common/Threading/CancellationToken";
 
 /**
  * A {@link DelegatingHandler} that implements a global rate-limiting mechanism for Aula servers.

@@ -1,7 +1,7 @@
-﻿import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { UserCurrentRoomUpdatedEventData } from "./Models/UserCurrentRoomUpdatedEventData.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { GatewayClient } from "./GatewayClient.js";
+﻿import { ThrowHelper } from "../../Common/ThrowHelper";
+import { UserCurrentRoomUpdatedEventData } from "./Models/UserCurrentRoomUpdatedEventData";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { GatewayClient } from "./GatewayClient";
 
 /**
  * Emitted when a user moves from room.

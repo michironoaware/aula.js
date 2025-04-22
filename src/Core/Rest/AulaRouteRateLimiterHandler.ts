@@ -1,18 +1,18 @@
-﻿import { DelegatingHandler } from "../../Common/Http/DelegatingHandler.js";
-import { Semaphore } from "../../Common/Threading/Semaphore.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError.js";
-import { HttpMethod } from "../../Common/Http/HttpMethod.js";
-import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler.js";
-import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
-import { EventEmitter } from "../../Common/Threading/EventEmitter.js";
-import { Delay } from "../../Common/Threading/Delay.js";
-import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
-import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
-import { Func } from "../../Common/Func.js";
-import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
-import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError.js";
+﻿import { DelegatingHandler } from "../../Common/Http/DelegatingHandler";
+import { Semaphore } from "../../Common/Threading/Semaphore";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError";
+import { HttpMethod } from "../../Common/Http/HttpMethod";
+import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler";
+import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage";
+import { EventEmitter } from "../../Common/Threading/EventEmitter";
+import { Delay } from "../../Common/Threading/Delay";
+import { HttpStatusCode } from "../../Common/Http/HttpStatusCode";
+import { ObjectDisposedError } from "../../Common/ObjectDisposedError";
+import { Func } from "../../Common/Func";
+import { CancellationToken } from "../../Common/Threading/CancellationToken";
+import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError";
 
 /**
  * A {@link DelegatingHandler} that implements a per route rate-limiting mechanism for Aula servers.

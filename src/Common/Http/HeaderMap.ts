@@ -1,6 +1,6 @@
-﻿import { ThrowHelper } from "../ThrowHelper.js";
-import { SealedClassError } from "../SealedClassError.js";
-import { InvalidOperationError } from "../InvalidOperationError.js";
+﻿import { ThrowHelper } from "../ThrowHelper";
+import { SealedClassError } from "../SealedClassError";
+import { InvalidOperationError } from "../InvalidOperationError";
 
 /**
  * Represents a wrapper for the request and response headers.

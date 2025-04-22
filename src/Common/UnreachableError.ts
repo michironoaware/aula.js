@@ -1,5 +1,5 @@
-﻿import { SealedClassError } from "./SealedClassError.js";
-import { InvalidOperationError } from "./InvalidOperationError.js";
+﻿import { SealedClassError } from "./SealedClassError";
+import { InvalidOperationError } from "./InvalidOperationError";
 
 /**
  * The error that is thrown when the program executes an instruction that was thought to be unreachable.

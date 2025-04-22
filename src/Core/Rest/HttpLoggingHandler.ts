@@ -1,12 +1,12 @@
-﻿import { SealedClassError } from "../../Common/SealedClassError.js";
-import { DelegatingHandler } from "../../Common/Http/DelegatingHandler.js";
-import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler.js";
-import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
-import { HttpMethod } from "../../Common/Http/HttpMethod.js";
-import { Func } from "../../Common/Func.js";
-import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
+﻿import { SealedClassError } from "../../Common/SealedClassError";
+import { DelegatingHandler } from "../../Common/Http/DelegatingHandler";
+import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler";
+import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { ObjectDisposedError } from "../../Common/ObjectDisposedError";
+import { HttpMethod } from "../../Common/Http/HttpMethod";
+import { Func } from "../../Common/Func";
+import { CancellationToken } from "../../Common/Threading/CancellationToken";
 
 /**
  * A {@link DelegatingHandler} that logs HTTP request and response information.

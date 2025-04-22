@@ -1,6 +1,6 @@
-﻿import { HttpClient } from "../../Common/Http/HttpClient.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
+﻿import { HttpClient } from "../../Common/Http/HttpClient";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
 
 /**
  * Represents configuration options for a {@link RestClient}.

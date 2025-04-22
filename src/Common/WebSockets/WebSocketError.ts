@@ -1,5 +1,5 @@
-﻿import { ThrowHelper } from "../ThrowHelper.js";
-import { SealedClassError } from "../SealedClassError.js";
+﻿import { ThrowHelper } from "../ThrowHelper";
+import { SealedClassError } from "../SealedClassError";
 
 /**
  * Represents an error that occurred when performing an operation on a WebSocket connection.

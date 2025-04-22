@@ -1,9 +1,9 @@
-﻿import { HttpContent } from "../../../Common/Http/HttpContent.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { ObjectDisposedError } from "../../../Common/ObjectDisposedError.js";
-import { RestClient } from "../RestClient.js";
-import { IAsyncDisposable } from "../../../Common/IAsyncDisposable.js";
+﻿import { HttpContent } from "../../../Common/Http/HttpContent";
+import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { SealedClassError } from "../../../Common/SealedClassError";
+import { ObjectDisposedError } from "../../../Common/ObjectDisposedError";
+import { RestClient } from "../RestClient";
+import { IAsyncDisposable } from "../../../Common/IAsyncDisposable";
 
 /**
  * Represents the contents of a file hosted in Aula.

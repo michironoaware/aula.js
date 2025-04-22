@@ -1,6 +1,6 @@
-﻿import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError.js";
+﻿import { InvalidOperationError } from "../../Common/InvalidOperationError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { ValueOutOfRangeError } from "../../Common/ValueOutOfRangeError";
 
 export class UInt8Stream extends WritableStream<Uint8Array>
 {

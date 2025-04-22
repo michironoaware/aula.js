@@ -1,4 +1,4 @@
-﻿import { ThrowHelper } from "./ThrowHelper.js";
+﻿import { ThrowHelper } from "./ThrowHelper";
 
 /**
  * Thrown when a private constructor is called outside its class.

@@ -1,7 +1,7 @@
-﻿import { GatewayClient } from "./GatewayClient.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { MessageRemovedEventData } from "./Models/MessageRemovedEventData.js";
+﻿import { GatewayClient } from "./GatewayClient";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { MessageRemovedEventData } from "./Models/MessageRemovedEventData";
 
 /**
  * Emitted when a message has been removed.

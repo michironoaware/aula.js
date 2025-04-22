@@ -1,5 +1,5 @@
-﻿import { SealedClassError } from "../SealedClassError.js";
-import { Func } from "../Func.js";
+﻿import { SealedClassError } from "../SealedClassError";
+import { Func } from "../Func";
 
 /**
  * @sealed

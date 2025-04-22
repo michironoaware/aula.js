@@ -1,8 +1,8 @@
-﻿import { SealedClassError } from "../../SealedClassError.js";
-import { InvalidOperationError } from "../../InvalidOperationError.js";
-import { PromiseCompletionSource } from "../PromiseCompletionSource.js";
-import { ThrowHelper } from "../../ThrowHelper.js";
-import { ReadAttemptResult } from "./ReadAttemptResult.js";
+﻿import { SealedClassError } from "../../SealedClassError";
+import { InvalidOperationError } from "../../InvalidOperationError";
+import { PromiseCompletionSource } from "../PromiseCompletionSource";
+import { ThrowHelper } from "../../ThrowHelper";
+import { ReadAttemptResult } from "./ReadAttemptResult";
 
 /**
  * @sealed

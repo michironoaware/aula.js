@@ -1,8 +1,8 @@
-﻿import { SealedClassError } from "../SealedClassError.js";
-import { CancellationToken } from "./CancellationToken.js";
-import { EventEmitter } from "./EventEmitter.js";
-import { Func } from "../Func.js";
-import { ThrowHelper } from "../ThrowHelper.js";
+﻿import { SealedClassError } from "../SealedClassError";
+import { CancellationToken } from "./CancellationToken";
+import { EventEmitter } from "./EventEmitter";
+import { Func } from "../Func";
+import { ThrowHelper } from "../ThrowHelper";
 
 /**
  * Signals to a {@link CancellationToken} that it should be canceled.

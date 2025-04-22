@@ -1,8 +1,8 @@
-﻿import { UserPresenceUpdatedEventData } from "./Models/UserPresenceUpdatedEventData.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
-import { GatewayClient } from "./GatewayClient.js";
+﻿import { UserPresenceUpdatedEventData } from "./Models/UserPresenceUpdatedEventData";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { CancellationToken } from "../../Common/Threading/CancellationToken";
+import { GatewayClient } from "./GatewayClient";
 
 /**
  * Emitted when a user presence has been updated.

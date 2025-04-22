@@ -1,10 +1,10 @@
-﻿import { RestClient } from "../RestClient.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { MessageData } from "./Models/MessageData.js";
-import { MessageAuthorType } from "./MessageAuthorType.js";
-import { MessageFlags } from "./MessageFlags.js";
-import { UnreachableError } from "../../../Common/UnreachableError.js";
-import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
+﻿import { RestClient } from "../RestClient";
+import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { MessageData } from "./Models/MessageData";
+import { MessageAuthorType } from "./MessageAuthorType";
+import { MessageFlags } from "./MessageFlags";
+import { UnreachableError } from "../../../Common/UnreachableError";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
  * Represents a message within Aula.

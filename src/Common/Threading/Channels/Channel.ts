@@ -1,5 +1,5 @@
-﻿import { ChannelWriter } from "./ChannelWriter.js";
-import { ChannelReader } from "./ChannelReader.js";
+﻿import { ChannelWriter } from "./ChannelWriter";
+import { ChannelReader } from "./ChannelReader";
 
 export abstract class Channel<TWrite, TRead = TWrite>
 {

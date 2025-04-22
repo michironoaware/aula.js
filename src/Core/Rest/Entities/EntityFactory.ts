@@ -1,18 +1,18 @@
-﻿import { RestClient } from "../RestClient.js";
-import { MessageData } from "./Models/MessageData.js";
-import { MessageType } from "./MessageType.js";
-import { Message } from "./Message.js";
-import { StandardMessage } from "./StandardMessage.js";
-import { UserJoinMessage } from "./UserJoinMessage.js";
-import { UserLeaveMessage } from "./UserLeaveMessage.js";
-import { BanData } from "./Models/BanData.js";
-import { BanType } from "./BanType.js";
-import { Ban } from "./Ban.js";
-import { UserBan } from "./UserBan.js";
-import { RoomData } from "./Models/RoomData.js";
-import { Room } from "./Room.js";
-import { RoomType } from "./RoomType.js";
-import { TextRoom } from "./TextRoom.js";
+﻿import { RestClient } from "../RestClient";
+import { MessageData } from "./Models/MessageData";
+import { MessageType } from "./MessageType";
+import { Message } from "./Message";
+import { StandardMessage } from "./StandardMessage";
+import { UserJoinMessage } from "./UserJoinMessage";
+import { UserLeaveMessage } from "./UserLeaveMessage";
+import { BanData } from "./Models/BanData";
+import { BanType } from "./BanType";
+import { Ban } from "./Ban";
+import { UserBan } from "./UserBan";
+import { RoomData } from "./Models/RoomData";
+import { Room } from "./Room";
+import { RoomType } from "./RoomType";
+import { TextRoom } from "./TextRoom";
 
 /**
  * @privateRemarks Adding a static `create` method to base entity types is not possible

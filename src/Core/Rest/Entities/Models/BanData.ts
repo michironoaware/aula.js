@@ -1,6 +1,6 @@
-﻿import { BanType } from "../BanType.js";
-import { ThrowHelper } from "../../../../Common/ThrowHelper.js";
-import { SealedClassError } from "../../../../Common/SealedClassError.js";
+﻿import { BanType } from "../BanType";
+import { ThrowHelper } from "../../../../Common/ThrowHelper";
+import { SealedClassError } from "../../../../Common/SealedClassError";
 
 /**
  * Provides a strongly typed DTO class for the API v1 BanData JSON schema.

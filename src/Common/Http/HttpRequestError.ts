@@ -1,6 +1,6 @@
-﻿import { HttpStatusCode } from "./HttpStatusCode.js";
-import { ThrowHelper } from "../ThrowHelper.js";
-import { SealedClassError } from "../SealedClassError.js";
+﻿import { HttpStatusCode } from "./HttpStatusCode";
+import { ThrowHelper } from "../ThrowHelper";
+import { SealedClassError } from "../SealedClassError";
 
 /**
  * A base class for exceptions thrown by the {@link HttpClient} and {@link HttpMessageHandler} classes.

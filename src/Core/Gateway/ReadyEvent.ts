@@ -1,7 +1,7 @@
-﻿import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ReadyEventData } from "./Models/ReadyEventData.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { GatewayClient } from "./GatewayClient.js";
+﻿import { SealedClassError } from "../../Common/SealedClassError";
+import { ReadyEventData } from "./Models/ReadyEventData";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { GatewayClient } from "./GatewayClient";
 
 /**
  * Emitted when the gateway connection has been established successfully.

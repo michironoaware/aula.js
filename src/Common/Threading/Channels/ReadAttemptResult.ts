@@ -1,5 +1,5 @@
-﻿import { SealedClassError } from "../../SealedClassError.js";
-import { ThrowHelper } from "../../ThrowHelper.js";
+﻿import { SealedClassError } from "../../SealedClassError";
+import { ThrowHelper } from "../../ThrowHelper";
 
 /**
  * @sealed

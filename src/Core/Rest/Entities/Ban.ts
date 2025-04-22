@@ -1,7 +1,7 @@
-﻿import { RestClient } from "../RestClient.js";
-import { BanData } from "./Models/BanData.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
+﻿import { RestClient } from "../RestClient";
+import { BanData } from "./Models/BanData";
+import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
  * Represents a ban within Aula.

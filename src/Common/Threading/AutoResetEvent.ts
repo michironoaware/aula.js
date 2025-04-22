@@ -1,10 +1,10 @@
-﻿import { ThrowHelper } from "../ThrowHelper.js";
-import { SealedClassError } from "../SealedClassError.js";
-import { IDisposable } from "../IDisposable.js";
-import { ObjectDisposedError } from "../ObjectDisposedError.js";
-import { PromiseCompletionSource } from "./PromiseCompletionSource.js";
-import { CancellationToken } from "./CancellationToken.js";
-import { OperationCanceledError } from "./OperationCanceledError.js";
+﻿import { ThrowHelper } from "../ThrowHelper";
+import { SealedClassError } from "../SealedClassError";
+import { IDisposable } from "../IDisposable";
+import { ObjectDisposedError } from "../ObjectDisposedError";
+import { PromiseCompletionSource } from "./PromiseCompletionSource";
+import { CancellationToken } from "./CancellationToken";
+import { OperationCanceledError } from "./OperationCanceledError";
 
 /**
  * @sealed

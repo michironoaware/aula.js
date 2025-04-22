@@ -1,15 +1,15 @@
-﻿import { RoomData } from "./Models/RoomData.js";
-import { RestClient } from "../RestClient.js";
-import { Room } from "./Room.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { TypeHelper } from "../../../Common/TypeHelper.js";
-import { MessageType } from "./MessageType.js";
-import { RoomType } from "./RoomType.js";
-import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
-import { GetMessagesQuery } from "../GetMessagesQuery.js";
-import { SendMessageRequestBody } from "../SendMessageRequestBody.js";
-import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
+﻿import { RoomData } from "./Models/RoomData";
+import { RestClient } from "../RestClient";
+import { Room } from "./Room";
+import { SealedClassError } from "../../../Common/SealedClassError";
+import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { TypeHelper } from "../../../Common/TypeHelper";
+import { MessageType } from "./MessageType";
+import { RoomType } from "./RoomType";
+import { InvalidOperationError } from "../../../Common/InvalidOperationError";
+import { GetMessagesQuery } from "../GetMessagesQuery";
+import { SendMessageRequestBody } from "../SendMessageRequestBody";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
  * Represents a text room within Aula.

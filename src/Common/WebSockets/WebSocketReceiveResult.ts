@@ -1,6 +1,6 @@
-﻿import { SealedClassError } from "../SealedClassError.js";
-import { WebSocketMessageType } from "./WebSocketMessageType.js";
-import { ThrowHelper } from "../ThrowHelper.js";
+﻿import { SealedClassError } from "../SealedClassError";
+import { WebSocketMessageType } from "./WebSocketMessageType";
+import { ThrowHelper } from "../ThrowHelper";
 
 /**
  * Represents the result of performing a single {@link WebSocket.receive} operation on a {@link WebSocket}.

@@ -1,17 +1,17 @@
-﻿import { SealedClassError } from "../../Common/SealedClassError.js";
-import { WebSocketMessageType } from "../../Common/WebSockets/WebSocketMessageType.js";
-import { ClientWebSocket } from "../../Common/WebSockets/ClientWebSocket.js";
-import { WebSocketState } from "../../Common/WebSockets/WebSocketState.js";
-import { WebSocketError } from "../../Common/WebSockets/WebSocketError.js";
-import { WebSocketReceiveResult } from "../../Common/WebSockets/WebSocketReceiveResult.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { InvalidOperationError } from "../../Common/InvalidOperationError.js";
-import { PromiseCompletionSource } from "../../Common/Threading/PromiseCompletionSource.js";
-import { NotSupportedError } from "../../Common/NotSupportedError.js";
-import { WebSocketCloseCode } from "../../Common/WebSockets/WebSocketCloseCode.js";
-import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
-import { JsonReplacer } from "../../Common/Json/JsonReplacer.js";
-import { WebEncoders } from "../../Common/WebEncoders.js";
+﻿import { SealedClassError } from "../../Common/SealedClassError";
+import { WebSocketMessageType } from "../../Common/WebSockets/WebSocketMessageType";
+import { ClientWebSocket } from "../../Common/WebSockets/ClientWebSocket";
+import { WebSocketState } from "../../Common/WebSockets/WebSocketState";
+import { WebSocketError } from "../../Common/WebSockets/WebSocketError";
+import { WebSocketReceiveResult } from "../../Common/WebSockets/WebSocketReceiveResult";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { InvalidOperationError } from "../../Common/InvalidOperationError";
+import { PromiseCompletionSource } from "../../Common/Threading/PromiseCompletionSource";
+import { NotSupportedError } from "../../Common/NotSupportedError";
+import { WebSocketCloseCode } from "../../Common/WebSockets/WebSocketCloseCode";
+import { ObjectDisposedError } from "../../Common/ObjectDisposedError";
+import { JsonReplacer } from "../../Common/Json/JsonReplacer";
+import { WebEncoders } from "../../Common/WebEncoders";
 
 /**
  * A {@link ClientWebSocket} implementation that internally uses a {@link WebSocket}.

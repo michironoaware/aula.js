@@ -1,5 +1,5 @@
-﻿import { NullJsonReplacer } from "./NullJsonReplacer.js";
-import { BigIntJsonReplacer } from "./BigIntJsonReplacer.js";
+﻿import { NullJsonReplacer } from "./NullJsonReplacer";
+import { BigIntJsonReplacer } from "./BigIntJsonReplacer";
 
 export const JsonReplacer = (key: unknown, value: unknown) =>
 {

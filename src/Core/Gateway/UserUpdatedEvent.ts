@@ -1,7 +1,7 @@
-﻿import { User } from "../Rest/Entities/User.js";
-import { GatewayClient } from "./GatewayClient.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
+﻿import { User } from "../Rest/Entities/User";
+import { GatewayClient } from "./GatewayClient";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
 
 /**
  * Emitted when a user is updated.

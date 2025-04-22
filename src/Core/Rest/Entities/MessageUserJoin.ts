@@ -1,9 +1,9 @@
-﻿import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { MessageUserJoinData } from "./Models/MessageUserJoinData.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { RestClient } from "../RestClient.js";
-import { UnreachableError } from "../../../Common/UnreachableError.js";
-import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
+﻿import { SealedClassError } from "../../../Common/SealedClassError";
+import { MessageUserJoinData } from "./Models/MessageUserJoinData";
+import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { RestClient } from "../RestClient";
+import { UnreachableError } from "../../../Common/UnreachableError";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
  * Holds the additional data included in {@link MessageType.UserJoin} messages.

@@ -1,11 +1,11 @@
-﻿import { SealedClassError } from "../SealedClassError.js";
-import { Semaphore } from "./Semaphore.js";
-import { ThrowHelper } from "../ThrowHelper.js";
-import { IDisposable } from "../IDisposable.js";
-import { ObjectDisposedError } from "../ObjectDisposedError.js";
-import { AsNonBlocking } from "./AsNonBlocking.js";
-import { Func } from "../Func.js";
-import { TypeHelper } from "../TypeHelper.js";
+﻿import { SealedClassError } from "../SealedClassError";
+import { Semaphore } from "./Semaphore";
+import { ThrowHelper } from "../ThrowHelper";
+import { IDisposable } from "../IDisposable";
+import { ObjectDisposedError } from "../ObjectDisposedError";
+import { AsNonBlocking } from "./AsNonBlocking";
+import { Func } from "../Func";
+import { TypeHelper } from "../TypeHelper";
 
 /**
  * @sealed

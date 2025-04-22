@@ -1,13 +1,13 @@
-﻿import { SealedClassError } from "../../Common/SealedClassError.js";
-import { DelegatingHandler } from "../../Common/Http/DelegatingHandler.js";
-import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler.js";
-import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
-import { HttpResponseMessage } from "../../Common/Http/HttpResponseMessage.js";
-import { Delay } from "../../Common/Threading/Delay.js";
-import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
-import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
+﻿import { SealedClassError } from "../../Common/SealedClassError";
+import { DelegatingHandler } from "../../Common/Http/DelegatingHandler";
+import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler";
+import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { HttpStatusCode } from "../../Common/Http/HttpStatusCode";
+import { HttpResponseMessage } from "../../Common/Http/HttpResponseMessage";
+import { Delay } from "../../Common/Threading/Delay";
+import { CancellationToken } from "../../Common/Threading/CancellationToken";
+import { ObjectDisposedError } from "../../Common/ObjectDisposedError";
 
 /**
  * A {@link DelegatingHandler} that implements a retry mechanism for handling HTTP 503 status codes.

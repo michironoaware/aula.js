@@ -1,7 +1,7 @@
-﻿import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { Presence } from "../../Rest/Entities/Presence.js";
-import { EventType } from "./EventType.js";
+﻿import { SealedClassError } from "../../../Common/SealedClassError";
+import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { Presence } from "../../Rest/Entities/Presence";
+import { EventType } from "./EventType";
 
 /**
  * Provides a strongly typed DTO class for the {@link EventType.UserPresenceUpdated} event data.

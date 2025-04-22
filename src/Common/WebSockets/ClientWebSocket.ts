@@ -1,12 +1,12 @@
-﻿import { WebSocketState } from "./WebSocketState.js";
-import { WebSocketReceiveResult } from "./WebSocketReceiveResult.js";
-import { WebSocketMessageType } from "./WebSocketMessageType.js";
-import { ThrowHelper } from "../ThrowHelper.js";
-import { HeaderMap } from "../Http/HeaderMap.js";
-import { WebSocketCloseCode } from "./WebSocketCloseCode.js";
-import { WebSocketError } from "./WebSocketError.js";
-import { TypeHelper } from "../TypeHelper.js";
-import { IAsyncDisposable } from "../IAsyncDisposable.js";
+﻿import { WebSocketState } from "./WebSocketState";
+import { WebSocketReceiveResult } from "./WebSocketReceiveResult";
+import { WebSocketMessageType } from "./WebSocketMessageType";
+import { ThrowHelper } from "../ThrowHelper";
+import { HeaderMap } from "../Http/HeaderMap";
+import { WebSocketCloseCode } from "./WebSocketCloseCode";
+import { WebSocketError } from "./WebSocketError";
+import { TypeHelper } from "../TypeHelper";
+import { IAsyncDisposable } from "../IAsyncDisposable";
 
 export abstract class ClientWebSocket implements IAsyncDisposable
 {

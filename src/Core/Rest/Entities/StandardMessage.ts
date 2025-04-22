@@ -1,9 +1,9 @@
-﻿import { Message } from "./Message.js";
-import { MessageData } from "./Models/MessageData.js";
-import { RestClient } from "../RestClient.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { MessageType } from "./MessageType.js";
-import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
+﻿import { Message } from "./Message";
+import { MessageData } from "./Models/MessageData";
+import { RestClient } from "../RestClient";
+import { SealedClassError } from "../../../Common/SealedClassError";
+import { MessageType } from "./MessageType";
+import { InvalidOperationError } from "../../../Common/InvalidOperationError";
 
 /**
  * Represents a text message within Aula.

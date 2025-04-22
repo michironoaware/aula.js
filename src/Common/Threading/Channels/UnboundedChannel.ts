@@ -1,8 +1,8 @@
-﻿import { Channel } from "./Channel.js";
-import { SealedClassError } from "../../SealedClassError.js";
-import { UnboundedChannelCore } from "./UnboundedChannelCore.js";
-import { UnboundedChannelReader } from "./UnboundedChannelReader.js";
-import { UnboundedChannelWriter } from "./UnboundedChannelWriter.js";
+﻿import { Channel } from "./Channel";
+import { SealedClassError } from "../../SealedClassError";
+import { UnboundedChannelCore } from "./UnboundedChannelCore";
+import { UnboundedChannelReader } from "./UnboundedChannelReader";
+import { UnboundedChannelWriter } from "./UnboundedChannelWriter";
 
 /**
  * @sealed

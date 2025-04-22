@@ -1,6 +1,6 @@
-﻿import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { HttpRequestError } from "../../Common/Http/HttpRequestError.js";
-import { ProblemDetails } from "./Entities/Models/ProblemDetails.js";
+﻿import { ThrowHelper } from "../../Common/ThrowHelper";
+import { HttpRequestError } from "../../Common/Http/HttpRequestError";
+import { ProblemDetails } from "./Entities/Models/ProblemDetails";
 
 /**
  * Represents an error that occurred during a request to the Aula REST API.

@@ -1,15 +1,15 @@
-﻿import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { RestClient } from "../RestClient.js";
-import { UserData } from "./Models/UserData.js";
-import { Permissions } from "./Permissions.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { Room } from "./Room.js";
-import { TypeHelper } from "../../../Common/TypeHelper.js";
-import { UnreachableError } from "../../../Common/UnreachableError.js";
-import { SetUserRoomRequestBody } from "../SetUserRoomRequestBody.js";
-import { SetUserPermissionsRequestBody } from "../SetUserPermissionsRequestBody.js";
-import { BanUserRequestBody } from "../BanUserRequestBody.js";
-import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
+﻿import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { RestClient } from "../RestClient";
+import { UserData } from "./Models/UserData";
+import { Permissions } from "./Permissions";
+import { SealedClassError } from "../../../Common/SealedClassError";
+import { Room } from "./Room";
+import { TypeHelper } from "../../../Common/TypeHelper";
+import { UnreachableError } from "../../../Common/UnreachableError";
+import { SetUserRoomRequestBody } from "../SetUserRoomRequestBody";
+import { SetUserPermissionsRequestBody } from "../SetUserPermissionsRequestBody";
+import { BanUserRequestBody } from "../BanUserRequestBody";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
  * Represents a user within Aula.

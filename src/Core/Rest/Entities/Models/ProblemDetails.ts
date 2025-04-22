@@ -1,7 +1,7 @@
-﻿import { ThrowHelper } from "../../../../Common/ThrowHelper.js";
-import { HttpStatusCode } from "../../../../Common/Http/HttpStatusCode.js";
-import { TypeHelper } from "../../../../Common/TypeHelper.js";
-import { ReadonlyDictionary } from "../../../../Common/Collections/ReadonlyDictionary.js";
+﻿import { ThrowHelper } from "../../../../Common/ThrowHelper";
+import { HttpStatusCode } from "../../../../Common/Http/HttpStatusCode";
+import { TypeHelper } from "../../../../Common/TypeHelper";
+import { ReadonlyDictionary } from "../../../../Common/Collections/ReadonlyDictionary";
 
 /**
  * Represents a standardized structure for problem details returned by an API.

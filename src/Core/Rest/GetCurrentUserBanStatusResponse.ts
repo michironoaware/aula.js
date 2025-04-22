@@ -1,6 +1,6 @@
-﻿import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { RestClient } from "./RestClient.js";
+﻿import { ThrowHelper } from "../../Common/ThrowHelper";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { RestClient } from "./RestClient";
 
 /**
  * Holds information about the current user's ban status.

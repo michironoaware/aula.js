@@ -1,5 +1,5 @@
-﻿import { TypeHelper } from "../Common/TypeHelper.js";
-import { ThrowHelper } from "../Common/ThrowHelper.js";
+﻿import { TypeHelper } from "../Common/TypeHelper";
+import { ThrowHelper } from "../Common/ThrowHelper";
 
 /**
  * @package

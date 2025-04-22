@@ -1,16 +1,16 @@
-﻿import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { OperationType } from "./OperationType.js";
-import { EventType } from "./EventType.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { ReadyEventData } from "./ReadyEventData.js";
-import { BanData } from "../../Rest/Entities/Models/BanData.js";
-import { MessageData } from "../../Rest/Entities/Models/MessageData.js";
-import { UserTypingEventData } from "./UserTypingEventData.js";
-import { RoomConnectionEventData } from "./RoomConnectionEventData.js";
-import { RoomData } from "../../Rest/Entities/Models/RoomData.js";
-import { UserCurrentRoomUpdatedEventData } from "./UserCurrentRoomUpdatedEventData.js";
-import { UserData } from "../../Rest/Entities/Models/UserData.js";
-import { UserPresenceUpdatedEventData } from "./UserPresenceUpdatedEventData.js";
+﻿import { SealedClassError } from "../../../Common/SealedClassError";
+import { OperationType } from "./OperationType";
+import { EventType } from "./EventType";
+import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { ReadyEventData } from "./ReadyEventData";
+import { BanData } from "../../Rest/Entities/Models/BanData";
+import { MessageData } from "../../Rest/Entities/Models/MessageData";
+import { UserTypingEventData } from "./UserTypingEventData";
+import { RoomConnectionEventData } from "./RoomConnectionEventData";
+import { RoomData } from "../../Rest/Entities/Models/RoomData";
+import { UserCurrentRoomUpdatedEventData } from "./UserCurrentRoomUpdatedEventData";
+import { UserData } from "../../Rest/Entities/Models/UserData";
+import { UserPresenceUpdatedEventData } from "./UserPresenceUpdatedEventData";
 
 /**
  * @sealed

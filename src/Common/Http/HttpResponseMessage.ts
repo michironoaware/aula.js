@@ -1,10 +1,10 @@
-import { HttpStatusCode } from "./HttpStatusCode.js";
-import { HttpContent } from "./HttpContent.js";
-import { HttpRequestError } from "./HttpRequestError.js";
-import { SealedClassError } from "../SealedClassError.js";
-import { ThrowHelper } from "../ThrowHelper.js";
-import { EmptyContent } from "./EmptyContent.js";
-import { HeaderMap } from "./HeaderMap.js";
+import { HttpStatusCode } from "./HttpStatusCode";
+import { HttpContent } from "./HttpContent";
+import { HttpRequestError } from "./HttpRequestError";
+import { SealedClassError } from "../SealedClassError";
+import { ThrowHelper } from "../ThrowHelper";
+import { EmptyContent } from "./EmptyContent";
+import { HeaderMap } from "./HeaderMap";
 
 /**
  * Represents a HTTP response message.

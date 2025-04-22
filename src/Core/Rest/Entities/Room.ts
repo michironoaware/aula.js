@@ -1,12 +1,12 @@
-﻿import { RestClient } from "../RestClient.js";
-import { RoomData } from "./Models/RoomData.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { TypeHelper } from "../../../Common/TypeHelper.js";
-import { ArrayHelper } from "../../../Common/ArrayHelper.js";
-import { RoomType } from "./RoomType.js";
-import { ModifyRoomRequestBody } from "../ModifyRoomRequestBody.js";
-import { SetRoomConnectionsRequestBody } from "../SetRoomConnectionsRequestBody.js";
-import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
+﻿import { RestClient } from "../RestClient";
+import { RoomData } from "./Models/RoomData";
+import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { TypeHelper } from "../../../Common/TypeHelper";
+import { ArrayHelper } from "../../../Common/ArrayHelper";
+import { RoomType } from "./RoomType";
+import { ModifyRoomRequestBody } from "../ModifyRoomRequestBody";
+import { SetRoomConnectionsRequestBody } from "../SetRoomConnectionsRequestBody";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
  * Represents a room within Aula.

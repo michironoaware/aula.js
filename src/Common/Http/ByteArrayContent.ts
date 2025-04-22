@@ -1,6 +1,6 @@
-﻿import { HeaderMap } from "./HeaderMap.js";
-import { HttpContent } from "./HttpContent.js";
-import { ThrowHelper } from "../ThrowHelper.js";
+﻿import { HeaderMap } from "./HeaderMap";
+import { HttpContent } from "./HttpContent";
+import { ThrowHelper } from "../ThrowHelper";
 
 /**
  * Provides HTTP content based on a byte array.

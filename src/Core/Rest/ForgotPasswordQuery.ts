@@ -1,5 +1,5 @@
-﻿import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
+﻿import { SealedClassError } from "../../Common/SealedClassError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
 
 /**
  * Represents the query options of an account recovery request.

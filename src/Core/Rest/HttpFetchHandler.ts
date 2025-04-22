@@ -1,13 +1,13 @@
-import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler.js";
-import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage.js";
-import { HttpResponseMessage } from "../../Common/Http/HttpResponseMessage.js";
-import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
-import { StreamContent } from "../../Common/Http/StreamContent.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
-import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError.js";
-import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
+import { HttpMessageHandler } from "../../Common/Http/HttpMessageHandler";
+import { HttpRequestMessage } from "../../Common/Http/HttpRequestMessage";
+import { HttpResponseMessage } from "../../Common/Http/HttpResponseMessage";
+import { HttpStatusCode } from "../../Common/Http/HttpStatusCode";
+import { StreamContent } from "../../Common/Http/StreamContent";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { CancellationToken } from "../../Common/Threading/CancellationToken";
+import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError";
+import { ObjectDisposedError } from "../../Common/ObjectDisposedError";
 
 /**
  * A {@link HttpMessageHandler} implementation that sends HTTP requests using the Fetch API.

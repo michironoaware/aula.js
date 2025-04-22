@@ -1,6 +1,6 @@
-﻿import { CancellationTokenSource, ICancellationTokenSourceEvents } from "./CancellationTokenSource.js";
-import { ThrowHelper } from "../ThrowHelper.js";
-import { OperationCanceledError } from "./OperationCanceledError.js";
+﻿import { CancellationTokenSource, ICancellationTokenSourceEvents } from "./CancellationTokenSource";
+import { ThrowHelper } from "../ThrowHelper";
+import { OperationCanceledError } from "./OperationCanceledError";
 
 /**
  * Propagates notification that operations should be canceled.

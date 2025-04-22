@@ -1,6 +1,6 @@
-﻿import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { Permissions } from "./Entities/Permissions.js";
+﻿import { SealedClassError } from "../../Common/SealedClassError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { Permissions } from "./Entities/Permissions";
 
 /**
  * Represents the request body used to override a user's permissions.

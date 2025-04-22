@@ -1,7 +1,7 @@
-import { ThrowHelper } from "../ThrowHelper.js";
-import { HttpMessageHandler } from "./HttpMessageHandler.js";
-import { HttpRequestMessage } from "./HttpRequestMessage.js";
-import { CancellationToken } from "../Threading/CancellationToken.js";
+import { ThrowHelper } from "../ThrowHelper";
+import { HttpMessageHandler } from "./HttpMessageHandler";
+import { HttpRequestMessage } from "./HttpRequestMessage";
+import { CancellationToken } from "../Threading/CancellationToken";
 
 /**
  * A type for HTTP handlers that delegate the processing of HTTP response messages to another handler, called the inner handler.

@@ -1,8 +1,8 @@
-﻿import { FileData } from "./Models/FileData.js";
-import { RestClient } from "../RestClient.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
+﻿import { FileData } from "./Models/FileData";
+import { RestClient } from "../RestClient";
+import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { SealedClassError } from "../../../Common/SealedClassError";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
  * Represents a file within Aula.

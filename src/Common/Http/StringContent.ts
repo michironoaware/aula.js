@@ -1,4 +1,4 @@
-﻿import { ByteArrayContent } from "./ByteArrayContent.js";
+﻿import { ByteArrayContent } from "./ByteArrayContent";
 
 /**
  * Provides HTTP content based on text.

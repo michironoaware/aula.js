@@ -1,5 +1,5 @@
-﻿import { Func } from "../Func.js";
-import { ThrowHelper } from "../ThrowHelper.js";
+﻿import { Func } from "../Func";
+import { ThrowHelper } from "../ThrowHelper";
 
 export async function AsNonBlocking<TFunc extends Func<[], TReturn>, TReturn>(func: TFunc): Promise<TReturn>
 {

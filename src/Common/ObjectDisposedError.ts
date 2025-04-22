@@ -1,6 +1,6 @@
-﻿import { ThrowHelper } from "./ThrowHelper.js";
-import { SealedClassError } from "./SealedClassError.js";
-import { InvalidOperationError } from "./InvalidOperationError.js";
+﻿import { ThrowHelper } from "./ThrowHelper";
+import { SealedClassError } from "./SealedClassError";
+import { InvalidOperationError } from "./InvalidOperationError";
 
 /**
  * The exception that is thrown when an operation is performed on a disposed object.

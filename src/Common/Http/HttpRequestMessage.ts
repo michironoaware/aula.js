@@ -1,10 +1,10 @@
-import { HttpMethod } from "./HttpMethod.js";
-import { HttpContent } from "./HttpContent.js";
-import { ThrowHelper } from "../ThrowHelper.js";
-import { HeaderMap } from "./HeaderMap.js";
-import { ObjectDisposedError } from "../ObjectDisposedError.js";
-import { SealedClassError } from "../SealedClassError.js";
-import { IAsyncDisposable } from "../IAsyncDisposable.js";
+import { HttpMethod } from "./HttpMethod";
+import { HttpContent } from "./HttpContent";
+import { ThrowHelper } from "../ThrowHelper";
+import { HeaderMap } from "./HeaderMap";
+import { ObjectDisposedError } from "../ObjectDisposedError";
+import { SealedClassError } from "../SealedClassError";
+import { IAsyncDisposable } from "../IAsyncDisposable";
 
 /**
  * Represents an HTTP request message.

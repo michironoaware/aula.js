@@ -1,11 +1,11 @@
-﻿import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { RestClient } from "../Rest/RestClient.js";
-import { ClientWebSocket } from "../../Common/WebSockets/ClientWebSocket.js";
-import { CommonClientWebSocket } from "./CommonClientWebSocket.js";
-import { Intents } from "./Intents.js";
-import { PresenceOption } from "./PresenceOption.js";
-import { Permissions } from "../Rest/Entities/Permissions.js";
+﻿import { SealedClassError } from "../../Common/SealedClassError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { RestClient } from "../Rest/RestClient";
+import { ClientWebSocket } from "../../Common/WebSockets/ClientWebSocket";
+import { CommonClientWebSocket } from "./CommonClientWebSocket";
+import { Intents } from "./Intents";
+import { PresenceOption } from "./PresenceOption";
+import { Permissions } from "../Rest/Entities/Permissions";
 
 /**
  * Represents configuration options for a {@link GatewayClient}.

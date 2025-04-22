@@ -1,4 +1,4 @@
-﻿import { EventType } from "./Models/EventType.js";
+﻿import { EventType } from "./Models/EventType";
 
 /**
  * Enumerates the intent values that can be passed when establishing a gateway connection.

@@ -1,10 +1,10 @@
-﻿import { Ban } from "./Ban.js";
-import { BanData } from "./Models/BanData.js";
-import { RestClient } from "../RestClient.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
-import { BanType } from "./BanType.js";
-import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
+﻿import { Ban } from "./Ban";
+import { BanData } from "./Models/BanData";
+import { RestClient } from "../RestClient";
+import { SealedClassError } from "../../../Common/SealedClassError";
+import { InvalidOperationError } from "../../../Common/InvalidOperationError";
+import { BanType } from "./BanType";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
  * Represents a user ban within Aula.

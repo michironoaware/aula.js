@@ -1,6 +1,6 @@
-﻿import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { RoomType } from "./Entities/RoomType.js";
+﻿import { SealedClassError } from "../../Common/SealedClassError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { RoomType } from "./Entities/RoomType";
 
 /**
  * Represents the request body used to create a new room.

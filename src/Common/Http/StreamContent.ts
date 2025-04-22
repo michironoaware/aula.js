@@ -1,8 +1,8 @@
-﻿import { HttpContent } from "./HttpContent.js";
-import { ThrowHelper } from "../ThrowHelper.js";
-import { HeaderMap } from "./HeaderMap.js";
-import { SealedClassError } from "../SealedClassError.js";
-import { ObjectDisposedError } from "../ObjectDisposedError.js";
+﻿import { HttpContent } from "./HttpContent";
+import { ThrowHelper } from "../ThrowHelper";
+import { HeaderMap } from "./HeaderMap";
+import { SealedClassError } from "../SealedClassError";
+import { ObjectDisposedError } from "../ObjectDisposedError";
 
 /**
  * Provides HTTP content based on a stream.

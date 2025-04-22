@@ -1,9 +1,9 @@
-﻿import { MessageUserLeaveData } from "./Models/MessageUserLeaveData.js";
-import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../../Common/ThrowHelper.js";
-import { RestClient } from "../RestClient.js";
-import { UnreachableError } from "../../../Common/UnreachableError.js";
-import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
+﻿import { MessageUserLeaveData } from "./Models/MessageUserLeaveData";
+import { SealedClassError } from "../../../Common/SealedClassError";
+import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { RestClient } from "../RestClient";
+import { UnreachableError } from "../../../Common/UnreachableError";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
  * Holds the additional data included in {@link MessageType.UserLeave} messages.

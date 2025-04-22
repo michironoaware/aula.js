@@ -1,4 +1,4 @@
-﻿import { TypeHelper } from "./TypeHelper.js";
+﻿import { TypeHelper } from "./TypeHelper";
 
 const TypeErrorConstructor = TypeError;
 const ReferenceErrorConstructor = ReferenceError;

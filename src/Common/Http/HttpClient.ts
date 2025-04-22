@@ -1,12 +1,12 @@
-import { HttpRequestMessage } from "./HttpRequestMessage.js";
-import { HeaderMap } from "./HeaderMap.js";
-import { HttpMessageHandler } from "./HttpMessageHandler.js";
-import { ThrowHelper } from "../ThrowHelper.js";
-import { InvalidOperationError } from "../InvalidOperationError.js";
-import { SealedClassError } from "../SealedClassError.js";
-import { ObjectDisposedError } from "../ObjectDisposedError.js";
-import { CancellationToken } from "../Threading/CancellationToken.js";
-import { IAsyncDisposable } from "../IAsyncDisposable.js";
+import { HttpRequestMessage } from "./HttpRequestMessage";
+import { HeaderMap } from "./HeaderMap";
+import { HttpMessageHandler } from "./HttpMessageHandler";
+import { ThrowHelper } from "../ThrowHelper";
+import { InvalidOperationError } from "../InvalidOperationError";
+import { SealedClassError } from "../SealedClassError";
+import { ObjectDisposedError } from "../ObjectDisposedError";
+import { CancellationToken } from "../Threading/CancellationToken";
+import { IAsyncDisposable } from "../IAsyncDisposable";
 
 /**
  * Provides a class for sending HTTP requests and receiving HTTP responses from a resource identified by a URI.

@@ -1,11 +1,11 @@
-﻿import { MessageType } from "../MessageType.js";
-import { MessageAuthorType } from "../MessageAuthorType.js";
-import { MessageUserLeaveData } from "./MessageUserLeaveData.js";
-import { MessageUserJoinData } from "./MessageUserJoinData.js";
-import { ThrowHelper } from "../../../../Common/ThrowHelper.js";
-import { TypeHelper } from "../../../../Common/TypeHelper.js";
-import { SealedClassError } from "../../../../Common/SealedClassError.js";
-import { ValueOutOfRangeError } from "../../../../Common/ValueOutOfRangeError.js";
+﻿import { MessageType } from "../MessageType";
+import { MessageAuthorType } from "../MessageAuthorType";
+import { MessageUserLeaveData } from "./MessageUserLeaveData";
+import { MessageUserJoinData } from "./MessageUserJoinData";
+import { ThrowHelper } from "../../../../Common/ThrowHelper";
+import { TypeHelper } from "../../../../Common/TypeHelper";
+import { SealedClassError } from "../../../../Common/SealedClassError";
+import { ValueOutOfRangeError } from "../../../../Common/ValueOutOfRangeError";
 
 /**
  * Provides a strongly typed DTO class for the API v1 MessageData JSON schema.

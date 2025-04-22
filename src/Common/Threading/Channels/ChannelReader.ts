@@ -1,4 +1,4 @@
-﻿import { ReadAttemptResult } from "./ReadAttemptResult.js";
+﻿import { ReadAttemptResult } from "./ReadAttemptResult";
 
 export abstract class ChannelReader<T>
 {

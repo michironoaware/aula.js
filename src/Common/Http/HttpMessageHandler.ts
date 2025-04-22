@@ -1,7 +1,7 @@
-import { HttpRequestMessage } from "./HttpRequestMessage.js";
-import { HttpResponseMessage } from "./HttpResponseMessage.js";
-import { CancellationToken } from "../Threading/CancellationToken.js";
-import { IAsyncDisposable } from "../IAsyncDisposable.js";
+import { HttpRequestMessage } from "./HttpRequestMessage";
+import { HttpResponseMessage } from "./HttpResponseMessage";
+import { CancellationToken } from "../Threading/CancellationToken";
+import { IAsyncDisposable } from "../IAsyncDisposable";
 
 /**
  * A base type for HTTP message handlers. Responsible for processing HTTP messages.

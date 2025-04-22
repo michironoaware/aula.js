@@ -1,6 +1,6 @@
-import { HeaderMap } from "./HeaderMap.js";
-import { UInt8Stream } from "../IO/UInt8Stream.js";
-import { IAsyncDisposable } from "../IAsyncDisposable.js";
+import { HeaderMap } from "./HeaderMap";
+import { UInt8Stream } from "../IO/UInt8Stream";
+import { IAsyncDisposable } from "../IAsyncDisposable";
 
 /**
  * A base class representing an HTTP entity body and content headers.

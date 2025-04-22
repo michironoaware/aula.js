@@ -1,7 +1,7 @@
-﻿import { Ban } from "../Rest/Entities/Ban.js";
-import { GatewayClient } from "./GatewayClient.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
+﻿import { Ban } from "../Rest/Entities/Ban";
+import { GatewayClient } from "./GatewayClient";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { ThrowHelper } from "../../Common/ThrowHelper";
 
 /**
  * Emitted when a ban has been issued.

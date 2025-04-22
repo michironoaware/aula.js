@@ -1,7 +1,7 @@
-﻿import { MultipartContent } from "./MultipartContent.js";
-import { ThrowHelper } from "../ThrowHelper.js";
-import { HttpContent } from "./HttpContent.js";
-import { SealedClassError } from "../SealedClassError.js";
+﻿import { MultipartContent } from "./MultipartContent";
+import { ThrowHelper } from "../ThrowHelper";
+import { HttpContent } from "./HttpContent";
+import { SealedClassError } from "../SealedClassError";
 
 /**
  * @sealed

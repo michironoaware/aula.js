@@ -1,7 +1,7 @@
-﻿import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { RoomConnectionEventData } from "./Models/RoomConnectionEventData.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { GatewayClient } from "./GatewayClient.js";
+﻿import { ThrowHelper } from "../../Common/ThrowHelper";
+import { RoomConnectionEventData } from "./Models/RoomConnectionEventData";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { GatewayClient } from "./GatewayClient";
 
 /**
  * Emitted when a connection between two rooms is removed.

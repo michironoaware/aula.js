@@ -1,4 +1,4 @@
-﻿import { SealedClassError } from "../SealedClassError.js";
+﻿import { SealedClassError } from "../SealedClassError";
 
 /**
  * The exception that is thrown in a thread upon cancellation of an operation that the thread was executing.

@@ -1,7 +1,7 @@
-﻿import { UserTypingEventData } from "./Models/UserTypingEventData.js";
-import { ThrowHelper } from "../../Common/ThrowHelper.js";
-import { SealedClassError } from "../../Common/SealedClassError.js";
-import { GatewayClient } from "./GatewayClient.js";
+﻿import { UserTypingEventData } from "./Models/UserTypingEventData";
+import { ThrowHelper } from "../../Common/ThrowHelper";
+import { SealedClassError } from "../../Common/SealedClassError";
+import { GatewayClient } from "./GatewayClient";
 
 /**
  * Emitted when a user stopped typing a message.
