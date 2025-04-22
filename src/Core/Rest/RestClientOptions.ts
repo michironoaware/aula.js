@@ -138,7 +138,7 @@ export class RestClientOptions
 
 	/**
 	 * Sets the address of the Aula server where requests should be sent.
-	 * @param address A URI that points to the desired server.
+	 * @param address A URI that points to the desired server, or `null` to leave it unspecified.
 	 * @returns The current {@link RestClientOptions} instance.
 	 * */
 	public withAddress(address: URL | null)
