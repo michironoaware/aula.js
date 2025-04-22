@@ -97,6 +97,11 @@ export class GatewayClient implements IAsyncDisposable
 		{
 			this.withToken(options.token);
 		}
+
+		if (options.intents !== null)
+		{
+			this.withIntents(options.intents);
+		}
 	}
 
 	/**
