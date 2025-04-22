@@ -60,7 +60,6 @@ import { BanUserRequestBody } from "./BanUserRequestBody.js";
 import { GetBansQuery } from "./GetBansQuery.js";
 import { GetFilesQuery } from "./GetFilesQuery.js";
 import { Permissions } from "./Entities/Permissions.js";
-import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError.js";
 import { UserUpdatedEvent } from "../Gateway/UserUpdatedEvent.js";
 import { IAsyncDisposable } from "../../Common/IAsyncDisposable.js";
 
