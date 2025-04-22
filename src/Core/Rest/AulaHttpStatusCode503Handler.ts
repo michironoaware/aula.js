@@ -7,6 +7,7 @@ import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { HttpResponseMessage } from "../../Common/Http/HttpResponseMessage.js";
 import { Delay } from "../../Common/Threading/Delay.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
+import { ObjectDisposedError } from "../../Common/index.js";
 
 /**
  * A {@link DelegatingHandler} that implements a retry mechanism for handling HTTP 503 status codes.
@@ -17,6 +18,8 @@ import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
  * */
 export class AulaHttpStatusCode503Handler extends DelegatingHandler
 {
+	#_disposed: boolean = false;
+
 	public constructor(innerHandler: HttpMessageHandler, disposeInnerHandler: boolean)
 	{
 		super(innerHandler, disposeInnerHandler);
@@ -26,6 +29,7 @@ export class AulaHttpStatusCode503Handler extends DelegatingHandler
 	public async send(message: HttpRequestMessage, cancellationToken: CancellationToken)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
+		ObjectDisposedError.throwIf(this.#_disposed);
 
 		let retryDelayMilliseconds = 0;
 		let response: HttpResponseMessage;
@@ -49,5 +53,16 @@ export class AulaHttpStatusCode503Handler extends DelegatingHandler
 		} while (response.statusCode === HttpStatusCode.InternalServerError);
 
 		return response;
+	}
+
+	public [Symbol.asyncDispose]()
+	{
+		if (this.#_disposed)
+		{
+			return Promise.resolve();
+		}
+
+		this.#_disposed = true;
+		return Promise.resolve();
 	}
 }
