@@ -26,6 +26,12 @@ export class AulaHttpStatusCode503Handler extends DelegatingHandler
 		SealedClassError.throwIfNotEqual(AulaHttpStatusCode503Handler, new.target);
 	}
 
+	/**
+	 * Send an HTTP request as an asynchronous operation.
+	 * @returns The promise object representing the asynchronous operation.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @remarks The returned {@link Promise} will complete once the response has been received.
+	 * */
 	public async send(message: HttpRequestMessage, cancellationToken: CancellationToken)
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
