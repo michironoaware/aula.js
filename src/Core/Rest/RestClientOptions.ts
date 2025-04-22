@@ -85,17 +85,6 @@ export class RestClientOptions
 	}
 
 	/**
-	 * Sets the authorization token used to authenticate and make requests.
-	 * @param token The token string, or `null` to leave it blank.
-	 * @returns The current {@link RestClientOptions} instance.
-	 * */
-	public withToken(token: string | null)
-	{
-		this.token = token;
-		return this;
-	}
-
-	/**
 	 * Sets the {@link HttpClient} instance used for making HTTP requests.
 	 * @param httpClient The {@link HttpClient} instance to use,
 	 *                   or `null` to let the RestClient instantiate and configure its own {@link HttpClient}.
@@ -115,6 +104,17 @@ export class RestClientOptions
 	public withDisposeHttpClient(disposeHttpClient: boolean)
 	{
 		this.disposeHttpClient = disposeHttpClient;
+		return this;
+	}
+
+	/**
+	 * Sets the authorization token used to authenticate and make requests.
+	 * @param token The token string, or `null` to leave it blank.
+	 * @returns The current {@link RestClientOptions} instance.
+	 * */
+	public withToken(token: string | null)
+	{
+		this.token = token;
 		return this;
 	}
 }
