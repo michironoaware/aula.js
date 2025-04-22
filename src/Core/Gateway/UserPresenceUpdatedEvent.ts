@@ -5,7 +5,7 @@ import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 import { GatewayClient } from "./GatewayClient.js";
 
 /**
- * Represents a {@link EventType.UserPresenceUpdated} event.
+ * Emitted when a user presence has been updated.
  * @sealed
  * */
 export class UserPresenceUpdatedEvent
@@ -14,9 +14,6 @@ export class UserPresenceUpdatedEvent
 	readonly #_gatewayClient: GatewayClient;
 
 	/**
-	 * Initializes a new instance of {@link UserPresenceUpdatedEvent}.
-	 * @param data A DTO containing the entity data.
-	 * @param restClient The {@link RestClient} that is initializing this instance.
 	 * @package
 	 * */
 	public constructor(data: UserPresenceUpdatedEventData, gatewayClient: GatewayClient)
