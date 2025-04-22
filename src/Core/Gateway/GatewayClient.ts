@@ -375,7 +375,7 @@ export class GatewayClient implements IDisposable
 					case EventType.UserPresenceUpdated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserPresenceUpdatedEventData);
 						await this.#_eventEmitter.emit(
-							payload.event, new UserPresenceUpdatedEvent(payload.data, this.#_restClient));
+							payload.event, new UserPresenceUpdatedEvent(payload.data, this));
 						break;
 					default:
 						break;

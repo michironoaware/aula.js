@@ -1,9 +1,8 @@
 ﻿import { UserPresenceUpdatedEventData } from "./Models/UserPresenceUpdatedEventData.js";
-import { RestClient } from "../Rest/RestClient.js";
 import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
-import { EventType } from "./Models/EventType.js";
+import { GatewayClient } from "./GatewayClient.js";
 
 /**
  * Represents a {@link EventType.UserPresenceUpdated} event.
@@ -12,7 +11,7 @@ import { EventType } from "./Models/EventType.js";
 export class UserPresenceUpdatedEvent
 {
 	readonly #_data: UserPresenceUpdatedEventData;
-	readonly #_restClient: RestClient;
+	readonly #_gatewayClient: GatewayClient;
 
 	/**
 	 * Initializes a new instance of {@link UserPresenceUpdatedEvent}.
@@ -20,22 +19,22 @@ export class UserPresenceUpdatedEvent
 	 * @param restClient The {@link RestClient} that is initializing this instance.
 	 * @package
 	 * */
-	public constructor(data: UserPresenceUpdatedEventData, restClient: RestClient)
+	public constructor(data: UserPresenceUpdatedEventData, gatewayClient: GatewayClient)
 	{
 		SealedClassError.throwIfNotEqual(UserPresenceUpdatedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, UserPresenceUpdatedEventData);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
+		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
 
 		this.#_data = data;
-		this.#_restClient = restClient;
+		this.#_gatewayClient = gatewayClient;
 	}
 
 	/**
-	 * Gets the {@link RestClient} that initialized this instance.
+	 * Gets the {@link GatewayClient} that initialized this instance.
 	 * */
-	public get restClient()
+	public get gatewayClient()
 	{
-		return this.#_restClient;
+		return this.#_gatewayClient;
 	}
 
 	/**
@@ -61,6 +60,6 @@ export class UserPresenceUpdatedEvent
 	 * */
 	public async getUser(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return this.restClient.getUser(this.userId, cancellationToken);
+		return this.gatewayClient.rest.getUser(this.userId, cancellationToken);
 	}
 }
