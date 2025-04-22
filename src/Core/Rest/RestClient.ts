@@ -65,7 +65,7 @@ import { OperationCanceledError } from "../../Common/Threading/OperationCanceled
 import { UserUpdatedEvent } from "../Gateway/UserUpdatedEvent.js";
 
 /**
- * Provides an abstraction to interact with the Aula REST API.
+ * Provides a client to interact with the Aula REST API.
  * @sealed
  * */
 export class RestClient implements IDisposable
