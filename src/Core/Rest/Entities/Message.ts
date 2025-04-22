@@ -4,6 +4,7 @@ import { MessageData } from "./Models/MessageData.js";
 import { MessageAuthorType } from "./MessageAuthorType.js";
 import { MessageFlags } from "./MessageFlags.js";
 import { UnreachableError } from "../../../Common/UnreachableError.js";
+import { CancellationToken } from "../../../Common/Threading/index.js";
 
 /**
  * Represents a message within Aula.
@@ -96,16 +97,18 @@ export class Message
 
 	/**
 	 * Gets the author of the message.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a {@link User}, or `null` if the author is not a user.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * */
-	public async getAuthor()
+	public async getAuthor(cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		if (this.authorId === null || this.authorType !== MessageAuthorType.User)
 		{
 			return null;
 		}
 
-		const author = await this.restClient.getUser(this.authorId);
+		const author = await this.restClient.getUser(this.authorId, cancellationToken);
 		if (author === null)
 		{
 			throw new UnreachableError("User expected to exist, but the server sent nothing.");
@@ -116,19 +119,23 @@ export class Message
 
 	/**
 	 * Gets the room where the message was sent.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a {@link Room}, or `null` if the room no longer exists.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * */
-	public async getRoom()
+	public async getRoom(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return await this.restClient.getRoom(this.roomId);
+		return await this.restClient.getRoom(this.roomId, cancellationToken);
 	}
 
 	/**
 	 * Removes the message from the room where it was sent.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * */
-	public async remove()
+	public async remove(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return await this.restClient.removeMessage(this.roomId, this.id);
+		return await this.restClient.removeMessage(this.roomId, this.id, cancellationToken);
 	}
 }
