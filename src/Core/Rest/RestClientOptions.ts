@@ -12,6 +12,7 @@ export class RestClientOptions
 
 	#_httpClient: HttpClient | null = null;
 	#_disposeHttpClient: boolean = true;
+	#_token: string | null = null;
 
 	/**
 	 * Initializes a new instance of {@link RestClientOptions}.
@@ -63,6 +64,35 @@ export class RestClientOptions
 	{
 		ThrowHelper.TypeError.throwIfNotType(disposeHttpClient, "boolean");
 		this.#_disposeHttpClient = disposeHttpClient;
+	}
+
+	/**
+	 * Gets the authorization token used to authenticate and make requests.
+	 * @default null
+	 * */
+	public get token()
+	{
+		return this.#_token;
+	}
+
+	/**
+	 * Sets the authorization token used to authenticate and make requests.
+	 * */
+	public set token(token: string | null)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(token, "string", "null");
+		this.#_token = token;
+	}
+
+	/**
+	 * Sets the authorization token used to authenticate and make requests.
+	 * @param token The token string, or `null` to leave it blank.
+	 * @returns The current {@link RestClientOptions} instance.
+	 * */
+	public withToken(token: string | null)
+	{
+		this.token = token;
+		return this;
 	}
 
 	/**
