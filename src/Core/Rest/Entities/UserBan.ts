@@ -41,14 +41,6 @@ export class UserBan extends Ban
 	}
 
 	/**
-	 * Gets the latest version of this entity, or null if it no longer exists.
-	 * */
-	public async getLatest()
-	{
-		return await this.restClient.getUserBan(this.targetId) as UserBan | null;
-	}
-
-	/**
 	 * Gets the banned user.
 	 * */
 	public async getTarget()
