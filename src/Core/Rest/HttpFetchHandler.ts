@@ -7,6 +7,7 @@ import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError.js";
+import { ObjectDisposedError } from "../../Common/index.js";
 
 /**
  * A {@link HttpMessageHandler} implementation that sends HTTP requests using the Fetch API.
@@ -14,6 +15,8 @@ import { OperationCanceledError } from "../../Common/Threading/OperationCanceled
  * */
 export class HttpFetchHandler extends HttpMessageHandler
 {
+	#_disposed: boolean = false;
+
 	constructor()
 	{
 		super();
@@ -24,6 +27,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 	{
 		ThrowHelper.TypeError.throwIfNotType(message, HttpRequestMessage);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
 
 		let abortSignal: AbortSignal | null = null;
 		if (cancellationToken !== CancellationToken.none)
@@ -78,6 +82,12 @@ export class HttpFetchHandler extends HttpMessageHandler
 
 	public [Symbol.asyncDispose]()
 	{
+		if (this.#_disposed)
+		{
+			return Promise.resolve();
+		}
+
+		this.#_disposed = true;
 		return Promise.resolve();
 	}
 }
