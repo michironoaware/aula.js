@@ -7,7 +7,7 @@ import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
 import { OperationCanceledError } from "../../Common/Threading/OperationCanceledError.js";
-import { ObjectDisposedError } from "../../Common/index.js";
+import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 
 /**
  * A {@link HttpMessageHandler} implementation that sends HTTP requests using the Fetch API.

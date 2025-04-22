@@ -4,7 +4,7 @@ import { MessageData } from "./Models/MessageData.js";
 import { MessageAuthorType } from "./MessageAuthorType.js";
 import { MessageFlags } from "./MessageFlags.js";
 import { UnreachableError } from "../../../Common/UnreachableError.js";
-import { CancellationToken } from "../../../Common/Threading/index.js";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
 
 /**
  * Represents a message within Aula.

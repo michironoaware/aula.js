@@ -4,7 +4,7 @@ import { RestClient } from "../RestClient.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
 import { BanType } from "./BanType.js";
-import { CancellationToken } from "../../../Common/Threading/index.js";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
 
 /**
  * Represents a user ban within Aula.

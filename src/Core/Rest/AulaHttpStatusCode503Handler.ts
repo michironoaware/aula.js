@@ -7,7 +7,7 @@ import { HttpStatusCode } from "../../Common/Http/HttpStatusCode.js";
 import { HttpResponseMessage } from "../../Common/Http/HttpResponseMessage.js";
 import { Delay } from "../../Common/Threading/Delay.js";
 import { CancellationToken } from "../../Common/Threading/CancellationToken.js";
-import { ObjectDisposedError } from "../../Common/index.js";
+import { ObjectDisposedError } from "../../Common/ObjectDisposedError.js";
 
 /**
  * A {@link DelegatingHandler} that implements a retry mechanism for handling HTTP 503 status codes.

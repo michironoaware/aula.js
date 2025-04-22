@@ -1,5 +1,6 @@
 ﻿export * from "./ArrayHelper.js";
 export * from "./Func.js";
+export * from "./IAsyncDisposable.js";
 export * from "./IDisposable.js";
 export * from "./InvalidOperationError.js";
 export * from "./NotImplementedError.js";

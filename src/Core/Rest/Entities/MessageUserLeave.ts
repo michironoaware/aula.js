@@ -3,7 +3,7 @@ import { SealedClassError } from "../../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { RestClient } from "../RestClient.js";
 import { UnreachableError } from "../../../Common/UnreachableError.js";
-import { CancellationToken } from "../../../Common/Threading/index.js";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
 
 /**
  * Holds the additional data included in {@link MessageType.UserLeave} messages.

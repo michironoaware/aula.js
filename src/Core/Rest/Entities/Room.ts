@@ -6,7 +6,7 @@ import { ArrayHelper } from "../../../Common/ArrayHelper.js";
 import { RoomType } from "./RoomType.js";
 import { ModifyRoomRequestBody } from "../ModifyRoomRequestBody.js";
 import { SetRoomConnectionsRequestBody } from "../SetRoomConnectionsRequestBody.js";
-import { CancellationToken } from "../../../Common/Threading/index.js";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
 
 /**
  * Represents a room within Aula.

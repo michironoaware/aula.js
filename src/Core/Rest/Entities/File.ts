@@ -2,7 +2,7 @@
 import { RestClient } from "../RestClient.js";
 import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 import { SealedClassError } from "../../../Common/SealedClassError.js";
-import { CancellationToken } from "../../../Common/Threading/index.js";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
 
 /**
  * Represents a file within Aula.

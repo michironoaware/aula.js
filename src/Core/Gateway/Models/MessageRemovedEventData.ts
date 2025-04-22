@@ -1,4 +1,4 @@
-﻿import { ThrowHelper } from "../../../Common/index.js";
+﻿import { ThrowHelper } from "../../../Common/ThrowHelper.js";
 
 export class MessageRemovedEventData
 {

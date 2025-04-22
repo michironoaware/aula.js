@@ -9,7 +9,7 @@ import { UnreachableError } from "../../../Common/UnreachableError.js";
 import { SetUserRoomRequestBody } from "../SetUserRoomRequestBody.js";
 import { SetUserPermissionsRequestBody } from "../SetUserPermissionsRequestBody.js";
 import { BanUserRequestBody } from "../BanUserRequestBody.js";
-import { CancellationToken } from "../../../Common/Threading/index.js";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
 
 /**
  * Represents a user within Aula.

@@ -9,7 +9,7 @@ import { RoomType } from "./RoomType.js";
 import { InvalidOperationError } from "../../../Common/InvalidOperationError.js";
 import { GetMessagesQuery } from "../GetMessagesQuery.js";
 import { SendMessageRequestBody } from "../SendMessageRequestBody.js";
-import { CancellationToken } from "../../../Common/Threading/index.js";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken.js";
 
 /**
  * Represents a text room within Aula.
