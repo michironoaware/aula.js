@@ -87,6 +87,11 @@ export class GatewayClient implements IAsyncDisposable
 		{
 			throw new InvalidOperationError(`The websocket type must inherit from ${ClientWebSocket.name}.`);
 		}
+
+		if (options.address !== null)
+		{
+			this.withAddress(options.address);
+		}
 	}
 
 	/**
