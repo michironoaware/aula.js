@@ -175,7 +175,8 @@ export class User
 	public async ban(reason?: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(reason, "string", "undefined");
-		return await this.restClient.banUser(this.id, reason ? new BanUserRequestBody().withReason(reason) : undefined, cancellationToken);
+		return await this.restClient.banUser(
+			this.id, reason !== undefined ? new BanUserRequestBody().withReason(reason) : undefined, cancellationToken);
 	}
 
 	/**
