@@ -5,6 +5,7 @@ import { IDisposable } from "../IDisposable.js";
 import { ObjectDisposedError } from "../ObjectDisposedError.js";
 import { AsNonBlocking } from "./AsNonBlocking.js";
 import { Func } from "../Func.js";
+import { TypeHelper } from "../TypeHelper.js";
 
 /**
  * @sealed
@@ -73,6 +74,26 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Func<[ ...an
 		await Promise.all(promises);
 
 		return;
+	}
+
+	public removeAll<TEvent extends keyof TEventMap>(event?: TEvent)
+	{
+		ObjectDisposedError.throwIf(this.#_disposed);
+
+		if (TypeHelper.isNullable(event))
+		{
+			this.#_listeners.clear();
+			return;
+		}
+
+		const listeners = this.#_listeners.get(event);
+		if (listeners === undefined ||
+		    listeners.length === 0)
+		{
+			return;
+		}
+
+		listeners.length = 0;
 	}
 
 	public [Symbol.dispose]()
