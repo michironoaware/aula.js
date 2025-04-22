@@ -163,7 +163,7 @@ export class User
 	public async ban(reason?: string)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(reason, "string", "undefined");
-		return await this.restClient.banUser(this.id, new BanUserRequestBody().withReason(reason ?? null));
+		return await this.restClient.banUser(this.id, reason ? new BanUserRequestBody().withReason(reason) : undefined);
 	}
 
 	/**
