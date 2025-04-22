@@ -4,6 +4,7 @@ import { SealedClassError } from "../../Common/SealedClassError.js";
 import { ThrowHelper } from "../../Common/ThrowHelper.js";
 
 /**
+ * Emitted when a room is updated.
  * @sealed
  * */
 export class RoomUpdatedEvent
@@ -11,6 +12,9 @@ export class RoomUpdatedEvent
 	readonly #_room: Room;
 	readonly #_gatewayClient: GatewayClient;
 
+	/**
+	 * @package
+	 * */
 	public constructor(room: Room, gatewayClient: GatewayClient)
 	{
 		SealedClassError.throwIfNotEqual(RoomUpdatedEvent, new.target);
@@ -21,11 +25,17 @@ export class RoomUpdatedEvent
 		this.#_gatewayClient = gatewayClient;
 	}
 
+	/**
+	 * Gets the id of the room updated.
+	 * */
 	public get room()
 	{
 		return this.#_room;
 	}
 
+	/**
+	 * Gets the {@link GatewayClient} that initialized this instance.
+	 * */
 	public get gatewayClient()
 	{
 		return this.#_gatewayClient;
