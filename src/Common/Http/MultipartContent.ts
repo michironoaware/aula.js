@@ -108,7 +108,7 @@ export class MultipartContent extends HttpContent
 		return new Blob(parts).stream();
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 		if (this.#_disposed)
 		{
@@ -117,7 +117,7 @@ export class MultipartContent extends HttpContent
 
 		for (const content of this.#_contents)
 		{
-			content.dispose();
+			content[Symbol.dispose]();
 		}
 
 		this.#_disposed = true;

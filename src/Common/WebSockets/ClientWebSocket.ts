@@ -73,5 +73,5 @@ export abstract class ClientWebSocket implements IDisposable
 	/**
 	 * @inheritDoc
 	 * */
-	public abstract dispose(): void;
+	public abstract [Symbol.dispose](): void;
 }

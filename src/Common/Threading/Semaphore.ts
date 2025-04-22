@@ -76,7 +76,7 @@ export class Semaphore implements IDisposable
 		}
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 		if (this.#_disposed)
 		{

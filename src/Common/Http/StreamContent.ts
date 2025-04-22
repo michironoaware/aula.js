@@ -41,7 +41,7 @@ export class StreamContent extends HttpContent
 		return Promise.resolve(this.#_stream);
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 		if (this.#_disposed)
 		{

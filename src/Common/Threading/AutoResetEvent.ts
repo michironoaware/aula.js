@@ -69,7 +69,7 @@ export class AutoResetEvent implements IDisposable
 		this.#_signaled = false;
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 		if (this.#_disposed)
 		{

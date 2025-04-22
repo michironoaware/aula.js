@@ -60,14 +60,14 @@ export class FileContent implements IDisposable
 		return await this.#_httpContent.readAsByteArray();
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.#_httpContent.dispose();
+		this.#_httpContent[Symbol.dispose]();
 		this.#_disposed = true;
 	}
 }

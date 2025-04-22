@@ -101,14 +101,14 @@ export class HttpRequestMessage implements IDisposable
 		this.#_content = value;
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.content?.dispose();
+		this.content?.[Symbol.dispose]();
 		this.#_disposed = true;
 	}
 }

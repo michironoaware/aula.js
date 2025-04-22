@@ -200,21 +200,21 @@ export class AulaRouteRateLimiterHandler extends DelegatingHandler
 		return this.#_eventEmitter.remove(event, listener);
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
-		super.dispose();
+		super[Symbol.dispose]();
 
 		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.#_eventEmitter.dispose();
+		this.#_eventEmitter[Symbol.dispose]();
 		this.#_rateLimits.clear();
 
 		for (const semaphore of this.#_routeSemaphores)
 		{
-			semaphore[1].dispose();
+			semaphore[1][Symbol.dispose]();
 		}
 
 		this.#_routeSemaphores.clear();

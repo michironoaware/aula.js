@@ -40,7 +40,7 @@ export class EmptyContent extends HttpContent
 		return Promise.resolve("");
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 	}
 }

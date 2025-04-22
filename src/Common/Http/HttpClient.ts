@@ -123,11 +123,11 @@ export class HttpClient implements IDisposable
 
 		const response = await this.#_handler.send(message, cancellationToken);
 
-		message.dispose();
+		message[Symbol.dispose]();
 		return response;
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 		if (this.#_disposed)
 		{
@@ -136,7 +136,7 @@ export class HttpClient implements IDisposable
 
 		if (this.#_disposeHandler)
 		{
-			this.#_handler.dispose();
+			this.#_handler[Symbol.dispose]();
 		}
 
 		this.#_disposed = true;

@@ -76,7 +76,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 		return response;
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 	}
 }

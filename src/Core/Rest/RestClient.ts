@@ -173,7 +173,7 @@ export class RestClient implements IDisposable
 		return this;
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 		if (this.#_disposed)
 		{
@@ -182,7 +182,7 @@ export class RestClient implements IDisposable
 
 		if (this.#_disposeHttpClient)
 		{
-			this.#_httpClient.dispose();
+			this.#_httpClient[Symbol.dispose]();
 		}
 
 		this.#_disposed = true;

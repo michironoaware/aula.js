@@ -138,9 +138,9 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 		return this.#_eventEmitter.remove(event, listener);
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
-		super.dispose();
+		super[Symbol.dispose]();
 
 		if (this.#_disposed)
 		{
@@ -159,8 +159,8 @@ export class AulaGlobalRateLimiterHandler extends DelegatingHandler
 			}
 		}
 
-		this.#_eventEmitter.dispose();
-		this.#_requestAvailableEvent.dispose();
+		this.#_eventEmitter[Symbol.dispose]();
+		this.#_requestAvailableEvent[Symbol.dispose]();
 
 		this.#_disposed = true;
 	}

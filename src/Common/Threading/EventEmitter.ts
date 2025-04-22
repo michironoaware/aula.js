@@ -75,14 +75,14 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Func<[ ...an
 		return;
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.#_operateOverListenersSemaphore.dispose();
+		this.#_operateOverListenersSemaphore[Symbol.dispose]();
 		this.#_listeners.clear();
 		this.#_disposed = true;
 	}

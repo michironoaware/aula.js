@@ -52,5 +52,5 @@ export abstract class HttpContent implements IDisposable
 		return HttpContent.#s_textDecoder.decode(await this.readAsByteArray());
 	}
 
-	public abstract dispose(): void;
+	public abstract [Symbol.dispose](): void;
 }

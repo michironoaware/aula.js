@@ -295,19 +295,19 @@ export class GatewayClient implements IDisposable
 		await this.#_webSocket.close(WebSocketCloseCode.NormalClosure);
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 		if (this.#_disposed)
 		{
 			return;
 		}
 
-		this.#_eventEmitter.dispose();
-		this.#_webSocket.dispose();
+		this.#_eventEmitter[Symbol.dispose]();
+		this.#_webSocket[Symbol.dispose]();
 
 		if (this.#_disposeRestClient)
 		{
-			this.#_restClient.dispose();
+			this.#_restClient[Symbol.dispose]();
 		}
 
 		this.#_disposed = true;

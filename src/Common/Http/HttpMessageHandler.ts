@@ -15,5 +15,5 @@ export abstract class HttpMessageHandler implements IDisposable
 	 * */
 	public abstract send(message: HttpRequestMessage, cancellationToken: CancellationToken): Promise<HttpResponseMessage>;
 
-	public abstract dispose(): void;
+	public abstract [Symbol.dispose](): void;
 }

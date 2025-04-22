@@ -220,7 +220,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 		return closePromiseSource.promise;
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 		if (this.#_disposed)
 		{

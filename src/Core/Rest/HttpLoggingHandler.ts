@@ -86,7 +86,7 @@ export class HttpLoggingHandler extends DelegatingHandler
 		return response;
 	}
 
-	public dispose()
+	public [Symbol.dispose]()
 	{
 		if (this.#_disposed)
 		{
