@@ -47,11 +47,9 @@ export class CancellationToken
 		}
 	}
 
-	public on<TEvent extends keyof ICancellationTokenEvents>(
-		event: TEvent,
-		listener: ICancellationTokenEvents[TEvent])
+	public onCancelled(listener: ICancellationTokenEvents["Cancelled"])
 	{
-		return this.#_source.on(event, listener);
+		return this.#_source.onCancelled(listener);
 	}
 }
 
@@ -70,16 +68,9 @@ class NeverCancelledToken extends CancellationToken
 		return this.#s_instance;
 	}
 
-	public on<TEvent extends keyof ICancellationTokenEvents>(
-		event: TEvent,
-		listener: ICancellationTokenEvents[TEvent])
+	public onCancelled(listener: ICancellationTokenEvents["Cancelled"])
 	{
-		if (event === "Cancelled")
-		{
-			return;
-		}
-
-		super.on(event, listener);
+		return;
 	}
 }
 

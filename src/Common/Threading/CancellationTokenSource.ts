@@ -39,22 +39,18 @@ export class CancellationTokenSource
 		this.#_eventEmitter?.emit("Cancelled");
 	}
 
-	public on<TEvent extends keyof ICancellationTokenSourceEvents>(
-		event: TEvent,
-		listener: ICancellationTokenSourceEvents[TEvent])
+	public onCancelled(listener: ICancellationTokenSourceEvents["Cancelled"])
 	{
-		ThrowHelper.TypeError.throwIfNullable(event);
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
 
 		// If operation is already cancelled call listener immediately.
-		if (this.#_cancellationRequested &&
-		    event === "Cancelled")
+		if (this.#_cancellationRequested)
 		{
 			listener();
 			return;
 		}
 
-		(this.#_eventEmitter ??= new EventEmitter()).on(event, listener);
+		(this.#_eventEmitter ??= new EventEmitter()).on("Cancelled", listener);
 	}
 }
 

@@ -45,7 +45,7 @@ export class Semaphore implements IDisposable
 		const promiseSource = new PromiseCompletionSource<void>();
 		if (cancellationToken !== CancellationToken.none)
 		{
-			cancellationToken.on("Cancelled", () => promiseSource.reject(new OperationCanceledError()));
+			cancellationToken.onCancelled(() => promiseSource.reject(new OperationCanceledError()));
 		}
 
 		this.#_queue.push(promiseSource);

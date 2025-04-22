@@ -40,7 +40,7 @@ export class HttpFetchHandler extends HttpMessageHandler
 		{
 			const abortController = new AbortController();
 			abortSignal = abortController.signal;
-			cancellationToken.on("Cancelled", () => abortController.abort());
+			cancellationToken.onCancelled(() => abortController.abort());
 		}
 
 		let received: Response | null = null;
