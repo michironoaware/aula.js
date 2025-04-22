@@ -5,6 +5,7 @@ import { Func } from "../Func.js";
 import { ThrowHelper } from "../ThrowHelper.js";
 
 /**
+ * Signals to a {@link CancellationToken} that it should be canceled.
  * @sealed
  * */
 export class CancellationTokenSource
@@ -13,21 +14,33 @@ export class CancellationTokenSource
 	#_token: CancellationToken | null = null;
 	#_eventEmitter: EventEmitter<ICancellationTokenSourceEvents> | null = null;
 
+	/**
+	 * Initializes a new instance of {@link CancellationTokenSource}.
+	 * */
 	public constructor()
 	{
 		SealedClassError.throwIfNotEqual(CancellationTokenSource, new.target);
 	}
 
+	/**
+	 * Gets whether cancellation has been requested for this {@link CancellationTokenSource}.
+	 * */
 	public get isCancellationRequested()
 	{
 		return this.#_cancellationRequested;
 	}
 
+	/**
+	 * Gets the {@link CancellationToken} associated with this {@link CancellationTokenSource}.
+	 * */
 	public get token()
 	{
 		return this.#_token ??= new CancellationToken(this);
 	}
 
+	/**
+	 * Communicates a request for cancellation.
+	 * */
 	public cancel()
 	{
 		if (this.#_cancellationRequested)
@@ -39,6 +52,10 @@ export class CancellationTokenSource
 		this.#_eventEmitter?.emit("Cancelled");
 	}
 
+	/**
+	 * Attaches a listener to be executed on cancellation.
+	 * @param listener The callback function to call when cancellation is requested.
+	 * */
 	public onCancelled(listener: ICancellationTokenSourceEvents["Cancelled"])
 	{
 		ThrowHelper.TypeError.throwIfNotType(listener, "function");
