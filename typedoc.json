@@ -3,7 +3,7 @@
 	"entryPoints": [
 		"./src/aula.ts"
 	],
-	"out": "docs",
+	"out": "docs/src",
 	"plugin": [
 		"typedoc-plugin-markdown"
 	],
