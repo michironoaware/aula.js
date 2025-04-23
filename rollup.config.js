@@ -4,9 +4,9 @@ import {terser} from "rollup-plugin-terser";
 
 export default [
 		{
-			input: "src/aula.ts",
+			input: "src/index.ts",
 			output: {
-				file: "dist/aula.js",
+				file: "dist/index.js",
 				format: "es",
 				name: "Aula",
 				//dir: "dist",
@@ -22,9 +22,9 @@ export default [
 			]
 		},
 	{
-		input: "src/aula.ts",
+		input: "src/index.ts",
 		output: {
-			file: "dist/aula.min.js",
+			file: "dist/index.min.js",
 			format: "es",
 			name: "Aula",
 			//dir: "dist/min",
