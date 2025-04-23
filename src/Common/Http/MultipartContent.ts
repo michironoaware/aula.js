@@ -3,6 +3,9 @@ import { ThrowHelper } from "../ThrowHelper";
 import { HeaderMap } from "./HeaderMap";
 import { ObjectDisposedError } from "../ObjectDisposedError";
 
+/**
+ * Provides a collection of {@link HttpContent} objects that get serialized using the multipart/* content type specification.
+ * */
 export class MultipartContent extends HttpContent
 {
 	static #s_allowedBoundaryChars: string = "()+,-./0123456789:=?ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz";
@@ -16,6 +19,9 @@ export class MultipartContent extends HttpContent
 	readonly #_headers: HeaderMap = new HeaderMap();
 	#_disposed: boolean = false;
 
+	/**
+	 * Initializes a new instance of {@link MultipartContent}.
+	 * */
 	public constructor(subType: string = "mixed", boundary?: string)
 	{
 		super();
@@ -63,6 +69,12 @@ export class MultipartContent extends HttpContent
 		return Array.from(randomBytes, b => this.#s_allowedBoundaryChars[b % this.#s_allowedBoundaryChars.length]).join("");
 	}
 
+	/**
+	 * Add multipart HTTP content to a collection of {@link HttpContent} objects
+	 * that get serialized using the multipart/* content type specification.
+	 * @param content The HTTP content to add to the collection.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * */
 	public add(content: HttpContent)
 	{
 		ThrowHelper.TypeError.throwIfNotType(content, HttpContent);
