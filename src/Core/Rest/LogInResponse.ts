@@ -23,7 +23,7 @@ export class LogInResponse
 		SealedClassError.throwIfNotEqual(LogInResponse, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
+		//ThrowHelper.TypeError.throwIfNotType(restClient, RestClient); // Circular dependency problem
 
 		this.#_token = data.token;
 		this.#_restClient = restClient;

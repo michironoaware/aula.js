@@ -19,7 +19,7 @@ export class MessageCreatedEvent
 	{
 		SealedClassError.throwIfNotEqual(MessageCreatedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(message, Message);
-		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
+		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
 		this.#_message = message;
 		this.#_gatewayClient = gatewayClient;

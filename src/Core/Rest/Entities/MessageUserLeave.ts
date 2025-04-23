@@ -23,7 +23,7 @@ export class MessageUserLeave
 	{
 		SealedClassError.throwIfNotEqual(MessageUserLeave, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, MessageUserLeaveData);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
+		//ThrowHelper.TypeError.throwIfNotType(restClient, RestClient); // Circular dependency problem
 
 		this.#_restClient = restClient;
 		this.#_data = data;

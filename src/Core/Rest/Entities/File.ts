@@ -23,7 +23,7 @@ export class File
 	{
 		SealedClassError.throwIfNotEqual(File, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, FileData);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
+		//ThrowHelper.TypeError.throwIfNotType(restClient, RestClient); // Circular dependency problem
 
 		this.#_data = data;
 		this.#_restClient = restClient;

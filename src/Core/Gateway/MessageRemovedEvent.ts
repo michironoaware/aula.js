@@ -19,7 +19,7 @@ export class MessageRemovedEvent
 	{
 		SealedClassError.throwIfNotEqual(MessageRemovedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, MessageRemovedEventData);
-		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
+		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
 		this.#_data = data;
 		this.#_gatewayClient = gatewayClient;

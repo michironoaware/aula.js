@@ -20,7 +20,7 @@ export class UserPresenceUpdatedEvent
 	{
 		SealedClassError.throwIfNotEqual(UserPresenceUpdatedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, UserPresenceUpdatedEventData);
-		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
+		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
 		this.#_data = data;
 		this.#_gatewayClient = gatewayClient;

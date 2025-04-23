@@ -23,7 +23,7 @@ export class MessageUserJoin
 	{
 		SealedClassError.throwIfNotEqual(MessageUserJoin, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, MessageUserJoinData);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
+		//ThrowHelper.TypeError.throwIfNotType(restClient, RestClient); // Circular dependency problem
 
 		this.#_restClient = restClient;
 		this.#_data = data;

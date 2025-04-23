@@ -16,7 +16,7 @@ export class BanRemovedEvent
 	{
 		SealedClassError.throwIfNotEqual(BanRemovedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(ban, Ban);
-		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
+		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
 		this.#_ban = ban;
 		this.#_gatewayClient = gatewayClient;

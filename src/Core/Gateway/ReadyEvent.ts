@@ -19,7 +19,7 @@ export class ReadyEvent
 	{
 		SealedClassError.throwIfNotEqual(ReadyEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, ReadyEventData);
-		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
+		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
 		this.#_data = data;
 		this.#_gatewayClient = gatewayClient;

@@ -27,7 +27,7 @@ export class Room
 	public constructor(data: RoomData, restClient: RestClient)
 	{
 		ThrowHelper.TypeError.throwIfNotType(data, RoomData);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
+		//ThrowHelper.TypeError.throwIfNotType(restClient, RestClient); // Circular dependency problem
 
 		this.#_restClient = restClient;
 		this.#_data = data;

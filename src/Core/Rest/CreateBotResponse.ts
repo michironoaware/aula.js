@@ -26,7 +26,7 @@ export class CreateBotResponse
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNullable(data.user);
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
+		//ThrowHelper.TypeError.throwIfNotType(restClient, RestClient); // Circular dependency problem
 
 		this.#_user = new User(new UserData(data.user), restClient);
 		this.#_token = data.token;

@@ -19,7 +19,7 @@ export class RoomCreatedEvent
 	{
 		SealedClassError.throwIfNotEqual(RoomCreatedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(room, Room);
-		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
+		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
 		this.#_room = room;
 		this.#_gatewayClient = gatewayClient;

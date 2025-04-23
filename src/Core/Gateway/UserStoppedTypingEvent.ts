@@ -19,7 +19,7 @@ export class UserStoppedTypingEvent
 	{
 		SealedClassError.throwIfNotEqual(UserStoppedTypingEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, UserTypingEventData);
-		ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient);
+		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
 		this.#_data = data;
 		this.#_gatewayClient = gatewayClient;

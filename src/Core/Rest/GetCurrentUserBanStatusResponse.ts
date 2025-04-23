@@ -23,7 +23,7 @@ export class GetCurrentUserBanStatusResponse
 		SealedClassError.throwIfNotEqual(GetCurrentUserBanStatusResponse, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.banned, "boolean");
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
+		//ThrowHelper.TypeError.throwIfNotType(restClient, RestClient); // Circular dependency problem
 
 		this.#_banned = data.banned;
 		this.#_restClient = restClient;

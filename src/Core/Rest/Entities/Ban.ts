@@ -21,7 +21,7 @@ export class Ban
 	public constructor(data: BanData, restClient: RestClient)
 	{
 		ThrowHelper.TypeError.throwIfNotType(data, BanData);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
+		//ThrowHelper.TypeError.throwIfNotType(restClient, RestClient); // Circular dependency problem
 
 		this.#_restClient = restClient;
 		this.#_data = data;

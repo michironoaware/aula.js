@@ -31,7 +31,7 @@ export class User
 	{
 		SealedClassError.throwIfNotEqual(User, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, UserData);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
+		//ThrowHelper.TypeError.throwIfNotType(restClient, RestClient); // Circular dependency problem
 
 		this.#_restClient = restClient;
 		this.#_data = data;

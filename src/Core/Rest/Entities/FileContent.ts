@@ -24,7 +24,7 @@ export class FileContent implements IAsyncDisposable
 	{
 		SealedClassError.throwIfNotEqual(FileContent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(httpContent, HttpContent);
-		ThrowHelper.TypeError.throwIfNotType(restClient, RestClient);
+		//ThrowHelper.TypeError.throwIfNotType(restClient, RestClient); // Circular dependency problem
 
 		this.#_httpContent = httpContent;
 		this.#_restClient = restClient;
