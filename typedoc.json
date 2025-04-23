@@ -3,5 +3,9 @@
 	"entryPoints": [
 		"./src/aula.ts"
 	],
-	"out": "docs"
+	"out": "docs",
+	"plugin": [
+		"typedoc-plugin-markdown"
+	],
+	"useCodeBlocks": true
 }
