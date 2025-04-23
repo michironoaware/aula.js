@@ -9,6 +9,7 @@ export class ValueOutOfRangeError extends Error
 {
 	/**
 	 * Initializes a new instance of {@link ValueOutOfRangeError}.
+	 * @package
 	 * */
 	public constructor(message: string)
 	{
@@ -21,6 +22,7 @@ export class ValueOutOfRangeError extends Error
 	 * Throws a {@link ValueOutOfRangeError} if {@link value} is equal to {@link other}.
 	 * @param value The value to compare against {@link other}.
 	 * @param other The other value.
+	 * @package
 	 * */
 	public static throwIfEqual(value: number, other: number)
 	{
@@ -37,6 +39,7 @@ export class ValueOutOfRangeError extends Error
 	 * Throws a {@link ValueOutOfRangeError} if {@link value} is greater than {@link other}.
 	 * @param value The value to compare against {@link other}.
 	 * @param other The other value.
+	 * @package
 	 * */
 	public static throwIfGreaterThan(value: number, other: number)
 	{
@@ -53,6 +56,7 @@ export class ValueOutOfRangeError extends Error
 	 * Throws a {@link ValueOutOfRangeError} if {@link value} is greater than or equal to {@link other}.
 	 * @param value The value to compare against {@link other}.
 	 * @param other The other value.
+	 * @package
 	 * */
 	public static throwIfGreaterThanOrEqual(value: number, other: number)
 	{
@@ -69,6 +73,7 @@ export class ValueOutOfRangeError extends Error
 	 * Throws a {@link ValueOutOfRangeError} if {@link value} is less than {@link other}.
 	 * @param value The value to compare against {@link other}.
 	 * @param other The other value.
+	 * @package
 	 * */
 	public static throwIfLessThan(value: number, other: number)
 	{
@@ -85,6 +90,7 @@ export class ValueOutOfRangeError extends Error
 	 * Throws a {@link ValueOutOfRangeError} if {@link value} is less than or equal to {@link other}.
 	 * @param value The value to compare against {@link other}.
 	 * @param other The other value.
+	 * @package
 	 * */
 	public static throwIfLessThanOrEqual(value: number, other: number)
 	{
@@ -101,6 +107,7 @@ export class ValueOutOfRangeError extends Error
 	 * Throws a {@link ValueOutOfRangeError} if {@link value} is not equal to {@link other}.
 	 * @param value The value to compare against {@link other}.
 	 * @param other The other value.
+	 * @package
 	 * */
 	public static throwIfNotEqual(value: number, other: number)
 	{

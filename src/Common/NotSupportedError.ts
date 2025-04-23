@@ -10,6 +10,7 @@ export class NotSupportedError extends Error
 	/**
 	 * Initializes a new instance of {@link NotSupportedError}.
 	 * @param message The error message.
+	 * @package
 	 * */
 	public constructor(message: string = "The operation is not supported")
 	{

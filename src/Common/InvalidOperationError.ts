@@ -8,6 +8,7 @@ export class InvalidOperationError extends Error
 	/**
 	 * Initializes a new instance of {@link InvalidOperationError}.
 	 * @param message The error message.
+	 * @package
 	 * */
 	public constructor(message: string)
 	{
@@ -19,6 +20,7 @@ export class InvalidOperationError extends Error
 	 * Throws an {@link InvalidOperationError} if the specified condition is true.
 	 * @param condition The condition to evaluate.
 	 * @param message The message of the error.
+	 * @package
 	 * */
 	public static throwIf(condition: boolean, message: string): asserts condition is false
 	{

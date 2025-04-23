@@ -8,6 +8,7 @@ export class OperationCanceledError extends Error
 {
 	/**
 	 * Initializes a new instance of {@link OperationCanceledError}.
+	 * @package
 	 * */
 	public constructor()
 	{

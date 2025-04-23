@@ -10,6 +10,7 @@ export class ObjectDisposedError extends InvalidOperationError
 {
 	/**
 	 * Initializes a new instance of {@link ObjectDisposedError}.
+	 * @package
 	 * */
 	public constructor()
 	{
@@ -20,6 +21,7 @@ export class ObjectDisposedError extends InvalidOperationError
 	/**
 	 * Throws an {@link ObjectDisposedError} if the specified condition is true.
 	 * @param condition The condition to evaluate.
+	 * @package
 	 * */
 	public static throwIf(condition: boolean): asserts condition is false
 	{

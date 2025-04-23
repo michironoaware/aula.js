@@ -8,6 +8,7 @@ export class SealedClassError extends Error
 {
 	/**
 	 * Initializes a new instance of {@link SealedClassError}.
+	 * @package
 	 * */
 	public constructor()
 	{
@@ -19,6 +20,7 @@ export class SealedClassError extends Error
 	 * Throws a {@link SealedClassError} if both classes don't match.
 	 * @param type The original, sealed class.
 	 * @param target The class of the object being instantiated.
+	 * @package
 	 * */
 	public static throwIfNotEqual(type: Function, target: Function)
 	{
