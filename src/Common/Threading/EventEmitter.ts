@@ -1,5 +1,4 @@
 ﻿import { SealedClassError } from "../SealedClassError";
-import { Semaphore } from "./Semaphore";
 import { ThrowHelper } from "../ThrowHelper";
 import { IDisposable } from "../IDisposable";
 import { ObjectDisposedError } from "../ObjectDisposedError";
@@ -13,7 +12,6 @@ import { TypeHelper } from "../TypeHelper";
 export class EventEmitter<TEventMap extends Record<keyof TEventMap, Func<[ ...any[] ]>>> implements IDisposable
 {
 	readonly #_listeners: Map<keyof TEventMap, TEventMap[keyof TEventMap][]> = new Map();
-	readonly #_operateOverListenersSemaphore: Semaphore = new Semaphore(1, 1);
 	#_disposed: boolean = false;
 
 	public constructor()
@@ -103,7 +101,6 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Func<[ ...an
 			return;
 		}
 
-		this.#_operateOverListenersSemaphore[Symbol.dispose]();
 		this.#_listeners.clear();
 		this.#_disposed = true;
 	}
