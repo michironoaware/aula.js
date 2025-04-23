@@ -24,7 +24,7 @@ export default [
 	{
 		input: "src/aula.ts",
 		output: {
-			file: "dist/min/aula.js",
+			file: "dist/aula.min.js",
 			format: "es",
 			name: "Aula",
 			//dir: "dist/min",
@@ -35,7 +35,7 @@ export default [
 		plugins: [
 			typescript({
 				tsconfig: 'tsconfig.json',
-				compilerOptions: {outDir: Path.dirname("dist/min/tsout")},
+				compilerOptions: {outDir: Path.dirname("dist/tsout")},
 			}),
 			terser()
 		]
