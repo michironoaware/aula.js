@@ -1,7 +1,7 @@
 {
 	"name": "aula.js",
 	"type": "module",
-	"version": "1.0.0",
+	"version": "1.0.0-alpha.1",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"docs": "npx typedoc",
