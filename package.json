@@ -4,7 +4,9 @@
 	"version": "1.0.0",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"generate-docs": "npx typedoc --entryPointStrategy Expand src"
+		"docs": "npx typedoc",
+		"docs-expanded": "npx typedoc --entryPointStrategy Expand src",
+		"dist": "npx rollup -c"
 	},
 	"keywords": [],
 	"devDependencies": {
