@@ -90,12 +90,14 @@ export class HeaderMap implements ReadonlyMap<string, string[]>
 	 * Adds the provided {@link value} to the specified header.
 	 * @param name The name of the header.
 	 * @param value The value to add.
+	 * @throws TypeError If {@link value} contains a header separator character (";").
 	 * @throws InvalidOperationError If a header with the same {@link name} is already defined.
 	 * */
 	public add(name: string, value: string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(name, "string");
 		ThrowHelper.TypeError.throwIfNotType(value, "string");
+		ThrowHelper.TypeError.throwIf(value.includes(";"), "The value string cannot include a header separator (\";\").");
 
 		const lowerCaseName = name.toLowerCase();
 		if (this.#_underlyingMap.has(lowerCaseName))
@@ -110,11 +112,13 @@ export class HeaderMap implements ReadonlyMap<string, string[]>
 	 * Adds or appends the provided {@link value} to the specified header.
 	 * @param name The name of the header.
 	 * @param value The value to add/append.
+	 * @throws TypeError If {@link value} contains a header separator character (";").
 	 * */
 	public append(name: string, value: string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(name, "string");
 		ThrowHelper.TypeError.throwIfNotType(value, "string");
+		ThrowHelper.TypeError.throwIf(value.includes(";"), "The value string cannot include a header separator character (\";\").");
 
 		const lowerCaseName = name.toLowerCase();
 
