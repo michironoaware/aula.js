@@ -10,7 +10,7 @@ import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
  * Represents a room within Aula.
- * A room represents a virtual space, a user can move between rooms and perform room-specific actions while "inside".
+ * A room represents a virtual space, a user can move between rooms and perform room-specific actions while inside.
  * */
 export class Room
 {
