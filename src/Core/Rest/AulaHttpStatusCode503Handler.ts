@@ -61,8 +61,10 @@ export class AulaHttpStatusCode503Handler extends DelegatingHandler
 		return response;
 	}
 
-	public [Symbol.asyncDispose]()
+	public async [Symbol.asyncDispose]()
 	{
+		await super[Symbol.asyncDispose]();
+
 		if (this.#_disposed)
 		{
 			return Promise.resolve();
