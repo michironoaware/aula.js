@@ -1423,6 +1423,43 @@ export class RestClient implements IAsyncDisposable
 		return new File(new FileData(JSON.parse(await response.content.readAsString())), this);
 	}
 
+	/**
+	 * Sends a ping to the server.
+	 * @param address The address of the server.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link boolean} indicating if the server replied with a pong.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * */
+	public async ping(address?: URL, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(address, URL, "undefined");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+
+		const uri = address ?
+			new URL(`${address.href}${address.href.endsWith("/") ? "" : "/"}api/v1/${AulaRoute.ping()}`)
+			: AulaRoute.ping();
+		const request = new HttpRequestMessage(HttpMethod.Get, uri);
+
+		try
+		{
+			const response = await this.#_httpClient.send(request, cancellationToken);
+			return response.isSuccessStatusCode;
+		}
+		catch (err)
+		{
+			if (!(err instanceof TypeError))
+				//Unexpected error, rethrow.
+			{
+				throw err;
+			}
+
+			return false;
+		}
+	}
+
 	#throwIfNullToken()
 	{
 		if (!this.#_httpClient.defaultRequestHeaders.has("Authorization"))
