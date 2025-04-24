@@ -272,4 +272,9 @@ export namespace AulaRoute
 	{
 		return `files/${route.fileId}/content`;
 	}
+
+	export function ping()
+	{
+		return "ping";
+	}
 }
