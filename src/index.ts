@@ -123,6 +123,7 @@ export * from "./Core/Rest/RegisterRequestBody";
 export * from "./Core/Rest/ResetBotTokenResponse";
 export * from "./Core/Rest/ResetPasswordRequestBody";
 export * from "./Core/Rest/RestClient";
+export * from "./Core/Rest/RestClientNullAddressError";
 export * from "./Core/Rest/RestClientOptions";
 export * from "./Core/Rest/SendMessageRequestBody";
 export * from "./Core/Rest/SetRoomConnectionsRequestBody";
