@@ -195,7 +195,7 @@ export class GatewayClient implements IAsyncDisposable
 		this.#_webSocket.headers.delete("Authorization");
 		if (token !== null)
 		{
-			this.#_webSocket.headers.append("Authorization", `Bearer ${token}`);
+			this.#_webSocket.headers.add("Authorization", `Bearer ${token}`);
 		}
 
 		this.#_restClient.withToken(token);
