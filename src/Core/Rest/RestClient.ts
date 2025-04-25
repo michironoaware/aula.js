@@ -62,6 +62,7 @@ import { GetFilesQuery } from "./GetFilesQuery";
 import { Permissions } from "./Entities/Permissions";
 import { UserUpdatedEvent } from "../Gateway/UserUpdatedEvent";
 import { IAsyncDisposable } from "../../Common/IAsyncDisposable";
+import { RestClientNullAddressError } from "./RestClientNullAddressError";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -204,6 +205,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link User} that represents the user.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
@@ -212,6 +214,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUser());
@@ -230,6 +233,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link User} array that contains the requested users.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -240,6 +244,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.users(undefined, query));
@@ -259,6 +264,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link User}, or `null` if the requested user does not exist.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -269,6 +275,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.user({ userId }));
@@ -293,6 +300,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link User} that represents the modified user.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -303,6 +311,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.currentUser());
@@ -323,6 +332,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -333,6 +343,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.currentUserRoom());
@@ -352,6 +363,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaNotFoundError} If the specified user does not exist.
@@ -364,6 +376,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userRoom({ userId }));
@@ -383,6 +396,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaNotFoundError} If the specified user does not exist.
@@ -398,6 +412,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userPermissions({ userId }));
@@ -416,6 +431,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link Room} that represents the created room.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -426,6 +442,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.rooms());
@@ -445,6 +462,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link Room} array that contains the requested rooms.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -455,6 +473,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.rooms(undefined, query));
@@ -474,6 +493,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link Room}, or `null` if the requested room does not exist.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -484,6 +504,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.room({ roomId }));
@@ -509,6 +530,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link Room} that represents the modified room.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
@@ -521,6 +543,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.room({ roomId }));
@@ -541,6 +564,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -551,6 +575,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.room({ roomId }));
@@ -569,6 +594,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
@@ -581,6 +607,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnection({ sourceId, targetId }));
@@ -597,6 +624,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link Room} array that contains the requested rooms.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
@@ -608,6 +636,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomConnections({ roomId }));
@@ -630,6 +659,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
@@ -644,6 +674,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnections({ roomId }));
@@ -663,6 +694,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -674,6 +706,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomConnection({ sourceId, targetId }));
@@ -690,6 +723,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link User} array.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
@@ -701,6 +735,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomUsers({ roomId }));
@@ -721,6 +756,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
@@ -732,6 +768,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.startTyping({ roomId }));
@@ -749,6 +786,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
@@ -760,6 +798,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.stopTyping({ roomId }));
@@ -778,6 +817,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link Message} that represents the message sent.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
@@ -790,6 +830,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomMessages({ roomId }));
@@ -810,6 +851,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link Message}, or `null` if the message does not exist.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -821,6 +863,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessage({ roomId, messageId }));
@@ -845,6 +888,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link Message} array.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
@@ -860,6 +904,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessages({ roomId }));
@@ -882,6 +927,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -893,6 +939,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomMessage({ roomId, messageId }));
@@ -908,6 +955,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * */
@@ -917,6 +965,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.register());
 		request.content = new JsonContent(body);
@@ -932,6 +981,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link LogInResponse}.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * */
@@ -941,6 +991,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.logIn());
 		request.content = new JsonContent(body);
@@ -961,6 +1012,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * */
@@ -970,6 +1022,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.confirmEmail(undefined, query));
 
@@ -984,6 +1037,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * */
@@ -993,6 +1047,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword(undefined, query));
 
@@ -1007,6 +1062,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * */
@@ -1016,6 +1072,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetPassword());
 		request.content = new JsonContent(body);
@@ -1031,6 +1088,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * */
@@ -1040,6 +1098,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.logOut());
 		request.content = new JsonContent(body);
@@ -1056,6 +1115,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link CreateBotResponse}.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -1066,6 +1126,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.bots());
@@ -1085,6 +1146,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -1095,6 +1157,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.bot({ userId }));
@@ -1110,6 +1173,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link ResetBotTokenResponse}.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaNotFoundError} If the specified bot user does not exist.
@@ -1121,6 +1185,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetBotToken({ userId }));
@@ -1141,6 +1206,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link UserBan}, or `null` if the user is already banned.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -1155,6 +1221,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userBan({ userId }));
@@ -1180,6 +1247,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -1190,6 +1258,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.userBan({ userId }));
@@ -1206,6 +1275,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link Ban} array.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -1216,6 +1286,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.bans(undefined, query));
@@ -1235,6 +1306,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link Ban}, or `null` if the user is not banned.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -1245,6 +1317,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.userBan({ userId }));
@@ -1267,6 +1340,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link GetCurrentUserBanStatusResponse}.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -1276,6 +1350,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUserBanStatus());
@@ -1296,6 +1371,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link File} array.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -1306,6 +1382,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.files(undefined, query));
@@ -1327,6 +1404,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link File}.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -1336,6 +1414,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.file({ fileId }));
@@ -1359,6 +1438,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link FileContent}.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -1369,6 +1449,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.fileContent({ fileId }));
@@ -1394,6 +1475,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link File}.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
 	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
@@ -1410,6 +1492,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.files());
@@ -1430,6 +1513,7 @@ export class RestClient implements IAsyncDisposable
 	 * @returns A promise that resolves to a {@link boolean} indicating if the server replied with a pong.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * */
 	public async ping(address?: URL, cancellationToken: CancellationToken = CancellationToken.none)
 	{
@@ -1437,6 +1521,7 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
 
 		const uri = address ?
 			new URL(`${address.href}${address.href.endsWith("/") ? "" : "/"}api/v1/${AulaRoute.ping()}`)
@@ -1465,6 +1550,14 @@ export class RestClient implements IAsyncDisposable
 		if (!this.#_httpClient.defaultRequestHeaders.has("Authorization"))
 		{
 			throw new AulaUnauthorizedError();
+		}
+	}
+
+	#throwIfNullAddress()
+	{
+		if (this.#_httpClient.baseAddress === null)
+		{
+			throw new RestClientNullAddressError(this);
 		}
 	}
 }
