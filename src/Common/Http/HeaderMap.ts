@@ -139,6 +139,6 @@ export class HeaderMap implements ReadonlyMap<string, string[]>
 	public delete(name: string)
 	{
 		ThrowHelper.TypeError.throwIfNotType(name, "string");
-		this.#_underlyingMap.delete(name);
+		this.#_underlyingMap.delete(name.toLowerCase());
 	}
 }
