@@ -1521,7 +1521,10 @@ export class RestClient implements IAsyncDisposable
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
+		if (address === undefined)
+		{
+			this.#throwIfNullAddress();
+		}
 
 		const uri = address ?
 			new URL(`${address.href}${address.href.endsWith("/") ? "" : "/"}api/v1/${AulaRoute.ping()}`)
