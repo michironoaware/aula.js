@@ -182,9 +182,9 @@ export class GatewayClient implements IAsyncDisposable
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {InvalidOperationError} If the {@link GatewayClient} is connected while updating the token.
 	 * */
-	public withToken(token: string)
+	public withToken(token: string | null)
 	{
-		ThrowHelper.TypeError.throwIfNotType(token, "string");
+		ThrowHelper.TypeError.throwIfNotAnyType(token, "string", "null");
 		ObjectDisposedError.throwIf(this.#_disposed);
 
 		if (this.#_webSocket.state !== WebSocketState.Closed)
@@ -193,7 +193,11 @@ export class GatewayClient implements IAsyncDisposable
 		}
 
 		this.#_webSocket.headers.delete("Authorization");
-		this.#_webSocket.headers.append("Authorization", `Bearer ${token}`);
+		if (token !== null)
+		{
+			this.#_webSocket.headers.append("Authorization", `Bearer ${token}`);
+		}
+
 		this.#_restClient.withToken(token);
 		return this;
 	}
