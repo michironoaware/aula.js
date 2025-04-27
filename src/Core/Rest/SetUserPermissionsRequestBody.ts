@@ -33,7 +33,7 @@ export class SetUserPermissionsRequestBody
 	 * */
 	public set permissions(permissions: Permissions | null)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(permissions, "number", "null");
+		ThrowHelper.TypeError.throwIfNotAnyType(permissions, "bigint", "null");
 		this.#_permissions = permissions;
 	}
 

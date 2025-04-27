@@ -55,7 +55,7 @@ export class SendMessageRequestBody
 	 */
 	public set flags(flags: MessageFlags | null)
 	{
-		ThrowHelper.TypeError.throwIfNotAnyType(flags, "number", "null");
+		ThrowHelper.TypeError.throwIfNotAnyType(flags, "bigint", "null");
 		this.#_flags = flags;
 	}
 
