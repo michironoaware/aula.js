@@ -80,6 +80,6 @@ export class MessageUserLeave
 	 * */
 	public async getRoom(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		this.roomId !== null ? await this.restClient.getRoom(this.roomId, cancellationToken) : null;
+		return this.roomId !== null ? await this.restClient.getRoom(this.roomId, cancellationToken) : null;
 	}
 }
