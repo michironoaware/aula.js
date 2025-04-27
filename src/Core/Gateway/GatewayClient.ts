@@ -110,6 +110,14 @@ export class GatewayClient implements IAsyncDisposable
 	}
 
 	/**
+	 * Gets whether this {@link GatewayClient} instance has an authorization token configured.
+	 * */
+	public get hasToken()
+	{
+		return this.#_webSocket.headers.has("Authorization");
+	}
+
+	/**
 	 * The underlying {@link RestClient} instance used by this {@link GatewayClient}.
 	 * */
 	public get rest()
