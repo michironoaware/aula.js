@@ -147,6 +147,14 @@ export class RestClient implements IAsyncDisposable
 	}
 
 	/**
+	 * Gets whether this {@link RestClient} instance has an authorization token configured.
+	 * */
+	public get hasToken()
+	{
+		return this.#_httpClient.defaultRequestHeaders.has("Authorization");
+	}
+
+	/**
 	 * Sets the address of the Aula server where requests should be sent.
 	 * @param uri A URI that points to the desired server.
 	 * @returns The current {@link RestClient} instance.
