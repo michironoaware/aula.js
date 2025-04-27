@@ -10,7 +10,6 @@ export class ByteArrayContent extends HttpContent
 	static readonly #s_textDecoder: TextDecoder = new TextDecoder("utf8", { fatal: true });
 	readonly #_headers: HeaderMap = new HeaderMap();
 	readonly #_byteArray: Uint8Array;
-	#_stream: ReadableStream<Uint8Array> | null = null;
 
 	/**
 	 * Initializes a new instance of {@link ByteArrayContent}
@@ -35,8 +34,8 @@ export class ByteArrayContent extends HttpContent
 	public readAsStream()
 	{
 		const byteArray = this.#_byteArray;
-		const stream = this.#_stream ??= new ReadableStream<Uint8Array>({
 
+		const stream = new ReadableStream<Uint8Array>({
 			start(controller)
 			{
 				controller.enqueue(byteArray);
