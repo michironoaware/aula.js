@@ -8,7 +8,7 @@
 	"license": "MIT",
 	"exports": {
 		".": {
-			"import": "./dist/index.min.js",
+			"import": "./dist/index.js",
 			"types": "./dist/index.d.ts"
 		}
 	},
