@@ -14,6 +14,7 @@ export class RestClientOptions
 	#_disposeHttpClient: boolean = true;
 	#_token: string | null = null;
 	#_address: URL | null = null;
+	#_cache: Map<string, object> | null = null;
 
 	/**
 	 * Initializes a new instance of {@link RestClientOptions}.
@@ -103,6 +104,24 @@ export class RestClientOptions
 	}
 
 	/**
+	 * Gets the client’s cache instance used for storing entities.
+	 * @default null
+	 */
+	public get cache()
+	{
+		return this.#_cache;
+	}
+
+	/**
+	 * Sets the client’s cache instance used for storing entities.
+	 */
+	public set cache(cache: Map<string, object> | null)
+	{
+		ThrowHelper.TypeError.throwIfNullable(cache);
+		this.#_cache = cache;
+	}
+
+	/**
 	 * Sets the {@link HttpClient} instance used for making HTTP requests.
 	 * @param httpClient The {@link HttpClient} instance to use,
 	 *                   or `null` to let the RestClient instantiate and configure its own {@link HttpClient}.
@@ -144,6 +163,17 @@ export class RestClientOptions
 	public withAddress(address: URL | null)
 	{
 		this.address = address;
+		return this;
+	}
+
+	/**
+	 * Sets the client’s cache instance used for storing entities.
+	 * @param cache The {@link Map} instance to use to cache entities, or `null` to disable caching.
+	 * @returns The current {@link RestClientOptions} instance.
+	 */
+	public withCache(cache: Map<string, object> | null)
+	{
+		this.cache = cache;
 		return this;
 	}
 }
