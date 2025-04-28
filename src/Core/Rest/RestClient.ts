@@ -72,7 +72,7 @@ export class RestClient implements IAsyncDisposable
 {
 	readonly #_httpClient: HttpClient;
 	readonly #_disposeHttpClient: boolean;
-	readonly #_cache: Map<string, object> | null = null;
+	#_cache: Map<string, object> | null = null;
 	#_disposed: boolean = false;
 
 	/**
@@ -161,6 +161,15 @@ export class RestClient implements IAsyncDisposable
 	}
 
 	/**
+	 * Gets the client’s cache instance used for storing entities.
+	 * Entities can be retrieved by id.
+	 */
+	public get cache()
+	{
+		return this.#_cache;
+	}
+
+	/**
 	 * Sets the address of the Aula server where requests should be sent.
 	 * @param uri A URI that points to the desired server.
 	 * @returns The current {@link RestClient} instance.
@@ -194,6 +203,30 @@ export class RestClient implements IAsyncDisposable
 			this.#_httpClient.defaultRequestHeaders.add("Authorization", `Bearer ${token}`);
 		}
 
+		return this;
+	}
+
+	/**
+	 * Gets the client’s cache instance used for storing entities.
+	 * @param cache An object instance whose type conforms to the {@link Map} interface, where entities will be stored,
+	 *              or `null` to disable caching.
+	 * @remarks
+	 * The provided cache is used to store entities created by this {@link RestClient} instance.
+	 * However, the cache is not checked before making a new request — all requests always fetch
+	 * the latest version from the server.
+	 *
+	 * It is recommended to use a shared cache, especially with a {@link GatewayClient}
+	 * instance that actively listens for entity updates and maintains the cache’s accuracy.
+	 * @returns The current {@link RestClient} instance.
+	 * @throws {TypeError} If {@link cache} is not a {@link object}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * */
+	public withCache(cache: Map<string, object> | null)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(cache, "object", "null");
+		ObjectDisposedError.throwIf(this.#_disposed);
+
+		this.#_cache = cache;
 		return this;
 	}
 
