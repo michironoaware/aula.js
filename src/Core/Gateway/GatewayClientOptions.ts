@@ -6,6 +6,7 @@ import { CommonClientWebSocket } from "./CommonClientWebSocket";
 import { Intents } from "./Intents";
 import { PresenceOption } from "./PresenceOption";
 import { Permissions } from "../Rest/Entities/Permissions";
+import { RestClientOptions } from "../Rest/RestClientOptions";
 
 /**
  * Represents configuration options for a {@link GatewayClient}.
@@ -16,6 +17,7 @@ export class GatewayClientOptions
 	static #_default: GatewayClientOptions | null = null;
 
 	#_restClient: RestClient | null = null;
+	#_restClientOptions: RestClientOptions = RestClientOptions.default;
 	#_disposeRestClient: boolean = true;
 	#_webSocketType: new () => ClientWebSocket = CommonClientWebSocket;
 	#_token: string | null = null;
@@ -55,6 +57,26 @@ export class GatewayClientOptions
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(restClient, RestClient, "null");
 		this.#_restClient = restClient;
+	}
+
+	/**
+	 * Gets the configuration options that will be used to initialize the {@link RestClient} for the {@link GatewayClient},
+	 * if no {@link GatewayClientOptions.restClient} is specified.
+	 * @default {@link RestClientOptions.default}
+	 * */
+	public get restClientOptions()
+	{
+		return this.#_restClientOptions;
+	}
+
+	/**
+	 * Sets the configuration options that will be used to initialize the {@link RestClient} for the {@link GatewayClient},
+	 * if no {@link GatewayClientOptions.restClient} is specified.
+	 * */
+	public set restClientOptions(restClientOptions: RestClientOptions)
+	{
+		ThrowHelper.TypeError.throwIfNotType(restClientOptions, RestClientOptions);
+		this.#_restClientOptions = restClientOptions;
 	}
 
 	/**
@@ -171,6 +193,18 @@ export class GatewayClientOptions
 	public withRestClient(restClient: RestClient | null)
 	{
 		this.restClient = restClient;
+		return this;
+	}
+
+	/**
+	 * Sets the configuration options that will be used to initialize the {@link RestClient} for the {@link GatewayClient},
+	 * if no {@link GatewayClientOptions.restClient} is specified.
+	 * @param restClientOptions The configuration options instance to use.
+	 * @returns The current {@link GatewayClientOptions} instance.
+	 * */
+	public withRestClientOptions(restClientOptions: RestClientOptions)
+	{
+		this.restClientOptions = restClientOptions;
 		return this;
 	}
 
