@@ -168,7 +168,8 @@ export class RestClientOptions
 
 	/**
 	 * Sets the client’s cache instance used for storing entities.
-	 * @param cache The {@link Map} instance to use to cache entities, or `null` to disable caching.
+	 * @param cache An object instance whose type conforms to the {@link Map} interface, where entities will be stored,
+	 *              or `null` to disable caching.
 	 * @returns The current {@link RestClientOptions} instance.
 	 */
 	public withCache(cache: Map<string, object> | null)
