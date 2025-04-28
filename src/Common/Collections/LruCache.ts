@@ -134,6 +134,11 @@ export class LruCache<TKey extends {}, TValue extends {} | null> implements Map<
 
 	public addOrReplace(key: TKey, value: TValue)
 	{
+		if (this.#_ignoreNewEntries)
+		{
+			return;
+		}
+
 		const entry = this.#_entries.get(key);
 		if (entry !== undefined)
 		{
