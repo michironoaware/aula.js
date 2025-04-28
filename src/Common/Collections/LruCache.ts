@@ -15,13 +15,13 @@ export class LruCache<TKey extends {}, TValue extends {} | null> implements Map<
 	#_size: number;
 	#_ignoreNewEntries: boolean;
 
-	public constructor(capacity: number, ignoreNewEntries: boolean = false)
+	public constructor(size: number, ignoreNewEntries: boolean = false)
 	{
 		SealedClassError.throwIfNotEqual(LruCache, new.target);
-		ThrowHelper.TypeError.throwIfNotType(capacity, "number");
+		ThrowHelper.TypeError.throwIfNotType(size, "number");
 		ThrowHelper.TypeError.throwIfNotType(ignoreNewEntries, "boolean");
 
-		this.#_size = capacity;
+		this.#_size = size;
 		this.#_ignoreNewEntries = ignoreNewEntries;
 	}
 
