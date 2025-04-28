@@ -79,7 +79,7 @@ export class GatewayClient implements IAsyncDisposable
 		SealedClassError.throwIfNotEqual(GatewayClient, new.target);
 		ThrowHelper.TypeError.throwIfNotType(options, GatewayClientOptions);
 
-		this.#_restClient = options.restClient ?? new RestClient();
+		this.#_restClient = options.restClient ?? new RestClient(options.restClientOptions);
 		this.#_disposeRestClient = options.disposeRestClient;
 		this.#_webSocket = new options.webSocketType();
 
