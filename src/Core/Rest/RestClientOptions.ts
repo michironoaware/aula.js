@@ -117,7 +117,7 @@ export class RestClientOptions
 	 */
 	public set cache(cache: Map<string, object> | null)
 	{
-		ThrowHelper.TypeError.throwIfNullable(cache);
+		ThrowHelper.TypeError.throwIfNotAnyType(cache, "object", "null");
 		this.#_cache = cache;
 	}
 
