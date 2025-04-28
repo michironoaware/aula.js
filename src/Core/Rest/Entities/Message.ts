@@ -29,6 +29,8 @@ export class Message
 
 		this.#_restClient = restClient;
 		this.#_data = data;
+
+		this.restClient.cache?.set(this.id, this);
 	}
 
 	/**
