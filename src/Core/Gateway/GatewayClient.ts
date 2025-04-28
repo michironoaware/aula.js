@@ -52,6 +52,7 @@ import { UserPresenceUpdatedEvent } from "./UserPresenceUpdatedEvent";
 import { GatewayClientOptions } from "./GatewayClientOptions";
 import { MessageRemovedEventData } from "./Models/MessageRemovedEventData";
 import { IAsyncDisposable } from "../../Common/IAsyncDisposable";
+import { LruCache } from "../../Common/Collections/LruCache";
 
 /**
  * Provides a client to interact with the Aula Gateway API.
@@ -79,7 +80,7 @@ export class GatewayClient implements IAsyncDisposable
 		SealedClassError.throwIfNotEqual(GatewayClient, new.target);
 		ThrowHelper.TypeError.throwIfNotType(options, GatewayClientOptions);
 
-		this.#_restClient = options.restClient ?? new RestClient(options.restClientOptions);
+		this.#_restClient = options.restClient ?? new RestClient(options.restClientOptions).withCache(new LruCache(128, false));
 		this.#_disposeRestClient = options.disposeRestClient;
 		this.#_webSocket = new options.webSocketType();
 
