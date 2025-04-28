@@ -72,6 +72,7 @@ export class RestClient implements IAsyncDisposable
 {
 	readonly #_httpClient: HttpClient;
 	readonly #_disposeHttpClient: boolean;
+	readonly #_cache: Map<string, object> | null = null;
 	#_disposed: boolean = false;
 
 	/**
@@ -99,6 +100,11 @@ export class RestClient implements IAsyncDisposable
 		if (options.token !== null)
 		{
 			this.withToken(options.token);
+		}
+
+		if (options.cache !== null)
+		{
+			this.#_cache = options.cache;
 		}
 	}
 
