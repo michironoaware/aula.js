@@ -162,7 +162,7 @@ export class RestClient implements IAsyncDisposable
 
 	/**
 	 * Gets the address of the Aula server.
-	 * @remarks This method returns a copy of the current address.
+	 * @remarks This property returns a copy of the current address.
 	 * */
 	public get address()
 	{
