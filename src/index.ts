@@ -1,4 +1,5 @@
-﻿export * from "./Common/Collections/ReadOnlyCollection";
+﻿export * from "./Common/Collections/LruCache";
+export * from "./Common/Collections/ReadOnlyCollection";
 export * from "./Common/Collections/ReadonlyDictionary";
 export * from "./Common/Http/ByteArrayContent";
 export * from "./Common/Http/DelegatingHandler";
