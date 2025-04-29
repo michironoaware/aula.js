@@ -161,6 +161,15 @@ export class RestClient implements IAsyncDisposable
 	}
 
 	/**
+	 * Gets the address of the Aula server.
+	 * @remarks This method returns a copy of the current address.
+	 * */
+	public get address()
+	{
+		return this.#_httpClient.baseAddress ? new URL(this.#_httpClient.baseAddress) : this.#_httpClient.baseAddress;
+	}
+
+	/**
 	 * Gets the client’s cache instance used for storing entities.
 	 * Entities can be retrieved by id.
 	 */

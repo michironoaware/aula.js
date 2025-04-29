@@ -118,6 +118,15 @@ export class GatewayClient implements IAsyncDisposable
 	}
 
 	/**
+	 * Gets the address of the Aula server.
+	 * @remarks This method returns a copy of the current address.
+	 * */
+	public get address()
+	{
+		return this.#_address ? new URL(this.#_address) : this.#_address;
+	}
+
+	/**
 	 * The underlying {@link RestClient} instance used by this {@link GatewayClient}.
 	 * */
 	public get rest()
