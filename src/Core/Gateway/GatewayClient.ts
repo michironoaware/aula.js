@@ -105,7 +105,7 @@ export class GatewayClient implements IAsyncDisposable
 
 		if (options.defaultPresence !== null)
 		{
-			this.setDefaultPresence(options.defaultPresence);
+			this.withDefaultPresence(options.defaultPresence);
 		}
 	}
 
@@ -221,7 +221,7 @@ export class GatewayClient implements IAsyncDisposable
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {InvalidOperationError} If the {@link GatewayClient} is connected while updating the default presence.
 	 * */
-	public setDefaultPresence(presence: PresenceOption)
+	public withDefaultPresence(presence: PresenceOption)
 	{
 		ThrowHelper.TypeError.throwIfNotType(presence, PresenceOption);
 		ObjectDisposedError.throwIf(this.#_disposed);
