@@ -109,81 +109,8 @@ export class GatewayClient implements IAsyncDisposable
 			this.withDefaultPresence(options.defaultPresence);
 		}
 
-		this.on("Ready", async (event) =>
-		{
-			this.#_currentUser = event.user;
-		});
-
-		this.on("UserUpdated", (event) =>
-		{
-			if (event.user.id === this.#_currentUser!.id)
-			{
-				this.#_currentUser = event.user;
-			}
-		});
-
-		this.on("UserCurrentRoomUpdated", (event) =>
-		{
-			if (this.rest.cache === null)
-			{
-				return;
-			}
-
-			const user = this.rest.cache.get(event.userId) as User | undefined;
-			if (!(user instanceof User))
-			{
-				return;
-			}
-
-			if (event.currentRoomId !== user.currentRoomId)
-			{
-				const newUserValue = new User(new UserData({
-					id: user.id,
-					displayName: user.displayName,
-					description: user.description,
-					type: user.type,
-					permissions: user.permissions.toString(),
-					presence: user.presence,
-					currentRoomId: event.currentRoomId
-				}), this.#_restClient);
-
-				this.rest.cache.set(newUserValue.id, newUserValue);
-			}
-		});
-
-		this.on("UserPresenceUpdated", (event) =>
-		{
-			if (this.rest.cache === null)
-			{
-				return;
-			}
-
-			const user = this.rest.cache.get(event.userId) as User | undefined;
-			if (!(user instanceof User))
-			{
-				return;
-			}
-
-			if (event.presence !== user.presence)
-			{
-				const newUserValue = new User(new UserData({
-					id: user.id,
-					displayName: user.displayName,
-					description: user.description,
-					type: user.type,
-					permissions: user.permissions.toString(),
-					presence: event.presence,
-					currentRoomId: user.currentRoomId
-				}), this.#_restClient);
-
-				this.rest.cache.set(newUserValue.id, newUserValue);
-			}
-		});
-
-		this.on("Disconnected", () =>
-		{
-			this.#_currentUser = null;
-		});
+		this.#addCurrentUserPropertyUpdating();
+		this.#addUserCachingEdgeCaseHandling();
 	}
 
 	/**
@@ -718,6 +645,88 @@ export class GatewayClient implements IAsyncDisposable
 		{
 			throw new InvalidOperationError("WebSocket must be open");
 		}
+	}
+
+	#addCurrentUserPropertyUpdating()
+	{
+		this.on("Ready", async (event) =>
+		{
+			this.#_currentUser = event.user;
+		});
+
+		this.on("UserUpdated", (event) =>
+		{
+			if (event.user.id === this.#_currentUser!.id)
+			{
+				this.#_currentUser = event.user;
+			}
+		});
+
+		this.on("Disconnected", () =>
+		{
+			this.#_currentUser = null;
+		});
+	}
+
+	#addUserCachingEdgeCaseHandling()
+	{
+		this.on("UserCurrentRoomUpdated", (event) =>
+		{
+			if (this.rest.cache === null)
+			{
+				return;
+			}
+
+			const user = this.rest.cache.get(event.userId) as User | undefined;
+			if (!(user instanceof User))
+			{
+				return;
+			}
+
+			if (event.currentRoomId !== user.currentRoomId)
+			{
+				const newUserValue = new User(new UserData({
+					id: user.id,
+					displayName: user.displayName,
+					description: user.description,
+					type: user.type,
+					permissions: user.permissions.toString(),
+					presence: user.presence,
+					currentRoomId: event.currentRoomId
+				}), this.#_restClient);
+
+				this.rest.cache.set(newUserValue.id, newUserValue);
+			}
+		});
+
+		this.on("UserPresenceUpdated", (event) =>
+		{
+			if (this.rest.cache === null)
+			{
+				return;
+			}
+
+			const user = this.rest.cache.get(event.userId) as User | undefined;
+			if (!(user instanceof User))
+			{
+				return;
+			}
+
+			if (event.presence !== user.presence)
+			{
+				const newUserValue = new User(new UserData({
+					id: user.id,
+					displayName: user.displayName,
+					description: user.description,
+					type: user.type,
+					permissions: user.permissions.toString(),
+					presence: event.presence,
+					currentRoomId: user.currentRoomId
+				}), this.#_restClient);
+
+				this.rest.cache.set(newUserValue.id, newUserValue);
+			}
+		});
 	}
 }
 
