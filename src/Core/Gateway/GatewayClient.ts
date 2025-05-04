@@ -70,6 +70,9 @@ export class GatewayClient implements IAsyncDisposable
 	#_address: URL | null = null;
 	#_currentUser: User | null = null;
 	#_disposed: boolean = false;
+	#_lastSessionId: string | null = null;
+	#_tryReconnect: boolean = false;
+	#_disconnectedManually: boolean = false;
 
 	/**
 	 * Initializes a new instance of {@link GatewayClient}.
@@ -258,6 +261,43 @@ export class GatewayClient implements IAsyncDisposable
 	}
 
 	/**
+	 * Configures the current {@link GatewayClient} instance to try and reestablish the connection if interrupted.
+	 * @param reconnect Whether the {@link GatewayClient} should attempt to reconnect.
+	 * @returns The current {@link GatewayClient} instance.
+	 * @throws {TypeError} If {@link reconnect} is not a {@link boolean}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {InvalidOperationError} If the {@link GatewayClient} is connected while configuring it.
+	 * */
+	public withReconnecting(reconnect: boolean = true)
+	{
+		ThrowHelper.TypeError.throwIfNotType(reconnect, "boolean");
+		ObjectDisposedError.throwIf(this.#_disposed);
+		if (this.#_webSocket.state !== WebSocketState.Closed)
+		{
+			throw new InvalidOperationError("Cannot configure the client because is not disconnected.");
+		}
+
+		if (this.#_tryReconnect === reconnect)
+		{
+			return;
+		}
+
+		this.#_tryReconnect = reconnect;
+		if (reconnect)
+		{
+			this.#_eventEmitter.on("Ready", this.#_reconnectingReadyCallback);
+			this.#_eventEmitter.on("Disconnected", this.#_reconnectingDisconnectCallback);
+		}
+		else
+		{
+			this.#_eventEmitter.remove("Ready", this.#_reconnectingReadyCallback);
+			this.#_eventEmitter.remove("Disconnected", this.#_reconnectingDisconnectCallback);
+		}
+
+		return this;
+	}
+
+	/**
 	 * Connects to the server gateway.
 	 * @param sessionId The ID of the session.
 	 *                  If provided, an attempt will be made to resume the session;
@@ -296,6 +336,7 @@ export class GatewayClient implements IAsyncDisposable
 			this.#_webSocket.headers.append("X-SessionId", sessionId);
 		}
 
+		this.#_disconnectedManually = false;
 		await this.#_webSocket.connect(this.#_address);
 
 		if (sessionId !== undefined)
@@ -346,6 +387,7 @@ export class GatewayClient implements IAsyncDisposable
 			throw new InvalidOperationError("Client is not connected");
 		}
 
+		this.#_disconnectedManually = true;
 		await this.#_webSocket.close(WebSocketCloseCode.NormalClosure);
 	}
 
@@ -728,6 +770,31 @@ export class GatewayClient implements IAsyncDisposable
 			}
 		});
 	}
+
+	// Using arrow function syntax to bind `this`
+	#_reconnectingReadyCallback = (event: ReadyEvent) =>
+	{
+		this.#_lastSessionId = event.sessionId;
+	};
+
+	// Using arrow function syntax to bind `this`
+	#_reconnectingDisconnectCallback = async () =>
+	{
+		while (this.#_webSocket.state !== WebSocketState.Open &&
+		       this.#_tryReconnect &&
+		       !this.#_disconnectedManually)
+		{
+			try
+			{
+				await this.connect(this.#_lastSessionId!);
+			}
+			catch (err)
+			{
+				console.error(err);
+				break;
+			}
+		}
+	};
 }
 
 class PayloadSendRequest
