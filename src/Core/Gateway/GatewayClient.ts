@@ -145,6 +145,14 @@ export class GatewayClient implements IAsyncDisposable
 	}
 
 	/**
+	 * Gets the state of this {@link GatewayClient} connection.
+	 * */
+	public get state()
+	{
+		return this.#_state;
+	}
+
+	/**
 	 * Gets the user of the current gateway connection; `null` if the client is disconnected.
 	 * */
 	public get currentUser()
