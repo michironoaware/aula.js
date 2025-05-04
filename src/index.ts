@@ -49,6 +49,7 @@ export * from "./Core/Gateway/BanRemovedEvent";
 export * from "./Core/Gateway/CommonClientWebSocket";
 export * from "./Core/Gateway/GatewayClient";
 export * from "./Core/Gateway/GatewayClientOptions";
+export * from "./Core/Gateway/GatewayClientState";
 export * from "./Core/Gateway/Intents";
 export * from "./Core/Gateway/MessageCreatedEvent";
 export * from "./Core/Gateway/MessageRemovedEvent";

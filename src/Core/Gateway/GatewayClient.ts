@@ -52,6 +52,7 @@ import { UserPresenceUpdatedEvent } from "./UserPresenceUpdatedEvent";
 import { GatewayClientOptions } from "./GatewayClientOptions";
 import { MessageRemovedEventData } from "./Models/MessageRemovedEventData";
 import { IAsyncDisposable } from "../../Common/IAsyncDisposable";
+import { GatewayClientState } from "./GatewayClientState";
 
 /**
  * Provides a client to interact with the Aula Gateway API.
@@ -71,8 +72,8 @@ export class GatewayClient implements IAsyncDisposable
 	#_currentUser: User | null = null;
 	#_disposed: boolean = false;
 	#_lastSessionId: string | null = null;
+	#_state: GatewayClientState = GatewayClientState.Disconnected;
 	#_tryReconnect: boolean = false;
-	#_disconnectedManually: boolean = false;
 
 	/**
 	 * Initializes a new instance of {@link GatewayClient}.
@@ -113,6 +114,7 @@ export class GatewayClient implements IAsyncDisposable
 		}
 
 		this.withReconnecting(options.reconnecting);
+		this.#addReconnecting();
 		this.#addCurrentUserPropertyUpdating();
 		this.#addUserCachingEdgeCaseHandling();
 	}
@@ -278,23 +280,7 @@ export class GatewayClient implements IAsyncDisposable
 			throw new InvalidOperationError("Cannot configure the client because is not disconnected.");
 		}
 
-		if (this.#_tryReconnect === reconnect)
-		{
-			return;
-		}
-
 		this.#_tryReconnect = reconnect;
-		if (reconnect)
-		{
-			this.#_eventEmitter.on("Ready", this.#_reconnectingReadyCallback);
-			this.#_eventEmitter.on("Disconnected", this.#_reconnectingDisconnectCallback);
-		}
-		else
-		{
-			this.#_eventEmitter.remove("Ready", this.#_reconnectingReadyCallback);
-			this.#_eventEmitter.remove("Disconnected", this.#_reconnectingDisconnectCallback);
-		}
-
 		return this;
 	}
 
@@ -337,8 +323,18 @@ export class GatewayClient implements IAsyncDisposable
 			this.#_webSocket.headers.append("X-SessionId", sessionId);
 		}
 
-		this.#_disconnectedManually = false;
-		await this.#_webSocket.connect(this.#_address);
+		this.#_state = GatewayClientState.Connecting;
+		try
+		{
+			await this.#_webSocket.connect(this.#_address);
+		}
+		catch (err)
+		{
+			this.#_state = GatewayClientState.Disconnected;
+			throw err;
+		}
+
+		this.#_state = GatewayClientState.Connected;
 
 		if (sessionId !== undefined)
 		{
@@ -354,6 +350,7 @@ export class GatewayClient implements IAsyncDisposable
 		{
 			this.#_disconnectPromiseSource!.resolve();
 			this.#_disconnectPromiseSource = null;
+			this.#_state = GatewayClientState.Disconnected;
 			this.#_eventEmitter.emit("Disconnected");
 		});
 	}
@@ -388,7 +385,7 @@ export class GatewayClient implements IAsyncDisposable
 			throw new InvalidOperationError("Client is not connected");
 		}
 
-		this.#_disconnectedManually = true;
+		this.#_state = GatewayClientState.DisconnectSent;
 		await this.#_webSocket.close(WebSocketCloseCode.NormalClosure);
 	}
 
@@ -690,6 +687,31 @@ export class GatewayClient implements IAsyncDisposable
 		}
 	}
 
+	#addReconnecting()
+	{
+		this.#_eventEmitter.on("Ready", event =>
+		{
+			this.#_lastSessionId = event.sessionId;
+		});
+
+		this.#_eventEmitter.on("Disconnected", async () =>
+		{
+			while (this.#_tryReconnect &&
+			       this.#_state !== GatewayClientState.DisconnectSent &&
+			       this.#_state !== GatewayClientState.Connected)
+			{
+				try
+				{
+					await this.connect(this.#_lastSessionId!);
+				}
+				catch (err)
+				{
+					console.error(err);
+					break;
+				}
+			}
+		});
+	}
 	#addCurrentUserPropertyUpdating()
 	{
 		this.#_eventEmitter.on("Ready", async (event) =>
@@ -771,31 +793,6 @@ export class GatewayClient implements IAsyncDisposable
 			}
 		});
 	}
-
-	// Using arrow function syntax to bind `this`
-	#_reconnectingReadyCallback = (event: ReadyEvent) =>
-	{
-		this.#_lastSessionId = event.sessionId;
-	};
-
-	// Using arrow function syntax to bind `this`
-	#_reconnectingDisconnectCallback = async () =>
-	{
-		while (this.#_webSocket.state !== WebSocketState.Open &&
-		       this.#_tryReconnect &&
-		       !this.#_disconnectedManually)
-		{
-			try
-			{
-				await this.connect(this.#_lastSessionId!);
-			}
-			catch (err)
-			{
-				console.error(err);
-				break;
-			}
-		}
-	};
 }
 
 class PayloadSendRequest
