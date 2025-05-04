@@ -23,7 +23,16 @@ export class UserData
 	 * @param data An object that conforms to the API v1 UserData JSON schema
 	 *             from where the data will be extracted.
 	 * */
-	public constructor(data: any)
+	public constructor(
+		data: {
+			id: string;
+			displayName: string;
+			description: string;
+			type: number;
+			presence: number;
+			permissions: string;
+			currentRoomId: string | null | undefined;
+		})
 	{
 		SealedClassError.throwIfNotEqual(UserData, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
