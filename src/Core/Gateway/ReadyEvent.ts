@@ -34,6 +34,14 @@ export class ReadyEvent
 	}
 
 	/**
+	 * Gets the id of the current user.
+	 * */
+	public get userId()
+	{
+		return this.#_data.userId;
+	}
+
+	/**
 	 * Gets the {@link GatewayClient} that initialized this instance.
 	 * */
 	public get gatewayClient()
