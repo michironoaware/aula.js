@@ -68,6 +68,7 @@ export class GatewayClient implements IAsyncDisposable
 	#_pendingPayloads: Channel<PayloadSendRequest> | null = null;
 	#_disconnectPromiseSource: PromiseCompletionSource<void> | null = null;
 	#_address: URL | null = null;
+	#_currentUser: User | null = null;
 	#_disposed: boolean = false;
 
 	/**
@@ -107,6 +108,24 @@ export class GatewayClient implements IAsyncDisposable
 		{
 			this.withDefaultPresence(options.defaultPresence);
 		}
+
+		this.on("Ready", async (event) =>
+		{
+			this.#_currentUser = event.user;
+		});
+
+		this.on("UserUpdated", (event) =>
+		{
+			if (event.user.id === this.#_currentUser!.id)
+			{
+				this.#_currentUser = event.user;
+			}
+		});
+
+		this.on("Disconnected", () =>
+		{
+			this.#_currentUser = null;
+		});
 	}
 
 	/**
@@ -132,6 +151,14 @@ export class GatewayClient implements IAsyncDisposable
 	public get rest()
 	{
 		return this.#_restClient;
+	}
+
+	/**
+	 * Gets the user of the current gateway connection; `null` if the client is disconnected.
+	 * */
+	public get currentUser()
+	{
+		return this.#_currentUser;
 	}
 
 	get #pendingPayloads()
