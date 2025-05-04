@@ -151,6 +151,35 @@ export class GatewayClient implements IAsyncDisposable
 			}
 		});
 
+		this.on("UserPresenceUpdated", (event) =>
+		{
+			if (this.rest.cache === null)
+			{
+				return;
+			}
+
+			const user = this.rest.cache.get(event.userId) as User | undefined;
+			if (!(user instanceof User))
+			{
+				return;
+			}
+
+			if (event.presence !== user.presence)
+			{
+				const newUserValue = new User(new UserData({
+					id: user.id,
+					displayName: user.displayName,
+					description: user.description,
+					type: user.type,
+					permissions: user.permissions.toString(),
+					presence: event.presence,
+					currentRoomId: user.currentRoomId
+				}), this.#_restClient);
+
+				this.rest.cache.set(newUserValue.id, newUserValue);
+			}
+		});
+
 		this.on("Disconnected", () =>
 		{
 			this.#_currentUser = null;
