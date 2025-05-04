@@ -1,5 +1,6 @@
 ﻿import { SealedClassError } from "../../../Common/SealedClassError";
 import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { UserData } from "../../Rest/Entities/Models/UserData";
 
 /**
  * @sealed
@@ -7,17 +8,16 @@ import { ThrowHelper } from "../../../Common/ThrowHelper";
 export class ReadyEventData
 {
 	readonly #_sessionId: string;
-	readonly #_userId: string;
+	readonly #_user: UserData;
 
 	public constructor(data: any)
 	{
 		SealedClassError.throwIfNotEqual(ReadyEventData, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.sessionId, "string");
-		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
 
 		this.#_sessionId = data.sessionId;
-		this.#_userId = data.userId;
+		this.#_user = new UserData(data.user);
 	}
 
 	public get sessionId()
@@ -25,8 +25,8 @@ export class ReadyEventData
 		return this.#_sessionId;
 	}
 
-	public get userId()
+	public get user()
 	{
-		return this.#_userId;
+		return this.#_user;
 	}
 }
