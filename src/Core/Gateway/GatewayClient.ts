@@ -649,12 +649,12 @@ export class GatewayClient implements IAsyncDisposable
 
 	#addCurrentUserPropertyUpdating()
 	{
-		this.on("Ready", async (event) =>
+		this.#_eventEmitter.on("Ready", async (event) =>
 		{
 			this.#_currentUser = event.user;
 		});
 
-		this.on("UserUpdated", (event) =>
+		this.#_eventEmitter.on("UserUpdated", (event) =>
 		{
 			if (event.user.id === this.#_currentUser!.id)
 			{
@@ -662,7 +662,7 @@ export class GatewayClient implements IAsyncDisposable
 			}
 		});
 
-		this.on("Disconnected", () =>
+		this.#_eventEmitter.on("Disconnected", () =>
 		{
 			this.#_currentUser = null;
 		});
@@ -670,7 +670,7 @@ export class GatewayClient implements IAsyncDisposable
 
 	#addUserCachingEdgeCaseHandling()
 	{
-		this.on("UserCurrentRoomUpdated", (event) =>
+		this.#_eventEmitter.on("UserCurrentRoomUpdated", (event) =>
 		{
 			if (this.rest.cache === null)
 			{
@@ -699,7 +699,7 @@ export class GatewayClient implements IAsyncDisposable
 			}
 		});
 
-		this.on("UserPresenceUpdated", (event) =>
+		this.#_eventEmitter.on("UserPresenceUpdated", (event) =>
 		{
 			if (this.rest.cache === null)
 			{
