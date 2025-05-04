@@ -24,6 +24,7 @@ export class GatewayClientOptions
 	#_address: URL | null = null;
 	#_intents: Intents | null = null;
 	#_defaultPresence: PresenceOption | null = null;
+	#_reconnecting: boolean = true;
 
 	/**
 	 * Initializes a new instance of {@link GatewayClientOptions}.
@@ -185,6 +186,23 @@ export class GatewayClientOptions
 	}
 
 	/**
+	 * Gets whether to configure the client to try and reestablish the connection if interrupted.
+	 * */
+	public get reconnecting()
+	{
+		return this.#_reconnecting;
+	}
+
+	/**
+	 * Sets whether to configure the client to try and reestablish the connection if interrupted.
+	 * */
+	public set reconnecting(reconnecting: boolean)
+	{
+		ThrowHelper.TypeError.throwIfNotType(reconnecting, "boolean");
+		this.#_reconnecting = reconnecting;
+	}
+
+	/**
 	 * Sets the {@link RestClient} instance used to interact with the Aula REST API.
 	 * @param restClient The {@link RestClient} instance to use,
 	 *                   or `null` to let the GatewayClient instantiate and configure its own {@link RestClient}.
@@ -274,6 +292,17 @@ export class GatewayClientOptions
 	public withDefaultPresence(defaultPresence: PresenceOption | null)
 	{
 		this.defaultPresence = defaultPresence;
+		return this;
+	}
+
+	/**
+	 * Sets whether to configure the client to try and reestablish the connection if interrupted.
+	 * @param reconnecting Whether the {@link GatewayClient} instance should attempt to reconnect.
+	 * @returns The current {@link GatewayClientOptions} instance.
+	 * */
+	public withReconnecting(reconnecting: boolean)
+	{
+		this.reconnecting = reconnecting;
 		return this;
 	}
 }

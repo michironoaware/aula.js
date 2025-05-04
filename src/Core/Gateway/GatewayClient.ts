@@ -112,6 +112,7 @@ export class GatewayClient implements IAsyncDisposable
 			this.withDefaultPresence(options.defaultPresence);
 		}
 
+		this.withReconnecting(options.reconnecting);
 		this.#addCurrentUserPropertyUpdating();
 		this.#addUserCachingEdgeCaseHandling();
 	}
