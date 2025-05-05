@@ -21,6 +21,7 @@ export * from "./Common/Http/StringContent";
 export * from "./Common/Threading/CancellationToken";
 export * from "./Common/Threading/CancellationTokenSource";
 export * from "./Common/Threading/OperationCanceledError";
+export * from "./Common/Threading/SemaphoreFullError";
 export * from "./Common/WebSockets/ClientWebSocket";
 export * from "./Common/WebSockets/WebSocketCloseCode";
 export * from "./Common/WebSockets/WebSocketError";
