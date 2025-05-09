@@ -745,59 +745,33 @@ export class GatewayClient implements IAsyncDisposable
 	{
 		this.#_eventEmitter.on("UserCurrentRoomUpdated", (event) =>
 		{
-			if (this.rest.cache === null)
+			if (event.currentRoomId !== this.#_currentUser!.currentRoomId)
 			{
-				return;
-			}
-
-			const user = this.rest.cache.get(event.userId) as User | undefined;
-			if (!(user instanceof User))
-			{
-				return;
-			}
-
-			if (event.currentRoomId !== user.currentRoomId)
-			{
-				const newUserValue = new User(new UserData({
-					id: user.id,
-					displayName: user.displayName,
-					description: user.description,
-					type: user.type,
-					permissions: user.permissions.toString(),
-					presence: user.presence,
+				this.#_currentUser = new User(new UserData({
+					id: this.#_currentUser!.id,
+					displayName: this.#_currentUser!.displayName,
+					description: this.#_currentUser!.description,
+					type: this.#_currentUser!.type,
+					permissions: this.#_currentUser!.permissions.toString(),
+					presence: this.#_currentUser!.presence,
 					currentRoomId: event.currentRoomId
 				}), this.#_restClient);
-
-				this.rest.cache.set(newUserValue.id, newUserValue);
 			}
 		});
 
 		this.#_eventEmitter.on("UserPresenceUpdated", (event) =>
 		{
-			if (this.rest.cache === null)
+			if (event.presence !== this.#_currentUser!.presence)
 			{
-				return;
-			}
-
-			const user = this.rest.cache.get(event.userId) as User | undefined;
-			if (!(user instanceof User))
-			{
-				return;
-			}
-
-			if (event.presence !== user.presence)
-			{
-				const newUserValue = new User(new UserData({
-					id: user.id,
-					displayName: user.displayName,
-					description: user.description,
-					type: user.type,
-					permissions: user.permissions.toString(),
+				this.#_currentUser = new User(new UserData({
+					id: this.#_currentUser!.id,
+					displayName: this.#_currentUser!.displayName,
+					description: this.#_currentUser!.description,
+					type: this.#_currentUser!.type,
+					permissions: this.#_currentUser!.permissions.toString(),
 					presence: event.presence,
-					currentRoomId: user.currentRoomId
+					currentRoomId: this.#_currentUser!.currentRoomId
 				}), this.#_restClient);
-
-				this.rest.cache.set(newUserValue.id, newUserValue);
 			}
 		});
 	}
