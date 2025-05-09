@@ -774,6 +774,14 @@ export class GatewayClient implements IAsyncDisposable
 				}), this.#_restClient);
 			}
 		});
+
+		this.#_eventEmitter.on("UserUpdated", (event) =>
+		{
+			if (event.user.id === this.#_currentUser!.id)
+			{
+				this.#_currentUser = event.user;
+			}
+		});
 	}
 }
 
