@@ -739,6 +739,40 @@ export class GatewayClient implements IAsyncDisposable
 		{
 			this.#_currentUser = null;
 		});
+
+		this.#_eventEmitter.on("UserCurrentRoomUpdated", (event) =>
+		{
+			if (event.userId === this.#_currentUser!.id &&
+			    event.currentRoomId !== this.#_currentUser!.currentRoomId)
+			{
+				this.#_currentUser = new User(new UserData({
+					id: this.#_currentUser!.id,
+					displayName: this.#_currentUser!.displayName,
+					description: this.#_currentUser!.description,
+					type: this.#_currentUser!.type,
+					permissions: this.#_currentUser!.permissions.toString(),
+					presence: this.#_currentUser!.presence,
+					currentRoomId: event.currentRoomId
+				}), this.#_restClient);
+			}
+		});
+
+		this.#_eventEmitter.on("UserPresenceUpdated", (event) =>
+		{
+			if (event.userId === this.#_currentUser!.id &&
+			    event.presence !== this.#_currentUser!.presence)
+			{
+				this.#_currentUser = new User(new UserData({
+					id: this.#_currentUser!.id,
+					displayName: this.#_currentUser!.displayName,
+					description: this.#_currentUser!.description,
+					type: this.#_currentUser!.type,
+					permissions: this.#_currentUser!.permissions.toString(),
+					presence: event.presence,
+					currentRoomId: this.#_currentUser!.currentRoomId
+				}), this.#_restClient);
+			}
+		});
 	}
 
 	#addUserCachingEdgeCaseHandling()
