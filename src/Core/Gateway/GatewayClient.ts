@@ -720,6 +720,7 @@ export class GatewayClient implements IAsyncDisposable
 			}
 		});
 	}
+
 	#addCurrentUserPropertyUpdating()
 	{
 		this.#_eventEmitter.on("Ready", async (event) =>
