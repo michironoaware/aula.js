@@ -20,21 +20,17 @@ export class LruCache<TKey extends {}, TValue extends {} | null> implements Map<
 	readonly #_order = new LinkedList<TKey>();
 	readonly #_entries = new Map<TKey, LruCacheEntry<TKey, TValue>>();
 	#_size: number;
-	#_ignoreNewEntries: boolean;
 
 	/**
 	 * Initializes a new instance of the {@link LruCache} class with the specified capacity.
 	 * @param size The maximum number of entries the cache can hold.
-	 * @param ignoreNewEntries If set to `true`, new entries will be ignored when the cache is full. Defaults to `false`.
 	 */
-	public constructor(size: number, ignoreNewEntries: boolean = false)
+	public constructor(size: number)
 	{
 		SealedClassError.throwIfNotEqual(LruCache, new.target);
 		ThrowHelper.TypeError.throwIfNotType(size, "number");
-		ThrowHelper.TypeError.throwIfNotType(ignoreNewEntries, "boolean");
 
 		this.#_size = size;
-		this.#_ignoreNewEntries = ignoreNewEntries;
 	}
 
 	/**
@@ -43,23 +39,6 @@ export class LruCache<TKey extends {}, TValue extends {} | null> implements Map<
 	public get size()
 	{
 		return this.#_size;
-	}
-
-	/**
-	 * Gets whether new entries should be ignored.
-	 */
-	public get ignoreNewEntries()
-	{
-		return this.#_ignoreNewEntries;
-	}
-
-	/**
-	 * Sets whether new entries should be ignored.
-	 */
-	public set ignoreNewEntries(value: boolean)
-	{
-		ThrowHelper.TypeError.throwIfNotType(value, "boolean");
-		this.#_ignoreNewEntries = value;
 	}
 
 	public get [Symbol.toStringTag](): string
@@ -197,11 +176,6 @@ export class LruCache<TKey extends {}, TValue extends {} | null> implements Map<
 	 */
 	public addOrReplace(key: TKey, value: TValue)
 	{
-		if (this.#_ignoreNewEntries)
-		{
-			return;
-		}
-
 		const entry = this.#_entries.get(key);
 		if (entry !== undefined)
 		{
