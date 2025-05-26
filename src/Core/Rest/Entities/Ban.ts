@@ -10,7 +10,7 @@ export class Ban
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: BanData;
-	#_creationDate: Date | null = null;
+	#_emissionDate: Date | null = null;
 
 	/**
 	 * Initializes a new instance of {@link Ban}.
@@ -86,9 +86,9 @@ export class Ban
 	/**
 	 * Gets the emission date of the ban as a {@link Date} object.
 	 * */
-	get creationDate()
+	get emissionDate()
 	{
-		return this.#_creationDate ??= new Date(this.#_data.emissionDate);
+		return this.#_emissionDate ??= new Date(this.#_data.emissionDate);
 	}
 
 	/**
