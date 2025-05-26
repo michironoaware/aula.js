@@ -66,7 +66,7 @@ export class File
 	 * */
 	public get contentSize()
 	{
-		return this.#_contentSize ??= BigInt(this.#_data.contentSize);
+		return this.#_contentSize ??= BigInt(this.#_data.size);
 	}
 
 	/**
