@@ -12,14 +12,14 @@ import { SendMessageRequestBody } from "../SendMessageRequestBody";
 import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
- * Represents a text room within Aula.
- * A text room allows communication between users through text messages.
+ * Represents a standard room within Aula.
+ * A standard room allows communication between users through messages.
  * @sealed
  * */
-export class TextRoom extends Room
+export class StandardRoom extends Room
 {
 	/**
-	 * Initializes a new instance of {@link TextRoom}.
+	 * Initializes a new instance of {@link StandardRoom}.
 	 * @param data A DTO containing the entity data.
 	 * @param restClient The {@link RestClient} that is initializing this instance.
 	 * @package
@@ -27,7 +27,7 @@ export class TextRoom extends Room
 	public constructor(data: RoomData, restClient: RestClient)
 	{
 		super(data, restClient);
-		SealedClassError.throwIfNotEqual(TextRoom, new.target);
+		SealedClassError.throwIfNotEqual(StandardRoom, new.target);
 
 		if (data.type !== RoomType.Standard)
 		{
@@ -115,11 +115,11 @@ export class TextRoom extends Room
 	/**
 	 * Gets the latest version of the room.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link TextRoom}, or `null` if the room no longer exists.
+	 * @returns A promise that resolves to a {@link StandardRoom}, or `null` if the room no longer exists.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * */
 	public async getLatest(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return await super.getLatest(cancellationToken) as TextRoom | null;
+		return await super.getLatest(cancellationToken) as StandardRoom | null;
 	}
 }
