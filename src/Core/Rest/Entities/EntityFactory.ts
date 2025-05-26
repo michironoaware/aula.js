@@ -49,7 +49,7 @@ export namespace EntityFactory
 	{
 		switch (data.type)
 		{
-			case BanType.Id:
+			case BanType.User:
 				return new UserBan(data, restClient);
 			default:
 				return new Ban(data, restClient);

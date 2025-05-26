@@ -25,7 +25,7 @@ export class UserBan extends Ban
 		super(data, restClient);
 		SealedClassError.throwIfNotEqual(UserBan, new.target);
 
-		if (data.type !== BanType.Id)
+		if (data.type !== BanType.User)
 		{
 			throw new InvalidOperationError("Unexpected ban type.");
 		}
