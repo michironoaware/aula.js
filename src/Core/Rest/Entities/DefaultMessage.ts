@@ -6,15 +6,15 @@ import { MessageType } from "./MessageType";
 import { InvalidOperationError } from "../../../Common/InvalidOperationError";
 
 /**
- * Represents a text message within Aula.
+ * Represents a default message within Aula.
  * @sealed
  * */
-export class StandardMessage extends Message
+export class DefaultMessage extends Message
 {
 	readonly #_data: MessageData;
 
 	/**
-	 * Initializes a new instance of {@link StandardMessage}.
+	 * Initializes a new instance of {@link DefaultMessage}.
 	 * @param data A DTO containing the entity data.
 	 * @param restClient The {@link RestClient} that is initializing this instance.
 	 * @package
@@ -22,7 +22,7 @@ export class StandardMessage extends Message
 	public constructor(data: MessageData, restClient: RestClient)
 	{
 		super(data, restClient);
-		SealedClassError.throwIfNotEqual(StandardMessage, new.target);
+		SealedClassError.throwIfNotEqual(DefaultMessage, new.target);
 
 		if (data.type !== MessageType.Default)
 		{
