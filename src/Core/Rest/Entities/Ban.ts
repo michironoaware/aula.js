@@ -2,8 +2,6 @@
 import { BanData } from "./Models/BanData";
 import { ThrowHelper } from "../../../Common/ThrowHelper";
 import { CancellationToken } from "../../../Common/Threading/CancellationToken";
-import { BanType } from "./BanType";
-import { BanIssuerType } from "./BanIssuerType";
 
 /**
  * Represents a ban within Aula.
@@ -50,7 +48,7 @@ export class Ban
 	 * */
 	get type()
 	{
-		return this.#_data.type as BanType;
+		return this.#_data.type;
 	}
 
 	/**
@@ -58,7 +56,7 @@ export class Ban
 	 * */
 	get issuerType()
 	{
-		return this.#_data.issuerType as BanIssuerType;
+		return this.#_data.issuerType;
 	}
 
 	/**

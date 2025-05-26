@@ -1,6 +1,7 @@
 ﻿import { BanType } from "../BanType";
 import { ThrowHelper } from "../../../../Common/ThrowHelper";
 import { SealedClassError } from "../../../../Common/SealedClassError";
+import { BanIssuerType } from "../BanIssuerType";
 
 /**
  * Provides a strongly typed DTO class for the API v1 BanData JSON schema.
@@ -10,8 +11,8 @@ import { SealedClassError } from "../../../../Common/SealedClassError";
 export class BanData
 {
 	readonly #_id: string;
-	readonly #_type: number;
-	readonly #_issuerType: number;
+	readonly #_type: BanType;
+	readonly #_issuerType: BanIssuerType;
 	readonly #_issuerId: string | null;
 	readonly #_reason: string | null;
 	readonly #_targetId: string | null;
