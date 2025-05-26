@@ -9,10 +9,13 @@ import { SealedClassError } from "../../../../Common/SealedClassError";
  * */
 export class BanData
 {
-	readonly #_type: BanType;
-	readonly #_executorId: string | null;
+	readonly #_id: string;
+	readonly #_type: number;
+	readonly #_issuerType: number;
+	readonly #_issuerId: string | null;
 	readonly #_reason: string | null;
 	readonly #_targetId: string | null;
+	readonly #_isLifted: boolean;
 	readonly #_creationDate: string;
 
 	/**
@@ -25,22 +28,34 @@ export class BanData
 		SealedClassError.throwIfNotEqual(BanData, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.executorId, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotType(data.issuerType, "number");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.issuerId, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.reason, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.targetId, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotType(data.isLifted, "boolean");
 		ThrowHelper.TypeError.throwIfNotType(data.creationDate, "string");
 
 		switch (data.type)
 		{
-			case BanType.Id:
+			case BanType.User:
 				ThrowHelper.TypeError.throwIfNullable(data.targetid);
 		}
 
 		this.#_type = data.type;
-		this.#_executorId = data.executorId ?? null;
+		this.#_issuerType = data.issuerType;
+		this.#_issuerId = data.issuerId ?? null;
 		this.#_reason = data.reason ?? null;
 		this.#_targetId = data.targetId ?? null;
+		this.#_isLifted = data.isLifted;
 		this.#_creationDate = data.creationDate;
+	}
+
+	/**
+	 * Gets the id of the ban.
+	 * */
+	public get id()
+	{
+		return this.#_id;
 	}
 
 	/**
@@ -52,11 +67,19 @@ export class BanData
 	}
 
 	/**
-	 * Gets the ID of the user who created the ban.
+	 * Gets the type of the issuer of the ban.
 	 * */
-	public get executorId()
+	public get issuerType()
 	{
-		return this.#_executorId;
+		return this.#_issuerType;
+	}
+
+	/**
+	 * Gets the ID of the user who issued the ban.
+	 * */
+	public get issuerId()
+	{
+		return this.#_issuerId;
 	}
 
 	/**
@@ -73,6 +96,14 @@ export class BanData
 	public get targetId()
 	{
 		return this.#_targetId;
+	}
+
+	/**
+	 * Gets whether the ban is still in effect.
+	 * */
+	public get isLifted()
+	{
+		return this.#_isLifted;
 	}
 
 	/**
