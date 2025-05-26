@@ -64,9 +64,9 @@ export class File
 	/**
 	 * Gets the size of the content in bytes.
 	 * */
-	public get contentSize()
+	public get size()
 	{
-		return this.#_contentSize ??= BigInt(this.#_data.contentSize);
+		return this.#_contentSize ??= BigInt(this.#_data.size);
 	}
 
 	/**

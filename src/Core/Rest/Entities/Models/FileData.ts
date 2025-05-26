@@ -11,7 +11,7 @@ export class FileData
 	readonly #_id: string;
 	readonly #_name: string;
 	readonly #_contentType: string;
-	readonly #_contentSize: string;
+	readonly #_size: string;
 
 	/**
 	 * Initializes a new instance of {@link FileData}.
@@ -24,12 +24,12 @@ export class FileData
 		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.name, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.contentType, "string");
-		ThrowHelper.TypeError.throwIfNotType(data.contentSize, "string");
+		ThrowHelper.TypeError.throwIfNotType(data.size, "string");
 
 		this.#_id = data.id;
 		this.#_name = data.name;
 		this.#_contentType = data.contentType;
-		this.#_contentSize = data.contentSize;
+		this.#_size = data.size;
 	}
 
 	/**
@@ -59,8 +59,8 @@ export class FileData
 	/**
 	 * Gets the size of the file content in bytes.
 	 * */
-	public get contentSize()
+	public get size()
 	{
-		return this.#_contentSize;
+		return this.#_size;
 	}
 }
