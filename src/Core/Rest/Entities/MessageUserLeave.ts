@@ -51,7 +51,7 @@ export class MessageUserLeave
 	 * */
 	public get roomId()
 	{
-		return this.#_data.roomId;
+		return this.#_data.nextRoomId;
 	}
 
 	/**
