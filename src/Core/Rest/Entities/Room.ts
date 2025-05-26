@@ -92,9 +92,17 @@ export class Room
 	}
 
 	/**
+	 * Gets the collection of IDs of users currently in the room.
+	 * */
+	public get residentIds()
+	{
+		return this.#_data.residentIds;
+	}
+
+	/**
 	 * Gets the collection of ids of the rooms that a user can travel to from this room.
 	 * */
-	public get connectedRoomIds()
+	public get destinationIds()
 	{
 		return this.#_data.destinationIds;
 	}
