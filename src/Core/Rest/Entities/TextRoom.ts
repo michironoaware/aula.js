@@ -29,9 +29,9 @@ export class TextRoom extends Room
 		super(data, restClient);
 		SealedClassError.throwIfNotEqual(TextRoom, new.target);
 
-		if (data.type !== RoomType.Text)
+		if (data.type !== RoomType.Standard)
 		{
-			throw new InvalidOperationError(`Room type expected to be ${RoomType.Text}.`);
+			throw new InvalidOperationError(`Room type expected to be ${RoomType.Standard}.`);
 		}
 	}
 
