@@ -4,9 +4,9 @@
 export const RoomType =
 	{
 		/**
-		 * A text room.
+		 * The default type of room.
 		 * */
-		Text: 0
+		Standard: 0
 	} as const;
 
 Object.freeze(RoomType);

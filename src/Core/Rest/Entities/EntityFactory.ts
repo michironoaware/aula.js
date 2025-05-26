@@ -12,7 +12,7 @@ import { UserBan } from "./UserBan";
 import { RoomData } from "./Models/RoomData";
 import { Room } from "./Room";
 import { RoomType } from "./RoomType";
-import { TextRoom } from "./TextRoom";
+import { StandardRoom } from "./StandardRoom";
 
 /**
  * @privateRemarks Adding a static `create` method to base entity types is not possible
@@ -64,8 +64,8 @@ export namespace EntityFactory
 	{
 		switch (data.type)
 		{
-			case RoomType.Text:
-				return new TextRoom(data, restClient);
+			case RoomType.Standard:
+				return new StandardRoom(data, restClient);
 			default:
 				return new Room(data, restClient);
 		}

@@ -90,7 +90,7 @@ export * from "./Core/Rest/Entities/Presence";
 export * from "./Core/Rest/Entities/Room";
 export * from "./Core/Rest/Entities/RoomType";
 export * from "./Core/Rest/Entities/DefaultMessage";
-export * from "./Core/Rest/Entities/TextRoom";
+export * from "./Core/Rest/Entities/StandardRoom";
 export * from "./Core/Rest/Entities/User";
 export * from "./Core/Rest/Entities/UserBan";
 export * from "./Core/Rest/Entities/UserJoinMessage";
