@@ -3,9 +3,9 @@
  * */
 export const BanIssuerType =
 	{
-		/*
-		* The system.
-		* */
+		/**
+		 * The system.
+		 * */
 		System: 0,
 
 		/**
