@@ -2,6 +2,8 @@
 import { BanData } from "./Models/BanData";
 import { ThrowHelper } from "../../../Common/ThrowHelper";
 import { CancellationToken } from "../../../Common/Threading/CancellationToken";
+import { BanType } from "./BanType";
+import { BanIssuerType } from "./BanIssuerType";
 
 /**
  * Represents a ban within Aula.
@@ -36,19 +38,35 @@ export class Ban
 	}
 
 	/**
+	 * Gets the ID of the ban.
+	 * */
+	get id()
+	{
+		return this.#_data.id;
+	}
+
+	/**
 	 * Gets the type of ban.
 	 * */
 	get type()
 	{
-		return this.#_data.type;
+		return this.#_data.type as BanType;
 	}
 
 	/**
-	 * Gets the id of the user who created the ban.
+	 * Gets the type of the issuer of the ban.
 	 * */
-	get executorId()
+	get issuerType()
 	{
-		return this.#_data.executorId;
+		return this.#_data.issuerType as BanIssuerType;
+	}
+
+	/**
+	 * Gets the ID of the user who issued the ban.
+	 * */
+	public get issuerId()
+	{
+		return this.#_data.issuerId;
 	}
 
 	/**
@@ -57,6 +75,14 @@ export class Ban
 	get reason()
 	{
 		return this.#_data.reason;
+	}
+
+	/**
+	 * Gets whether the ban is still in effect.
+	 * */
+	get isLifted()
+	{
+		return this.#_data.isLifted;
 	}
 
 	/**
@@ -70,11 +96,11 @@ export class Ban
 	/**
 	 * Gets the user who created the ban.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a new {@link User} instance, or `null` if the executor is not a user.
+	 * @returns A promise that resolves to a new {@link User} instance, or `null` if the issuer is not a user.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * */
-	public async getExecutor(cancellationToken: CancellationToken = CancellationToken.none)
+	public async getIssuer(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return this.executorId !== null ? await this.restClient.getUser(this.executorId, cancellationToken) : null;
+		return this.issuerId !== null ? await this.restClient.getUser(this.issuerId, cancellationToken) : null;
 	}
 }
