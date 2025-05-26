@@ -96,7 +96,7 @@ export class Room
 	 * */
 	public get connectedRoomIds()
 	{
-		return this.#_data.connectedRoomIds;
+		return this.#_data.destinationIds;
 	}
 
 	/**
