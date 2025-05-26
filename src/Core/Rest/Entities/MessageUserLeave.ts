@@ -49,9 +49,9 @@ export class MessageUserLeave
 	 * Gets the id of the room where the user moved to,
 	 * or `null` if the user was not relocated.
 	 * */
-	public get roomId()
+	public get nextRoomId()
 	{
-		return this.#_data.roomId;
+		return this.#_data.nextRoomId;
 	}
 
 	/**
@@ -80,6 +80,6 @@ export class MessageUserLeave
 	 * */
 	public async getRoom(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return this.roomId !== null ? await this.restClient.getRoom(this.roomId, cancellationToken) : null;
+		return this.nextRoomId !== null ? await this.restClient.getRoom(this.nextRoomId, cancellationToken) : null;
 	}
 }

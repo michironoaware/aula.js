@@ -9,7 +9,7 @@ import { SealedClassError } from "../../../../Common/SealedClassError";
 export class MessageUserLeaveData
 {
 	readonly #_userId: string;
-	readonly #_roomId: string | null;
+	readonly #_nextRoomId: string | null;
 
 	/**
 	 * Initializes a new instance of {@link MessageUserLeaveData}.
@@ -21,10 +21,10 @@ export class MessageUserLeaveData
 		SealedClassError.throwIfNotEqual(MessageUserLeaveData, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
-		ThrowHelper.TypeError.throwIfNotAnyType(data.roomId, "string", "nullable");
+		ThrowHelper.TypeError.throwIfNotAnyType(data.nextRoomId, "string", "nullable");
 
 		this.#_userId = data.userId;
-		this.#_roomId = data.roomId ?? null;
+		this.#_nextRoomId = data.nextRoomId ?? null;
 	}
 
 	/**
@@ -38,8 +38,8 @@ export class MessageUserLeaveData
 	/**
 	 * Gets the id of the room the user went to.
 	 * */
-	public get roomId()
+	public get nextRoomId()
 	{
-		return this.#_roomId;
+		return this.#_nextRoomId;
 	}
 }

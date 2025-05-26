@@ -2,7 +2,7 @@
 import { MessageData } from "./Models/MessageData";
 import { MessageType } from "./MessageType";
 import { Message } from "./Message";
-import { StandardMessage } from "./StandardMessage";
+import { DefaultMessage } from "./DefaultMessage";
 import { UserJoinMessage } from "./UserJoinMessage";
 import { UserLeaveMessage } from "./UserLeaveMessage";
 import { BanData } from "./Models/BanData";
@@ -30,8 +30,8 @@ export namespace EntityFactory
 	{
 		switch (data.type)
 		{
-			case MessageType.Standard:
-				return new StandardMessage(data, restClient);
+			case MessageType.Default:
+				return new DefaultMessage(data, restClient);
 			case MessageType.UserJoin:
 				return new UserJoinMessage(data, restClient);
 			case MessageType.UserLeave:
