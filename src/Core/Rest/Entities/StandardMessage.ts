@@ -24,7 +24,7 @@ export class StandardMessage extends Message
 		super(data, restClient);
 		SealedClassError.throwIfNotEqual(StandardMessage, new.target);
 
-		if (data.type !== MessageType.Standard)
+		if (data.type !== MessageType.Default)
 		{
 			throw new InvalidOperationError(`Unexpected message type.`);
 		}

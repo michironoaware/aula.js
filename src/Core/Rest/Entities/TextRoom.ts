@@ -101,7 +101,7 @@ export class TextRoom extends Room
 		if (TypeHelper.isType(message, "string"))
 		{
 			body = new SendMessageRequestBody()
-				.withType(MessageType.Standard)
+				.withType(MessageType.Default)
 				.withText(message);
 		}
 		else

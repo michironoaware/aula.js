@@ -52,7 +52,7 @@ export class MessageData
 
 		switch (data.type)
 		{
-			case MessageType.Standard:
+			case MessageType.Default:
 				ThrowHelper.TypeError.throwIfNullable(data.text);
 				break;
 			case MessageType.UserJoin:

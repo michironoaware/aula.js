@@ -30,7 +30,7 @@ export namespace EntityFactory
 	{
 		switch (data.type)
 		{
-			case MessageType.Standard:
+			case MessageType.Default:
 				return new StandardMessage(data, restClient);
 			case MessageType.UserJoin:
 				return new UserJoinMessage(data, restClient);

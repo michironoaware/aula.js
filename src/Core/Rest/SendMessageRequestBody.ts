@@ -9,7 +9,7 @@ import { ThrowHelper } from "../../Common/ThrowHelper";
  */
 export class SendMessageRequestBody
 {
-	#_type: typeof MessageType.Standard | null = null;
+	#_type: typeof MessageType.Default | null = null;
 	#_flags: MessageFlags | null = null;
 	#_text: string | null = null;
 
@@ -34,7 +34,7 @@ export class SendMessageRequestBody
 	 * Must be set to a non-null value by the time this body is passed to a rest operation.
 	 * @param type The message type.
 	 */
-	public set type(type: typeof MessageType.Standard | null)
+	public set type(type: typeof MessageType.Default | null)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(type, "number", "null");
 		this.#_type = type;
@@ -83,7 +83,7 @@ export class SendMessageRequestBody
 	 * @param type The message type.
 	 * @returns The current {@link SendMessageRequestBody}.
 	 */
-	public withType(type: typeof MessageType.Standard | null)
+	public withType(type: typeof MessageType.Default | null)
 	{
 		this.type = type;
 		return this;

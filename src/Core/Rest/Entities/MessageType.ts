@@ -6,7 +6,7 @@ export const MessageType =
 		/**
 		 * A text message.
 		 * */
-		Standard: 0,
+		Default: 0,
 
 		/**
 		 * Sent when a user joins the room.
