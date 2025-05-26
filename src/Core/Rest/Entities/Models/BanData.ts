@@ -17,7 +17,7 @@ export class BanData
 	readonly #_reason: string | null;
 	readonly #_targetId: string | null;
 	readonly #_isLifted: boolean;
-	readonly #_creationDate: string;
+	readonly #_emissionDate: string;
 
 	/**
 	 * Initializes a new instance of {@link BanData}.
@@ -34,7 +34,7 @@ export class BanData
 		ThrowHelper.TypeError.throwIfNotAnyType(data.reason, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.targetId, "string", "nullable");
 		ThrowHelper.TypeError.throwIfNotType(data.isLifted, "boolean");
-		ThrowHelper.TypeError.throwIfNotType(data.creationDate, "string");
+		ThrowHelper.TypeError.throwIfNotType(data.emissionDate, "string");
 
 		switch (data.type)
 		{
@@ -48,7 +48,7 @@ export class BanData
 		this.#_reason = data.reason ?? null;
 		this.#_targetId = data.targetId ?? null;
 		this.#_isLifted = data.isLifted;
-		this.#_creationDate = data.creationDate;
+		this.#_emissionDate = data.emissionDate;
 	}
 
 	/**
@@ -111,8 +111,8 @@ export class BanData
 	 * Gets the emission date of the ban,
 	 * expressed as a {@link https://en.wikipedia.org/wiki/ISO_8601 ISO 8601} string.
 	 * */
-	public get creationDate()
+	public get emissionDate()
 	{
-		return this.#_creationDate;
+		return this.#_emissionDate;
 	}
 }

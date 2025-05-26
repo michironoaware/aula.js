@@ -88,7 +88,7 @@ export class Ban
 	 * */
 	get creationDate()
 	{
-		return this.#_creationDate ??= new Date(this.#_data.creationDate);
+		return this.#_creationDate ??= new Date(this.#_data.emissionDate);
 	}
 
 	/**
