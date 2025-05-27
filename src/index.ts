@@ -47,7 +47,7 @@ export * from "./Core/Gateway/Models/UserPresenceUpdatedEventData";
 export * from "./Core/Gateway/Models/UserStartedTypingEventData";
 export * from "./Core/Gateway/BanIssuedEvent";
 export * from "./Core/Gateway/BanLiftedEvent";
-export * from "./Core/Gateway/CommonClientWebSocket";
+export * from "./Core/Gateway/BrowserClientWebSocket";
 export * from "./Core/Gateway/GatewayClient";
 export * from "./Core/Gateway/GatewayClientOptions";
 export * from "./Core/Gateway/GatewayClientState";

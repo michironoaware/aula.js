@@ -2,7 +2,7 @@
 import { ThrowHelper } from "../../Common/ThrowHelper";
 import { RestClient } from "../Rest/RestClient";
 import { ClientWebSocket } from "../../Common/WebSockets/ClientWebSocket";
-import { CommonClientWebSocket } from "./CommonClientWebSocket";
+import { BrowserClientWebSocket } from "./BrowserClientWebSocket";
 import { Intents } from "./Intents";
 import { PresenceOption } from "./PresenceOption";
 import { Permissions } from "../Rest/Entities/Permissions";
@@ -19,7 +19,7 @@ export class GatewayClientOptions
 	#_restClient: RestClient | null = null;
 	#_restClientOptions: RestClientOptions = RestClientOptions.default;
 	#_disposeRestClient: boolean = true;
-	#_webSocketType: new () => ClientWebSocket = CommonClientWebSocket;
+	#_webSocketType: new () => ClientWebSocket = BrowserClientWebSocket;
 	#_token: string | null = null;
 	#_address: URL | null = null;
 	#_intents: Intents | null = null;
