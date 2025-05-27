@@ -29,7 +29,7 @@ import { RoomConnectionRemovedEvent } from "./RoomConnectionRemovedEvent";
 import { UserCurrentRoomUpdatedEvent } from "./UserCurrentRoomUpdatedEvent";
 import { UserTypingEventData } from "./Models/UserTypingEventData";
 import { BanIssuedEvent } from "./BanIssuedEvent";
-import { BanRemovedEvent } from "./BanRemovedEvent";
+import { BanLiftedEvent } from "./BanLiftedEvent";
 import { MessageCreatedEvent } from "./MessageCreatedEvent";
 import { MessageRemovedEvent } from "./MessageRemovedEvent";
 import { RoomCreatedEvent } from "./RoomCreatedEvent";
@@ -516,7 +516,7 @@ export class GatewayClient implements IAsyncDisposable
 					case EventType.BanLifted:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
 						await this.#_eventEmitter.emit(
-							payload.event, new BanRemovedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
+							payload.event, new BanLiftedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
 						break;
 					case EventType.MessageCreated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
@@ -894,7 +894,7 @@ export interface IGatewayClientEvents
 	Disconnected: Func;
 	Resumed: Func;
 	BanCreated: Func<[ BanIssuedEvent ]>;
-	BanRemoved: Func<[ BanRemovedEvent ]>;
+	BanRemoved: Func<[ BanLiftedEvent ]>;
 	MessageCreated: Func<[ MessageCreatedEvent ]>;
 	MessageRemoved: Func<[ MessageRemovedEvent ]>;
 	UserStartedTyping: Func<[ UserStartedTypingEvent ]>;

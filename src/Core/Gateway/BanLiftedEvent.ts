@@ -7,14 +7,14 @@ import { ThrowHelper } from "../../Common/ThrowHelper";
  * Emitted when a ban has been lifted.
  * @sealed
  * */
-export class BanRemovedEvent
+export class BanLiftedEvent
 {
 	readonly #_ban: Ban;
 	readonly #_gatewayClient: GatewayClient;
 
 	public constructor(ban: Ban, gatewayClient: GatewayClient)
 	{
-		SealedClassError.throwIfNotEqual(BanRemovedEvent, new.target);
+		SealedClassError.throwIfNotEqual(BanLiftedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(ban, Ban);
 		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
