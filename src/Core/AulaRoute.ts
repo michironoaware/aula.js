@@ -39,6 +39,14 @@ export namespace AulaRoute
 		return `bans/${route.banId}`;
 	}
 
+	export function banLift(route: { banId: string })
+	{
+		ThrowHelper.TypeError.throwIfNullable(route);
+		ThrowHelper.TypeError.throwIfNotType(route.banId, "string");
+
+		return `bans/${route.banId}/lift`;
+	}
+
 	export function bots()
 	{
 		return "bots";
