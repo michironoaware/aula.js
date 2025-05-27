@@ -15,7 +15,7 @@ export class UserData
 	readonly #_description: string;
 	readonly #_type: UserType;
 	readonly #_presence: Presence;
-	readonly #_permissions: string;
+	readonly #_roleIds: ReadonlyArray<string>;
 	readonly #_currentRoomId: string | null;
 
 	/**
@@ -30,7 +30,7 @@ export class UserData
 			description: string;
 			type: number;
 			presence: number;
-			permissions: string;
+			roleIds: Iterable<string>;
 			currentRoomId: string | null | undefined;
 		})
 	{
@@ -41,15 +41,18 @@ export class UserData
 		ThrowHelper.TypeError.throwIfNotType(data.description, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.presence, "number");
-		ThrowHelper.TypeError.throwIfNotType(data.permissions, "string");
+		ThrowHelper.TypeError.throwIfNotType(data.roleIds, "iterable");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.currentRoomId, "string", "nullable");
+
+		const roleIds = Object.freeze([ ...data.roleIds ]);
+		ThrowHelper.TypeError.throwIfNotTypeArray(roleIds, "string");
 
 		this.#_id = data.id;
 		this.#_displayName = data.displayName;
 		this.#_description = data.description;
 		this.#_type = data.type;
 		this.#_presence = data.presence;
-		this.#_permissions = data.permissions;
+		this.#_roleIds = roleIds;
 		this.#_currentRoomId = data.currentRoomId ?? null;
 	}
 
@@ -94,11 +97,11 @@ export class UserData
 	}
 
 	/**
-	 * Gets the permission bit fields of the user as a string.
+	 * Gets the collection of role IDs of the user.
 	 * */
-	public get permissions()
+	public get roleIds()
 	{
-		return this.#_permissions;
+		return this.#_roleIds;
 	}
 
 	/**
