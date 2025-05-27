@@ -508,12 +508,12 @@ export class GatewayClient implements IAsyncDisposable
 						await this.#_eventEmitter.emit(
 							payload.event, new ReadyEvent(payload.data, this));
 						break;
-					case EventType.BanCreated:
+					case EventType.BanIssued:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
 						await this.#_eventEmitter.emit(
 							payload.event, new BanCreatedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
 						break;
-					case EventType.BanRemoved:
+					case EventType.BanLifted:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
 						await this.#_eventEmitter.emit(
 							payload.event, new BanRemovedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));

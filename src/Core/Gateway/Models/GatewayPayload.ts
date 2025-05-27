@@ -44,8 +44,8 @@ export class GatewayPayload
 					case EventType.Ready:
 						this.#_data = new ReadyEventData(payloadData.data);
 						break;
-					case EventType.BanCreated:
-					case EventType.BanRemoved:
+					case EventType.BanIssued:
+					case EventType.BanLifted:
 						this.#_data = new BanData(payloadData.data);
 						break;
 					case EventType.MessageCreated:
