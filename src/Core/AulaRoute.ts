@@ -12,7 +12,7 @@ export namespace AulaRoute
 			type?: number | null,
 			count?: number | null,
 			after?: string | null,
-			includeLifted: boolean | null
+			includeLifted?: boolean | null
 		})
 	{
 		if (!TypeHelper.isNullable(query))
