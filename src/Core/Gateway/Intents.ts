@@ -17,8 +17,6 @@ export const Intents =
 		 * - {@link EventType.RoomCreated}
 		 * - {@link EventType.RoomRemoved}
 		 * - {@link EventType.RoomUpdated}
-		 * - {@link EventType.RoomConnectionCreated}
-		 * - {@link EventType.RoomConnectionRemoved}
 		 * */
 		Rooms: 2n,
 
@@ -26,13 +24,12 @@ export const Intents =
 		 * - {@link EventType.MessageCreated}
 		 * - {@link EventType.MessageRemoved}
 		 * - {@link EventType.UserStartedTyping}
-		 * - {@link EventType.UserStoppedTyping}
 		 * */
 		Messages: 4n,
 
 		/**
-		 * - {@link EventType.BanCreated}
-		 * - {@link EventType.BanRemoved}
+		 * - {@link EventType.BanLifted}
+		 * - {@link EventType.BanIssued}
 		 * */
 		Moderation: 8n,
 	} as const;
