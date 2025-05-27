@@ -19,7 +19,6 @@ export class User
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: UserData;
-	#_permissions: Permissions | null = null;
 
 	/**
 	 * Initializes a new instance of {@link User}.
@@ -88,11 +87,11 @@ export class User
 	}
 
 	/**
-	 * Gets the permissions of the user.
+	 * Gets the collection of role IDs of the user.
 	 * */
-	public get permissions()
+	public get roleIds()
 	{
-		return this.#_permissions ??= BigInt(this.#_data.permissions);
+		return this.#_data.roleIds;
 	}
 
 	/**

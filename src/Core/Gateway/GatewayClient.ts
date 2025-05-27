@@ -751,7 +751,7 @@ export class GatewayClient implements IAsyncDisposable
 					displayName: this.#_currentUser!.displayName,
 					description: this.#_currentUser!.description,
 					type: this.#_currentUser!.type,
-					permissions: this.#_currentUser!.permissions.toString(),
+					roleIds: this.#_currentUser!.roleIds,
 					presence: this.#_currentUser!.presence,
 					currentRoomId: event.currentRoomId
 				}), this.#_restClient);
@@ -768,7 +768,7 @@ export class GatewayClient implements IAsyncDisposable
 					displayName: this.#_currentUser!.displayName,
 					description: this.#_currentUser!.description,
 					type: this.#_currentUser!.type,
-					permissions: this.#_currentUser!.permissions.toString(),
+					roleIds: this.#_currentUser!.roleIds,
 					presence: event.presence,
 					currentRoomId: this.#_currentUser!.currentRoomId
 				}), this.#_restClient);
@@ -798,7 +798,7 @@ export class GatewayClient implements IAsyncDisposable
 					displayName: user.displayName,
 					description: user.description,
 					type: user.type,
-					permissions: user.permissions.toString(),
+					roleIds: user.roleIds,
 					presence: user.presence,
 					currentRoomId: event.currentRoomId
 				}), this.#_restClient);
@@ -827,7 +827,7 @@ export class GatewayClient implements IAsyncDisposable
 					displayName: user.displayName,
 					description: user.description,
 					type: user.type,
-					permissions: user.permissions.toString(),
+					roleIds: user.roleIds,
 					presence: event.presence,
 					currentRoomId: user.currentRoomId
 				}), this.#_restClient);
