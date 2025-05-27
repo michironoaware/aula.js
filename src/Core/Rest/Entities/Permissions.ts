@@ -31,24 +31,34 @@ export const Permissions =
 		ManageMessages: 16n,
 
 		/**
-		 * Allows the user to set their current room.
-		 * */
-		SetOwnCurrentRoom: 32n,
-
-		/**
 		 * Allows to set the current room of any user.
 		 * */
-		SetCurrentRoom: 64n,
+		SetCurrentRoom: 32n,
 
 		/**
 		 * Allows to ban users from the application.
 		 * */
-		BanUsers: 128n,
+		BanUsers: 64n,
 
 		/**
 		 * Allows to upload files to the application.
 		 * */
-		UploadFiles: 256n,
+		UploadFiles: 128n,
+
+		/**
+		 * Allows to modify and remove files.
+		 * */
+		ManageFiles: 256n,
+
+		/**
+		 * Allows to create, modify, remove and assign roles.
+		 * */
+		ManageRoles: 512n,
+
+		/**
+		 * Allows selecting a custom presence when connecting to the gateway.
+		 * */
+		UpdatePresence: 1024n,
 	} as const;
 
 Object.freeze(Permissions);
