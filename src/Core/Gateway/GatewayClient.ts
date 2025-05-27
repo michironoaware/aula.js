@@ -23,9 +23,6 @@ import { UnboundedChannel } from "../../Common/Threading/Channels/UnboundedChann
 import { BanData } from "../Rest/Entities/Models/BanData";
 import { MessageData } from "../Rest/Entities/Models/MessageData";
 import { UserStartedTypingEvent } from "./UserStartedTypingEvent";
-import { UserStoppedTypingEvent } from "./UserStoppedTypingEvent";
-import { RoomConnectionCreatedEvent } from "./RoomConnectionCreatedEvent";
-import { RoomConnectionRemovedEvent } from "./RoomConnectionRemovedEvent";
 import { UserCurrentRoomUpdatedEvent } from "./UserCurrentRoomUpdatedEvent";
 import { UserTypingEventData } from "./Models/UserTypingEventData";
 import { BanIssuedEvent } from "./BanIssuedEvent";
@@ -36,7 +33,6 @@ import { RoomCreatedEvent } from "./RoomCreatedEvent";
 import { RoomUpdatedEvent } from "./RoomUpdatedEvent";
 import { RoomRemovedEvent } from "./RoomRemovedEvent";
 import { UserUpdatedEvent } from "./UserUpdatedEvent";
-import { RoomConnectionEventData } from "./Models/RoomConnectionEventData";
 import { RoomData } from "../Rest/Entities/Models/RoomData";
 import { Room } from "../Rest/Entities/Room";
 import { UserCurrentRoomUpdatedEventData } from "./Models/UserCurrentRoomUpdatedEventData";
@@ -533,21 +529,6 @@ export class GatewayClient implements IAsyncDisposable
 						await this.#_eventEmitter.emit(
 							payload.event, new UserStartedTypingEvent(payload.data, this));
 						break;
-					case EventType.UserStoppedTyping:
-						ThrowHelper.TypeError.throwIfNotType(payload.data, UserTypingEventData);
-						await this.#_eventEmitter.emit(
-							payload.event, new UserStoppedTypingEvent(payload.data, this));
-						break;
-					case EventType.RoomConnectionCreated:
-						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomConnectionEventData);
-						await this.#_eventEmitter.emit(
-							payload.event, new RoomConnectionCreatedEvent(payload.data, this));
-						break;
-					case EventType.RoomConnectionRemoved:
-						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomConnectionEventData);
-						await this.#_eventEmitter.emit(
-							payload.event, new RoomConnectionRemovedEvent(payload.data, this));
-						break;
 					case EventType.RoomCreated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomData);
 						await this.#_eventEmitter.emit(
@@ -893,14 +874,11 @@ export interface IGatewayClientEvents
 	Ready: Func<[ ReadyEvent ]>;
 	Disconnected: Func;
 	Resumed: Func;
-	BanCreated: Func<[ BanIssuedEvent ]>;
-	BanRemoved: Func<[ BanLiftedEvent ]>;
+	BanIssued: Func<[ BanIssuedEvent ]>;
+	BanLifted: Func<[ BanLiftedEvent ]>;
 	MessageCreated: Func<[ MessageCreatedEvent ]>;
 	MessageRemoved: Func<[ MessageRemovedEvent ]>;
 	UserStartedTyping: Func<[ UserStartedTypingEvent ]>;
-	UserStoppedTyping: Func<[ UserStoppedTypingEvent ]>;
-	RoomConnectionCreated: Func<[ RoomConnectionCreatedEvent ]>;
-	RoomConnectionRemoved: Func<[ RoomConnectionRemovedEvent ]>;
 	RoomCreated: Func<[ RoomCreatedEvent ]>;
 	RoomUpdated: Func<[ RoomUpdatedEvent ]>;
 	RoomRemoved: Func<[ RoomRemovedEvent ]>;
