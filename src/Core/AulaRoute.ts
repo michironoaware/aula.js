@@ -285,6 +285,11 @@ export namespace AulaRoute
 		return `users/${route.userId}`;
 	}
 
+	export function currentUserBanStatus()
+	{
+		return "users/@me/ban-status";
+	}
+
 	export function userRoles(route: { userId: string })
 	{
 		ThrowHelper.TypeError.throwIfNullable(route);
