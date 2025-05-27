@@ -5,7 +5,7 @@ import { ThrowHelper } from "../../../Common/ThrowHelper";
 import { ReadyEventData } from "./ReadyEventData";
 import { BanData } from "../../Rest/Entities/Models/BanData";
 import { MessageData } from "../../Rest/Entities/Models/MessageData";
-import { UserTypingEventData } from "./UserTypingEventData";
+import { UserStartedTypingEventData } from "./UserStartedTypingEventData";
 import { RoomConnectionEventData } from "./RoomConnectionEventData";
 import { RoomData } from "../../Rest/Entities/Models/RoomData";
 import { UserCurrentRoomUpdatedEventData } from "./UserCurrentRoomUpdatedEventData";
@@ -19,7 +19,7 @@ export class GatewayPayload
 {
 	readonly #_operation: OperationType;
 	readonly #_event: EventType | null;
-	readonly #_data: ReadyEventData | BanData | MessageData | UserTypingEventData | RoomConnectionEventData | RoomData |
+	readonly #_data: ReadyEventData | BanData | MessageData | UserStartedTypingEventData | RoomConnectionEventData | RoomData |
 	                 UserCurrentRoomUpdatedEventData | UserData | UserPresenceUpdatedEventData | null = null;
 
 	public constructor(payloadData: any)
@@ -54,7 +54,7 @@ export class GatewayPayload
 						break;
 					case EventType.UserStartedTyping:
 					case EventType.UserStoppedTyping:
-						this.#_data = new UserTypingEventData(payloadData.data);
+						this.#_data = new UserStartedTypingEventData(payloadData.data);
 						break;
 					case EventType.RoomConnectionCreated:
 					case EventType.RoomConnectionRemoved:

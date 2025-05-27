@@ -44,7 +44,7 @@ export * from "./Core/Gateway/Models/ReadyEventData";
 export * from "./Core/Gateway/Models/RoomConnectionEventData";
 export * from "./Core/Gateway/Models/UserCurrentRoomUpdatedEventData";
 export * from "./Core/Gateway/Models/UserPresenceUpdatedEventData";
-export * from "./Core/Gateway/Models/UserTypingEventData";
+export * from "./Core/Gateway/Models/UserStartedTypingEventData";
 export * from "./Core/Gateway/BanIssuedEvent";
 export * from "./Core/Gateway/BanLiftedEvent";
 export * from "./Core/Gateway/CommonClientWebSocket";

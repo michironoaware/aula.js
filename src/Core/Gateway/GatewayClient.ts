@@ -24,7 +24,7 @@ import { BanData } from "../Rest/Entities/Models/BanData";
 import { MessageData } from "../Rest/Entities/Models/MessageData";
 import { UserStartedTypingEvent } from "./UserStartedTypingEvent";
 import { UserCurrentRoomUpdatedEvent } from "./UserCurrentRoomUpdatedEvent";
-import { UserTypingEventData } from "./Models/UserTypingEventData";
+import { UserStartedTypingEventData } from "./Models/UserStartedTypingEventData";
 import { BanIssuedEvent } from "./BanIssuedEvent";
 import { BanLiftedEvent } from "./BanLiftedEvent";
 import { MessageCreatedEvent } from "./MessageCreatedEvent";
@@ -525,7 +525,7 @@ export class GatewayClient implements IAsyncDisposable
 							payload.event, new MessageRemovedEvent(new MessageRemovedEventData(payload.data), this));
 						break;
 					case EventType.UserStartedTyping:
-						ThrowHelper.TypeError.throwIfNotType(payload.data, UserTypingEventData);
+						ThrowHelper.TypeError.throwIfNotType(payload.data, UserStartedTypingEventData);
 						await this.#_eventEmitter.emit(
 							payload.event, new UserStartedTypingEvent(payload.data, this));
 						break;
