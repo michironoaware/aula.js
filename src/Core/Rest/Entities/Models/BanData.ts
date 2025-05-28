@@ -28,6 +28,7 @@ export class BanData
 	{
 		SealedClassError.throwIfNotEqual(BanData, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
+		ThrowHelper.TypeError.throwIfNotType(data.id, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.type, "number");
 		ThrowHelper.TypeError.throwIfNotType(data.issuerType, "number");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.issuerId, "string", "nullable");
@@ -42,6 +43,7 @@ export class BanData
 				ThrowHelper.TypeError.throwIfNullable(data.targetid);
 		}
 
+		this.#_id = data.id;
 		this.#_type = data.type;
 		this.#_issuerType = data.issuerType;
 		this.#_issuerId = data.issuerId ?? null;
