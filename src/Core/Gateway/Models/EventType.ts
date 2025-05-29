@@ -64,6 +64,21 @@ export const EventType =
 		 */
 		BanLifted: "BanLifted",
 
+		/**
+		 * A role has been created.
+		 * */
+		RoleCreated: "RoleCreated",
+
+		/**
+		 * A role has been updated.
+		 * */
+		RoleUpdated: "RoleUpdated",
+
+		/**
+		 * A role has been deleted.
+		 * */
+		RoleDeleted: "RoleDeleted",
+
 		// Send
 		/**
 		 * Updates the current presence status for the current user.
