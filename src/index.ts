@@ -117,7 +117,7 @@ export * from "./Core/Rest/HttpFetchHandler";
 export * from "./Core/Rest/HttpLoggingHandler";
 export * from "./Core/Rest/LogInRequestBody";
 export * from "./Core/Rest/LogInResponse";
-export * from "./Core/Rest/ModifyCurrentUserRequestBody";
+export * from "./Core/Rest/ModifyUserRequestBody";
 export * from "./Core/Rest/ModifyRoomRequestBody";
 export * from "./Core/Rest/RegisterRequestBody";
 export * from "./Core/Rest/ResetBotTokenResponse";
