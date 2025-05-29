@@ -2,7 +2,6 @@
 import { RestClient } from "../RestClient";
 import { UserData } from "./Models/UserData";
 import { Permissions } from "./Permissions";
-import { SealedClassError } from "../../../Common/SealedClassError";
 import { Room } from "./Room";
 import { TypeHelper } from "../../../Common/TypeHelper";
 import { UnreachableError } from "../../../Common/UnreachableError";
@@ -13,7 +12,6 @@ import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
  * Represents a user within Aula.
- * @sealed
  * */
 export class User
 {
@@ -28,7 +26,6 @@ export class User
 	 * */
 	public constructor(data: UserData, restClient: RestClient)
 	{
-		SealedClassError.throwIfNotEqual(User, new.target);
 		ThrowHelper.TypeError.throwIfNotType(data, UserData);
 		//ThrowHelper.TypeError.throwIfNotType(restClient, RestClient); // Circular dependency problem
 
