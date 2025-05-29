@@ -53,12 +53,7 @@ export class GatewayPayload
 						this.#_data = new MessageData(payloadData.data);
 						break;
 					case EventType.UserStartedTyping:
-					case EventType.UserStoppedTyping:
 						this.#_data = new UserStartedTypingEventData(payloadData.data);
-						break;
-					case EventType.RoomConnectionCreated:
-					case EventType.RoomConnectionRemoved:
-						this.#_data = new RoomConnectionEventData(payloadData.data);
 						break;
 					case EventType.RoomCreated:
 					case EventType.RoomUpdated:
