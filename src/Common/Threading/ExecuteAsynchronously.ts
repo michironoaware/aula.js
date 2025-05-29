@@ -1,7 +1,7 @@
 ﻿import { Func } from "../Func";
 import { ThrowHelper } from "../ThrowHelper";
 
-export async function AsNonBlocking<TFunc extends Func<[], TReturn>, TReturn>(func: TFunc): Promise<TReturn>
+export async function ExecuteAsynchronously<TFunc extends Func<[], TReturn>, TReturn>(func: TFunc): Promise<TReturn>
 {
 	ThrowHelper.TypeError.throwIfNotType(func, "function");
 
