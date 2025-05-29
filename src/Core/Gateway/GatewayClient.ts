@@ -49,6 +49,11 @@ import { GatewayClientOptions } from "./GatewayClientOptions";
 import { MessageDeletedEventData } from "./Models/MessageDeletedEventData";
 import { IAsyncDisposable } from "../../Common/IAsyncDisposable";
 import { GatewayClientState } from "./GatewayClientState";
+import { RoleCreatedEvent } from "./RoleCreatedEvent";
+import { RoleUpdatedEvent } from "./RoleUpdatedEvent";
+import { RoleDeletedEvent } from "./RoleDeletedEvent";
+import { RoleData } from "../Rest/Entities/Models/RoleData";
+import { Role } from "../Rest/Entities/Role";
 
 /**
  * Provides a client to interact with the Aula Gateway API.
@@ -559,6 +564,21 @@ export class GatewayClient implements IAsyncDisposable
 						await this.#_eventEmitter.emit(
 							payload.event, new UserPresenceUpdatedEvent(payload.data, this));
 						break;
+					case EventType.RoleCreated:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, RoleData);
+						await this.#_eventEmitter.emit(
+							payload.event, new RoleCreatedEvent(new Role(payload.data, this.#_restClient), this));
+						break;
+					case EventType.RoleUpdated:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, RoleData);
+						await this.#_eventEmitter.emit(
+							payload.event, new RoleUpdatedEvent(new Role(payload.data, this.#_restClient), this));
+						break;
+					case EventType.RoleDeleted:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, RoleData);
+						await this.#_eventEmitter.emit(
+							payload.event, new RoleDeletedEvent(new Role(payload.data, this.#_restClient), this));
+						break;
 					default:
 						break;
 				}
@@ -882,6 +902,9 @@ export interface IGatewayClientEvents
 	RoomCreated: Func<[ RoomCreatedEvent ]>;
 	RoomUpdated: Func<[ RoomUpdatedEvent ]>;
 	RoomDeleted: Func<[ RoomDeletedEvent ]>;
+	RoleCreated: Func<[ RoleCreatedEvent ]>;
+	RoleUpdated: Func<[ RoleUpdatedEvent ]>;
+	RoleDeleted: Func<[ RoleDeletedEvent ]>;
 	UserUpdated: Func<[ UserUpdatedEvent ]>;
 	UserCurrentRoomUpdated: Func<[ UserCurrentRoomUpdatedEvent ]>;
 	UserPresenceUpdated: Func<[ UserPresenceUpdatedEvent ]>;
