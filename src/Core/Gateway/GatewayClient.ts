@@ -54,6 +54,9 @@ import { RoleUpdatedEvent } from "./RoleUpdatedEvent";
 import { RoleDeletedEvent } from "./RoleDeletedEvent";
 import { RoleData } from "../Rest/Entities/Models/RoleData";
 import { Role } from "../Rest/Entities/Role";
+import { FileCreatedEvent } from "./FileCreatedEvent";
+import { FileData } from "../Rest/Entities/Models/FileData";
+import { File } from "../Rest/Entities/File";
 
 /**
  * Provides a client to interact with the Aula Gateway API.
@@ -579,6 +582,11 @@ export class GatewayClient implements IAsyncDisposable
 						await this.#_eventEmitter.emit(
 							payload.event, new RoleDeletedEvent(new Role(payload.data, this.#_restClient), this));
 						break;
+					case EventType.FileCreated:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, FileData);
+						await this.#_eventEmitter.emit(
+							payload.event, new FileCreatedEvent(new File(payload.data, this.#_restClient), this));
+						break;
 					default:
 						break;
 				}
@@ -905,6 +913,7 @@ export interface IGatewayClientEvents
 	RoleCreated: Func<[ RoleCreatedEvent ]>;
 	RoleUpdated: Func<[ RoleUpdatedEvent ]>;
 	RoleDeleted: Func<[ RoleDeletedEvent ]>;
+	FileCreated: Func<[ FileCreatedEvent ]>;
 	UserUpdated: Func<[ UserUpdatedEvent ]>;
 	UserCurrentRoomUpdated: Func<[ UserCurrentRoomUpdatedEvent ]>;
 	UserPresenceUpdated: Func<[ UserPresenceUpdatedEvent ]>;
