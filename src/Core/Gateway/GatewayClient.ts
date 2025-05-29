@@ -560,7 +560,7 @@ export class GatewayClient implements IAsyncDisposable
 					case EventType.UserUpdated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserData);
 						await this.#_eventEmitter.emit(
-							payload.event, new UserUpdatedEvent(new User(payload.data, this.#_restClient), this));
+							payload.event, new UserUpdatedEvent(EntityFactory.createUser(payload.data, this.#_restClient), this));
 						break;
 					case EventType.UserPresenceUpdated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserPresenceUpdatedEventData);
@@ -755,7 +755,7 @@ export class GatewayClient implements IAsyncDisposable
 			if (event.userId === this.#_currentUser!.id &&
 			    event.currentRoomId !== this.#_currentUser!.currentRoomId)
 			{
-				this.#_currentUser = new User(new UserData({
+				this.#_currentUser = EntityFactory.createUser(new UserData({
 					id: this.#_currentUser!.id,
 					displayName: this.#_currentUser!.displayName,
 					description: this.#_currentUser!.description,
@@ -772,7 +772,7 @@ export class GatewayClient implements IAsyncDisposable
 			if (event.userId === this.#_currentUser!.id &&
 			    event.presence !== this.#_currentUser!.presence)
 			{
-				this.#_currentUser = new User(new UserData({
+				this.#_currentUser = EntityFactory.createUser(new UserData({
 					id: this.#_currentUser!.id,
 					displayName: this.#_currentUser!.displayName,
 					description: this.#_currentUser!.description,
@@ -802,7 +802,7 @@ export class GatewayClient implements IAsyncDisposable
 
 			if (event.currentRoomId !== user.currentRoomId)
 			{
-				const newUserValue = new User(new UserData({
+				const newUserValue = EntityFactory.createUser(new UserData({
 					id: user.id,
 					displayName: user.displayName,
 					description: user.description,
@@ -831,7 +831,7 @@ export class GatewayClient implements IAsyncDisposable
 
 			if (event.presence !== user.presence)
 			{
-				const newUserValue = new User(new UserData({
+				const newUserValue = EntityFactory.createUser(new UserData({
 					id: user.id,
 					displayName: user.displayName,
 					description: user.description,

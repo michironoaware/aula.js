@@ -1376,7 +1376,7 @@ export class RestClient implements IAsyncDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse(await response.content.readAsString())
-		           .map((d: any) => new User(new UserData(d), this)) as User[];
+		           .map((d: any) => EntityFactory.createUser(new UserData(d), this)) as User[];
 	}
 
 	public async addRole(userId: string, roleId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -1495,7 +1495,7 @@ export class RestClient implements IAsyncDisposable
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
+		return EntityFactory.createUser(new UserData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	/**
@@ -1526,7 +1526,7 @@ export class RestClient implements IAsyncDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return JSON.parse(await response.content.readAsString())
-		           .map((d: any) => new User(new UserData(d), this)) as User[];
+		           .map((d: any) => EntityFactory.createUser(new UserData(d), this)) as User[];
 	}
 
 	/**
@@ -1561,7 +1561,7 @@ export class RestClient implements IAsyncDisposable
 
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
+		return EntityFactory.createUser(new UserData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	/**
@@ -1597,7 +1597,7 @@ export class RestClient implements IAsyncDisposable
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
+		return EntityFactory.createUser(new UserData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	/**
