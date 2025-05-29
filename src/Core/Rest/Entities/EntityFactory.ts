@@ -13,6 +13,11 @@ import { RoomData } from "./Models/RoomData";
 import { Room } from "./Room";
 import { RoomType } from "./RoomType";
 import { StandardRoom } from "./StandardRoom";
+import { User } from "./User";
+import { UserData } from "./Models/UserData";
+import { UserType } from "./UserType";
+import { StandardUser } from "./StandardUser";
+import { BotUser } from "./BotUser";
 
 /**
  * @privateRemarks Adding a static `create` method to base entity types is not possible
@@ -68,6 +73,23 @@ export namespace EntityFactory
 				return new StandardRoom(data, restClient);
 			default:
 				return new Room(data, restClient);
+		}
+	}
+
+	/**
+	 * Initializes a new instance of a {@link User}, given the input parameters.
+	 * @package
+	 * */
+	export function createUser(data: UserData, restClient: RestClient): User
+	{
+		switch (data.type)
+		{
+			case UserType.Standard:
+				return new StandardUser(data, restClient);
+			case UserType.Bot:
+				return new BotUser(data, restClient);
+			default:
+				return new User(data, restClient);
 		}
 	}
 }
