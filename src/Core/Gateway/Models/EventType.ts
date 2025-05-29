@@ -79,6 +79,11 @@ export const EventType =
 		 * */
 		RoleDeleted: "RoleDeleted",
 
+		/**
+		 * A file has been created.
+		 * */
+		FileCreated: "FileCreated",
+
 		// Send
 		/**
 		 * Updates the current presence status for the current user.
