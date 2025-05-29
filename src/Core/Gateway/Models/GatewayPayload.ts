@@ -11,6 +11,7 @@ import { UserCurrentRoomUpdatedEventData } from "./UserCurrentRoomUpdatedEventDa
 import { UserData } from "../../Rest/Entities/Models/UserData";
 import { UserPresenceUpdatedEventData } from "./UserPresenceUpdatedEventData";
 import { RoleData } from "../../Rest/Entities/Models/RoleData";
+import { FileData } from "../../Rest/Entities/Models/FileData";
 
 /**
  * @sealed
@@ -20,7 +21,7 @@ export class GatewayPayload
 	readonly #_operation: OperationType;
 	readonly #_event: EventType | null;
 	readonly #_data: ReadyEventData | BanData | MessageData | UserStartedTypingEventData | RoomData |
-	                 UserCurrentRoomUpdatedEventData | UserData | UserPresenceUpdatedEventData | RoleData | null = null;
+	                 UserCurrentRoomUpdatedEventData | UserData | UserPresenceUpdatedEventData | RoleData | FileData | null = null;
 
 	public constructor(payloadData: any)
 	{
@@ -73,6 +74,9 @@ export class GatewayPayload
 					case EventType.RoleUpdated:
 					case EventType.RoleDeleted:
 						this.#_data = new RoleData(payloadData.data);
+						break;
+					case EventType.FileCreated:
+						this.#_data = new FileData(payloadData.data);
 						break;
 					default:
 						break;
