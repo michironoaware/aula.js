@@ -266,7 +266,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async getBan(banId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -301,7 +301,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async getBans(query: GetBansQuery = GetBansQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
@@ -331,7 +331,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaNotFoundError} If the specified ban does not exist.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
@@ -360,7 +360,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async createBot(body: CreateBotRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
@@ -391,7 +391,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async deleteBot(userId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -418,7 +418,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaNotFoundError} If the specified bot user does not exist.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
@@ -451,7 +451,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async getFiles(query: GetFilesQuery = GetFilesQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
@@ -484,7 +484,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async getFile(fileId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -518,7 +518,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async getFileContent(fileId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -555,7 +555,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async uploadFile(
@@ -723,7 +723,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
@@ -804,7 +804,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
@@ -838,7 +838,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async getMessage(roomId: string, messageId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -875,7 +875,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
@@ -914,7 +914,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async deleteMessage(roomId: string, messageId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -975,6 +975,18 @@ export class RestClient implements IAsyncDisposable
 		}
 	}
 
+	/**
+	 * Gets a role.
+	 * Requires authentication.
+	 * @param roleId The ID of the role.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Role}, or `null` if the requested role does not exist.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user was not authorized to perform the action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * */
 	public async getRole(roleId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roleId, "string");
@@ -997,6 +1009,19 @@ export class RestClient implements IAsyncDisposable
 		return new Role(new RoleData(JSON.parse(await response.content.readAsString())), this);
 	}
 
+	/**
+	 * Gets a collection of roles.
+	 * Requires authentication.
+	 * @param query The query option for retrieving roles.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Role} array.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user was not authorized to perform the action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * */
 	public async getRoles(
 		query: GetRolesQuery = GetRolesQuery.default,
 		cancellationToken: CancellationToken = CancellationToken.none)
@@ -1017,6 +1042,20 @@ export class RestClient implements IAsyncDisposable
 		           .map((d: any) => new Role(new RoleData(d), this)) as Role[];
 	}
 
+	/**
+	 * Creates a new role.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permission.
+	 * Fires a {@link RoleCreatedEvent} gateway event.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Role} that represents the created role.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * */
 	public async createRole(body: CreateRoleRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(body, CreateRoleRequestBody);
@@ -1035,6 +1074,23 @@ export class RestClient implements IAsyncDisposable
 		return new Role(new RoleData(JSON.parse(await response.content.readAsString())), this);
 	}
 
+	/**
+	 * Modifies the specified role.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permission.
+	 * Requires the {@link Permissions.Administrator} permission to modify roles above the higher role of the requester.
+	 * Fires a {@link RoleUpdatedEvent} gateway event.
+	 * @param roleId The id of the role to modify.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Role} that represents the modified role.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified role does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * */
 	public async modifyRole(
 		roleId: string,
 		body: ModifyRoleRequestBody,
@@ -1056,6 +1112,22 @@ export class RestClient implements IAsyncDisposable
 		return new Role(new RoleData(JSON.parse(await response.content.readAsString())), this);
 	}
 
+	/**
+	 * Modifies the position of one or more of the specified roles.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permission.
+	 * Requires the {@link Permissions.Administrator} permission to modify roles above the higher role of the requester.
+	 * Requires all the specified permissions or the {@link Permissions.Administrator} permission to modify the role permissions.
+	 * Can fire one or more {@link RoleUpdatedEvent} gateway events.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Role} array containing all the existing roles.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * */
 	public async modifyRolePositions(body: ModifyRolePositionsRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(body, ModifyRolePositionsRequestBody);
@@ -1075,6 +1147,20 @@ export class RestClient implements IAsyncDisposable
 		           .map((d: any) => new Role(new RoleData(d), this)) as Role[];
 	}
 
+	/**
+	 * Deletes a role.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permissions.
+	 * Requires the {@link Permissions.Administrator} permission to delete roles above the higher role of the requester.
+	 * Fires a {@link RoleDeletedEvent} gateway event.
+	 * @param roleId The ID of the role.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user was not authorized to perform the action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * */
 	public async deleteRole(roleId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(roleId, "string");
@@ -1101,7 +1187,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async createRoom(body: CreateRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
@@ -1132,7 +1218,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async getRooms(query: GetRoomsQuery = GetRoomsQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
@@ -1163,7 +1249,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async getRoom(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -1200,7 +1286,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
@@ -1234,7 +1320,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async deleteRoom(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -1264,7 +1350,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
@@ -1294,7 +1380,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
@@ -1319,7 +1405,7 @@ export class RestClient implements IAsyncDisposable
 	/**
 	 * Disable users to move from one room to another.
 	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
-	 * Fires a {@link RoomConnectionRemovedEvent} gateway event.
+	 * Fires a {@link RoomUpdatedEvent} gateway event.
 	 * @param roomId The id of the room users must be in.
 	 * @param destinationId The id of the room users will not be able to go to.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
@@ -1328,7 +1414,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async removeRoomDestination(roomId: string, destinationId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -1357,7 +1443,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaNotFoundError} If the specified room does not exist.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
@@ -1379,6 +1465,23 @@ export class RestClient implements IAsyncDisposable
 		           .map((d: any) => EntityFactory.createUser(new UserData(d), this)) as User[];
 	}
 
+	/**
+	 * Assigns a role to the specified user.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permission.
+	 * Requires the {@link Permissions.Administrator} permission to assign roles above the higher role of the requester.
+	 * Fires a {@link UserUpdatedEvent} gateway event.
+	 * @param userId The ID of the user to assign a role.
+	 * @param roleId The ID of the role to assign.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified user or role does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * */
 	public async addRole(userId: string, roleId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
@@ -1395,6 +1498,23 @@ export class RestClient implements IAsyncDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
+	/**
+	 * Revokes a role from the specified user.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permission.
+	 * Requires the {@link Permissions.Administrator} permission to revoke roles above the higher role of the requester.
+	 * Fires a {@link UserUpdatedEvent} gateway event.
+	 * @param userId The ID of the user to revoke a role.
+	 * @param roleId The ID of the role to revoke.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified user or role does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * */
 	public async removeRole(userId: string, roleId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
@@ -1421,7 +1541,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaNotFoundError} If the specified user does not exist.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
@@ -1452,7 +1572,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async getCurrentUserBanStatus(cancellationToken: CancellationToken = CancellationToken.none)
@@ -1479,7 +1599,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async getCurrentUser(cancellationToken: CancellationToken = CancellationToken.none)
@@ -1508,7 +1628,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async getUsers(query: GetUsersQuery = GetUsersQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
@@ -1539,7 +1659,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async getUser(userId: string, cancellationToken: CancellationToken = CancellationToken.none)
@@ -1578,7 +1698,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async modifyUser(userId: string, body: ModifyUserRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
@@ -1603,7 +1723,7 @@ export class RestClient implements IAsyncDisposable
 	/**
 	 * Ban a user from the application.
 	 * Requires authentication and the {@link Permissions.BanUsers} permission.
-	 * Fires a {@link BanCreatedEvent} gateway event.
+	 * Fires a {@link BanIssuedEvent} gateway event.
 	 * @param userId The id of the user to ban.
 	 * @param body The request body.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
@@ -1612,7 +1732,7 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
 	 * */
 	public async banUser(
