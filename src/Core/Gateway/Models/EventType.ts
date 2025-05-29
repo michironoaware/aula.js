@@ -20,9 +20,9 @@ export const EventType =
 		RoomUpdated: "RoomUpdated",
 
 		/**
-		 * A room has been removed.
+		 * A room has been deleted.
 		 */
-		RoomRemoved: "RoomRemoved",
+		RoomDeleted: "RoomDeleted",
 
 		/**
 		 * A user has been updated.
@@ -47,7 +47,7 @@ export const EventType =
 		/**
 		 * A message has been deleted.
 		 */
-		MessageRemoved: "MessageRemoved",
+		MessageDeleted: "MessageDeleted",
 
 		/**
 		 * A user has started typing in a room.

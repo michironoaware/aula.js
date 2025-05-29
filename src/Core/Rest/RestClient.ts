@@ -905,7 +905,7 @@ export class RestClient implements IAsyncDisposable
 	 * Deletes a previously sent message.
 	 * Requires authentication.
 	 * Requires the {@link Permissions.ManageMessages} permission or being the user that sent the message.
-	 * Fires a {@link MessageRemovedEvent} gateway event.
+	 * Fires a {@link MessageDeletedEvent} gateway event.
 	 * @param roomId The id of the room where the message was sent.
 	 * @param messageId The id of the message to remove.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
@@ -1226,7 +1226,7 @@ export class RestClient implements IAsyncDisposable
 	/**
 	 * Deletes the specified room.
 	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
-	 * Fires a {@link RoomRemovedEvent} gateway event.
+	 * Fires a {@link RoomDeletedEvent} gateway event.
 	 * @param roomId The id of the room to modify.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves once the operation is complete.

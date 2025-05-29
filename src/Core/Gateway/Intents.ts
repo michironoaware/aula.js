@@ -15,14 +15,14 @@ export const Intents =
 
 		/**
 		 * - {@link EventType.RoomCreated}
-		 * - {@link EventType.RoomRemoved}
+		 * - {@link EventType.RoomDeleted}
 		 * - {@link EventType.RoomUpdated}
 		 * */
 		Rooms: 2n,
 
 		/**
 		 * - {@link EventType.MessageCreated}
-		 * - {@link EventType.MessageRemoved}
+		 * - {@link EventType.MessageDeleted}
 		 * - {@link EventType.UserStartedTyping}
 		 * */
 		Messages: 4n,

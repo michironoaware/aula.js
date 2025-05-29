@@ -49,7 +49,7 @@ export class GatewayPayload
 						this.#_data = new BanData(payloadData.data);
 						break;
 					case EventType.MessageCreated:
-					case EventType.MessageRemoved:
+					case EventType.MessageDeleted:
 						this.#_data = new MessageData(payloadData.data);
 						break;
 					case EventType.UserStartedTyping:
@@ -62,7 +62,7 @@ export class GatewayPayload
 						break;
 					case EventType.RoomCreated:
 					case EventType.RoomUpdated:
-					case EventType.RoomRemoved:
+					case EventType.RoomDeleted:
 						this.#_data = new RoomData(payloadData.data);
 						break;
 					case EventType.UserCurrentRoomUpdated:

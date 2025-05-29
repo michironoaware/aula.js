@@ -1,24 +1,24 @@
 ﻿import { GatewayClient } from "./GatewayClient";
 import { SealedClassError } from "../../Common/SealedClassError";
 import { ThrowHelper } from "../../Common/ThrowHelper";
-import { MessageRemovedEventData } from "./Models/MessageRemovedEventData";
+import { MessageDeletedEventData } from "./Models/MessageDeletedEventData";
 
 /**
- * Emitted when a message has been removed.
+ * Emitted when a message has been deleted.
  * @sealed
  * */
-export class MessageRemovedEvent
+export class MessageDeletedEvent
 {
-	readonly #_data: MessageRemovedEventData;
+	readonly #_data: MessageDeletedEventData;
 	readonly #_gatewayClient: GatewayClient;
 
 	/**
 	 * @package
 	 * */
-	public constructor(data: MessageRemovedEventData, gatewayClient: GatewayClient)
+	public constructor(data: MessageDeletedEventData, gatewayClient: GatewayClient)
 	{
-		SealedClassError.throwIfNotEqual(MessageRemovedEvent, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, MessageRemovedEventData);
+		SealedClassError.throwIfNotEqual(MessageDeletedEvent, new.target);
+		ThrowHelper.TypeError.throwIfNotType(data, MessageDeletedEventData);
 		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
 		this.#_data = data;

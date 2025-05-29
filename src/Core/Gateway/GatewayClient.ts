@@ -28,10 +28,10 @@ import { UserStartedTypingEventData } from "./Models/UserStartedTypingEventData"
 import { BanIssuedEvent } from "./BanIssuedEvent";
 import { BanLiftedEvent } from "./BanLiftedEvent";
 import { MessageCreatedEvent } from "./MessageCreatedEvent";
-import { MessageRemovedEvent } from "./MessageRemovedEvent";
+import { MessageDeletedEvent } from "./MessageDeletedEvent";
 import { RoomCreatedEvent } from "./RoomCreatedEvent";
 import { RoomUpdatedEvent } from "./RoomUpdatedEvent";
-import { RoomRemovedEvent } from "./RoomRemovedEvent";
+import { RoomDeletedEvent } from "./RoomDeletedEvent";
 import { UserUpdatedEvent } from "./UserUpdatedEvent";
 import { RoomData } from "../Rest/Entities/Models/RoomData";
 import { Room } from "../Rest/Entities/Room";
@@ -46,7 +46,7 @@ import { JsonReplacer } from "../../Common/Json/JsonReplacer";
 import { UserPresenceUpdatedEventData } from "./Models/UserPresenceUpdatedEventData";
 import { UserPresenceUpdatedEvent } from "./UserPresenceUpdatedEvent";
 import { GatewayClientOptions } from "./GatewayClientOptions";
-import { MessageRemovedEventData } from "./Models/MessageRemovedEventData";
+import { MessageDeletedEventData } from "./Models/MessageDeletedEventData";
 import { IAsyncDisposable } from "../../Common/IAsyncDisposable";
 import { GatewayClientState } from "./GatewayClientState";
 
@@ -519,10 +519,10 @@ export class GatewayClient implements IAsyncDisposable
 						await this.#_eventEmitter.emit(
 							payload.event, new MessageCreatedEvent(EntityFactory.createMessage(payload.data, this.#_restClient), this));
 						break;
-					case EventType.MessageRemoved:
+					case EventType.MessageDeleted:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
 						await this.#_eventEmitter.emit(
-							payload.event, new MessageRemovedEvent(new MessageRemovedEventData(payload.data), this));
+							payload.event, new MessageDeletedEvent(new MessageDeletedEventData(payload.data), this));
 						break;
 					case EventType.UserStartedTyping:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserStartedTypingEventData);
@@ -539,10 +539,10 @@ export class GatewayClient implements IAsyncDisposable
 						await this.#_eventEmitter.emit(
 							payload.event, new RoomUpdatedEvent(new Room(payload.data, this.#_restClient), this));
 						break;
-					case EventType.RoomRemoved:
+					case EventType.RoomDeleted:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomData);
 						await this.#_eventEmitter.emit(
-							payload.event, new RoomRemovedEvent(new Room(payload.data, this.#_restClient), this));
+							payload.event, new RoomDeletedEvent(new Room(payload.data, this.#_restClient), this));
 						break;
 					case EventType.UserCurrentRoomUpdated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserCurrentRoomUpdatedEventData);
@@ -877,11 +877,11 @@ export interface IGatewayClientEvents
 	BanIssued: Func<[ BanIssuedEvent ]>;
 	BanLifted: Func<[ BanLiftedEvent ]>;
 	MessageCreated: Func<[ MessageCreatedEvent ]>;
-	MessageRemoved: Func<[ MessageRemovedEvent ]>;
+	MessageDeleted: Func<[ MessageDeletedEvent ]>;
 	UserStartedTyping: Func<[ UserStartedTypingEvent ]>;
 	RoomCreated: Func<[ RoomCreatedEvent ]>;
 	RoomUpdated: Func<[ RoomUpdatedEvent ]>;
-	RoomRemoved: Func<[ RoomRemovedEvent ]>;
+	RoomDeleted: Func<[ RoomDeletedEvent ]>;
 	UserUpdated: Func<[ UserUpdatedEvent ]>;
 	UserCurrentRoomUpdated: Func<[ UserCurrentRoomUpdatedEvent ]>;
 	UserPresenceUpdated: Func<[ UserPresenceUpdatedEvent ]>;

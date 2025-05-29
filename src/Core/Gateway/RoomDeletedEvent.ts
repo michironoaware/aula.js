@@ -4,10 +4,10 @@ import { SealedClassError } from "../../Common/SealedClassError";
 import { ThrowHelper } from "../../Common/ThrowHelper";
 
 /**
- * Emitted when a room is removed.
+ * Emitted when a room is deleted.
  * @sealed
  * */
-export class RoomRemovedEvent
+export class RoomDeletedEvent
 {
 	readonly #_room: Room;
 	readonly #_gatewayClient: GatewayClient;
@@ -17,7 +17,7 @@ export class RoomRemovedEvent
 	 * */
 	public constructor(room: Room, gatewayClient: GatewayClient)
 	{
-		SealedClassError.throwIfNotEqual(RoomRemovedEvent, new.target);
+		SealedClassError.throwIfNotEqual(RoomDeletedEvent, new.target);
 		ThrowHelper.TypeError.throwIfNotType(room, Room);
 		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
@@ -26,7 +26,7 @@ export class RoomRemovedEvent
 	}
 
 	/**
-	 * Gets the id of the room removed.
+	 * Gets the id of the room.
 	 * */
 	public get room()
 	{
