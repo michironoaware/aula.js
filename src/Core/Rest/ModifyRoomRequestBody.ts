@@ -1,5 +1,8 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError";
 import { ThrowHelper } from "../../Common/ThrowHelper";
+import { ReadOnlyCollection } from "../../Common/Collections/ReadOnlyCollection";
+import { TypeHelper } from "../../Common/TypeHelper";
+import { ArrayHelper } from "../../Common/ArrayHelper";
 
 /**
  * Represents the request body used to modify a room.
@@ -11,6 +14,8 @@ export class ModifyRoomRequestBody
 	#_description: string | null = null;
 	#_isEntrance: boolean | null = null;
 	#_backgroundAudioId: string | null = null;
+	#_destinationIds: string[] | null = null;
+	#_destinationIdsView: ReadOnlyCollection<string> | null = null;
 
 	/**
 	 * Initializes a new instance of {@link ModifyRoomRequestBody}.
@@ -93,6 +98,20 @@ export class ModifyRoomRequestBody
 	}
 
 	/**
+	 * Gets the ID collection of the destination rooms that will overwrite the current destination room values,
+	 * or `null` if no overwrites have been specified.
+	 * */
+	public get destinationIds()
+	{
+		if (this.#_destinationIds === null)
+		{
+			return null;
+		}
+
+		return this.#_destinationIdsView ??= new ReadOnlyCollection(this.#_destinationIds);
+	}
+
+	/**
 	 * Sets the new name of the room.
 	 * @param name The room name, or `null` to do no modifications.
 	 * @returns The current {@link ModifyRoomRequestBody} instance.
@@ -136,13 +155,30 @@ export class ModifyRoomRequestBody
 		return this;
 	}
 
+	/**
+	 * Sets the ID collection of the destination rooms that will overwrite the current destination room values,
+	 * or `null` if no modifications should be made.
+	 * @param destinationIds The ID collection of the destination rooms.
+	 * @returns The current {@link ModifyRoomRequestBody} instance.
+	 * */
+	public withDestinationIds(destinationIds: Iterable<string> | null)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(destinationIds, "iterable", "null");
+		this.#_destinationIds = TypeHelper.isType(destinationIds, "iterable")
+			? ArrayHelper.distinct(ArrayHelper.asArray(destinationIds))
+			: null;
+		this.#_destinationIdsView = null;
+		return this;
+	}
+
 	public toJSON()
 	{
 		return {
 			name: this.#_name,
 			description: this.#_description,
 			isEntrance: this.#_isEntrance,
-			backgroundAudioId: this.#_backgroundAudioId
+			backgroundAudioId: this.#_backgroundAudioId,
+			destinationIds: this.#_destinationIds,
 		};
 	}
 }
