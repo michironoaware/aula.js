@@ -1,5 +1,6 @@
 ﻿import { SealedClassError } from "../../Common/SealedClassError";
 import { ThrowHelper } from "../../Common/ThrowHelper";
+import { BanType } from "./Entities/BanType";
 
 /**
  * Represents the query options used to retrieve bans.
@@ -9,9 +10,10 @@ export class GetBansQuery
 {
 	static #_default: GetBansQuery | null = null;
 
+	#_type: BanType | null = null;
 	#_count: number | null = null;
-	#_before: string | null = null;
 	#_after: string | null = null;
+	#_includeLifted: boolean | null = null;
 
 	/**
 	 * Initializes a new instance of {@link GetBansQuery}.
@@ -27,6 +29,24 @@ export class GetBansQuery
 	public static get default()
 	{
 		return this.#_default ??= new GetBansQuery();
+	}
+
+	/**
+	 * Gets the type of ban to filter for.
+	 * */
+	public get type()
+	{
+		return this.#_type;
+	}
+
+	/**
+	 * Sets the type of ban to filter for.
+	 * @default null
+	 * */
+	public set type(type: BanType | null)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(type, "number", "null");
+		this.#_type = type;
 	}
 
 	/**
@@ -49,25 +69,6 @@ export class GetBansQuery
 	}
 
 	/**
-	 * Gets the id of the ban from which to start returning results backwards, **excluding** that ban.
-	 * @default null
-	 */
-	public get before()
-	{
-		return this.#_before;
-	}
-
-	/**
-	 * Sets the id of the ban from which to start returning results backwards.
-	 * @param before The id of the ban from which to start returning results backwards, **excluding** that ban.
-	 */
-	public set before(before: string | null)
-	{
-		ThrowHelper.TypeError.throwIfNotAnyType(before, "string", "null");
-		this.#_before = before;
-	}
-
-	/**
 	 * Gets the id of the ban from which to start returning results, **excluding** that ban.
 	 * @default null
 	 */
@@ -87,6 +88,35 @@ export class GetBansQuery
 	}
 
 	/**
+	 * Gets whether to include lifted bans in the search.
+	 * */
+	public get includeLifted()
+	{
+		return this.#_includeLifted;
+	}
+
+	/**
+	 * Sets whether to include lifted bans in the search.
+	 * @default null
+	 * */
+	public set includeLifted(includeLifted: boolean | null)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(includeLifted, "boolean", "null");
+		this.#_includeLifted = includeLifted;
+	}
+
+	/**
+	 * Sets the type of ban to filter for.
+	 * @param type The type of ban to filter for, or `null` to include all ban types.
+	 * @returns The current {@link GetBansQuery} instance.
+	 * */
+	public withType(type: BanType | null)
+	{
+		this.type = type;
+		return this;
+	}
+
+	/**
 	 * Sets the maximum number of bans to retrieve.
 	 * @param count The number of bans to return, or `null` to let the server decide.
 	 * @returns The current {@link GetBansQuery} instance.
@@ -98,17 +128,6 @@ export class GetBansQuery
 	}
 
 	/**
-	 * Sets the id of the ban from which to start returning results backwards.
-	 * @param before The id of the ban from which to start returning results backwards, **excluding** that ban.
-	 * @returns The current {@link GetBansQuery} instance.
-	 */
-	public withBefore(before: string | null)
-	{
-		this.before = before;
-		return this;
-	}
-
-	/**
 	 * Sets the id of the ban from which to start returning results.
 	 * @param after The id of the ban from which to start returning results, **excluding** that ban.
 	 * @returns The current {@link GetBansQuery} instance.
@@ -116,6 +135,18 @@ export class GetBansQuery
 	public withAfter(after: string | null)
 	{
 		this.after = after;
+		return this;
+	}
+
+	/**
+	 * Sets whether to include lifted bans in the search.
+	 * @param includeLifted A {@link boolean} indicating whether lifted bans should be included in the search,
+	 * or `null` to fall back to the default behavior (same as `false`).
+	 * @returns The current {@link GetBansQuery} instance.
+	 * */
+	public withIncludeLifted(includeLifted: boolean | null)
+	{
+		this.includeLifted = includeLifted;
 		return this;
 	}
 }
