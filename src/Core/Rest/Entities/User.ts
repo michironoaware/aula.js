@@ -1,14 +1,12 @@
 ﻿import { ThrowHelper } from "../../../Common/ThrowHelper";
 import { RestClient } from "../RestClient";
 import { UserData } from "./Models/UserData";
-import { Permissions } from "./Permissions";
 import { Room } from "./Room";
-import { TypeHelper } from "../../../Common/TypeHelper";
-import { UnreachableError } from "../../../Common/UnreachableError";
-import { SetUserRoomRequestBody } from "../SetUserRoomRequestBody";
-import { SetUserPermissionsRequestBody } from "../SetUserPermissionsRequestBody";
 import { BanUserRequestBody } from "../BanUserRequestBody";
 import { CancellationToken } from "../../../Common/Threading/CancellationToken";
+import { ModifyUserRequestBody } from "../ModifyUserRequestBody";
+import { Role } from "./Role";
+import { TypeHelper } from "../../../Common/TypeHelper";
 
 /**
  * Represents a user within Aula.
@@ -101,20 +99,63 @@ export class User
 	}
 
 	/**
-	 * Gets the latest version of the user.
+	 * Modifies the user.
+	 * Requires {@link Permissions.SetCurrentRoom} to update the current room of a user other than the requester.
+	 * Requires {@link Permissions.ManageRoles} to update the assigned roles.
+	 * Fires an {@link UserUpdatedEvent} gateway event.
+	 * @param body A {@link ModifyUserRequestBody} containing the properties to modify.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link User}.
+	 * @returns A promise that resolves to a {@link User} that represents the modified user.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the user no longer exists.
 	 * */
-	public async getLatest(cancellationToken: CancellationToken = CancellationToken.none)
+	public async modify(body: ModifyUserRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		const user = await this.restClient.getUser(this.id, cancellationToken);
-		if (user === null)
-		{
-			throw new UnreachableError("User expected to exist, but the server sent nothing.");
-		}
+		return await this.restClient.modifyUser(this.id, body, cancellationToken);
+	}
 
-		return user;
+	/**
+	 * Assigns a role to the user.
+	 * Requires the {@link Permissions.ManageRoles} permission.
+	 * Requires the {@link Permissions.Administrator} permission to assign roles above the higher role of the requester.
+	 * Fires a {@link UserUpdatedEvent} gateway event.
+	 * @param role The ID of the role to assign.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link User} that represents the updated user.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the user or the specified role does not exist.
+	 * */
+	public async assignRole(role: Role | string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(role, Role, "string");
+
+		const roleId = TypeHelper.isType(role, Role) ? role.id : role;
+		return await this.restClient.addRole(this.id, roleId, cancellationToken);
+	}
+
+	/**
+	 * Revokes a role from the user.
+	 * Requires the {@link Permissions.ManageRoles} permission.
+	 * Requires the {@link Permissions.Administrator} permission to revoke roles above the higher role of the requester.
+	 * Fires a {@link UserUpdatedEvent} gateway event.
+	 * @param role The ID of the role to revoke.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link User} that represents the updated user.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the user or the specified role does not exist.
+	 * */
+	public async revokeRole(role: Role | string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotAnyType(role, Role, "string");
+
+		const roleId = TypeHelper.isType(role, Role) ? role.id : role;
+		return await this.restClient.addRole(this.id, roleId, cancellationToken);
 	}
 
 	/**
@@ -123,6 +164,7 @@ export class User
 	 * @returns A promise that resolves to a {@link Room},
 	 * or `null` if the user is not in any room or the room no longer exists.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * */
 	public async getCurrentRoom(cancellationToken: CancellationToken = CancellationToken.none)
 	{
@@ -135,40 +177,15 @@ export class User
 	}
 
 	/**
-	 * Relocates the user to the specified room.
-	 * @param room The id of the room, or `null` if the user should not be relocated.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * */
-	public async setCurrentRoom(room: Room | string | null, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string", "null");
-
-		const roomId = TypeHelper.isType(room, Room) ? room.id : room ?? null;
-		return await this.restClient.setUserRoom(this.id, new SetUserRoomRequestBody().withRoomId(roomId), cancellationToken);
-	}
-
-	/**
-	 * Overwrites the permissions of the user.
-	 * @param permissions The new permissions of the user.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * */
-	public async setPermissions(permissions: Permissions, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(permissions, "bigint");
-		return await this.restClient.setUserPermissions(
-			this.id, new SetUserPermissionsRequestBody().withPermissions(permissions), cancellationToken);
-	}
-
-	/**
-	 * Bans the user from the application.
+	 * Ban the user from the service.
+	 * Requires the {@link Permissions.BanUsers} permission.
+	 * Fires a {@link BanIssuedEvent} gateway event.
 	 * @param reason A text that provides context about why the action was performed.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a {@link UserBan}, or `null` if the user is already banned.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * */
 	public async ban(reason?: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
@@ -178,13 +195,15 @@ export class User
 	}
 
 	/**
-	 * Unbans the user from the application.
+	 * Gets all the bans issued for the user.
+	 * Requires the {@link Permissions.BanUsers} permission.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
+	 * @returns A promise that resolves to a {@link UserBan} array.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * */
-	public async unban(cancellationToken: CancellationToken = CancellationToken.none)
+	public async getBans(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return await this.restClient.unbanUser(this.id, cancellationToken);
+		return await this.restClient.getUserBans(this.id, cancellationToken);
 	}
 }

@@ -1,6 +1,8 @@
 ﻿import { RestClient } from "../RestClient";
 import { RoleData } from "./Models/RoleData";
 import { ThrowHelper } from "../../../Common/ThrowHelper";
+import { ModifyRoleRequestBody } from "../ModifyRoleRequestBody";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 export class Role
 {
@@ -78,5 +80,38 @@ export class Role
 	public get creationDate()
 	{
 		return this.#_creationDate ??= new Date(this.#_data.creationDate);
+	}
+
+	/**
+	 * Modifies this role.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permission.
+	 * Requires the {@link Permissions.Administrator} permission to modify roles above the higher role of the requester.
+	 * Fires a {@link RoleUpdatedEvent} gateway event.
+	 * @param body A {@link ModifyRoleRequestBody} object containing the properties to modify.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Role} that represents the modified role.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the role no longer exists.
+	 * */
+	public async modify(body: ModifyRoleRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		return await this.restClient.modifyRole(this.id, body, cancellationToken);
+	}
+
+	/**
+	 * Deletes this role.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permissions.
+	 * Requires the {@link Permissions.Administrator} permission to delete roles above the higher role of the requester.
+	 * Fires a {@link RoleDeletedEvent} gateway event.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user was not authorized to perform the action.
+	 * */
+	public async delete(cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		return await this.restClient.deleteRole(this.id, cancellationToken);
 	}
 }

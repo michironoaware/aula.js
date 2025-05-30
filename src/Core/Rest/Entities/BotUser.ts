@@ -4,6 +4,7 @@ import { RestClient } from "../RestClient";
 import { SealedClassError } from "../../../Common/SealedClassError";
 import { InvalidOperationError } from "../../../Common/InvalidOperationError";
 import { UserType } from "./UserType";
+import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
  * Represents a bot user within Aula.
@@ -26,5 +27,18 @@ export class BotUser extends User
 		{
 			throw new InvalidOperationError(`User type expected to be ${UserType.Bot}.`);
 		}
+	}
+
+	/**
+	 * Deletes the bot user.
+	 * Requires the {@link Permissions.Administrator} permission.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * */
+	public async delete(cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		await this.restClient.deleteBot(this.id, cancellationToken);
 	}
 }

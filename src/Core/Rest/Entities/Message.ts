@@ -102,10 +102,13 @@ export class Message
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a {@link User}, or `null` if the author is not a user.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * */
 	public async getAuthor(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		if (this.authorId === null || this.authorType !== MessageAuthorType.User)
+		if (this.authorType !== MessageAuthorType.User ||
+		    this.authorId === null)
 		{
 			return null;
 		}
@@ -124,6 +127,7 @@ export class Message
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a {@link Room}, or `null` if the room no longer exists.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * */
 	public async getRoom(cancellationToken: CancellationToken = CancellationToken.none)
 	{
@@ -131,13 +135,17 @@ export class Message
 	}
 
 	/**
-	 * Removes the message from the room where it was sent.
+	 * Deletes the message from the room where it was sent.
+	 * Requires the {@link Permissions.ManageMessages} permission or being the user that sent the message.
+	 * Fires a {@link MessageDeletedEvent} gateway event.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the room where the message was sent no longer exists.
 	 * */
-	public async remove(cancellationToken: CancellationToken = CancellationToken.none)
+	public async delete(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return await this.restClient.removeMessage(this.roomId, this.id, cancellationToken);
+		return await this.restClient.deleteMessage(this.roomId, this.id, cancellationToken);
 	}
 }

@@ -2,6 +2,7 @@
 import { BanData } from "./Models/BanData";
 import { ThrowHelper } from "../../../Common/ThrowHelper";
 import { CancellationToken } from "../../../Common/Threading/CancellationToken";
+import { BanIssuerType } from "./BanIssuerType";
 
 /**
  * Represents a ban within Aula.
@@ -96,9 +97,28 @@ export class Ban
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a new {@link User} instance, or `null` if the issuer is not a user.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * */
 	public async getIssuer(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return this.issuerId !== null ? await this.restClient.getUser(this.issuerId, cancellationToken) : null;
+		if (this.issuerType != BanIssuerType.User ||
+		    this.issuerId === null)
+			return null;
+
+		return (await this.restClient.getUser(this.issuerId, cancellationToken))!;
+	}
+
+	/**
+	 * Lifts the ban.
+	 * Requires the {@link Permissions.BanUsers} permission.
+	 * Fires a {@link BanLiftedEvent} gateway event.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * */
+	public async lift(cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		return await this.restClient.liftBan(this.id, cancellationToken);
 	}
 }

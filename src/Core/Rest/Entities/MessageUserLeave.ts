@@ -59,6 +59,7 @@ export class MessageUserLeave
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a {@link User}.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * */
 	public async getUser(cancellationToken: CancellationToken = CancellationToken.none)
 	{
@@ -77,6 +78,7 @@ export class MessageUserLeave
 	 * @returns A promise that resolves to a {@link Room},
 	 * or `null` if the user was not relocated or the room no longer exists.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * */
 	public async getRoom(cancellationToken: CancellationToken = CancellationToken.none)
 	{
