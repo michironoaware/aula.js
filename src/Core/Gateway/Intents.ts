@@ -7,34 +7,17 @@
 export const Intents =
 	{
 		/**
-		 * - {@link EventType.UserUpdated}
-		 * - {@link EventType.UserCurrentRoomUpdated}
-		 * - {@link EventType.UserPresenceUpdated}
-		 * */
-		Users: 1n,
-
-		/**
-		 * - {@link EventType.RoomCreated}
-		 * - {@link EventType.RoomRemoved}
-		 * - {@link EventType.RoomUpdated}
-		 * - {@link EventType.RoomConnectionCreated}
-		 * - {@link EventType.RoomConnectionRemoved}
-		 * */
-		Rooms: 2n,
-
-		/**
 		 * - {@link EventType.MessageCreated}
-		 * - {@link EventType.MessageRemoved}
+		 * - {@link EventType.MessageDeleted}
 		 * - {@link EventType.UserStartedTyping}
-		 * - {@link EventType.UserStoppedTyping}
 		 * */
-		Messages: 4n,
+		Messages: 1n,
 
 		/**
-		 * - {@link EventType.BanCreated}
-		 * - {@link EventType.BanRemoved}
+		 * - {@link EventType.BanLifted}
+		 * - {@link EventType.BanIssued}
 		 * */
-		Moderation: 8n,
+		Moderation: 2n,
 	} as const;
 
 Object.freeze(Intents);

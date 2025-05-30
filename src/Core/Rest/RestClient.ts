@@ -41,13 +41,10 @@ import { ByteArrayContent } from "../../Common/Http/ByteArrayContent";
 import { CancellationToken } from "../../Common/Threading/CancellationToken";
 import { ObjectDisposedError } from "../../Common/ObjectDisposedError";
 import { RestClientOptions } from "./RestClientOptions";
-import { ModifyCurrentUserRequestBody } from "./ModifyCurrentUserRequestBody";
-import { SetUserRoomRequestBody } from "./SetUserRoomRequestBody";
+import { ModifyUserRequestBody } from "./ModifyUserRequestBody";
 import { CreateRoomRequestBody } from "./CreateRoomRequestBody";
 import { GetRoomsQuery } from "./GetRoomsQuery";
 import { ModifyRoomRequestBody } from "./ModifyRoomRequestBody";
-import { SetRoomConnectionsRequestBody } from "./SetRoomConnectionsRequestBody";
-import { SetUserPermissionsRequestBody } from "./SetUserPermissionsRequestBody";
 import { SendMessageRequestBody } from "./SendMessageRequestBody";
 import { GetMessagesQuery } from "./GetMessagesQuery";
 import { RegisterRequestBody } from "./RegisterRequestBody";
@@ -63,6 +60,12 @@ import { Permissions } from "./Entities/Permissions";
 import { UserUpdatedEvent } from "../Gateway/UserUpdatedEvent";
 import { IAsyncDisposable } from "../../Common/IAsyncDisposable";
 import { RestClientNullAddressError } from "./RestClientNullAddressError";
+import { CreateRoleRequestBody } from "./CreateRoleRequestBody";
+import { RoleData } from "./Entities/Models/RoleData";
+import { Role } from "./Entities/Role";
+import { ModifyRoleRequestBody } from "./ModifyRoleRequestBody";
+import { GetRolesQuery } from "./GetRolesQuery";
+import { ModifyRolePositionsRequestBody } from "./ModifyRolePositionsRequestBody";
 
 /**
  * Provides a client to interact with the Aula REST API.
@@ -108,6 +111,32 @@ export class RestClient implements IAsyncDisposable
 		}
 	}
 
+	/**
+	 * Gets whether this {@link RestClient} instance has an authorization token configured.
+	 * */
+	public get hasToken()
+	{
+		return this.#_httpClient.defaultRequestHeaders.has("Authorization");
+	}
+
+	/**
+	 * Gets the address of the Aula server.
+	 * @remarks This property returns a copy of the current address.
+	 * */
+	public get address()
+	{
+		return this.#_httpClient.baseAddress ? new URL(this.#_httpClient.baseAddress) : this.#_httpClient.baseAddress;
+	}
+
+	/**
+	 * Gets the client’s cache instance used for storing entities.
+	 * Entities can be retrieved by id.
+	 */
+	public get cache()
+	{
+		return this.#_cache;
+	}
+
 	static async #ensureSuccessStatusCode(response: HttpResponseMessage)
 	{
 		ThrowHelper.TypeError.throwIfNotType(response, HttpResponseMessage);
@@ -150,32 +179,6 @@ export class RestClient implements IAsyncDisposable
 					throw new AulaRestError(error.message, problemDetails, error);
 			}
 		}
-	}
-
-	/**
-	 * Gets whether this {@link RestClient} instance has an authorization token configured.
-	 * */
-	public get hasToken()
-	{
-		return this.#_httpClient.defaultRequestHeaders.has("Authorization");
-	}
-
-	/**
-	 * Gets the address of the Aula server.
-	 * @remarks This property returns a copy of the current address.
-	 * */
-	public get address()
-	{
-		return this.#_httpClient.baseAddress ? new URL(this.#_httpClient.baseAddress) : this.#_httpClient.baseAddress;
-	}
-
-	/**
-	 * Gets the client’s cache instance used for storing entities.
-	 * Entities can be retrieved by id.
-	 */
-	public get cache()
-	{
-		return this.#_cache;
 	}
 
 	/**
@@ -255,86 +258,27 @@ export class RestClient implements IAsyncDisposable
 	}
 
 	/**
-	 * Gets the user of the current requester's account.
-	 * Requires authentication.
+	 * Gets a ban.
+	 * Requires authentication and the {@link Permissions.BanUsers} permission.
+	 * @param banId The ID of the ban.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link User} that represents the user.
+	 * @returns A promise that resolves to a {@link Ban}, or `null` if the specified ban does not exist.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
 	 * */
-	public async getCurrentUser(cancellationToken: CancellationToken = CancellationToken.none)
+	public async getBan(banId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
+		ThrowHelper.TypeError.throwIfNotType(banId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUser());
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
-	}
-
-	/**
-	 * Gets a collection of users.
-	 * Requires authentication.
-	 * @param query The query options for retrieving users.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link User} array that contains the requested users.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async getUsers(query: GetUsersQuery = GetUsersQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(query, GetUsersQuery);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.users(undefined, query));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return JSON.parse(await response.content.readAsString())
-		           .map((d: any) => new User(new UserData(d), this)) as User[];
-	}
-
-	/**
-	 * Gets a user.
-	 * Requires authentication.
-	 * @param userId The id of the user.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link User}, or `null` if the requested user does not exist.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async getUser(userId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(userId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.user({ userId }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.ban({ banId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		if (response.statusCode === HttpStatusCode.NotFound)
@@ -344,820 +288,64 @@ export class RestClient implements IAsyncDisposable
 
 		await RestClient.#ensureSuccessStatusCode(response);
 
-		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
+		return EntityFactory.createBan(new BanData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	/**
-	 * Modify the requester's account settings.
-	 * Requires authentication.
-	 * Fires an {@link UserUpdatedEvent} gateway event.
-	 * @param body The request body.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link User} that represents the modified user.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async modifyCurrentUser(body: ModifyCurrentUserRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(body, ModifyCurrentUserRequestBody);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.currentUser());
-		request.content = new JsonContent(body);
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return new User(new UserData(JSON.parse(await response.content.readAsString())), this);
-	}
-
-	/**
-	 * Moves the requester's user to the specified room.
-	 * Requires authentication and the {@link Permissions.SetOwnCurrentRoom} permission.
-	 * Fires an {@link UserCurrentRoomUpdatedEvent} gateway event.
-	 * @param body The request body.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async setCurrentUserRoom(body: SetUserRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(body, SetUserRoomRequestBody);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.currentUserRoom());
-		request.content = new JsonContent(body);
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Moves the specified user to a specific room.
-	 * Requires authentication and the {@link Permissions.SetCurrentRoom} permission.
-	 * Fires an {@link UserCurrentRoomUpdatedEvent} gateway event.
-	 * @param userId The id of the user to move.
-	 * @param body The request body.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaNotFoundError} If the specified user does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async setUserRoom(userId: string, body: SetUserRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(userId, "string");
-		ThrowHelper.TypeError.throwIfNotType(body, SetUserRoomRequestBody);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userRoom({ userId }));
-		request.content = new JsonContent(body);
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Sets the permissions of a user.
-	 * Requires authentication and the {@link Permissions.Administrator} permission.
-	 * Fires an {@link UserUpdatedEvent} gateway event.
-	 * @param userId The id of the user.
-	 * @param body The request body.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaNotFoundError} If the specified user does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async setUserPermissions(
-		userId: string,
-		body: SetUserPermissionsRequestBody,
-		cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(userId, "string");
-		ThrowHelper.TypeError.throwIfNotType(body, SetUserPermissionsRequestBody);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userPermissions({ userId }));
-		request.content = new JsonContent(body);
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Creates a room.
-	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
-	 * Fires a {@link RoomCreatedEvent} gateway event.
-	 * @param body The request body.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link Room} that represents the created room.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async createRoom(body: CreateRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(body, CreateRoomRequestBody);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.rooms());
-		request.content = new JsonContent(body);
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return EntityFactory.createRoom(new RoomData(JSON.parse(await response.content.readAsString())), this);
-	}
-
-	/**
-	 * Gets a collection of rooms.
-	 * Requires authentication.
-	 * @param query The query options for retrieving rooms.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link Room} array that contains the requested rooms.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async getRooms(query: GetRoomsQuery = GetRoomsQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(query, GetRoomsQuery);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.rooms(undefined, query));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return JSON.parse(await response.content.readAsString())
-		           .map((d: any) => EntityFactory.createRoom(new RoomData(d), this)) as Room[];
-	}
-
-	/**
-	 * Gets a room.
-	 * Requires authentication.
-	 * @param roomId The id of the room.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link Room}, or `null` if the requested room does not exist.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async getRoom(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.room({ roomId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		if (response.statusCode === HttpStatusCode.NotFound)
-		{
-			return null;
-		}
-
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return EntityFactory.createRoom(new RoomData(JSON.parse(await response.content.readAsString())), this);
-	}
-
-	/**
-	 * Modifies the specified room.
-	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
-	 * Fires a {@link RoomUpdatedEvent} gateway event.
-	 * @param roomId The id of the room to modify.
-	 * @param body The request body.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link Room} that represents the modified room.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaNotFoundError} If the specified room does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async modifyRoom(roomId: string, body: ModifyRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(body, ModifyRoomRequestBody);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.room({ roomId }));
-		request.content = new JsonContent(body);
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return EntityFactory.createRoom(new RoomData(JSON.parse(await response.content.readAsString())), this);
-	}
-
-	/**
-	 * Removes the specified room.
-	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
-	 * Fires a {@link RoomRemovedEvent} gateway event.
-	 * @param roomId The id of the room to modify.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async removeRoom(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.room({ roomId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Enable users to move from one room to another.
-	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
-	 * Fires a {@link RoomConnectionCreatedEvent} gateway event.
-	 * @param sourceId The id of the room from which users must come.
-	 * @param targetId The id of the room users will be able to go to.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaNotFoundError} If the specified room does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async addRoomConnection(sourceId: string, targetId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(sourceId, "string");
-		ThrowHelper.TypeError.throwIfNotType(targetId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnection({ sourceId, targetId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Gets the rooms connected to the specified room.
-	 * Requires authentication.
-	 * @param roomId The id of the room whose connections retrieve.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link Room} array that contains the requested rooms.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaNotFoundError} If the specified room does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async getRoomConnections(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomConnections({ roomId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return JSON.parse((await response.content.readAsString()))
-		           .map((d: any) => EntityFactory.createRoom(new RoomData(d), this)) as Room[];
-	}
-
-	/**
-	 * Sets the connected rooms of a room.
-	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
-	 * May fire one or multiple {@link RoomConnectionCreatedEvent} gateway events.
-	 * May fire one or multiple {@link RoomConnectionRemovedEvent} gateway events.
-	 * @param roomId The id of the source room whose connections set.
-	 * @param body The request body.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaNotFoundError} If the specified room does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async setRoomConnections(
-		roomId: string,
-		body: SetRoomConnectionsRequestBody,
-		cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(body, SetRoomConnectionsRequestBody);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomConnections({ roomId }));
-		request.content = new JsonContent(body);
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Disable users to move from one room to another.
-	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
-	 * Fires a {@link RoomConnectionRemovedEvent} gateway event.
-	 * @param sourceId The id of the room users must be in.
-	 * @param targetId The id of the room users will not be able to go to.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async removeRoomConnection(sourceId: string, targetId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(sourceId, "string");
-		ThrowHelper.TypeError.throwIfNotType(targetId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomConnection({ sourceId, targetId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Gets the users inside the specified room.
-	 * Requires authentication.
-	 * @param roomId The id of the room whose users retrieve.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link User} array.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaNotFoundError} If the specified room does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async getRoomUsers(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomUsers({ roomId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return JSON.parse(await response.content.readAsString())
-		           .map((d: any) => new User(new UserData(d), this)) as User[];
-	}
-
-	/**
-	 * Notifies in the specified room that the user of the current requester's account is typing a message.
-	 * Requires authentication and the {@link Permissions.SendMessages} permission.
-	 * Fires a {@link UserStartedTypingEvent} gateway event.
-	 * @param roomId The id of the room.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaNotFoundError} If the specified room does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async startTyping(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.startTyping({ roomId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Notifies in the specified room that the user of the current requester's account is no longer typing a message.
-	 * Requires authentication and the {@link Permissions.SendMessages} permission.
-	 * Fires a {@link UserStoppedTypingEvent} gateway event.
-	 * @param roomId The id of the room.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaNotFoundError} If the specified room does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async stopTyping(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.stopTyping({ roomId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Sends a message to the specified room.
-	 * Requires authentication and the {@link Permissions.SendMessages} permission.
-	 * Fires a {@link MessageCreatedEvent} gateway event.
-	 * @param roomId The id of the room.
-	 * @param body The request body.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link Message} that represents the message sent.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaNotFoundError} If the specified room does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async sendMessage(roomId: string, body: SendMessageRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(body, SendMessageRequestBody);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roomMessages({ roomId }));
-		request.content = new JsonContent(body);
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return EntityFactory.createMessage(new MessageData(JSON.parse(await response.content.readAsString())), this);
-	}
-
-	/**
-	 * Gets a message sent in a room.
-	 * Requires authentication and the {@link Permissions.ReadMessages} permission.
-	 * @param roomId The id of the room where the message was sent.
-	 * @param messageId The id of the message to retrieve.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link Message}, or `null` if the message does not exist.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async getMessage(roomId: string, messageId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(messageId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessage({ roomId, messageId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		if (response.statusCode === HttpStatusCode.NotFound)
-		{
-			return null;
-		}
-
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return EntityFactory.createMessage(new MessageData(JSON.parse((await response.content.readAsString()))), this);
-	}
-
-	/**
-	 * Gets a collection of messages sent in a room.
-	 * Requires authentication and the {@link Permissions.ReadMessages} permission.
-	 * @param roomId The id of the room where the messages were sent.
-	 * @param query The query options for retrieving messages.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link Message} array.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaNotFoundError} If the specified room does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async getMessages(
-		roomId: string,
-		query: GetMessagesQuery = GetMessagesQuery.default,
-		cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(query, GetMessagesQuery);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomMessages({ roomId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return JSON.parse((await response.content.readAsString()))
-		           .map((d: any) => EntityFactory.createMessage(new MessageData(d), this)) as Message[];
-	}
-
-	/**
-	 * Removes a previously sent message.
-	 * Requires authentication.
-	 * Requires the {@link Permissions.ManageMessages} permission or being the user that sent the message.
-	 * Fires a {@link MessageRemovedEvent} gateway event.
-	 * @param roomId The id of the room where the message was sent.
-	 * @param messageId The id of the message to remove.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async removeMessage(roomId: string, messageId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(messageId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomMessage({ roomId, messageId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Register a new user in the application.
-	 * @param body The request body.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * */
-	public async register(body: RegisterRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(body, RegisterRequestBody);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.register());
-		request.content = new JsonContent(body);
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Log in a user to the application.
-	 * @param body The request body.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link LogInResponse}.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * */
-	public async logIn(body: LogInRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(body, LogInRequestBody);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.logIn());
-		request.content = new JsonContent(body);
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return new LogInResponse(JSON.parse(await response.content.readAsString()), this);
-	}
-
-	/**
-	 * Requests a confirmation email or confirms an email.
-	 * @param query The email confirmation query options.
-	 *              If {@link ConfirmEmailQuery.code} is `null`,
-	 *              a confirmation email will be sent (if a user with the specified email address exists).
-	 *              If a code is provided, an attempt will be made to confirm the email using that code.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * */
-	public async confirmEmail(query: ConfirmEmailQuery, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(query, ConfirmEmailQuery);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.confirmEmail(undefined, query));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Sends a password reset email.
+	 * Gets a collection of bans.
+	 * Requires authentication and the {@link Permissions.BanUsers} permission.
 	 * @param query The query options.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
+	 * @returns A promise that resolves to a {@link Ban} array.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
 	 * */
-	public async forgotPassword(query: ForgotPasswordQuery, cancellationToken: CancellationToken = CancellationToken.none)
+	public async getBans(query: GetBansQuery = GetBansQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNotType(query, ForgotPasswordQuery);
+		ThrowHelper.TypeError.throwIfNotType(query, GetBansQuery);
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword(undefined, query));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.bans(undefined, query));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse(await response.content.readAsString())
+		           .map((b: any) => EntityFactory.createBan(new BanData(b), this)) as Ban[];
 	}
 
 	/**
-	 * Resets the password of a user.
-	 * @param body The request body.
+	 * Lift an active ban.
+	 * Requires authentication and the {@link Permissions.BanUsers} permission.
+	 * Fires a {@link BanLiftedEvent} gateway event.
+	 * @param banId The ID of the ban.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified ban does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
 	 * */
-	public async resetPassword(body: ResetPasswordRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	public async liftBan(banId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		ThrowHelper.TypeError.throwIfNotType(body, ResetPasswordRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(banId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
 		ObjectDisposedError.throwIf(this.#_disposed);
 		cancellationToken.throwIfCancellationRequested();
 		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
 
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetPassword());
-		request.content = new JsonContent(body);
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Log out a user from all devices.
-	 * @param body The request body.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * */
-	public async logOut(body: LogInRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(body, LogInRequestBody);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.logOut());
-		request.content = new JsonContent(body);
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.banLift({ banId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -1173,8 +361,8 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
 	 * */
 	public async createBot(body: CreateBotRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
@@ -1195,7 +383,7 @@ export class RestClient implements IAsyncDisposable
 	}
 
 	/**
-	 * Removes a bot user account from the application.
+	 * Deletes a bot user account from the application.
 	 * Requires authentication and the {@link Permissions.Administrator} permission.
 	 * @param userId The id of the bot user.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
@@ -1203,11 +391,10 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
 	 * */
-	public async removeBot(userId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	public async deleteBot(userId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotType(userId, "string");
 		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
@@ -1230,10 +417,9 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaNotFoundError} If the specified bot user does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
 	 * */
 	public async resetBotToken(userId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
@@ -1253,171 +439,6 @@ export class RestClient implements IAsyncDisposable
 	}
 
 	/**
-	 * Ban a user from the application.
-	 * Requires authentication and the {@link Permissions.BanUsers} permission.
-	 * Fires a {@link BanCreatedEvent} gateway event.
-	 * @param userId The id of the user to ban.
-	 * @param body The request body.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link UserBan}, or `null` if the user is already banned.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async banUser(
-		userId: string,
-		body: BanUserRequestBody = BanUserRequestBody.default,
-		cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(userId, "string");
-		ThrowHelper.TypeError.throwIfNotType(body, BanUserRequestBody);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userBan({ userId }));
-		request.content = new JsonContent(body);
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		if (response.statusCode === HttpStatusCode.Conflict)
-		{
-			// Instead of throwing, return null if the ban already exists.
-			return null;
-		}
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return new UserBan(new BanData(JSON.parse(await response.content.readAsString())), this);
-	}
-
-	/**
-	 * Unban a user from the application.
-	 * Requires authentication and the {@link Permissions.BanUsers} permission.
-	 * Fires a {@link BanRemovedEvent} gateway event.
-	 * @param userId The id of the user to unban.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async unbanUser(userId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(userId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.userBan({ userId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
-	 * Gets a collection of bans.
-	 * Requires authentication and the {@link Permissions.BanUsers} permission.
-	 * @param query The query options.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link Ban} array.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async getBans(query: GetBansQuery = GetBansQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(query, GetBansQuery);
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.bans(undefined, query));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return JSON.parse(await response.content.readAsString())
-		           .map((b: any) => EntityFactory.createBan(new BanData(b), this)) as Ban[];
-	}
-
-	/**
-	 * Gets the ban of a specific user.
-	 * Requires authentication and the {@link Permissions.BanUsers} permission.
-	 * @param userId The id of the user.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link Ban}, or `null` if the user is not banned.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async getUserBan(userId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(userId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.userBan({ userId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		if (response.statusCode === HttpStatusCode.NotFound)
-		{
-			return null;
-		}
-
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return EntityFactory.createBan(new BanData(JSON.parse(await response.content.readAsString())), this);
-	}
-
-	/**
-	 * Gets the current ban status for the requester's user.
-	 * Requires authentication.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link GetCurrentUserBanStatusResponse}.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
-	 * */
-	public async getCurrentUserBanStatus(cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUserBanStatus());
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-
-		return new GetCurrentUserBanStatusResponse(JSON.parse(await response.content.readAsString()), this);
-	}
-
-	/**
 	 * Gets a collection of files.
 	 * Requires authentication.
 	 * @remarks This method does not retrieve the content of the files;
@@ -1429,8 +450,8 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
 	 * */
 	public async getFiles(query: GetFilesQuery = GetFilesQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
 	{
@@ -1461,9 +482,8 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
 	 * */
 	public async getFile(fileId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
@@ -1495,9 +515,8 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {ObjectDisposedError} If the instance has been disposed.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
 	 * */
 	public async getFileContent(fileId: string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
@@ -1533,8 +552,8 @@ export class RestClient implements IAsyncDisposable
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
 	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user has no permission to access the resource.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing, invalid.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
 	 * */
 	public async uploadFile(
 		name: string,
@@ -1560,6 +579,355 @@ export class RestClient implements IAsyncDisposable
 		await RestClient.#ensureSuccessStatusCode(response);
 
 		return new File(new FileData(JSON.parse(await response.content.readAsString())), this);
+	}
+
+	/**
+	 * Register a new user in the application.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * */
+	public async register(body: RegisterRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(body, RegisterRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.register());
+		request.content = new JsonContent(body);
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Log in a user to the application.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link LogInResponse}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async logIn(body: LogInRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(body, LogInRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.logIn());
+		request.content = new JsonContent(body);
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return new LogInResponse(JSON.parse(await response.content.readAsString()), this);
+	}
+
+	/**
+	 * Requests a confirmation email or confirms an email.
+	 * @param query The email confirmation query options.
+	 *              If {@link ConfirmEmailQuery.code} is `null`,
+	 *              a confirmation email will be sent (if a user with the specified email address exists).
+	 *              If a code is provided, an attempt will be made to confirm the email using that code.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * */
+	public async confirmEmail(query: ConfirmEmailQuery, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(query, ConfirmEmailQuery);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.confirmEmail(undefined, query));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Sends a password reset email.
+	 * @param query The query options.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * */
+	public async forgotPassword(query: ForgotPasswordQuery, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(query, ForgotPasswordQuery);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.forgotPassword(undefined, query));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Resets the password of a user.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaUnauthorizedError} If the provided password reset code is invalid.
+	 * */
+	public async resetPassword(body: ResetPasswordRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(body, ResetPasswordRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.resetPassword());
+		request.content = new JsonContent(body);
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Log out a user from all devices.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async logOut(body: LogInRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(body, LogInRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.logOut());
+		request.content = new JsonContent(body);
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Permanently deletes a user's account.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async deleteIdentity(body: LogInRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(body, LogInRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.deleteIdentity());
+		request.content = new JsonContent(body);
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Sends a message to the specified room.
+	 * Requires authentication and the {@link Permissions.SendMessages} permission.
+	 * Fires a {@link MessageCreatedEvent} gateway event.
+	 * @param roomId The id of the room.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Message} that represents the message sent.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified room does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async sendMessage(roomId: string, body: SendMessageRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(body, SendMessageRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.messages({ roomId }));
+		request.content = new JsonContent(body);
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return EntityFactory.createMessage(new MessageData(JSON.parse(await response.content.readAsString())), this);
+	}
+
+	/**
+	 * Gets a message sent in a room.
+	 * Requires authentication and the {@link Permissions.ReadMessages} permission.
+	 * @param roomId The id of the room where the message was sent.
+	 * @param messageId The id of the message to retrieve.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Message}, or `null` if the message does not exist.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getMessage(roomId: string, messageId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(messageId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.message({ roomId, messageId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		if (response.statusCode === HttpStatusCode.NotFound)
+		{
+			return null;
+		}
+
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return EntityFactory.createMessage(new MessageData(JSON.parse((await response.content.readAsString()))), this);
+	}
+
+	/**
+	 * Gets a collection of messages sent in a room.
+	 * Requires authentication and the {@link Permissions.ReadMessages} permission.
+	 * @param roomId The id of the room where the messages were sent.
+	 * @param query The query options for retrieving messages.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Message} array.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified room does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getMessages(
+		roomId: string,
+		query: GetMessagesQuery = GetMessagesQuery.default,
+		cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(query, GetMessagesQuery);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.messages({ roomId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse((await response.content.readAsString()))
+		           .map((d: any) => EntityFactory.createMessage(new MessageData(d), this)) as Message[];
+	}
+
+	/**
+	 * Deletes a previously sent message.
+	 * Requires authentication.
+	 * Requires the {@link Permissions.ManageMessages} permission or being the user that sent the message.
+	 * Fires a {@link MessageDeletedEvent} gateway event.
+	 * @param roomId The id of the room where the message was sent.
+	 * @param messageId The id of the message to remove.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified room does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async deleteMessage(roomId: string, messageId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(messageId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.message({ roomId, messageId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Notifies in the specified room that the user of the current requester's account is typing a message.
+	 * Requires authentication and the {@link Permissions.SendMessages} permission.
+	 * Fires a {@link UserStartedTypingEvent} gateway event.
+	 * @param roomId The id of the room.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified room does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async startTyping(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.startTyping({ roomId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
 	}
 
 	/**
@@ -1602,6 +970,787 @@ export class RestClient implements IAsyncDisposable
 
 			return false;
 		}
+	}
+
+	/**
+	 * Gets a role.
+	 * Requires authentication.
+	 * @param roleId The ID of the role.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Role}, or `null` if the requested role does not exist.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user was not authorized to perform the action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getRole(roleId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roleId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.role({ roleId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		if (response.statusCode === HttpStatusCode.NotFound)
+		{
+			return null;
+		}
+
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return new Role(new RoleData(JSON.parse(await response.content.readAsString())), this);
+	}
+
+	/**
+	 * Gets a collection of roles.
+	 * Requires authentication.
+	 * @param query The query option for retrieving roles.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Role} array.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user was not authorized to perform the action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getRoles(
+		query: GetRolesQuery = GetRolesQuery.default,
+		cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(query, GetRolesQuery);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roles(undefined, query));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse((await response.content.readAsString()))
+		           .map((d: any) => new Role(new RoleData(d), this)) as Role[];
+	}
+
+	/**
+	 * Creates a new role.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permission.
+	 * Fires a {@link RoleCreatedEvent} gateway event.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Role} that represents the created role.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async createRole(body: CreateRoleRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(body, CreateRoleRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.roles());
+		request.content = new JsonContent(body);
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return new Role(new RoleData(JSON.parse(await response.content.readAsString())), this);
+	}
+
+	/**
+	 * Modifies the specified role.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permission.
+	 * Requires the {@link Permissions.Administrator} permission to modify roles above the higher role of the requester.
+	 * Fires a {@link RoleUpdatedEvent} gateway event.
+	 * @param roleId The id of the role to modify.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Role} that represents the modified role.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified role does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async modifyRole(
+		roleId: string,
+		body: ModifyRoleRequestBody,
+		cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roleId, "string");
+		ThrowHelper.TypeError.throwIfNotType(body, ModifyRoleRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.role({ roleId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return new Role(new RoleData(JSON.parse(await response.content.readAsString())), this);
+	}
+
+	/**
+	 * Modifies the position of one or more of the specified roles.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permission.
+	 * Requires the {@link Permissions.Administrator} permission to modify roles above the higher role of the requester.
+	 * Requires all the specified permissions or the {@link Permissions.Administrator} permission to modify the role permissions.
+	 * Can fire one or more {@link RoleUpdatedEvent} gateway events.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Role} array containing all the existing roles.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async modifyRolePositions(body: ModifyRolePositionsRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(body, ModifyRolePositionsRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.roles());
+		request.content = new JsonContent(body);
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse((await response.content.readAsString()))
+		           .map((d: any) => new Role(new RoleData(d), this)) as Role[];
+	}
+
+	/**
+	 * Deletes a role.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permissions.
+	 * Requires the {@link Permissions.Administrator} permission to delete roles above the higher role of the requester.
+	 * Fires a {@link RoleDeletedEvent} gateway event.
+	 * @param roleId The ID of the role.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user was not authorized to perform the action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async deleteRole(roleId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roleId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.role({ roleId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Creates a room.
+	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
+	 * Fires a {@link RoomCreatedEvent} gateway event.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Room} that represents the created room.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async createRoom(body: CreateRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(body, CreateRoomRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.rooms());
+		request.content = new JsonContent(body);
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return EntityFactory.createRoom(new RoomData(JSON.parse(await response.content.readAsString())), this);
+	}
+
+	/**
+	 * Gets a collection of rooms.
+	 * Requires authentication.
+	 * @param query The query options for retrieving rooms.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Room} array that contains the requested rooms.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getRooms(query: GetRoomsQuery = GetRoomsQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(query, GetRoomsQuery);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.rooms(undefined, query));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse(await response.content.readAsString())
+		           .map((d: any) => EntityFactory.createRoom(new RoomData(d), this)) as Room[];
+	}
+
+	/**
+	 * Gets a room.
+	 * Requires authentication.
+	 * @param roomId The id of the room.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Room}, or `null` if the requested room does not exist.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getRoom(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.room({ roomId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		if (response.statusCode === HttpStatusCode.NotFound)
+		{
+			return null;
+		}
+
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return EntityFactory.createRoom(new RoomData(JSON.parse(await response.content.readAsString())), this);
+	}
+
+	/**
+	 * Modifies the specified room.
+	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
+	 * Fires a {@link RoomUpdatedEvent} gateway event.
+	 * @param roomId The id of the room to modify.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Room} that represents the modified room.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified room does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async modifyRoom(roomId: string, body: ModifyRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(body, ModifyRoomRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.room({ roomId }));
+		request.content = new JsonContent(body);
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return EntityFactory.createRoom(new RoomData(JSON.parse(await response.content.readAsString())), this);
+	}
+
+	/**
+	 * Deletes the specified room.
+	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
+	 * Fires a {@link RoomDeletedEvent} gateway event.
+	 * @param roomId The id of the room to modify.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async deleteRoom(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.room({ roomId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Enable users to move from one room to another.
+	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
+	 * Fires a {@link RoomUpdatedEvent} gateway event.
+	 * @param roomId The id of the room from which users must come.
+	 * @param destinationId The id of the room users will be able to go to.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified room does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async addRoomDestination(roomId: string, destinationId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(destinationId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.roomDestination({ roomId, destinationId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Gets the rooms a user can go from the specified room.
+	 * Requires authentication.
+	 * @param roomId The id of the room whose connections retrieve.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Room} array that contains the requested rooms.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified room does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getRoomDestinations(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomDestinations({ roomId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse((await response.content.readAsString()))
+		           .map((d: any) => EntityFactory.createRoom(new RoomData(d), this)) as Room[];
+	}
+
+	/**
+	 * Disable users to move from one room to another.
+	 * Requires authentication and the {@link Permissions.ManageRooms} permission.
+	 * Fires a {@link RoomUpdatedEvent} gateway event.
+	 * @param roomId The id of the room users must be in.
+	 * @param destinationId The id of the room users will not be able to go to.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async removeRoomDestination(roomId: string, destinationId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(destinationId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.roomDestination({ roomId, destinationId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Gets the users inside the specified room.
+	 * Requires authentication.
+	 * @param roomId The id of the room whose users retrieve.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link User} array.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified room does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getRoomResidents(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.roomResidents({ roomId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse(await response.content.readAsString())
+		           .map((d: any) => EntityFactory.createUser(new UserData(d), this)) as User[];
+	}
+
+	/**
+	 * Assigns a role to the specified user.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permission.
+	 * Requires the {@link Permissions.Administrator} permission to assign roles above the higher role of the requester.
+	 * Fires a {@link UserUpdatedEvent} gateway event.
+	 * @param userId The ID of the user to assign a role.
+	 * @param roleId The ID of the role to assign.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified user or role does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async addRole(userId: string, roleId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+		ThrowHelper.TypeError.throwIfNotType(roleId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Put, AulaRoute.userRole({ userId, roleId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Revokes a role from the specified user.
+	 * Requires authentication and the {@link Permissions.ManageRoles} permission.
+	 * Requires the {@link Permissions.Administrator} permission to revoke roles above the higher role of the requester.
+	 * Fires a {@link UserUpdatedEvent} gateway event.
+	 * @param userId The ID of the user to revoke a role.
+	 * @param roleId The ID of the role to revoke.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified user or role does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async removeRole(userId: string, roleId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+		ThrowHelper.TypeError.throwIfNotType(roleId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.userRole({ userId, roleId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Gets the collection of bans for a specific user.
+	 * Requires authentication and the {@link Permissions.BanUsers} permission.
+	 * @param userId The id of the user.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link Ban} array that contains the bans issued for the specified user.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified user does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getUserBans(userId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.userBans({ userId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse(await response.content.readAsString())
+		           .map((b: any) => EntityFactory.createBan(new BanData(b), this)) as UserBan[];
+	}
+
+	/**
+	 * Gets the current ban status for the requester's user.
+	 * Requires authentication.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link GetCurrentUserBanStatusResponse}.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getCurrentUserBanStatus(cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUserBanStatus());
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return new GetCurrentUserBanStatusResponse(JSON.parse(await response.content.readAsString()), this);
+	}
+
+	/**
+	 * Gets the user of the current requester's account.
+	 * Requires authentication.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link User} that represents the user.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getCurrentUser(cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.currentUser());
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return EntityFactory.createUser(new UserData(JSON.parse(await response.content.readAsString())), this);
+	}
+
+	/**
+	 * Gets a collection of users.
+	 * Requires authentication.
+	 * @param query The query options for retrieving users.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link User} array that contains the requested users.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getUsers(query: GetUsersQuery = GetUsersQuery.default, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(query, GetUsersQuery);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.users(undefined, query));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return JSON.parse(await response.content.readAsString())
+		           .map((d: any) => EntityFactory.createUser(new UserData(d), this)) as User[];
+	}
+
+	/**
+	 * Gets a user.
+	 * Requires authentication.
+	 * @param userId The id of the user.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link User}, or `null` if the requested user does not exist.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async getUser(userId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.user({ userId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		if (response.statusCode === HttpStatusCode.NotFound)
+		{
+			return null;
+		}
+
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return EntityFactory.createUser(new UserData(JSON.parse(await response.content.readAsString())), this);
+	}
+
+	/**
+	 * Modifies the specified user.
+	 * Requires authentication.
+	 * Requires {@link Permissions.SetCurrentRoom} to update the current room of a user other than the requester.
+	 * Requires {@link Permissions.ManageRoles} to update the assigned roles.
+	 * Fires an {@link UserUpdatedEvent} gateway event.
+	 * @param userId The ID of the user to modify.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link User} that represents the modified user.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified user does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async modifyUser(userId: string, body: ModifyUserRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+		ThrowHelper.TypeError.throwIfNotType(body, ModifyUserRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Patch, AulaRoute.user({ userId }));
+		request.content = new JsonContent(body);
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return EntityFactory.createUser(new UserData(JSON.parse(await response.content.readAsString())), this);
+	}
+
+	/**
+	 * Ban a user from the application.
+	 * Requires authentication and the {@link Permissions.BanUsers} permission.
+	 * Fires a {@link BanIssuedEvent} gateway event.
+	 * @param userId The id of the user to ban.
+	 * @param body The request body.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves to a {@link UserBan}, or `null` if the user is already banned.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified user does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async banUser(
+		userId: string,
+		body: BanUserRequestBody = BanUserRequestBody.default,
+		cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(userId, "string");
+		ThrowHelper.TypeError.throwIfNotType(body, BanUserRequestBody);
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.userBans({ userId }));
+		request.content = new JsonContent(body);
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		if (response.statusCode === HttpStatusCode.Conflict)
+		{
+			// Instead of throwing, return null if the ban already exists.
+			return null;
+		}
+		await RestClient.#ensureSuccessStatusCode(response);
+
+		return new UserBan(new BanData(JSON.parse(await response.content.readAsString())), this);
 	}
 
 	#throwIfNullToken()

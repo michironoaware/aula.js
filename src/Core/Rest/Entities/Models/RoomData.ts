@@ -14,7 +14,8 @@ export class RoomData
 	readonly #_description: string;
 	readonly #_isEntrance: boolean;
 	readonly #_backgroundAudioId: string | null;
-	readonly #_connectedRoomIds: ReadonlyArray<string>;
+	readonly #_residentIds: ReadonlyArray<string>;
+	readonly #_destinationIds: ReadonlyArray<string>;
 	readonly #_creationDate: string;
 
 	/**
@@ -32,11 +33,14 @@ export class RoomData
 		ThrowHelper.TypeError.throwIfNotType(data.description, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.isEntrance, "boolean");
 		ThrowHelper.TypeError.throwIfNotAnyType(data.backgroundAudioId, "string", "nullable");
-		ThrowHelper.TypeError.throwIfNotType(data.connectedRoomIds, "iterable");
+		ThrowHelper.TypeError.throwIfNotType(data.residentIds, "iterable");
+		ThrowHelper.TypeError.throwIfNotType(data.destinationIds, "iterable");
 		ThrowHelper.TypeError.throwIfNotType(data.creationDate, "string");
 
-		const connectedRoomIds = Object.freeze([ ...data.connectedRoomIds ]);
-		ThrowHelper.TypeError.throwIfNotTypeArray(connectedRoomIds, "string");
+		const residentIds = Object.freeze([ ...data.residentIds ]);
+		ThrowHelper.TypeError.throwIfNotTypeArray(residentIds, "string");
+		const destinationIds = Object.freeze([ ...data.destinationIds ]);
+		ThrowHelper.TypeError.throwIfNotTypeArray(destinationIds, "string");
 
 		this.#_id = data.id;
 		this.#_type = data.type;
@@ -44,7 +48,8 @@ export class RoomData
 		this.#_description = data.description;
 		this.#_isEntrance = data.isEntrance;
 		this.#_backgroundAudioId = data.backgroundAudioId ?? null;
-		this.#_connectedRoomIds = connectedRoomIds;
+		this.#_residentIds = residentIds;
+		this.#_destinationIds = destinationIds;
 		this.#_creationDate = data.creationDate;
 	}
 
@@ -97,11 +102,19 @@ export class RoomData
 	}
 
 	/**
+	 * Gets the collection of IDs of users currently in the room.
+	 * */
+	public get residentIds()
+	{
+		return this.#_residentIds;
+	}
+
+	/**
 	 * Gets the collection of ids of the rooms that a user can travel to from this room.
 	 * */
-	public get connectedRoomIds()
+	public get destinationIds()
 	{
-		return this.#_connectedRoomIds;
+		return this.#_destinationIds;
 	}
 
 	/**

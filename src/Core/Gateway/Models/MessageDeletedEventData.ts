@@ -1,6 +1,6 @@
 ﻿import { ThrowHelper } from "../../../Common/ThrowHelper";
 
-export class MessageRemovedEventData
+export class MessageDeletedEventData
 {
 	readonly #_id: string;
 

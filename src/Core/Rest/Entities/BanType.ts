@@ -4,9 +4,9 @@
 export const BanType =
 	{
 		/**
-		 * A ban applied over a user id.
+		 * A ban applied over a user.
 		 * */
-		Id: 0,
+		User: 0,
 	} as const;
 
 Object.freeze(BanType);

@@ -2,7 +2,7 @@
 import { ThrowHelper } from "../ThrowHelper";
 import { IDisposable } from "../IDisposable";
 import { ObjectDisposedError } from "../ObjectDisposedError";
-import { AsNonBlocking } from "./AsNonBlocking";
+import { ExecuteAsynchronously } from "./ExecuteAsynchronously";
 import { Func } from "../Func";
 import { TypeHelper } from "../TypeHelper";
 
@@ -68,7 +68,7 @@ export class EventEmitter<TEventMap extends Record<keyof TEventMap, Func<[ ...an
 			return;
 		}
 
-		const promises = listeners.map(l => AsNonBlocking(() => l(...args)));
+		const promises = listeners.map(l => ExecuteAsynchronously(() => l(...args)));
 		await Promise.all(promises);
 
 		return;

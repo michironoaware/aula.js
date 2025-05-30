@@ -3,6 +3,7 @@ import { ThrowHelper } from "../../Common/ThrowHelper";
 import { RestClient } from "./RestClient";
 import { UserData } from "./Entities/Models/UserData";
 import { SealedClassError } from "../../Common/SealedClassError";
+import { EntityFactory } from "./Entities/EntityFactory";
 
 /**
  * Represents the result of a successful bot creation operation.
@@ -28,7 +29,7 @@ export class CreateBotResponse
 		ThrowHelper.TypeError.throwIfNotType(data.token, "string");
 		//ThrowHelper.TypeError.throwIfNotType(restClient, RestClient); // Circular dependency problem
 
-		this.#_user = new User(new UserData(data.user), restClient);
+		this.#_user = EntityFactory.createUser(new UserData(data.user), restClient);
 		this.#_token = data.token;
 		this.#_restClient = restClient;
 	}

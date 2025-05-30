@@ -5,12 +5,13 @@ import { ThrowHelper } from "../../../Common/ThrowHelper";
 import { ReadyEventData } from "./ReadyEventData";
 import { BanData } from "../../Rest/Entities/Models/BanData";
 import { MessageData } from "../../Rest/Entities/Models/MessageData";
-import { UserTypingEventData } from "./UserTypingEventData";
-import { RoomConnectionEventData } from "./RoomConnectionEventData";
+import { UserStartedTypingEventData } from "./UserStartedTypingEventData";
 import { RoomData } from "../../Rest/Entities/Models/RoomData";
 import { UserCurrentRoomUpdatedEventData } from "./UserCurrentRoomUpdatedEventData";
 import { UserData } from "../../Rest/Entities/Models/UserData";
 import { UserPresenceUpdatedEventData } from "./UserPresenceUpdatedEventData";
+import { RoleData } from "../../Rest/Entities/Models/RoleData";
+import { FileData } from "../../Rest/Entities/Models/FileData";
 
 /**
  * @sealed
@@ -19,8 +20,8 @@ export class GatewayPayload
 {
 	readonly #_operation: OperationType;
 	readonly #_event: EventType | null;
-	readonly #_data: ReadyEventData | BanData | MessageData | UserTypingEventData | RoomConnectionEventData | RoomData |
-	                 UserCurrentRoomUpdatedEventData | UserData | UserPresenceUpdatedEventData | null = null;
+	readonly #_data: ReadyEventData | BanData | MessageData | UserStartedTypingEventData | RoomData |
+	                 UserCurrentRoomUpdatedEventData | UserData | UserPresenceUpdatedEventData | RoleData | FileData | null = null;
 
 	public constructor(payloadData: any)
 	{
@@ -44,25 +45,20 @@ export class GatewayPayload
 					case EventType.Ready:
 						this.#_data = new ReadyEventData(payloadData.data);
 						break;
-					case EventType.BanCreated:
-					case EventType.BanRemoved:
+					case EventType.BanIssued:
+					case EventType.BanLifted:
 						this.#_data = new BanData(payloadData.data);
 						break;
 					case EventType.MessageCreated:
-					case EventType.MessageRemoved:
+					case EventType.MessageDeleted:
 						this.#_data = new MessageData(payloadData.data);
 						break;
 					case EventType.UserStartedTyping:
-					case EventType.UserStoppedTyping:
-						this.#_data = new UserTypingEventData(payloadData.data);
-						break;
-					case EventType.RoomConnectionCreated:
-					case EventType.RoomConnectionRemoved:
-						this.#_data = new RoomConnectionEventData(payloadData.data);
+						this.#_data = new UserStartedTypingEventData(payloadData.data);
 						break;
 					case EventType.RoomCreated:
 					case EventType.RoomUpdated:
-					case EventType.RoomRemoved:
+					case EventType.RoomDeleted:
 						this.#_data = new RoomData(payloadData.data);
 						break;
 					case EventType.UserCurrentRoomUpdated:
@@ -73,6 +69,14 @@ export class GatewayPayload
 						break;
 					case EventType.UserPresenceUpdated:
 						this.#_data = new UserPresenceUpdatedEventData(payloadData.data);
+						break;
+					case EventType.RoleCreated:
+					case EventType.RoleUpdated:
+					case EventType.RoleDeleted:
+						this.#_data = new RoleData(payloadData.data);
+						break;
+					case EventType.FileCreated:
+						this.#_data = new FileData(payloadData.data);
 						break;
 					default:
 						break;

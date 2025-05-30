@@ -13,6 +13,9 @@
 		}
 	},
 	"version": "1.0.0-alpha.24",
+	"publishConfig": {
+		"tag": "alpha"
+	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"docs": "npx typedoc",

@@ -4,7 +4,7 @@ import { HttpRequestError } from "../../Common/Http/HttpRequestError";
 import { ProblemDetails } from "./Entities/Models/ProblemDetails";
 
 /**
- * The error that occurs when the provided authorization credentials are missing, invalid, or banned.
+ * The error that occurs when the provided authorization credentials are missing or invalid.
  * */
 export class AulaUnauthorizedError extends AulaRestError
 {

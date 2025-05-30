@@ -4,14 +4,14 @@ import { ThrowHelper } from "../../../Common/ThrowHelper";
 /**
  * @sealed
  * */
-export class UserTypingEventData
+export class UserStartedTypingEventData
 {
 	readonly #_userId: string;
 	readonly #_roomId: string;
 
 	public constructor(data: any)
 	{
-		SealedClassError.throwIfNotEqual(UserTypingEventData, new.target);
+		SealedClassError.throwIfNotEqual(UserStartedTypingEventData, new.target);
 		ThrowHelper.TypeError.throwIfNullable(data);
 		ThrowHelper.TypeError.throwIfNotType(data.userId, "string");
 		ThrowHelper.TypeError.throwIfNotType(data.roomId, "string");

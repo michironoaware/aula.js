@@ -64,9 +64,9 @@ export class File
 	/**
 	 * Gets the size of the content in bytes.
 	 * */
-	public get contentSize()
+	public get size()
 	{
-		return this.#_contentSize ??= BigInt(this.#_data.contentSize);
+		return this.#_contentSize ??= BigInt(this.#_data.size);
 	}
 
 	/**
@@ -74,9 +74,10 @@ export class File
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A Promise that resolves to a new {@link FileContent} instance representing the contents of the file.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * */
-	public getContent(cancellationToken: CancellationToken = CancellationToken.none)
+	public async getContent(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return this.restClient.getFileContent(this.id, cancellationToken);
+		return await this.restClient.getFileContent(this.id, cancellationToken);
 	}
 }

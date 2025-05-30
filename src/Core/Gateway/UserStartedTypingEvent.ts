@@ -1,4 +1,4 @@
-﻿import { UserTypingEventData } from "./Models/UserTypingEventData";
+﻿import { UserStartedTypingEventData } from "./Models/UserStartedTypingEventData";
 import { ThrowHelper } from "../../Common/ThrowHelper";
 import { SealedClassError } from "../../Common/SealedClassError";
 import { GatewayClient } from "./GatewayClient";
@@ -9,16 +9,16 @@ import { GatewayClient } from "./GatewayClient";
  * */
 export class UserStartedTypingEvent
 {
-	readonly #_data: UserTypingEventData;
+	readonly #_data: UserStartedTypingEventData;
 	readonly #_gatewayClient: GatewayClient;
 
 	/**
 	 * @package
 	 * */
-	public constructor(data: UserTypingEventData, gatewayClient: GatewayClient)
+	public constructor(data: UserStartedTypingEventData, gatewayClient: GatewayClient)
 	{
 		SealedClassError.throwIfNotEqual(UserStartedTypingEvent, new.target);
-		ThrowHelper.TypeError.throwIfNotType(data, UserTypingEventData);
+		ThrowHelper.TypeError.throwIfNotType(data, UserStartedTypingEventData);
 		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
 		this.#_data = data;

@@ -1,36 +1,36 @@
-﻿import { Room } from "../Rest/Entities/Room";
+﻿import { Role } from "../Rest/Entities/Role";
 import { GatewayClient } from "./GatewayClient";
 import { SealedClassError } from "../../Common/SealedClassError";
 import { ThrowHelper } from "../../Common/ThrowHelper";
 
 /**
- * Emitted when a room is removed.
+ * Emitted when a role is deleted.
  * @sealed
  * */
-export class RoomRemovedEvent
+export class RoleDeletedEvent
 {
-	readonly #_room: Room;
+	readonly #_role: Role;
 	readonly #_gatewayClient: GatewayClient;
 
 	/**
 	 * @package
 	 * */
-	public constructor(room: Room, gatewayClient: GatewayClient)
+	public constructor(role: Role, gatewayClient: GatewayClient)
 	{
-		SealedClassError.throwIfNotEqual(RoomRemovedEvent, new.target);
-		ThrowHelper.TypeError.throwIfNotType(room, Room);
+		SealedClassError.throwIfNotEqual(RoleDeletedEvent, new.target);
+		ThrowHelper.TypeError.throwIfNotType(role, Role);
 		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
-		this.#_room = room;
+		this.#_role = role;
 		this.#_gatewayClient = gatewayClient;
 	}
 
 	/**
-	 * Gets the id of the room removed.
+	 * Gets the id of the role.
 	 * */
-	public get room()
+	public get role()
 	{
-		return this.#_room;
+		return this.#_role;
 	}
 
 	/**

@@ -20,19 +20,9 @@ export const EventType =
 		RoomUpdated: "RoomUpdated",
 
 		/**
-		 * A room has been removed.
+		 * A room has been deleted.
 		 */
-		RoomRemoved: "RoomRemoved",
-
-		/**
-		 * A connection between two rooms has been created.
-		 */
-		RoomConnectionCreated: "RoomConnectionCreated",
-
-		/**
-		 * A room connection has been removed.
-		 */
-		RoomConnectionRemoved: "RoomConnectionRemoved",
+		RoomDeleted: "RoomDeleted",
 
 		/**
 		 * A user has been updated.
@@ -57,7 +47,7 @@ export const EventType =
 		/**
 		 * A message has been deleted.
 		 */
-		MessageRemoved: "MessageRemoved",
+		MessageDeleted: "MessageDeleted",
 
 		/**
 		 * A user has started typing in a room.
@@ -65,19 +55,34 @@ export const EventType =
 		UserStartedTyping: "UserStartedTyping",
 
 		/**
-		 * A user stopped typing in a room.
-		 */
-		UserStoppedTyping: "UserStoppedTyping",
-
-		/**
 		 * A ban has been emitted.
 		 */
-		BanCreated: "BanCreated",
+		BanIssued: "BanIssued",
 
 		/**
 		 * A ban has been lifted.
 		 */
-		BanRemoved: "BanRemoved",
+		BanLifted: "BanLifted",
+
+		/**
+		 * A role has been created.
+		 * */
+		RoleCreated: "RoleCreated",
+
+		/**
+		 * A role has been updated.
+		 * */
+		RoleUpdated: "RoleUpdated",
+
+		/**
+		 * A role has been deleted.
+		 * */
+		RoleDeleted: "RoleDeleted",
+
+		/**
+		 * A file has been created.
+		 * */
+		FileCreated: "FileCreated",
 
 		// Send
 		/**

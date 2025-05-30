@@ -3,6 +3,7 @@ import { ReadyEventData } from "./Models/ReadyEventData";
 import { ThrowHelper } from "../../Common/ThrowHelper";
 import { GatewayClient } from "./GatewayClient";
 import { User } from "../Rest/Entities/User";
+import { EntityFactory } from "../Rest/Entities/EntityFactory";
 
 /**
  * Emitted when the gateway connection has been established successfully.
@@ -24,7 +25,7 @@ export class ReadyEvent
 		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
 		this.#_data = data;
-		this.#_user = new User(data.user, gatewayClient.rest);
+		this.#_user = EntityFactory.createUser(data.user, gatewayClient.rest);
 		this.#_gatewayClient = gatewayClient;
 	}
 

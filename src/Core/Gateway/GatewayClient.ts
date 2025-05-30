@@ -23,20 +23,16 @@ import { UnboundedChannel } from "../../Common/Threading/Channels/UnboundedChann
 import { BanData } from "../Rest/Entities/Models/BanData";
 import { MessageData } from "../Rest/Entities/Models/MessageData";
 import { UserStartedTypingEvent } from "./UserStartedTypingEvent";
-import { UserStoppedTypingEvent } from "./UserStoppedTypingEvent";
-import { RoomConnectionCreatedEvent } from "./RoomConnectionCreatedEvent";
-import { RoomConnectionRemovedEvent } from "./RoomConnectionRemovedEvent";
 import { UserCurrentRoomUpdatedEvent } from "./UserCurrentRoomUpdatedEvent";
-import { UserTypingEventData } from "./Models/UserTypingEventData";
-import { BanCreatedEvent } from "./BanCreatedEvent";
-import { BanRemovedEvent } from "./BanRemovedEvent";
+import { UserStartedTypingEventData } from "./Models/UserStartedTypingEventData";
+import { BanIssuedEvent } from "./BanIssuedEvent";
+import { BanLiftedEvent } from "./BanLiftedEvent";
 import { MessageCreatedEvent } from "./MessageCreatedEvent";
-import { MessageRemovedEvent } from "./MessageRemovedEvent";
+import { MessageDeletedEvent } from "./MessageDeletedEvent";
 import { RoomCreatedEvent } from "./RoomCreatedEvent";
 import { RoomUpdatedEvent } from "./RoomUpdatedEvent";
-import { RoomRemovedEvent } from "./RoomRemovedEvent";
+import { RoomDeletedEvent } from "./RoomDeletedEvent";
 import { UserUpdatedEvent } from "./UserUpdatedEvent";
-import { RoomConnectionEventData } from "./Models/RoomConnectionEventData";
 import { RoomData } from "../Rest/Entities/Models/RoomData";
 import { Room } from "../Rest/Entities/Room";
 import { UserCurrentRoomUpdatedEventData } from "./Models/UserCurrentRoomUpdatedEventData";
@@ -50,9 +46,17 @@ import { JsonReplacer } from "../../Common/Json/JsonReplacer";
 import { UserPresenceUpdatedEventData } from "./Models/UserPresenceUpdatedEventData";
 import { UserPresenceUpdatedEvent } from "./UserPresenceUpdatedEvent";
 import { GatewayClientOptions } from "./GatewayClientOptions";
-import { MessageRemovedEventData } from "./Models/MessageRemovedEventData";
+import { MessageDeletedEventData } from "./Models/MessageDeletedEventData";
 import { IAsyncDisposable } from "../../Common/IAsyncDisposable";
 import { GatewayClientState } from "./GatewayClientState";
+import { RoleCreatedEvent } from "./RoleCreatedEvent";
+import { RoleUpdatedEvent } from "./RoleUpdatedEvent";
+import { RoleDeletedEvent } from "./RoleDeletedEvent";
+import { RoleData } from "../Rest/Entities/Models/RoleData";
+import { Role } from "../Rest/Entities/Role";
+import { FileCreatedEvent } from "./FileCreatedEvent";
+import { FileData } from "../Rest/Entities/Models/FileData";
+import { File } from "../Rest/Entities/File";
 
 /**
  * Provides a client to interact with the Aula Gateway API.
@@ -508,45 +512,30 @@ export class GatewayClient implements IAsyncDisposable
 						await this.#_eventEmitter.emit(
 							payload.event, new ReadyEvent(payload.data, this));
 						break;
-					case EventType.BanCreated:
+					case EventType.BanIssued:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
 						await this.#_eventEmitter.emit(
-							payload.event, new BanCreatedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
+							payload.event, new BanIssuedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
 						break;
-					case EventType.BanRemoved:
+					case EventType.BanLifted:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, BanData);
 						await this.#_eventEmitter.emit(
-							payload.event, new BanRemovedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
+							payload.event, new BanLiftedEvent(EntityFactory.createBan(payload.data, this.#_restClient), this));
 						break;
 					case EventType.MessageCreated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
 						await this.#_eventEmitter.emit(
 							payload.event, new MessageCreatedEvent(EntityFactory.createMessage(payload.data, this.#_restClient), this));
 						break;
-					case EventType.MessageRemoved:
+					case EventType.MessageDeleted:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, MessageData);
 						await this.#_eventEmitter.emit(
-							payload.event, new MessageRemovedEvent(new MessageRemovedEventData(payload.data), this));
+							payload.event, new MessageDeletedEvent(new MessageDeletedEventData(payload.data), this));
 						break;
 					case EventType.UserStartedTyping:
-						ThrowHelper.TypeError.throwIfNotType(payload.data, UserTypingEventData);
+						ThrowHelper.TypeError.throwIfNotType(payload.data, UserStartedTypingEventData);
 						await this.#_eventEmitter.emit(
 							payload.event, new UserStartedTypingEvent(payload.data, this));
-						break;
-					case EventType.UserStoppedTyping:
-						ThrowHelper.TypeError.throwIfNotType(payload.data, UserTypingEventData);
-						await this.#_eventEmitter.emit(
-							payload.event, new UserStoppedTypingEvent(payload.data, this));
-						break;
-					case EventType.RoomConnectionCreated:
-						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomConnectionEventData);
-						await this.#_eventEmitter.emit(
-							payload.event, new RoomConnectionCreatedEvent(payload.data, this));
-						break;
-					case EventType.RoomConnectionRemoved:
-						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomConnectionEventData);
-						await this.#_eventEmitter.emit(
-							payload.event, new RoomConnectionRemovedEvent(payload.data, this));
 						break;
 					case EventType.RoomCreated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomData);
@@ -558,10 +547,10 @@ export class GatewayClient implements IAsyncDisposable
 						await this.#_eventEmitter.emit(
 							payload.event, new RoomUpdatedEvent(new Room(payload.data, this.#_restClient), this));
 						break;
-					case EventType.RoomRemoved:
+					case EventType.RoomDeleted:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, RoomData);
 						await this.#_eventEmitter.emit(
-							payload.event, new RoomRemovedEvent(new Room(payload.data, this.#_restClient), this));
+							payload.event, new RoomDeletedEvent(new Room(payload.data, this.#_restClient), this));
 						break;
 					case EventType.UserCurrentRoomUpdated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserCurrentRoomUpdatedEventData);
@@ -571,12 +560,32 @@ export class GatewayClient implements IAsyncDisposable
 					case EventType.UserUpdated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserData);
 						await this.#_eventEmitter.emit(
-							payload.event, new UserUpdatedEvent(new User(payload.data, this.#_restClient), this));
+							payload.event, new UserUpdatedEvent(EntityFactory.createUser(payload.data, this.#_restClient), this));
 						break;
 					case EventType.UserPresenceUpdated:
 						ThrowHelper.TypeError.throwIfNotType(payload.data, UserPresenceUpdatedEventData);
 						await this.#_eventEmitter.emit(
 							payload.event, new UserPresenceUpdatedEvent(payload.data, this));
+						break;
+					case EventType.RoleCreated:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, RoleData);
+						await this.#_eventEmitter.emit(
+							payload.event, new RoleCreatedEvent(new Role(payload.data, this.#_restClient), this));
+						break;
+					case EventType.RoleUpdated:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, RoleData);
+						await this.#_eventEmitter.emit(
+							payload.event, new RoleUpdatedEvent(new Role(payload.data, this.#_restClient), this));
+						break;
+					case EventType.RoleDeleted:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, RoleData);
+						await this.#_eventEmitter.emit(
+							payload.event, new RoleDeletedEvent(new Role(payload.data, this.#_restClient), this));
+						break;
+					case EventType.FileCreated:
+						ThrowHelper.TypeError.throwIfNotType(payload.data, FileData);
+						await this.#_eventEmitter.emit(
+							payload.event, new FileCreatedEvent(new File(payload.data, this.#_restClient), this));
 						break;
 					default:
 						break;
@@ -746,12 +755,12 @@ export class GatewayClient implements IAsyncDisposable
 			if (event.userId === this.#_currentUser!.id &&
 			    event.currentRoomId !== this.#_currentUser!.currentRoomId)
 			{
-				this.#_currentUser = new User(new UserData({
+				this.#_currentUser = EntityFactory.createUser(new UserData({
 					id: this.#_currentUser!.id,
 					displayName: this.#_currentUser!.displayName,
 					description: this.#_currentUser!.description,
 					type: this.#_currentUser!.type,
-					permissions: this.#_currentUser!.permissions.toString(),
+					roleIds: this.#_currentUser!.roleIds,
 					presence: this.#_currentUser!.presence,
 					currentRoomId: event.currentRoomId
 				}), this.#_restClient);
@@ -763,12 +772,12 @@ export class GatewayClient implements IAsyncDisposable
 			if (event.userId === this.#_currentUser!.id &&
 			    event.presence !== this.#_currentUser!.presence)
 			{
-				this.#_currentUser = new User(new UserData({
+				this.#_currentUser = EntityFactory.createUser(new UserData({
 					id: this.#_currentUser!.id,
 					displayName: this.#_currentUser!.displayName,
 					description: this.#_currentUser!.description,
 					type: this.#_currentUser!.type,
-					permissions: this.#_currentUser!.permissions.toString(),
+					roleIds: this.#_currentUser!.roleIds,
 					presence: event.presence,
 					currentRoomId: this.#_currentUser!.currentRoomId
 				}), this.#_restClient);
@@ -793,12 +802,12 @@ export class GatewayClient implements IAsyncDisposable
 
 			if (event.currentRoomId !== user.currentRoomId)
 			{
-				const newUserValue = new User(new UserData({
+				const newUserValue = EntityFactory.createUser(new UserData({
 					id: user.id,
 					displayName: user.displayName,
 					description: user.description,
 					type: user.type,
-					permissions: user.permissions.toString(),
+					roleIds: user.roleIds,
 					presence: user.presence,
 					currentRoomId: event.currentRoomId
 				}), this.#_restClient);
@@ -822,12 +831,12 @@ export class GatewayClient implements IAsyncDisposable
 
 			if (event.presence !== user.presence)
 			{
-				const newUserValue = new User(new UserData({
+				const newUserValue = EntityFactory.createUser(new UserData({
 					id: user.id,
 					displayName: user.displayName,
 					description: user.description,
 					type: user.type,
-					permissions: user.permissions.toString(),
+					roleIds: user.roleIds,
 					presence: event.presence,
 					currentRoomId: user.currentRoomId
 				}), this.#_restClient);
@@ -893,17 +902,18 @@ export interface IGatewayClientEvents
 	Ready: Func<[ ReadyEvent ]>;
 	Disconnected: Func;
 	Resumed: Func;
-	BanCreated: Func<[ BanCreatedEvent ]>;
-	BanRemoved: Func<[ BanRemovedEvent ]>;
+	BanIssued: Func<[ BanIssuedEvent ]>;
+	BanLifted: Func<[ BanLiftedEvent ]>;
 	MessageCreated: Func<[ MessageCreatedEvent ]>;
-	MessageRemoved: Func<[ MessageRemovedEvent ]>;
+	MessageDeleted: Func<[ MessageDeletedEvent ]>;
 	UserStartedTyping: Func<[ UserStartedTypingEvent ]>;
-	UserStoppedTyping: Func<[ UserStoppedTypingEvent ]>;
-	RoomConnectionCreated: Func<[ RoomConnectionCreatedEvent ]>;
-	RoomConnectionRemoved: Func<[ RoomConnectionRemovedEvent ]>;
 	RoomCreated: Func<[ RoomCreatedEvent ]>;
 	RoomUpdated: Func<[ RoomUpdatedEvent ]>;
-	RoomRemoved: Func<[ RoomRemovedEvent ]>;
+	RoomDeleted: Func<[ RoomDeletedEvent ]>;
+	RoleCreated: Func<[ RoleCreatedEvent ]>;
+	RoleUpdated: Func<[ RoleUpdatedEvent ]>;
+	RoleDeleted: Func<[ RoleDeletedEvent ]>;
+	FileCreated: Func<[ FileCreatedEvent ]>;
 	UserUpdated: Func<[ UserUpdatedEvent ]>;
 	UserCurrentRoomUpdated: Func<[ UserCurrentRoomUpdatedEvent ]>;
 	UserPresenceUpdated: Func<[ UserPresenceUpdatedEvent ]>;

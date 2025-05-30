@@ -2,6 +2,7 @@
 import { BanData } from "./Models/BanData";
 import { ThrowHelper } from "../../../Common/ThrowHelper";
 import { CancellationToken } from "../../../Common/Threading/CancellationToken";
+import { BanIssuerType } from "./BanIssuerType";
 
 /**
  * Represents a ban within Aula.
@@ -10,7 +11,7 @@ export class Ban
 {
 	readonly #_restClient: RestClient;
 	readonly #_data: BanData;
-	#_creationDate: Date | null = null;
+	#_emissionDate: Date | null = null;
 
 	/**
 	 * Initializes a new instance of {@link Ban}.
@@ -36,6 +37,14 @@ export class Ban
 	}
 
 	/**
+	 * Gets the ID of the ban.
+	 * */
+	get id()
+	{
+		return this.#_data.id;
+	}
+
+	/**
 	 * Gets the type of ban.
 	 * */
 	get type()
@@ -44,11 +53,19 @@ export class Ban
 	}
 
 	/**
-	 * Gets the id of the user who created the ban.
+	 * Gets the type of the issuer of the ban.
 	 * */
-	get executorId()
+	get issuerType()
 	{
-		return this.#_data.executorId;
+		return this.#_data.issuerType;
+	}
+
+	/**
+	 * Gets the ID of the user who issued the ban.
+	 * */
+	public get issuerId()
+	{
+		return this.#_data.issuerId;
 	}
 
 	/**
@@ -60,21 +77,48 @@ export class Ban
 	}
 
 	/**
+	 * Gets whether the ban is still in effect.
+	 * */
+	get isLifted()
+	{
+		return this.#_data.isLifted;
+	}
+
+	/**
 	 * Gets the emission date of the ban as a {@link Date} object.
 	 * */
-	get creationDate()
+	get emissionDate()
 	{
-		return this.#_creationDate ??= new Date(this.#_data.creationDate);
+		return this.#_emissionDate ??= new Date(this.#_data.emissionDate);
 	}
 
 	/**
 	 * Gets the user who created the ban.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a new {@link User} instance, or `null` if the executor is not a user.
+	 * @returns A promise that resolves to a new {@link User} instance, or `null` if the issuer is not a user.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * */
-	public async getExecutor(cancellationToken: CancellationToken = CancellationToken.none)
+	public async getIssuer(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return this.executorId !== null ? await this.restClient.getUser(this.executorId, cancellationToken) : null;
+		if (this.issuerType != BanIssuerType.User ||
+		    this.issuerId === null)
+			return null;
+
+		return (await this.restClient.getUser(this.issuerId, cancellationToken))!;
+	}
+
+	/**
+	 * Lifts the ban.
+	 * Requires the {@link Permissions.BanUsers} permission.
+	 * Fires a {@link BanLiftedEvent} gateway event.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * */
+	public async lift(cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		return await this.restClient.liftBan(this.id, cancellationToken);
 	}
 }

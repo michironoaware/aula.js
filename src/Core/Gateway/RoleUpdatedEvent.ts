@@ -1,36 +1,36 @@
-﻿import { Ban } from "../Rest/Entities/Ban";
+﻿import { Role } from "../Rest/Entities/Role";
 import { GatewayClient } from "./GatewayClient";
 import { SealedClassError } from "../../Common/SealedClassError";
 import { ThrowHelper } from "../../Common/ThrowHelper";
 
 /**
- * Emitted when a ban has been issued.
+ * Emitted when a role is updated.
  * @sealed
  * */
-export class BanCreatedEvent
+export class RoleUpdatedEvent
 {
-	readonly #_ban: Ban;
+	readonly #_role: Role;
 	readonly #_gatewayClient: GatewayClient;
 
 	/**
 	 * @package
 	 * */
-	public constructor(ban: Ban, gatewayClient: GatewayClient)
+	public constructor(role: Role, gatewayClient: GatewayClient)
 	{
-		SealedClassError.throwIfNotEqual(BanCreatedEvent, new.target);
-		ThrowHelper.TypeError.throwIfNotType(ban, Ban);
+		SealedClassError.throwIfNotEqual(RoleUpdatedEvent, new.target);
+		ThrowHelper.TypeError.throwIfNotType(role, Role);
 		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
-		this.#_ban = ban;
+		this.#_role = role;
 		this.#_gatewayClient = gatewayClient;
 	}
 
 	/**
-	 * Gets the ban associated to the event.
+	 * Gets the id of the role updated.
 	 * */
-	public get ban()
+	public get role()
 	{
-		return this.#_ban;
+		return this.#_role;
 	}
 
 	/**

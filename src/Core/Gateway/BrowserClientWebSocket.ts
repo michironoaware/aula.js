@@ -17,7 +17,7 @@ import { WebEncoders } from "../../Common/WebEncoders";
  * A {@link ClientWebSocket} implementation that internally uses a {@link WebSocket}.
  * @sealed
  * */
-export class CommonClientWebSocket extends ClientWebSocket
+export class BrowserClientWebSocket extends ClientWebSocket
 {
 	static readonly #s_closeReceivedResult: WebSocketReceiveResult = new WebSocketReceiveResult(WebSocketMessageType.Close, true, 0);
 	static readonly #s_textDecoder: TextDecoder = new TextDecoder("utf8", { fatal: true });
@@ -29,12 +29,12 @@ export class CommonClientWebSocket extends ClientWebSocket
 	#_disposed: boolean = false;
 
 	/**
-	 * Initializes a new instance of {@link CommonClientWebSocket}.
+	 * Initializes a new instance of {@link BrowserClientWebSocket}.
 	 * */
 	public constructor()
 	{
 		super();
-		SealedClassError.throwIfNotEqual(CommonClientWebSocket, new.target);
+		SealedClassError.throwIfNotEqual(BrowserClientWebSocket, new.target);
 	}
 
 	public get state()
@@ -82,7 +82,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 
 			if (typeof event.data === "string")
 			{
-				data = CommonClientWebSocket.#s_textEncoder.encode(event.data);
+				data = BrowserClientWebSocket.#s_textEncoder.encode(event.data);
 				messageType = WebSocketMessageType.Text;
 			}
 			else if (event.data instanceof ArrayBuffer)
@@ -126,7 +126,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 				const pendingReceive = this.#_pendingReceives.shift();
 				if (pendingReceive !== undefined)
 				{
-					pendingReceive.promiseSource.resolve(CommonClientWebSocket.#s_closeReceivedResult);
+					pendingReceive.promiseSource.resolve(BrowserClientWebSocket.#s_closeReceivedResult);
 				}
 			}
 		}, { passive: true });
@@ -171,7 +171,7 @@ export class CommonClientWebSocket extends ClientWebSocket
 		{
 			case WebSocketMessageType.Text:
 			{
-				const text = CommonClientWebSocket.#s_textDecoder.decode(buffer);
+				const text = BrowserClientWebSocket.#s_textDecoder.decode(buffer);
 				this.#_underlyingWebSocket!.send(text);
 				break;
 			}

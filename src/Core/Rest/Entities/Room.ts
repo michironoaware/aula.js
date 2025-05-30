@@ -2,10 +2,8 @@
 import { RoomData } from "./Models/RoomData";
 import { ThrowHelper } from "../../../Common/ThrowHelper";
 import { TypeHelper } from "../../../Common/TypeHelper";
-import { ArrayHelper } from "../../../Common/ArrayHelper";
 import { RoomType } from "./RoomType";
 import { ModifyRoomRequestBody } from "../ModifyRoomRequestBody";
-import { SetRoomConnectionsRequestBody } from "../SetRoomConnectionsRequestBody";
 import { CancellationToken } from "../../../Common/Threading/CancellationToken";
 
 /**
@@ -92,11 +90,19 @@ export class Room
 	}
 
 	/**
+	 * Gets the collection of IDs of users currently in the room.
+	 * */
+	public get residentIds()
+	{
+		return this.#_data.residentIds;
+	}
+
+	/**
 	 * Gets the collection of ids of the rooms that a user can travel to from this room.
 	 * */
-	public get connectedRoomIds()
+	public get destinationIds()
 	{
-		return this.#_data.connectedRoomIds;
+		return this.#_data.destinationIds;
 	}
 
 	/**
@@ -108,22 +114,16 @@ export class Room
 	}
 
 	/**
-	 * Gets the latest version of the room.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves to a {@link Room}, or `null` if the room no longer exists.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * */
-	public async getLatest(cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		return await this.restClient.getRoom(this.id, cancellationToken);
-	}
-
-	/**
 	 * Modifies the room.
-	 * @param body An object containing the properties to update for the room.
+	 * Requires the {@link Permissions.ManageRooms} permission.
+	 * Fires a {@link RoomUpdatedEvent} gateway event.
+	 * @param body A {@link ModifyRoomRequestBody} containing the properties to modify.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a new, updated {@link Room}.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the room no longer exists.
 	 */
 	public async modify(body: ModifyRoomRequestBody, cancellationToken: CancellationToken = CancellationToken.none)
 	{
@@ -131,14 +131,17 @@ export class Room
 	}
 
 	/**
-	 * Removes the room.
+	 * Deletes the room.
+	 * Requires the {@link Permissions.ManageRooms} permission.
+	 * Fires a {@link RoomDeletedEvent} gateway event.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * */
-	public async remove(cancellationToken: CancellationToken = CancellationToken.none)
+	public async delete(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return await this.restClient.removeRoom(this.id, cancellationToken);
+		return await this.restClient.deleteRoom(this.id, cancellationToken);
 	}
 
 	/**
@@ -146,61 +149,50 @@ export class Room
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a {@link Room} array.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the room no longer exists.
 	 * */
-	public async getConnectedRooms(cancellationToken: CancellationToken = CancellationToken.none)
+	public async getDestinations(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return await this.restClient.getRoomConnections(this.id, cancellationToken);
-	}
-
-	/**
-	 * Sets the collection of rooms that a user can travel to from this room.
-	 * @param rooms A collection containing the id of the rooms.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * */
-	public async setConnectedRooms(rooms: Iterable<Room | string>, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(rooms, "iterable");
-
-		const roomIds = ArrayHelper.asArray(rooms).map(r => TypeHelper.isType(r, Room) ? r.id : r);
-		for (const roomId of roomIds)
-		{
-			ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		}
-
-		return await this.restClient.setRoomConnections(
-			this.id, new SetRoomConnectionsRequestBody().withRoomIds(roomIds), cancellationToken);
+		return await this.restClient.getRoomDestinations(this.id, cancellationToken);
 	}
 
 	/**
 	 * Adds a room to the collection of rooms that a user can travel to from this room.
+	 * Requires the {@link Permissions.ManageRooms} permission.
+	 * Fires a {@link RoomUpdatedEvent} gateway event.
 	 * @param room The id of the room to add to the collection.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the room no longer exists.
 	 * */
-	public async addRoomConnection(room: Room | string, cancellationToken: CancellationToken = CancellationToken.none)
+	public async addDestination(room: Room | string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string");
 
 		const roomId = TypeHelper.isType(room, Room) ? room.id : room;
-		return await this.restClient.addRoomConnection(this.id, roomId, cancellationToken);
+		return await this.restClient.addRoomDestination(this.id, roomId, cancellationToken);
 	}
 
 	/**
 	 * Removes a room to the collection of rooms that a user can travel to from this room.
+	 * Requires the {@link Permissions.ManageRooms} permission.
+	 * Fires a {@link RoomUpdatedEvent} gateway event.
 	 * @param room The id of the room to remove from the collection.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves once the operation is complete.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * */
-	public async removeRoomConnection(room: Room | string, cancellationToken: CancellationToken = CancellationToken.none)
+	public async removeDestination(room: Room | string, cancellationToken: CancellationToken = CancellationToken.none)
 	{
 		ThrowHelper.TypeError.throwIfNotAnyType(room, Room, "string");
 
 		const roomId = TypeHelper.isType(room, Room) ? room.id : room;
-		return await this.restClient.removeRoomConnection(this.id, roomId, cancellationToken);
+		return await this.restClient.removeRoomDestination(this.id, roomId, cancellationToken);
 	}
 
 	/**
@@ -208,9 +200,11 @@ export class Room
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
 	 * @returns A promise that resolves to a {@link User} array.
 	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the room no longer exists.
 	 * */
-	public async getUsers(cancellationToken: CancellationToken = CancellationToken.none)
+	public async getResidents(cancellationToken: CancellationToken = CancellationToken.none)
 	{
-		return await this.restClient.getRoomUsers(this.id, cancellationToken);
+		return await this.restClient.getRoomResidents(this.id, cancellationToken);
 	}
 }

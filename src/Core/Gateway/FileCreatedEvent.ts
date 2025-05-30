@@ -1,33 +1,36 @@
-﻿import { Ban } from "../Rest/Entities/Ban";
+﻿import { File } from "../Rest/Entities/File";
 import { GatewayClient } from "./GatewayClient";
 import { SealedClassError } from "../../Common/SealedClassError";
 import { ThrowHelper } from "../../Common/ThrowHelper";
 
 /**
- * Emitted when a ban has been lifted.
+ * Emitted when a file is created.
  * @sealed
  * */
-export class BanRemovedEvent
+export class FileCreatedEvent
 {
-	readonly #_ban: Ban;
+	readonly #_file: File;
 	readonly #_gatewayClient: GatewayClient;
 
-	public constructor(ban: Ban, gatewayClient: GatewayClient)
+	/**
+	 * @package
+	 * */
+	public constructor(file: File, gatewayClient: GatewayClient)
 	{
-		SealedClassError.throwIfNotEqual(BanRemovedEvent, new.target);
-		ThrowHelper.TypeError.throwIfNotType(ban, Ban);
+		SealedClassError.throwIfNotEqual(FileCreatedEvent, new.target);
+		ThrowHelper.TypeError.throwIfNotType(file, File);
 		//ThrowHelper.TypeError.throwIfNotType(gatewayClient, GatewayClient); // Circular dependency problem
 
-		this.#_ban = ban;
+		this.#_file = file;
 		this.#_gatewayClient = gatewayClient;
 	}
 
 	/**
-	 * Gets the ban associated to the event.
+	 * Gets the id of the file created.
 	 * */
-	public get ban()
+	public get file()
 	{
-		return this.#_ban;
+		return this.#_file;
 	}
 
 	/**
