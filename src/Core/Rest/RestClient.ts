@@ -715,36 +715,6 @@ export class RestClient implements IAsyncDisposable
 	}
 
 	/**
-	 * Notifies in the specified room that the user of the current requester's account is typing a message.
-	 * Requires authentication and the {@link Permissions.SendMessages} permission.
-	 * Fires a {@link UserStartedTypingEvent} gateway event.
-	 * @param roomId The id of the room.
-	 * @param cancellationToken A {@link CancellationToken} to listen to.
-	 * @returns A promise that resolves once the operation is complete.
-	 * @throws {ObjectDisposedError} If the instance has been disposed.
-	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
-	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
-	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
-	 * @throws {AulaNotFoundError} If the specified room does not exist.
-	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
-	 * */
-	public async startTyping(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
-	{
-		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
-		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
-		ObjectDisposedError.throwIf(this.#_disposed);
-		cancellationToken.throwIfCancellationRequested();
-		this.#throwIfNullAddress();
-		this.#throwIfNullToken();
-
-		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.startTyping({ roomId }));
-
-		const response = await this.#_httpClient.send(request, cancellationToken);
-		await RestClient.#ensureSuccessStatusCode(response);
-	}
-
-	/**
 	 * Log out a user from all devices.
 	 * @param body The request body.
 	 * @param cancellationToken A {@link CancellationToken} to listen to.
@@ -933,6 +903,36 @@ export class RestClient implements IAsyncDisposable
 		this.#throwIfNullToken();
 
 		const request = new HttpRequestMessage(HttpMethod.Delete, AulaRoute.message({ roomId, messageId }));
+
+		const response = await this.#_httpClient.send(request, cancellationToken);
+		await RestClient.#ensureSuccessStatusCode(response);
+	}
+
+	/**
+	 * Notifies in the specified room that the user of the current requester's account is typing a message.
+	 * Requires authentication and the {@link Permissions.SendMessages} permission.
+	 * Fires a {@link UserStartedTypingEvent} gateway event.
+	 * @param roomId The id of the room.
+	 * @param cancellationToken A {@link CancellationToken} to listen to.
+	 * @returns A promise that resolves once the operation is complete.
+	 * @throws {ObjectDisposedError} If the instance has been disposed.
+	 * @throws {OperationCanceledError} If the {@link cancellationToken} has been signaled.
+	 * @throws {RestClientNullAddressError} If no server address for the {@link RestClient} has been defined.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaNotFoundError} If the specified room does not exist.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * */
+	public async startTyping(roomId: string, cancellationToken: CancellationToken = CancellationToken.none)
+	{
+		ThrowHelper.TypeError.throwIfNotType(roomId, "string");
+		ThrowHelper.TypeError.throwIfNotType(cancellationToken, CancellationToken);
+		ObjectDisposedError.throwIf(this.#_disposed);
+		cancellationToken.throwIfCancellationRequested();
+		this.#throwIfNullAddress();
+		this.#throwIfNullToken();
+
+		const request = new HttpRequestMessage(HttpMethod.Post, AulaRoute.startTyping({ roomId }));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
