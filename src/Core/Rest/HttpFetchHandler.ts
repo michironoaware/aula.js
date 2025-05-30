@@ -36,12 +36,9 @@ export class HttpFetchHandler extends HttpMessageHandler
 		ObjectDisposedError.throwIf(this.#_disposed);
 
 		let abortSignal: AbortSignal | null = null;
-		if (cancellationToken !== CancellationToken.none)
-		{
-			const abortController = new AbortController();
-			abortSignal = abortController.signal;
-			cancellationToken.onCancelled(() => abortController.abort());
-		}
+		const abortController = new AbortController();
+		abortSignal = abortController.signal;
+		cancellationToken.onCancelled(() => abortController.abort());
 
 		let received: Response | null = null;
 		try
