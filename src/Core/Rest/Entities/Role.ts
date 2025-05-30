@@ -25,6 +25,14 @@ export class Role
 	}
 
 	/**
+	 * Gets the {@link RestClient} that initialized this instance.
+	 * */
+	public get restClient()
+	{
+		return this.#_restClient;
+	}
+
+	/**
 	 * Gets the ID of the role.
 	 * */
 	public get id()
