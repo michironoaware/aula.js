@@ -11,6 +11,7 @@ import { ProblemDetails } from "./Entities/Models/ProblemDetails";
  * - The user's email has not been confirmed.
  * - The user’s account type is not permitted to access the resource.
  * - The user is banned from the service.
+ * - Specific to the operation.
  * */
 export class AulaForbiddenError extends AulaRestError
 {
