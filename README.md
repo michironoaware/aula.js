@@ -2,10 +2,8 @@
 
 # aula.js
 
-aula.js is a JavaScript library designed to provide a robust and comprehensive interface to the Aula platform. It facilitates seamless
-communication with the Aula server through both the HTTP REST API and the WebSocket GATEWAY API.
-This library encapsulates complex operations into intuitive, strongly-typed methods and objects—helping you interact with the platform in a
-clean, predictable way.
+aula.js is a robust, flexible, modular TypeScript library engineered for scalable Aula platform integrations.
+Framework-agnostic with full TypeScript support, it empowers developers to deliver reliable, maintainable applications.
 
 ## ✨ Features
 
