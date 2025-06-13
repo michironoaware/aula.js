@@ -71,7 +71,8 @@ import { GatewayClient } from "aula.js";
 
 await using gateway = new GatewayClient()
 	.withToken("<AUTH_TOKEN_PLACEHOLDER>")
-	.withAddress(new URL("https://localhost:5018"));
+	.withAddress(new URL("https://localhost:5018"))
+	.withIntents(0);
 
 gateway.on("Ready", async event =>
 {
