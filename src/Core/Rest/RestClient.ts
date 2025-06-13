@@ -1755,7 +1755,7 @@ export class RestClient implements IAsyncDisposable
 
 	#throwIfNullToken()
 	{
-		if (!this.#_httpClient.defaultRequestHeaders.has("Authorization"))
+		if (!this.hasToken)
 		{
 			throw new AulaUnauthorizedError();
 		}
