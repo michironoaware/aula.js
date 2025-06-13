@@ -179,6 +179,6 @@ export class ModifyRoomRequestBody
 			isEntrance: this.#_isEntrance,
 			backgroundAudioId: this.#_backgroundAudioId,
 			destinationIds: this.#_destinationIds,
-		};
+		} as unknown;
 	}
 }

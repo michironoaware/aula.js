@@ -149,6 +149,6 @@ export class RegisterRequestBody
 			displayName: this.#_displayName,
 			email: this.#_email,
 			password: this.#_password,
-		};
+		} as unknown;
 	}
 }

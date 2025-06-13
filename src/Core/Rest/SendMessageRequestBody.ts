@@ -114,6 +114,6 @@ export class SendMessageRequestBody
 
 	public toJSON()
 	{
-		return { type: this.#_type, flags: this.#_flags, text: this.#_text };
+		return { type: this.#_type, flags: this.#_flags, text: this.#_text } as unknown;
 	}
 }

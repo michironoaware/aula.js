@@ -55,6 +55,6 @@ export class BanUserRequestBody
 
 	public toJSON()
 	{
-		return { reason: this.#_reason };
+		return { reason: this.#_reason } as unknown;
 	}
 }
