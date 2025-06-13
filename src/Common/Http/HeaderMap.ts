@@ -11,9 +11,16 @@ export class HeaderMap implements ReadonlyMap<string, string[]>
 	readonly #_underlyingMap: Map<string, string[]>;
 
 	/**
+	 * Initializes a new instance of {@link HeaderMap}.
+	 * */
+	public constructor();
+
+	/**
 	 * Initializes a new instance that it's wrapped around the specified map.
 	 * @param headers The underlying key/value pair structure.
 	 * */
+	public constructor(headers: ReadonlyMap<string, string[]>)
+
 	public constructor(headers?: ReadonlyMap<string, string[]>)
 	{
 		SealedClassError.throwIfNotEqual(HeaderMap, new.target);
