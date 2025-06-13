@@ -50,6 +50,6 @@ export class CreateBotRequestBody
 
 	public toJSON()
 	{
-		return { displayName: this.#_displayName };
+		return { displayName: this.#_displayName } as unknown;
 	}
 }

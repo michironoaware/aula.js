@@ -78,6 +78,6 @@ export class ModifyRoleRequestBody
 
 	public toJSON()
 	{
-		return { name: this.#_name, permissions: this.#_permissions };
+		return { name: this.#_name, permissions: this.#_permissions } as unknown;
 	}
 }

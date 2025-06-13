@@ -85,6 +85,6 @@ export class LogInRequestBody
 		return {
 			userName: this.#_userName,
 			password: this.#_password,
-		};
+		} as unknown;
 	}
 }

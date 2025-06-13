@@ -120,12 +120,11 @@ export class RestClient implements IAsyncDisposable
 	}
 
 	/**
-	 * Gets the address of the Aula server.
-	 * @remarks This property returns a copy of the current address.
+	 * Gets whether a server address has been configured for this {@link RestClient} instance.
 	 * */
-	public get address()
+	public get hasAddress()
 	{
-		return this.#_httpClient.baseAddress ? new URL(this.#_httpClient.baseAddress) : this.#_httpClient.baseAddress;
+		return this.#_httpClient.baseAddress !== null;
 	}
 
 	/**
@@ -859,7 +858,7 @@ export class RestClient implements IAsyncDisposable
 		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.messages({ roomId }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.messages({ roomId }, query));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
@@ -1755,7 +1754,7 @@ export class RestClient implements IAsyncDisposable
 
 	#throwIfNullToken()
 	{
-		if (!this.#_httpClient.defaultRequestHeaders.has("Authorization"))
+		if (!this.hasToken)
 		{
 			throw new AulaUnauthorizedError();
 		}
@@ -1763,7 +1762,7 @@ export class RestClient implements IAsyncDisposable
 
 	#throwIfNullAddress()
 	{
-		if (this.#_httpClient.baseAddress === null)
+		if (!this.hasAddress)
 		{
 			throw new RestClientNullAddressError(this);
 		}

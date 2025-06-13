@@ -123,7 +123,7 @@ export class LruCache<TKey extends {}, TValue extends {} | null> implements Map<
 	 * Removes the least recently used (LRU) entry from the cache.
 	 * @returns `true` if an entry was removed; otherwise, `false`.
 	 */
-	public removeLru()
+	public removeLeastRecentlyUsed()
 	{
 		const last = this.#_order.last;
 		if (last === null)
@@ -155,7 +155,7 @@ export class LruCache<TKey extends {}, TValue extends {} | null> implements Map<
 	 * Retrieves and removes the least recently used (LRU) entry.
 	 * @returns The value associated with the removed LRU entry, or `undefined` if the cache is empty.
 	 */
-	public getAndRemoveLru()
+	public getAndRemoveLeastRecentlyUsed()
 	{
 		const last = this.#_order.last;
 		if (last === null)

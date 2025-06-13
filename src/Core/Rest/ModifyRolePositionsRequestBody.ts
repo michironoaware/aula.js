@@ -65,6 +65,6 @@ export class ModifyRolePositionsRequestBody
 			obj.push({ id: roleId, position: position });
 		}
 
-		return obj;
+		return obj as unknown;
 	}
 }

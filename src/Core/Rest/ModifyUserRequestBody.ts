@@ -148,6 +148,6 @@ export class ModifyUserRequestBody
 			description: this.#_description,
 			currentRoomId: this.#_currentRoomId,
 			roleIds: this.#_roleIds,
-		};
+		} as unknown;
 	}
 }

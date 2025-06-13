@@ -181,6 +181,6 @@ export class CreateRoomRequestBody
 			description: this.#_description,
 			isEntrance: this.#_isEntrance,
 			backgroundAudioId: this.#_backgroundAudioId
-		};
+		} as unknown;
 	}
 }

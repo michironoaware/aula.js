@@ -94,7 +94,7 @@ export class GatewayClient implements IAsyncDisposable
 
 		if (!TypeHelper.isType(this.#_webSocket, ClientWebSocket))
 		{
-			throw new InvalidOperationError(`The websocket type must inherit from ${ClientWebSocket.name}.`);
+			throw new TypeError(`The websocket type must inherit from ${ClientWebSocket.name}.`);
 		}
 
 		if (options.address !== null)
@@ -132,12 +132,11 @@ export class GatewayClient implements IAsyncDisposable
 	}
 
 	/**
-	 * Gets the address of the Aula server.
-	 * @remarks This property returns a copy of the current address.
+	 * Gets whether a server address has been configured for this {@link GatewayClient} instance.
 	 * */
-	public get address()
+	public get hasAddress()
 	{
-		return this.#_address ? new URL(this.#_address) : this.#_address;
+		return this.#_address !== null;
 	}
 
 	/**

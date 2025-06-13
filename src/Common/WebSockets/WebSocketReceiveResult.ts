@@ -3,7 +3,7 @@ import { WebSocketMessageType } from "./WebSocketMessageType";
 import { ThrowHelper } from "../ThrowHelper";
 
 /**
- * Represents the result of performing a single {@link WebSocket.receive} operation on a {@link WebSocket}.
+ * Represents the result of performing a single {@link ClientWebSocket.receive} operation on a {@link ClientWebSocket}.
  * @sealed
  * */
 export class WebSocketReceiveResult

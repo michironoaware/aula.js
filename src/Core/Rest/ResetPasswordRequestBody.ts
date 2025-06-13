@@ -82,6 +82,6 @@ export class ResetPasswordRequestBody
 
 	public toJSON()
 	{
-		return { code: this.#_code, newPassword: this.#_newPassword };
+		return { code: this.#_code, newPassword: this.#_newPassword } as unknown;
 	}
 }
