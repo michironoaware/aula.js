@@ -121,7 +121,6 @@ export class RestClient implements IAsyncDisposable
 
 	/**
 	 * Gets whether a server address has been configured for this {@link RestClient} instance.
-	 * @remarks This property returns a copy of the current address.
 	 * */
 	public get hasAddress()
 	{
