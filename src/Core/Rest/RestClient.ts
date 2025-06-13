@@ -1763,7 +1763,7 @@ export class RestClient implements IAsyncDisposable
 
 	#throwIfNullAddress()
 	{
-		if (this.#_httpClient.baseAddress === null)
+		if (!this.hasAddress)
 		{
 			throw new RestClientNullAddressError(this);
 		}
