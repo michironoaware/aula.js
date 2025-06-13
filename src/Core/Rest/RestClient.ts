@@ -859,7 +859,7 @@ export class RestClient implements IAsyncDisposable
 		this.#throwIfNullAddress();
 		this.#throwIfNullToken();
 
-		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.messages({ roomId }));
+		const request = new HttpRequestMessage(HttpMethod.Get, AulaRoute.messages({ roomId }, query));
 
 		const response = await this.#_httpClient.send(request, cancellationToken);
 		await RestClient.#ensureSuccessStatusCode(response);
