@@ -120,12 +120,12 @@ export class RestClient implements IAsyncDisposable
 	}
 
 	/**
-	 * Gets the address of the Aula server.
+	 * Gets whether a server address has been configured for this {@link RestClient} instance.
 	 * @remarks This property returns a copy of the current address.
 	 * */
-	public get address()
+	public get hasAddress()
 	{
-		return this.#_httpClient.baseAddress ? new URL(this.#_httpClient.baseAddress) : this.#_httpClient.baseAddress;
+		return this.#_httpClient.baseAddress !== null;
 	}
 
 	/**
