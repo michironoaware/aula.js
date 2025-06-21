@@ -1,39 +1,39 @@
 ﻿export namespace TypeHelper
 {
-	export function isNullable<T>(object: T): object is Extract<T, null | undefined>
+	export function isNullable<T>(obj: T): obj is Extract<T, null | undefined>
 	{
-		return object === null || object === undefined;
+		return obj === null || obj === undefined;
 	}
 
-	export function isType<T extends TypeResolvable>(object: unknown, type: T): object is ResolvedType<T>
+	export function isType<T extends TypeResolvable>(obj: unknown, type: T): obj is ResolvedType<T>
 	{
 		if (typeof type === "string")
 		{
 			return (
 				// Check whether typeof of the object is the same as the type string.
-				typeof object === type ||
+				typeof obj === type ||
 
 				// Check if object is null for type "null"
-				(type === "null" && object === null) ||
+				(type === "null" && obj === null) ||
 
 				// Check if object is either null or undefined for type "nullable"
-				(type === "nullable" && isNullable(object)) ||
+				(type === "nullable" && isNullable(obj)) ||
 
 				// Check if object is iterable for type "iterable"
-				(type === "iterable" && (object as any)[Symbol.iterator] !== undefined) ||
+				(type === "iterable" && (obj as any)[Symbol.iterator] !== undefined) ||
 
 				// Check if object is array for type "array"
-				(type === "array" && Array.isArray(object))
+				(type === "array" && Array.isArray(obj))
 			);
 		}
 
 		return (
 			// Check if the object is an instance of the specified class
-			(typeof type === "function" && object instanceof type) ||
+			(typeof type === "function" && obj instanceof type) ||
 
 			// For checking whether a numeric value is defined in the enum's members
 			// does not work as expected with flag enums
-			(typeof type === "object" && Object.values(type).includes(object as string | number))
+			(typeof type === "object" && Object.values(type).includes(obj as string | number))
 		);
 	}
 
