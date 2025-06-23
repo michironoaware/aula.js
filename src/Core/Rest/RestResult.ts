@@ -12,27 +12,27 @@ import { SealedClassError } from "../../Common/SealedClassError";
  * Represents the result of rest operation.
  * @sealed
  * */
-export class RestResult<TResult extends {} | null>
+export class RestResult<TResult extends {} | null | void>
 {
 	readonly #_succeeded: boolean;
 	readonly #_statusCode: HttpStatusCode;
-	readonly #_value: TResult | null;
+	readonly #_value?: TResult;
 	readonly #_problemDetails: ProblemDetails | null;
 
 	/**
 	 * @package
 	 * */
-	public constructor(succeeded: true, result: TResult, status: HttpStatusCode);
+	public constructor(succeeded: true, status: HttpStatusCode, result: TResult);
 
 	/**
 	 * @package
 	 * */
-	public constructor(succeeded: false, problemDetails: ProblemDetails | null, status: HttpStatusCode);
+	public constructor(succeeded: false, status: HttpStatusCode, problemDetails: ProblemDetails | null);
 
 	/**
 	 * @package
 	 * */
-	constructor(succeeded: boolean, arg1: TResult | ProblemDetails | null, status: HttpStatusCode)
+	constructor(succeeded: boolean, status: HttpStatusCode, arg1: TResult | ProblemDetails | null)
 	{
 		SealedClassError.throwIfNotEqual(RestResult, new.target);
 		ThrowHelper.TypeError.throwIfNotType(succeeded, "boolean");
@@ -49,7 +49,6 @@ export class RestResult<TResult extends {} | null>
 		} else
 		{
 			ThrowHelper.TypeError.throwIfNotAnyType(arg1, ProblemDetails, "null");
-			this.#_value = null;
 			this.#_problemDetails = arg1;
 		}
 	}
@@ -80,11 +79,13 @@ export class RestResult<TResult extends {} | null>
 	}
 
 	/**
-	 * Gets the value of a successful result, or defaults to `null` if the result was unsuccessful.
+	 * Gets the value of a successful result.
+	 * Throws an appropriate error if the result is a failure.
 	 * */
 	public get value()
 	{
-		return this.#_value;
+		this.ensureSuccess();
+		return this.#_value as TResult;
 	}
 
 	/**
