@@ -14,6 +14,7 @@ import { SealedClassError } from "../../Common/SealedClassError";
  * */
 export class RestResult<TResult extends {} | null | void>
 {
+	static #s_success: RestResult<void> | null = null;
 	readonly #_succeeded: boolean;
 	readonly #_statusCode: HttpStatusCode | null;
 	readonly #_value?: TResult;
@@ -52,6 +53,11 @@ export class RestResult<TResult extends {} | null | void>
 			this.#_statusCode = status;
 			this.#_problemDetails = arg1;
 		}
+	}
+
+	public static get success()
+	{
+		return this.#s_success ??= new RestResult<void>(true, void (0));
 	}
 
 	/**
