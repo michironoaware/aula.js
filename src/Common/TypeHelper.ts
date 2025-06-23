@@ -40,12 +40,12 @@
 	export function isAnyType<
 		T1 extends TypeResolvable,
 		T2 extends TypeResolvable,
-		T3 extends TypeResolvable>(object: unknown, type1: T1, type2: T2, type3?: T3)
-		: object is ResolvedType<T1> | ResolvedType<T2> | ResolvedType<T3>
+		T3 extends TypeResolvable>(obj: unknown, type1: T1, type2: T2, type3?: T3)
+		: obj is ResolvedType<T1> | ResolvedType<T2> | ResolvedType<T3>
 	{
-		return TypeHelper.isType(object, type1) ||
-		       TypeHelper.isType(object, type2) ||
-		       (!TypeHelper.isNullable(type3) && TypeHelper.isType(object, type3));
+		return TypeHelper.isType(obj, type1) ||
+		       TypeHelper.isType(obj, type2) ||
+		       (!TypeHelper.isNullable(type3) && TypeHelper.isType(obj, type3));
 	}
 
 	export function isTypeArray<T extends TypeResolvable>(object: unknown, type: T): object is ResolvedType<T>[]
