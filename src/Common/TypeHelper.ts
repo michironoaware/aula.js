@@ -41,7 +41,9 @@
 		T1 extends TypeResolvable,
 		T2 extends TypeResolvable,
 		T3 extends TypeResolvable>(obj: unknown, type1: T1, type2: T2, type3?: T3)
-		: obj is ResolvedType<T1> | ResolvedType<T2> | ResolvedType<T3>
+		: obj is (typeof type3 extends undefined
+		? (ResolvedType<T1> | ResolvedType<T2>)
+		: (ResolvedType<T1> | ResolvedType<T2> | ResolvedType<T3>))
 	{
 		return TypeHelper.isType(obj, type1) ||
 		       TypeHelper.isType(obj, type2) ||
