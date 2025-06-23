@@ -12,7 +12,7 @@ import { SealedClassError } from "../../Common/SealedClassError";
  * Represents the result of rest operation.
  * @sealed
  * */
-export class RestResult<TResult extends {} | null | void>
+export class RestResult<TResult extends {} | null | void = void>
 {
 	static #s_success: RestResult<void> | null = null;
 	readonly #_succeeded: boolean;
