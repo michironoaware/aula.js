@@ -69,15 +69,6 @@ export class RestResult<TResult extends {} | null | void>
 	}
 
 	/**
-	 * Gets the HTTP status code of the response associated with the result.
-	 * Returns `null` if the result was successful.
-	 * */
-	public get statusCode()
-	{
-		return this.#_statusCode;
-	}
-
-	/**
 	 * Gets the problem details associated with a failed result.
 	 * Returns `null` if the result was successful.
 	 * */
