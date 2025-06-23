@@ -70,7 +70,7 @@ export class RestResult<TResult extends {} | null | void>
 
 	/**
 	 * Gets the problem details associated with a failed result.
-	 * Returns `null` if the result was successful.
+	 * Returns `null` if the result was successful or if no problem details were provided.
 	 * */
 	public get problemDetails()
 	{
@@ -80,6 +80,12 @@ export class RestResult<TResult extends {} | null | void>
 	/**
 	 * Gets the value of a successful result.
 	 * Throws an appropriate error if the result is a failure.
+	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
+	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
+	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
+	 * @throws {AulaNotFoundError} If the resource does not exist.
+	 * @throws AulaRestError A general error for unexpected or uncategorized REST
+	 *                       failures when none of the more specific errors apply.
 	 * */
 	public get value()
 	{
