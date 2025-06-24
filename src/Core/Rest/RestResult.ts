@@ -7,7 +7,7 @@ import { AulaBadRequestError } from "./AulaBadRequestError";
 import { AulaNotFoundError } from "./AulaNotFoundError";
 import { AulaRestError } from "./AulaRestError";
 import { SealedClassError } from "../../Common/SealedClassError";
-import { RestProblemType } from "./RestProblemType";
+import { RestResultType } from "./RestResultType";
 
 /**
  * Represents the result of rest operation.
@@ -62,34 +62,25 @@ export class RestResult<TResult extends {} | null | void = void>
 	}
 
 	/**
-	 * Gets whether the operation was successful
+	 * Gets the type of the result received.
 	 * */
-	public get succeeded()
+	public get type()
 	{
-		return this.#_succeeded;
-	}
-
-	/**
-	 * Gets the problem type associated with the failed result.
-	 * Returns `null` if the result was successful.
-	 * */
-	public get problemType()
-	{
-		if (this.#_statusCode === null)
-			return null;
+		if (this.#_succeeded)
+			return RestResultType.Success;
 
 		switch (this.#_statusCode)
 		{
 			case HttpStatusCode.Unauthorized:
-				return RestProblemType.Unauthorized;
+				return RestResultType.Unauthorized;
 			case HttpStatusCode.Forbidden:
-				return RestProblemType.Forbidden;
+				return RestResultType.Forbidden;
 			case HttpStatusCode.BadRequest:
-				return RestProblemType.BadRequest;
+				return RestResultType.BadRequest;
 			case HttpStatusCode.NotFound:
-				return RestProblemType.NotFound;
+				return RestResultType.NotFound;
 			default:
-				return RestProblemType.Unknown;
+				return RestResultType.UnknownProblem;
 		}
 	}
 
