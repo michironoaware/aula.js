@@ -1,36 +1,41 @@
 ﻿/**
- * Enumerates the type of problem that can occur when doing a rest operation.
+ * Enumerates the type of results for a REST operation.
  * */
-export const RestProblemType =
+export const RestResultType =
 	{
+		/**
+		 * A REST operation that completed successfully.
+		 * */
+		Success: 0,
+
 		/**
 		 * Occurs for unexpected or uncategorized REST failures when none of the more specific errors apply.
 		 * */
-		Unknown: 0,
+		UnknownProblem: 1,
 
 		/**
 		 * Occurs when a specified resource could not be found.
 		 * This may happen either because the resource itself does not exist,
 		 * or because a referenced resource within the request is missing or invalid.
 		 * */
-		NotFound: 1,
+		NotFound: 2,
 
 		/**
 		 * Occurs when the request was improperly formatted, or the server couldn't understand it.
 		 * */
-		BadRequest: 2,
+		BadRequest: 3,
 
 		/**
 		 * Occurs when the user is not authorized to perform this action.
 		 * */
-		Forbidden: 3,
+		Forbidden: 4,
 
 		/**
 		 * Occurs when the provided authorization credentials are missing or invalid.
 		 * */
-		Unauthorized: 4,
+		Unauthorized: 5,
 	} as const;
 
-Object.freeze(RestProblemType);
+Object.freeze(RestResultType);
 
-export type RestProblemType = typeof RestProblemType[keyof typeof RestProblemType] | number;
+export type RestResultType = typeof RestResultType[keyof typeof RestResultType] | number;
