@@ -94,7 +94,7 @@ export class RestResult<TResult extends {} | null | void = void>
 	}
 
 	/**
-	 * Gets the problem details associated with a failed result.
+	 * Gets the problem details associated with the failed result.
 	 * Returns `null` if the result was successful or if no problem details were provided.
 	 * */
 	public get problemDetails()
