@@ -83,7 +83,7 @@ export class RestResult<TResult extends {} | null | void = void>
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
 	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaNotFoundError} If the resource does not exist.
+	 * @throws {AulaNotFoundError} If a resource does not exist.
 	 * @throws AulaRestError A general error for unexpected or uncategorized REST
 	 *                       failures when none of the more specific errors apply.
 	 * */
@@ -98,7 +98,7 @@ export class RestResult<TResult extends {} | null | void = void>
 	 * @throws {AulaUnauthorizedError} If the provided authorization credentials are missing or invalid.
 	 * @throws {AulaForbiddenError} If the user is not authorized to perform this action.
 	 * @throws {AulaBadRequestError} If the request was improperly formatted, or the server couldn't understand it.
-	 * @throws {AulaNotFoundError} If the resource does not exist.
+	 * @throws {AulaNotFoundError} If a resource does not exist.
 	 * @throws AulaRestError A general error for unexpected or uncategorized REST
 	 *                       failures when none of the more specific errors apply.
 	 */

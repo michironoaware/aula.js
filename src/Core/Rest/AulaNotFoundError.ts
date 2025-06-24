@@ -4,7 +4,9 @@ import { HttpRequestError } from "../../Common/Http/HttpRequestError";
 import { ProblemDetails } from "./Entities/Models/ProblemDetails";
 
 /**
- * The error that occurs when a requested resource does not exist.
+ * The error that occurs when a specified resource could not be found.
+ * This may happen either because the resource itself does not exist,
+ * or because a referenced resource within the request is missing or invalid.
  * */
 export class AulaNotFoundError extends AulaRestError
 {
