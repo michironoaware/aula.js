@@ -1,7 +1,7 @@
 ﻿{
 	"$schema": "https://typedoc.org/schema.json",
 	"entryPoints": [
-		"./src/aula.ts"
+		"./src/index.ts"
 	],
 	"out": "docs/src",
 	"plugin": [
